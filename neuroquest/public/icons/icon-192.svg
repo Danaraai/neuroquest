@@ -1,0 +1,25 @@
+<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192' width='192' height='192'>
+  <rect width='192' height='192' rx='32' fill='#1A1B2E'/>
+  <!-- Antlers -->
+  <line x1='72' y1='60' x2='52' y2='20' stroke='#C8A96E' stroke-width='6' stroke-linecap='round'/>
+  <line x1='52' y1='20' x2='36' y2='4' stroke='#C8A96E' stroke-width='5' stroke-linecap='round'/>
+  <line x1='52' y1='20' x2='40' y2='36' stroke='#C8A96E' stroke-width='4' stroke-linecap='round'/>
+  <line x1='120' y1='60' x2='140' y2='20' stroke='#C8A96E' stroke-width='6' stroke-linecap='round'/>
+  <line x1='140' y1='20' x2='156' y2='4' stroke='#C8A96E' stroke-width='5' stroke-linecap='round'/>
+  <line x1='140' y1='20' x2='152' y2='36' stroke='#C8A96E' stroke-width='4' stroke-linecap='round'/>
+  <!-- Head -->
+  <ellipse cx='96' cy='85' rx='38' ry='34' fill='#F5F0E8'/>
+  <!-- Eyes -->
+  <circle cx='83' cy='80' r='6' fill='#2D2D4E'/>
+  <circle cx='109' cy='80' r='6' fill='#2D2D4E'/>
+  <circle cx='85' cy='78' r='2' fill='white'/>
+  <circle cx='111' cy='78' r='2' fill='white'/>
+  <!-- Nose -->
+  <ellipse cx='96' cy='96' rx='10' ry='7' fill='#E8A898'/>
+  <!-- Smile -->
+  <path d='M88 104 Q96 110 104 104' stroke='#C47868' stroke-width='2.5' fill='none' stroke-linecap='round'/>
+  <!-- Body -->
+  <ellipse cx='96' cy='148' rx='30' ry='36' fill='#F5F0E8'/>
+  <!-- Accent dot -->
+  <circle cx='96' cy='185' r='8' fill='#58CC02'/>
+</svg>

@@ -1,0 +1,170 @@
+@import "tailwindcss";
+
+/* ─── Design Tokens ─────────────────────────────────────────── */
+@theme inline {
+  --color-primary:        #1A1B2E;
+  --color-surface:        #252640;
+  --color-surface-raised: #2E3058;
+  --color-accent:         #58CC02;
+  --color-accent-hover:   #46A302;
+  --color-accent-blue:    #1CB0F6;
+  --color-gold:           #FFD700;
+  --color-danger:         #FF4B4B;
+  --color-danger-light:   #FF6B6B;
+  --color-text:           #FFFFFF;
+  --color-text-muted:     #AFAFAF;
+  --color-text-dim:       #6B7094;
+  --color-ilya:           #F5F0E8;
+  --color-border:         #3A3D5C;
+
+  --font-display: "Nunito", system-ui, sans-serif;
+  --font-body:    "Inter", system-ui, sans-serif;
+  --font-code:    "JetBrains Mono", "Fira Code", monospace;
+
+  --bottom-nav-height: 64px;
+}
+
+/* ─── Base ───────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  height: 100%;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+  background-color: #1A1B2E;
+  color: #FFFFFF;
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+/* ─── Scrollbar ──────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #3A3D5C; border-radius: 9999px; }
+
+/* ─── Animations ─────────────────────────────────────────────── */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-6px); }
+}
+@keyframes bounce-in {
+  0%   { transform: scale(0.3); opacity: 0; }
+  50%  { transform: scale(1.05); }
+  70%  { transform: scale(0.9); }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%       { transform: translateX(-8px); }
+  40%       { transform: translateX(8px); }
+  60%       { transform: translateX(-5px); }
+  80%       { transform: translateX(5px); }
+}
+@keyframes slide-up {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes xp-pop {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.4); }
+  100% { transform: scale(1); }
+}
+@keyframes streak-flicker {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.7; }
+}
+
+.animate-float      { animation: float 3s ease-in-out infinite; }
+.animate-bounce-in  { animation: bounce-in 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both; }
+.animate-shake      { animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both; }
+.animate-slide-up   { animation: slide-up 0.3s ease-out both; }
+.animate-fade-in    { animation: fade-in 0.3s ease-out both; }
+.animate-xp-pop     { animation: xp-pop 0.4s ease-out; }
+.animate-streak     { animation: streak-flicker 1.5s ease-in-out infinite; }
+
+/* ─── Card styles ────────────────────────────────────────────── */
+.card {
+  background-color: #252640;
+  border-radius: 16px;
+  border-bottom: 3px solid rgba(0,0,0,0.35);
+}
+.card-raised {
+  background-color: #2E3058;
+  border-radius: 16px;
+  border-bottom: 3px solid rgba(0,0,0,0.35);
+}
+
+/* ─── Answer options ─────────────────────────────────────────── */
+.answer-option {
+  background-color: #252640;
+  border: 2px solid #3A3D5C;
+  border-bottom: 4px solid #3A3D5C;
+  border-radius: 12px;
+  padding: 16px;
+  font-family: "Nunito", system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: border-color 0.15s, background-color 0.15s;
+  text-align: left;
+  width: 100%;
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.answer-option:hover:not(.disabled) {
+  border-color: #1CB0F6;
+  background-color: #2E3058;
+}
+.answer-option.correct {
+  border-color: #58CC02;
+  background-color: rgba(88, 204, 2, 0.12);
+  color: #58CC02;
+  animation: bounce-in 0.4s ease-out both;
+}
+.answer-option.wrong {
+  border-color: #FF4B4B;
+  background-color: rgba(255, 75, 75, 0.12);
+  color: #FF4B4B;
+  animation: shake 0.5s ease-out both;
+}
+.answer-option.disabled { cursor: default; pointer-events: none; }
+
+/* ─── Progress bar ───────────────────────────────────────────── */
+.progress-bar-track {
+  background-color: #2E3058;
+  border-radius: 9999px;
+  height: 10px;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%;
+  border-radius: 9999px;
+  background-color: #58CC02;
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ─── CodeMirror overrides ───────────────────────────────────── */
+.cm-editor {
+  border-radius: 12px !important;
+  overflow: hidden;
+  font-size: 13px !important;
+}
+.cm-editor.cm-focused { outline: 2px solid #1CB0F6 !important; }
+
+/* ─── iOS safe areas ─────────────────────────────────────────── */
+.safe-bottom { padding-bottom: env(safe-area-inset-bottom, 0px); }
+.safe-top    { padding-top: env(safe-area-inset-top, 0px); }

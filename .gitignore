@@ -1,0 +1,26 @@
+# Dependencies
+neuroquest/node_modules/
+
+# Next.js build output
+neuroquest/.next/
+neuroquest/out/
+
+# Environment variables (keep secrets local)
+neuroquest/.env
+neuroquest/.env.local
+neuroquest/.env.*.local
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Editor
+.vscode/
+.idea/
+
+# Claude internal (keep launch.json but not session data)
+.claude/projects/
