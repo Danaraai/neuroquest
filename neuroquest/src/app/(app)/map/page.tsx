@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 
 export default function MapPage() {
   const router = useRouter();
-  const { worldProgress, questProgress } = useStore();
+  const { worldProgress, questProgress, lessonProgress } = useStore();
 
   return (
     <div className="min-h-screen bg-[#1A1B2E]">
@@ -40,9 +40,11 @@ export default function MapPage() {
 
             // Count completed quests in this world
             const totalQuests = world.quests.length;
-            const completedQuestsCount = world.quests.filter(
-              (q) => questProgress[q.id]?.completed
-            ).length;
+            const completedQuestsCount = world.quests.filter((q) => {
+              // A quest is done if questProgress marks it complete OR all its lessons are completed
+              if (questProgress[q.id]?.completed) return true;
+              return q.lessons.every((l) => !!lessonProgress[l.id]?.completedAt);
+            }).length;
 
             const progressPct = totalQuests > 0
               ? Math.round((completedQuestsCount / totalQuests) * 100)
@@ -142,7 +144,7 @@ export default function MapPage() {
                   <div className="ml-16 mt-2 space-y-1.5">
                     {world.quests.map((quest, qi) => {
                       const qp = questProgress[quest.id];
-                      const questDone = qp?.completed ?? false;
+                      const questDone = qp?.completed || quest.lessons.every((l) => !!lessonProgress[l.id]?.completedAt);
                       const isBoss = quest.isBoss;
 
                       return (

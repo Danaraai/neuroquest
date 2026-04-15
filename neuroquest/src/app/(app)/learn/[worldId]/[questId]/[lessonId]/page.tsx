@@ -10,6 +10,7 @@ import { Ilya } from "@/components/ilya/Ilya";
 import { ConceptCard } from "@/components/lessons/ConceptCard";
 import { MCQCard } from "@/components/lessons/MCQCard";
 import { FlashCard } from "@/components/lessons/FlashCard";
+import { FillCard } from "@/components/lessons/FillCard";
 import { LessonComplete } from "@/components/lessons/LessonComplete";
 
 export default function LessonPage() {
@@ -24,18 +25,20 @@ export default function LessonPage() {
   const quest  = getQuest(worldId, questId);
   const lesson = quest?.lessons.find((l) => l.id === lessonId);
 
-  const { completeLesson, recordAnswer, initSRCard } = useStore();
+  const { completeLesson, completeQuest, recordAnswer, initSRCard } = useStore();
 
   const [questionIndex, setQuestionIndex] = useState(0);
   const [cardIndex,     setCardIndex]     = useState(0);
+  const [fillIndex,     setFillIndex]     = useState(0);
   const [step,          setStep]          = useState<"lesson" | "complete">("lesson");
   const [wrongCount,    setWrongCount]    = useState(0);
   const [xpEarned,     setXpEarned]      = useState(0);
 
   // Initialise SR cards
   useEffect(() => {
-    if (lesson?.cards)     lesson.cards.forEach((c) => initSRCard(c.id));
-    if (lesson?.questions) lesson.questions.forEach((q) => initSRCard(q.id));
+    if (lesson?.cards)         lesson.cards.forEach((c) => initSRCard(c.id));
+    if (lesson?.questions)     lesson.questions.forEach((q) => initSRCard(q.id));
+    if (lesson?.fillQuestions) lesson.fillQuestions.forEach((q) => initSRCard(q.id));
   }, [lesson, initSRCard]);
 
   if (!world || !quest || !lesson) {
@@ -50,8 +53,8 @@ export default function LessonPage() {
     );
   }
 
-  const totalSteps = lesson.questions?.length ?? lesson.cards?.length ?? 1;
-  const currentStep = lesson.type === "mcq" ? questionIndex : lesson.type === "flashcard" ? cardIndex : 0;
+  const totalSteps = lesson.questions?.length ?? lesson.cards?.length ?? lesson.fillQuestions?.length ?? 1;
+  const currentStep = lesson.type === "mcq" ? questionIndex : lesson.type === "flashcard" ? cardIndex : lesson.type === "fillin" ? fillIndex : 0;
   const progressPct = step === "complete" ? 100 : (currentStep / totalSteps) * 100;
 
   // Next lesson in quest
@@ -63,6 +66,10 @@ export default function LessonPage() {
     completeLesson(lessonId, score, xp);
     setXpEarned(xp);
     setStep("complete");
+    // If this was the last lesson, mark the quest as complete
+    if (!nextLesson) {
+      completeQuest(questId, worldId);
+    }
   }
 
   function handleConceptDone() { finishLesson(lesson!.xpReward); }
@@ -91,6 +98,21 @@ export default function LessonPage() {
     const cards = lesson!.cards!;
     if (cardIndex < cards.length - 1) {
       setCardIndex((i) => i + 1);
+    } else {
+      const perfect = wrongCount === 0;
+      finishLesson(perfect ? lesson!.xpReward + 5 : lesson!.xpReward);
+    }
+  }
+
+  function handleFillAnswer(correct: boolean, qId: string) {
+    recordAnswer(qId, correct);
+    if (!correct) setWrongCount((n) => n + 1);
+  }
+
+  function handleFillContinue() {
+    const fills = lesson!.fillQuestions!;
+    if (fillIndex < fills.length - 1) {
+      setFillIndex((i) => i + 1);
     } else {
       const perfect = wrongCount === 0;
       finishLesson(perfect ? lesson!.xpReward + 5 : lesson!.xpReward);
@@ -192,6 +214,17 @@ export default function LessonPage() {
             onContinue={handleFlashContinue}
             cardNumber={cardIndex + 1}
             totalCards={lesson.cards.length}
+          />
+        )}
+
+        {lesson.type === "fillin" && lesson.fillQuestions && (
+          <FillCard
+            key={`fill-${fillIndex}`}
+            question={lesson.fillQuestions[fillIndex]}
+            onAnswer={handleFillAnswer}
+            onContinue={handleFillContinue}
+            cardNumber={fillIndex + 1}
+            totalCards={lesson.fillQuestions.length}
           />
         )}
       </div>

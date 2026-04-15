@@ -169,16 +169,17 @@ export default function QuestPage() {
             {completedLessons === 0 ? "Start Quest 🚀" : "Continue →"}
           </Link>
         ) : (
-          <div
-            className="w-full py-4 rounded-xl font-black text-center text-[#58CC02] text-base"
+          <Link
+            href="/map"
+            className="block w-full py-4 rounded-xl font-black text-center text-[#58CC02] text-base transition-all active:scale-95 hover:bg-[rgba(88,204,2,0.15)]"
             style={{
               background: "rgba(88, 204, 2, 0.1)",
               border: "2px solid #58CC02",
               fontFamily: "var(--font-display)",
             }}
           >
-            ✅ Quest Complete! Great work!
-          </div>
+            ✅ Quest Complete! Back to Map →
+          </Link>
         )}
       </div>
     </div>

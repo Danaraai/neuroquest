@@ -36,6 +36,14 @@ export interface CodingMission {
   xpReward: number;
 }
 
+export interface FillQuestion {
+  id: string;
+  prompt: string;        // instruction shown above the code
+  codeTemplate: string;  // code with ___ marking the blank
+  answer: string;        // correct answer (trimmed, case-sensitive)
+  explanation: string;
+}
+
 export interface Lesson {
   id: string;
   questId: string;
@@ -49,6 +57,7 @@ export interface Lesson {
   concept?: ConceptBlock[];
   questions?: MCQQuestion[];
   cards?: FlashCard[];
+  fillQuestions?: FillQuestion[];
   codingMission?: CodingMission;
 }
 
