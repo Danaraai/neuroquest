@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Flame, BookOpen, RotateCcw, Trophy, ChevronRight, Lock } from "lucide-react";
 import { Ilya, IlyaBubble } from "@/components/ilya/Ilya";
+import { IlyaIntro } from "@/components/home/IlyaIntro";
 import { XPBar } from "@/components/ui/XPBar";
 import { useStore, selectDueReviewCount } from "@/lib/store";
 import { WORLDS } from "@/data/worlds";
@@ -31,6 +32,8 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-[#1A1B2E] px-4 pt-safe safe-top">
+      <IlyaIntro />
+
       {/* ── Top bar ── */}
       <div className="flex items-center justify-between pt-4 pb-3">
         <div className="flex items-center gap-2">
