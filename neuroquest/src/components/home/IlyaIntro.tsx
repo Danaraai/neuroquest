@@ -36,47 +36,52 @@ export function IlyaIntro() {
           animate={{ scale: 1, opacity: 1, y: 0 }}
           transition={{ duration: 1.2, ease: "easeOut" }}
         >
-          {/* White deer SVG */}
+          {/* White deer SVG - Ilya */}
           <svg
-            width="140"
-            height="140"
-            viewBox="0 0 120 120"
+            width="160"
+            height="180"
+            viewBox="0 0 120 140"
             className="mb-4"
           >
             {/* Body */}
-            <ellipse cx="60" cy="70" rx="35" ry="40" fill="white" />
+            <ellipse cx="60" cy="85" rx="38" ry="45" fill="white" />
 
             {/* Head */}
-            <circle cx="60" cy="35" r="28" fill="white" />
+            <circle cx="60" cy="38" r="32" fill="white" />
 
-            {/* Left ear */}
-            <ellipse cx="42" cy="10" rx="8" ry="18" fill="white" transform="rotate(-25 42 10)" />
-            {/* Right ear */}
-            <ellipse cx="78" cy="10" rx="8" ry="18" fill="white" transform="rotate(25 78 10)" />
+            {/* Left horn */}
+            <path
+              d="M 42 8 Q 35 -5 32 -20"
+              stroke="#D4A574"
+              strokeWidth="4"
+              fill="none"
+              strokeLinecap="round"
+            />
+            {/* Right horn */}
+            <path
+              d="M 78 8 Q 85 -5 88 -20"
+              stroke="#D4A574"
+              strokeWidth="4"
+              fill="none"
+              strokeLinecap="round"
+            />
 
-            {/* Left antler */}
-            <line x1="40" y1="8" x2="30" y2="-8" stroke="tan" strokeWidth="3" strokeLinecap="round" />
-            <line x1="30" y1="-8" x2="25" y2="-18" stroke="tan" strokeWidth="2.5" strokeLinecap="round" />
-            {/* Right antler */}
-            <line x1="80" y1="8" x2="90" y2="-8" stroke="tan" strokeWidth="3" strokeLinecap="round" />
-            <line x1="90" y1="-8" x2="95" y2="-18" stroke="tan" strokeWidth="2.5" strokeLinecap="round" />
+            {/* Left eye */}
+            <circle cx="50" cy="32" r="3.5" fill="#1a1a1a" />
+            {/* Right eye */}
+            <circle cx="70" cy="32" r="3.5" fill="#1a1a1a" />
 
-            {/* Eyes */}
-            <circle cx="50" cy="30" r="4" fill="#333" />
-            <circle cx="70" cy="30" r="4" fill="#333" />
-            {/* Eye shine */}
-            <circle cx="51" cy="29" r="1.5" fill="white" />
-            <circle cx="71" cy="29" r="1.5" fill="white" />
+            {/* Left cheek - pink circle */}
+            <circle cx="38" cy="42" r="7" fill="#FFB6C6" opacity="0.8" />
+            {/* Right cheek - pink circle */}
+            <circle cx="82" cy="42" r="7" fill="#FFB6C6" opacity="0.8" />
 
-            {/* Nose */}
-            <ellipse cx="60" cy="42" rx="3" ry="4" fill="#333" />
-
-            {/* Smile */}
-            <path d="M 55 45 Q 60 48 65 45" stroke="#333" strokeWidth="2" fill="none" strokeLinecap="round" />
+            {/* Nose - small black dot */}
+            <circle cx="60" cy="48" r="2" fill="#1a1a1a" />
 
             {/* Legs */}
-            <rect x="48" y="105" width="6" height="20" rx="3" fill="white" />
-            <rect x="66" y="105" width="6" height="20" rx="3" fill="white" />
+            <rect x="48" y="120" width="8" height="25" rx="4" fill="white" />
+            <rect x="64" y="120" width="8" height="25" rx="4" fill="white" />
           </svg>
 
           {/* Ilya's name */}
