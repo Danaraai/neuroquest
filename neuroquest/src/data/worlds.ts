@@ -529,7 +529,7 @@ export const WORLDS: World[] = [
               },
               {
                 id: "w1q4l1f2",
-                prompt: "Fill in the blank to loop over 1000 time steps (0 to 999):",
+                prompt: "Fill in the blank to loop over 1000 time steps (0 to 999):\n\n💡 Note: pass is a Python keyword that means 'do nothing' — it's a placeholder. You use it when you need a statement but haven't written the real code yet. Later, you'd replace pass with actual code like voltage = calculate_voltage(t).",
                 codeTemplate: "for t in ___(1000):\n    pass  # simulate neuron at time t",
                 answer: "range",
                 explanation: "range(1000) generates the numbers 0, 1, 2, ... 999 — giving you 1000 time steps without writing them all out by hand.",
