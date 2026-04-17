@@ -1010,6 +1010,816 @@ print("✅ All tests passed! +25 XP")
           },
         ],
       },
+
+      // ── Quest 1.8 — Matplotlib ─────────────────────────────
+      {
+        id: "w1q8",
+        worldId: "world1",
+        number: 8,
+        title: "Matplotlib: Plot Like a Neuroscientist",
+        description: "Visualize data the way NMA does",
+        totalXP: 40,
+        lessons: [
+          {
+            id: "w1q8l1",
+            questId: "w1q8",
+            worldId: "world1",
+            title: "Why Plot? The Story Neurons Tell",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 4,
+            concept: [
+              {
+                type: "text",
+                content: "A neuron's story is told through plots. Raw numbers are meaningless — but a plot of voltage over time shows the entire action potential, spike pattern, and response to stimulation.\n\nMatplotlib is the tool neuroscientists use to turn data into stories.",
+              },
+              {
+                type: "code",
+                content: "import matplotlib.pyplot as plt\nimport numpy as np\n\n# Time and voltage data from a neuron simulation\nt = np.linspace(0, 1000, 1000)  # 1000 ms\nV = -70 + 20*np.sin(t/100)  # simplified oscillating voltage\n\nplt.figure(figsize=(10, 4))\nplt.plot(t, V, label='Membrane Voltage')\nplt.axhline(y=-55, color='r', linestyle='--', label='Threshold')\nplt.xlabel('Time (ms)')\nplt.ylabel('Voltage (mV)')\nplt.title('Neuron Dynamics Over Time')\nplt.legend()\nplt.show()",
+                caption: "This is the template for EVERY neuron visualization in NMA. You'll modify it for each project, but the structure stays the same.",
+              },
+              {
+                type: "text",
+                content: "**Why neuroscientists care:**\n• **Debugging**: A plot reveals if your simulation is realistic. Bad math = obvious weird pattern.\n• **Intuition**: Equations are abstract. Plots show you what's actually happening.\n• **Communication**: When you present results to advisors, they ask 'show me a plot'. A good plot says in one image what 1000 words can't.",
+              },
+              {
+                type: "highlight",
+                content: "NMA Week 1: Your first project outputs will be plots. Week 2-4: You'll generate 10+ plots per project. Master plotting now and you're unstoppable.",
+              },
+            ],
+          },
+          {
+            id: "w1q8l2",
+            questId: "w1q8",
+            worldId: "world1",
+            title: "Building Your First Plot",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 4,
+            concept: [
+              {
+                type: "text",
+                content: "The anatomy of a matplotlib plot:",
+              },
+              {
+                type: "code",
+                content: "import matplotlib.pyplot as plt\n\n# Step 1: Create figure and axes\nfig, ax = plt.subplots(figsize=(8, 5))\n\n# Step 2: Plot data (ax.plot, ax.scatter, ax.hist, etc.)\nax.plot([1, 2, 3], [10, 20, 15], 'o-', color='blue', linewidth=2, label='Neuron A')\nax.plot([1, 2, 3], [12, 18, 19], 's-', color='red', linewidth=2, label='Neuron B')\n\n# Step 3: Labels and titles\nax.set_xlabel('Time (ms)', fontsize=12)\nax.set_ylabel('Firing Rate (Hz)', fontsize=12)\nax.set_title('Two Neurons Responding to the Same Stimulus', fontsize=14)\n\n# Step 4: Legend and cleanup\nax.legend(loc='best')\nax.grid(True, alpha=0.3)\n\nplt.tight_layout()\nplt.show()",
+                caption: "This is the professional structure. fig/ax style scales to complex multi-panel figures. All NMA code uses this pattern.",
+              },
+              {
+                type: "text",
+                content: "**Plot types you'll use in NMA:**\n• `plot()` — line plots (voltage vs time)\n• `scatter()` — spike raster (when did neurons fire?)\n• `hist()` — distribution (how many spikes at each time?)\n• `imshow()` — heatmaps (population firing rates across time)\n• `errorbar()` — mean ± std (uncertainty in measurements)",
+              },
+              {
+                type: "highlight",
+                content: "Every plot needs: x-label, y-label, title, and legend (if multiple lines). Missing these = instant feedback from NMA instructors. These three lines keep you safe:\nax.set_xlabel(...)\nax.set_ylabel(...)\nax.set_title(...)",
+              },
+            ],
+          },
+          {
+            id: "w1q8l3",
+            questId: "w1q8",
+            worldId: "world1",
+            title: "Coding Mission: Plot a Neuron's Spike Train",
+            type: "coding",
+            deviceRequired: "laptop",
+            xpReward: 20,
+            estimatedMinutes: 12,
+            codingMission: {
+              id: "cm-w1q8",
+              title: "Visualize a Neuron's Spike Train",
+              description:
+                "Write code that:\n1. Generates a list of spike times (when a neuron fired)\n2. Creates a scatter plot of spike times\n3. Properly labels and styles the plot like an NMA figure",
+              starterCode: `import matplotlib.pyplot as plt\nimport numpy as np\n\n# Simulated spike times (milliseconds)\nspike_times = [10, 25, 42, 67, 89, 103, 125, 156, 178, 201]\n\n# Create figure\nfig, ax = plt.subplots(figsize=(10, 3))\n\n# TODO: Plot spike times on y-axis = 1, x-axis = spike_times\n# Use scatter() with marker='|', markersize=20\nax.scatter(???)\n\n# TODO: Set labels\nax.set_xlabel('???')\nax.set_ylabel('???')\nax.set_title('???')\n\n# TODO: Set y-axis limits so spike times look like a raster\nax.set_ylim(0.5, 1.5)\nax.set_yticks([])\n\nplt.tight_layout()\nplt.show()`,
+              solution: `import matplotlib.pyplot as plt\nimport numpy as np\n\nspike_times = [10, 25, 42, 67, 89, 103, 125, 156, 178, 201]\n\nfig, ax = plt.subplots(figsize=(10, 3))\nax.scatter(spike_times, [1]*len(spike_times), marker='|', markersize=20, color='black')\n\nax.set_xlabel('Time (ms)', fontsize=12)\nax.set_ylabel('Neuron', fontsize=12)\nax.set_title('Spike Raster: When Did the Neuron Fire?', fontsize=14)\nax.set_ylim(0.5, 1.5)\nax.set_yticks([])\nax.grid(True, alpha=0.2, axis='x')\n\nplt.tight_layout()\nplt.show()`,
+              testCode: `
+import matplotlib.pyplot as plt
+import numpy as np
+
+spike_times = [10, 25, 42, 67, 89, 103, 125, 156, 178, 201]
+
+# Check that code runs without error
+try:
+    fig, ax = plt.subplots(figsize=(10, 3))
+    ax.scatter(spike_times, [1]*len(spike_times), marker='|', markersize=20, color='black')
+    ax.set_xlabel('Time (ms)', fontsize=12)
+    ax.set_ylabel('Neuron', fontsize=12)
+    ax.set_title('Spike Raster: When Did the Neuron Fire?', fontsize=14)
+    ax.set_ylim(0.5, 1.5)
+    ax.set_yticks([])
+    print("✅ Plot generated successfully! +20 XP")
+except Exception as e:
+    print(f"❌ Error: {e}")
+`,
+              hints: [
+                "scatter(x_values, y_values, ...) plots dots. Use spike_times for x and [1]*len(spike_times) for y.",
+                "set_xlabel(), set_ylabel(), set_title() label your axes",
+                "A spike raster shows spikes as vertical lines. Use marker='|' to make them look like raster marks.",
+              ],
+              xpReward: 20,
+            },
+          },
+        ],
+      },
+
+      // ── Quest 1.9 — 2D Arrays ──────────────────────────────
+      {
+        id: "w1q9",
+        worldId: "world1",
+        number: 9,
+        title: "2D Arrays: Populations of Neurons",
+        description: "From one neuron to 100. From 100 to 10,000.",
+        totalXP: 45,
+        lessons: [
+          {
+            id: "w1q9l1",
+            questId: "w1q9",
+            worldId: "world1",
+            title: "From Single Neuron to Population",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 4,
+            concept: [
+              {
+                type: "text",
+                content: "So far you've simulated one neuron. But the brain has billions. How do you handle that in code?\n\nWith 2D arrays — a grid of numbers, like a spreadsheet. Each row is a neuron. Each column is a time step.",
+              },
+              {
+                type: "code",
+                content: "import numpy as np\n\n# Simulate 100 neurons for 1000 ms\nV = np.random.normal(-70, 5, size=(100, 1000))\n# V.shape = (100, 1000)\n# Row 0: voltage of neuron 0 over all times\n# Row 1: voltage of neuron 1 over all times\n# Column j: voltage of all neurons at time j\n\nprint(V[0, 0])      # voltage of neuron 0 at time 0\nprint(V[0, :])      # voltage of neuron 0 across ALL times (spike train)\nprint(V[:, 100])    # voltage of ALL neurons at time 100\nprint(V.shape)      # (100, 1000)",
+                caption: "A 2D array is indexed [neuron_index, time_index]. Use : to mean 'all'.",
+              },
+              {
+                type: "text",
+                content: "**Why neuroscientists care:**\n\nIn NMA, you often have population recordings — many neurons measured simultaneously. A calcium imaging video has 10,000 neurons × 10,000 time frames. How do you analyze it? With 2D arrays and vectorized operations.",
+              },
+              {
+                type: "code",
+                content: "# Real NMA example: calcium imaging data\n# Shape: (n_neurons, n_time_frames)\nF = calcium_recording  # shape (1000, 5000) — 1000 neurons, 5000 frames\n\n# Find peak calcium (max response) for each neuron\npeak_response = F.max(axis=1)  # max along time axis → (1000,)\n\n# Find mean baseline (resting calcium) for each neuron\nbaseline = F.mean(axis=1)  # mean along time axis → (1000,)\n\n# Compute stimulus-evoked response\nresponse = peak_response - baseline  # (1000,)\n\nprint(f'Average response across population: {response.mean()}')",
+                caption: "axis=0 means collapse down columns (operate per-neuron). axis=1 means collapse across rows (operate per-time).",
+              },
+            ],
+          },
+          {
+            id: "w1q9l2",
+            questId: "w1q9",
+            worldId: "world1",
+            title: "Array Operations on 2D Data",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 4,
+            concept: [
+              {
+                type: "text",
+                content: "The power of NumPy: do calculations across rows or columns without loops.",
+              },
+              {
+                type: "code",
+                content: "import numpy as np\n\n# Population voltage data\nV = np.array([\n    [-70, -60, -50, 20],   # neuron 0\n    [-65, -55, 10, 15],    # neuron 1\n    [-68, -62, -45, -40],  # neuron 2\n])\n# shape: (3 neurons, 4 time steps)\n\n# Along time (axis=1): get mean voltage for each neuron\nmean_V = V.mean(axis=1)  # → [-40, -8.75, -53.75]\n\n# Along neurons (axis=0): get mean voltage at each time\nmean_V_time = V.mean(axis=0)  # → [-67.67, -59, -28.33, -8.33]\n\n# Find spikes: voltage > -55 for each neuron\nthreshold = -55\nspikes = V > threshold  # boolean array, same shape as V\nprint(spikes)\n# [[False False False True]\n#  [False False True True]\n#  [False False False False]]\n\n# Count spikes per neuron\nspike_count = (V > threshold).sum(axis=1)  # → [1, 2, 0]\nprint(f'Neuron spike counts: {spike_count}')",
+                caption: "Boolean indexing works on 2D arrays. axis=0 is down the rows. axis=1 is across columns.",
+              },
+              {
+                type: "highlight",
+                content: "The formula for working with 2D data: (data > threshold).sum(axis=X) counts how many elements exceed threshold for each row (axis=1) or column (axis=0). This pattern appears in almost every NMA analysis.",
+              },
+            ],
+          },
+          {
+            id: "w1q9l3",
+            questId: "w1q9",
+            worldId: "world1",
+            title: "Quiz: 2D Arrays",
+            type: "mcq",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 3,
+            questions: [
+              {
+                id: "w1q9l3q1",
+                text: "V.shape = (50, 1000). What does V[0, :] represent?",
+                options: [
+                  "The first column (first time step for all neurons)",
+                  "The first row (all time steps for neuron 0)",
+                  "The first element",
+                  "All data",
+                ],
+                correctIndex: 1,
+                explanation: "V[0, :] means 'row 0, all columns'. In neuron data, that's neuron 0 across all time.",
+                neuroConnection: "V[i, :] is the spike train of neuron i — a vector of voltages over time.",
+              },
+              {
+                id: "w1q9l3q2",
+                text: "V = np.array([[1, 2], [3, 4]])\nV.sum(axis=1) = ?",
+                options: ["[3, 7]", "[4, 6]", "[1, 3, 2, 4]", "10"],
+                correctIndex: 0,
+                explanation: "axis=1 means sum across columns. Row 1: 1+2=3. Row 2: 3+4=7. Result: [3, 7].",
+                neuroConnection: "Fire _count = (V > threshold).sum(axis=1) sums spikes across time for each neuron.",
+              },
+              {
+                id: "w1q9l3q3",
+                text: "Which indexes the column (time step) in a 2D array?",
+                options: [
+                  "First index",
+                  "Second index",
+                  ".shape[0]",
+                  ".shape[1]",
+                ],
+                correctIndex: 1,
+                explanation: "In (n_neurons, n_time), the second index is time. V[:, t] gives all neurons at time t.",
+              },
+            ],
+          },
+          {
+            id: "w1q9l4",
+            questId: "w1q9",
+            worldId: "world1",
+            title: "Coding Mission: Analyze a Population",
+            type: "coding",
+            deviceRequired: "laptop",
+            xpReward: 25,
+            estimatedMinutes: 15,
+            codingMission: {
+              id: "cm-w1q9",
+              title: "Analyze Neural Population Activity",
+              description:
+                "Given a 2D array of 50 neurons recorded over 100 time steps:\n1. Find neurons that fired (peak voltage > -55 mV)\n2. Compute mean firing response per neuron\n3. Find which neuron responded most strongly",
+              starterCode: `import numpy as np\n\n# Simulated population recording: 50 neurons, 100 time steps\nnp.random.seed(42)\nV = np.random.normal(-70, 10, size=(50, 100))\n# Add some stimulus response at t=50-75\nV[:, 50:75] += np.random.normal(15, 5, size=(50, 25))\n\nthreshold = -55\n\n# TODO 1: Find neurons that spiked (max voltage > threshold)\nspiking_neurons = ???\nprint(f'Spiking neurons: {spiking_neurons.sum()} out of 50')\n\n# TODO 2: Compute peak response (max voltage - baseline) for each neuron\nbaseline = V[:, :50].mean(axis=1)  # mean before stimulus\npeak = V[:, 50:75].max(axis=1)     # max during stimulus\nresponse = peak - baseline\n\n# TODO 3: Find most responsive neuron\nmost_responsive = ???\nprint(f'Most responsive neuron: {most_responsive} with response {response[most_responsive]:.1f} mV')`,
+              solution: `import numpy as np\n\nnp.random.seed(42)\nV = np.random.normal(-70, 10, size=(50, 100))\nV[:, 50:75] += np.random.normal(15, 5, size=(50, 25))\n\nthreshold = -55\n\n# Find neurons that spiked\nspiking_neurons = V.max(axis=1) > threshold\nprint(f'Spiking neurons: {spiking_neurons.sum()} out of 50')\n\n# Compute response\nbaseline = V[:, :50].mean(axis=1)\npeak = V[:, 50:75].max(axis=1)\nresponse = peak - baseline\n\n# Find most responsive\nmost_responsive = response.argmax()\nprint(f'Most responsive neuron: {most_responsive} with response {response[most_responsive]:.1f} mV')`,
+              testCode: `
+import numpy as np
+
+np.random.seed(42)
+V = np.random.normal(-70, 10, size=(50, 100))
+V[:, 50:75] += np.random.normal(15, 5, size=(50, 25))
+
+threshold = -55
+spiking_neurons = V.max(axis=1) > threshold
+baseline = V[:, :50].mean(axis=1)
+peak = V[:, 50:75].max(axis=1)
+response = peak - baseline
+most_responsive = response.argmax()
+
+assert spiking_neurons.sum() > 0, "Some neurons should spike"
+assert response.argmax() == most_responsive, "Most responsive computed correctly"
+print("✅ Population analysis complete! +25 XP")
+`,
+              hints: [
+                "V.max(axis=1) gives the peak voltage for each neuron (reduces time dimension)",
+                "response.argmax() returns the index of the maximum value",
+                "Boolean indexing: (V > threshold) creates a boolean array where True = spiked",
+              ],
+              xpReward: 25,
+            },
+          },
+        ],
+      },
+
+      // ── Quest 1.10 — Statistics ────────────────────────────
+      {
+        id: "w1q10",
+        worldId: "world1",
+        number: 10,
+        title: "Statistics & Ensemble Analysis",
+        description: "From individual neurons to population properties",
+        totalXP: 45,
+        lessons: [
+          {
+            id: "w1q10l1",
+            questId: "w1q10",
+            worldId: "world1",
+            title: "Why Neuroscientists Love Statistics",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 4,
+            concept: [
+              {
+                type: "text",
+                content: "Neuroscience is noisy. A single spike time tells you almost nothing — it could be random noise. But look at 1000 spikes from the same neuron under the same stimulus? That's signal.",
+              },
+              {
+                type: "text",
+                content: "**The ensemble principle**: Average across many trials, many neurons, or many conditions. The noise cancels out. The real signal emerges.\n\nThis is why NMA spends entire weeks on statistics. Understanding distributions, variance, and confidence intervals is how you separate the brain's true logic from measurement noise.",
+              },
+              {
+                type: "code",
+                content: "import numpy as np\nimport matplotlib.pyplot as plt\n\n# Simulate 1000 presentations of the same stimulus\n# Each time, neuron fires some number of spikes (noisy)\nspike_counts = np.random.poisson(lam=15, size=1000)  # mean 15 spikes per trial\n\nprint(f'Mean spikes per trial: {spike_counts.mean():.1f}')\nprint(f'Std dev: {spike_counts.std():.1f}')\nprint(f'Min: {spike_counts.min()}, Max: {spike_counts.max()}')\n\n# Plot distribution\nplt.hist(spike_counts, bins=20, edgecolor='black')\nplt.xlabel('Spikes per trial')\nplt.ylabel('Count')\nplt.title('Distribution of spike counts across 1000 trials')\nplt.show()\n\n# The mean and std tell you everything\nprint(f'Neuron fires {spike_counts.mean():.1f} ± {spike_counts.std():.1f} spikes')",
+                caption: "Mean and std dev are two numbers that characterize an entire distribution of noisy measurements.",
+              },
+            ],
+          },
+          {
+            id: "w1q10l2",
+            questId: "w1q10",
+            worldId: "world1",
+            title: "Mean, Variance, and Standard Deviation",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 4,
+            concept: [
+              {
+                type: "text",
+                content: "Three numbers that characterize any noisy measurement:",
+              },
+              {
+                type: "code",
+                content: "import numpy as np\n\n# Simulated firing rates (Hz) from a neuron\nrates = np.array([12, 14, 11, 15, 13, 12, 14, 16, 11, 13])\n\n# Mean — the average\nmean_rate = np.mean(rates)  # or rates.mean()\n# = (12+14+11+15+13+12+14+16+11+13) / 10 = 131 / 10 = 13.1 Hz\n\n# Variance — average of squared deviations\n# Variance = mean((x - mean)^2)\nvariance = np.var(rates)  # = 2.29\n\n# Standard deviation — square root of variance (same units as data)\nstd_dev = np.std(rates)  # = sqrt(2.29) = 1.51 Hz\n\nprint(f'Mean firing rate: {mean_rate:.1f} Hz')\nprint(f'Standard deviation: {std_dev:.1f} Hz')\nprint(f'Firing rate: {mean_rate:.1f} ± {std_dev:.1f} Hz')",
+                caption: "np.mean(), np.var(), np.std() are the three most important statistics functions.",
+              },
+              {
+                type: "text",
+                content: "**Interpreting std dev:**\n\nFor a normal distribution:\n• Within 1 std dev of mean: ~68% of data\n• Within 2 std dev: ~95% of data\n• Within 3 std dev: ~99.7% of data\n\nSo if firing_rate = 13.1 ± 1.5 Hz, most of the time the neuron fires between 11.6 and 14.6 Hz. Occasionally (rare) it fires at 10 or 16 Hz.",
+              },
+              {
+                type: "highlight",
+                content: "In NMA, when they say 'population firing rate', they mean the mean ± std across neurons. This two-number summary is incredibly powerful.",
+              },
+            ],
+          },
+          {
+            id: "w1q10l3",
+            questId: "w1q10",
+            worldId: "world1",
+            title: "Coding Mission: Ensemble Statistics",
+            type: "coding",
+            deviceRequired: "laptop",
+            xpReward: 25,
+            estimatedMinutes: 15,
+            codingMission: {
+              id: "cm-w1q10",
+              title: "Compute Population Statistics",
+              description:
+                "Given spike counts from 100 neurons responding to a visual stimulus:\n1. Compute mean, std, and variance of spike counts\n2. Find neurons in the top 10% (most responsive)\n3. Compare response during stimulus vs baseline",
+              starterCode: `import numpy as np\n\n# Simulated spike counts: 100 neurons, each tested 50 times\nnp.random.seed(42)\nspike_counts = np.random.poisson(lam=5, size=(100, 50))  # baseline\nspike_counts[:, 25:50] += np.random.poisson(lam=8, size=(100, 25))  # add stimulus\n\n# TODO 1: Compute baseline stats (first 25 trials)\nbaseline_spikes = spike_counts[:, :25]\nmean_baseline = ???\nstd_baseline = ???\n\nprint(f'Baseline firing: {mean_baseline:.1f} ± {std_baseline:.1f} spikes/trial')\n\n# TODO 2: Compute stimulus response stats (trials 25-50)\nstimulus_spikes = spike_counts[:, 25:50]\nmean_stimulus = ???\nstd_stimulus = ???\n\nprint(f'Stimulus response: {mean_stimulus:.1f} ± {std_stimulus:.1f} spikes/trial')\n\n# TODO 3: Find top 10% most responsive neurons (highest mean during stimulus)\nresponse_per_neuron = stimulus_spikes.mean(axis=1)\ntop_10_percent = response_per_neuron > ???\nprint(f'Top 10% neurons: {top_10_percent.sum()} neurons out of 100')`,
+              solution: `import numpy as np\n\nnp.random.seed(42)\nspike_counts = np.random.poisson(lam=5, size=(100, 50))\nspike_counts[:, 25:50] += np.random.poisson(lam=8, size=(100, 25))\n\nbaseline_spikes = spike_counts[:, :25]\nmean_baseline = baseline_spikes.mean()\nstd_baseline = baseline_spikes.std()\n\nprint(f'Baseline firing: {mean_baseline:.1f} ± {std_baseline:.1f} spikes/trial')\n\nstimulus_spikes = spike_counts[:, 25:50]\nmean_stimulus = stimulus_spikes.mean()\nstd_stimulus = stimulus_spikes.std()\n\nprint(f'Stimulus response: {mean_stimulus:.1f} ± {std_stimulus:.1f} spikes/trial')\n\nresponse_per_neuron = stimulus_spikes.mean(axis=1)\ntop_10_percent_threshold = np.percentile(response_per_neuron, 90)\ntop_10_percent = response_per_neuron > top_10_percent_threshold\nprint(f'Top 10% neurons: {top_10_percent.sum()} neurons out of 100')`,
+              testCode: `
+import numpy as np
+
+np.random.seed(42)
+spike_counts = np.random.poisson(lam=5, size=(100, 50))
+spike_counts[:, 25:50] += np.random.poisson(lam=8, size=(100, 25))
+
+baseline_spikes = spike_counts[:, :25]
+mean_baseline = baseline_spikes.mean()
+std_baseline = baseline_spikes.std()
+
+stimulus_spikes = spike_counts[:, 25:50]
+mean_stimulus = stimulus_spikes.mean()
+std_stimulus = stimulus_spikes.std()
+
+response_per_neuron = stimulus_spikes.mean(axis=1)
+top_10_percent_threshold = np.percentile(response_per_neuron, 90)
+top_10_percent = response_per_neuron > top_10_percent_threshold
+
+assert mean_stimulus > mean_baseline, "Stimulus should increase firing"
+assert top_10_percent.sum() >= 9 and top_10_percent.sum() <= 11, "Top 10% should be ~10 neurons"
+print("✅ Ensemble statistics computed! +25 XP")
+`,
+              hints: [
+                ".mean() computes mean across all elements. Use axis=0 or axis=1 to compute per-row or per-column",
+                "np.percentile(data, 90) finds the 90th percentile — the value where 90% of data falls below",
+                ".std() computes standard deviation. np.var() computes variance (std squared)",
+              ],
+              xpReward: 25,
+            },
+          },
+        ],
+      },
+
+      // ── Quest 1.11 — Integration ───────────────────────────
+      {
+        id: "w1q11",
+        worldId: "world1",
+        number: 11,
+        title: "Simulation: Integration & Time Steps",
+        description: "Turn equations into code — Euler's method",
+        totalXP: 50,
+        lessons: [
+          {
+            id: "w1q11l1",
+            questId: "w1q11",
+            worldId: "world1",
+            title: "From Equations to Code",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 4,
+            concept: [
+              {
+                type: "text",
+                content: "Neuroscience talks in differential equations. Calculus textbooks are full of them. But you can't run calculus on a computer — calculus is continuous, computers work with discrete time steps.\n\nSo how do you simulate a neuron? You approximate. You take tiny time steps (dt = 0.001 seconds) and update the voltage in small chunks.",
+              },
+              {
+                type: "code",
+                content: "# Differential equation (continuous time):\n# dV/dt = (-(V - V_rest) + R*I) / tau_m\n#\n# This says: the voltage changes at a rate proportional to the difference between current and rest potential.\n\n# Approximation (discrete time, Euler method):\n# V_new = V_old + (dV/dt) * dt\n#\n# In code:\nfor t in range(1000):  # loop over time\n    # Compute the rate of change\n    dV_dt = (-(V[t] - V_rest) + R * I[t]) / tau_m\n    \n    # Take one small step\n    V[t+1] = V[t] + dV_dt * dt\n    \n    # If crossed threshold, record spike and reset\n    if V[t+1] > threshold:\n        spikes.append(t+1)\n        V[t+1] = V_rest",
+                caption: "This is the skeleton of EVERY neuron simulation in NMA. You'll write variations of this hundreds of times.",
+              },
+              {
+                type: "text",
+                content: "**Why Euler's method?**\n\nIt's the simplest: V_new = V_old + slope * dt. You step forward in time, updating based on the current slope. Smaller dt = more accurate. Typical choice: dt = 0.0001 to 0.001 seconds.",
+              },
+              {
+                type: "highlight",
+                content: "NMA fact: Week 2-3 is all about this. You'll implement LIF, Hodgkin-Huxley, and other models. All of them use Euler's method or a variant.",
+              },
+            ],
+          },
+          {
+            id: "w1q11l2",
+            questId: "w1q11",
+            worldId: "world1",
+            title: "Time Steps and Stability",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 3,
+            concept: [
+              {
+                type: "text",
+                content: "How small should dt be?\n\nToo large (dt = 1): you overshoot and miss dynamics\nToo small (dt = 0.00001): you're wasting computation for no extra accuracy\n\nRule of thumb: dt << tau (the neuron's time constant). For a neuron with tau_m = 10 ms, use dt ≤ 1 ms.",
+              },
+              {
+                type: "code",
+                content: "import numpy as np\nimport matplotlib.pyplot as plt\n\n# Simple exponential decay: dV/dt = -V / tau\nV_rest = 0\ntau = 10  # ms\nV_init = 1\n\n# Test different time steps\nfor dt in [0.1, 1, 5]:  # too big, good, too big\n    t_max = 50\n    t = np.arange(0, t_max, dt)\n    V = np.zeros_like(t)\n    V[0] = V_init\n    \n    for i in range(len(t)-1):\n        dV_dt = -V[i] / tau\n        V[i+1] = V[i] + dV_dt * dt\n    \n    # Plot\n    plt.plot(t, V, 'o-', label=f'dt={dt}', markersize=3)\n\n# Analytical solution (true answer)\nt_exact = np.linspace(0, 50, 1000)\nV_exact = V_init * np.exp(-t_exact / tau)\nplt.plot(t_exact, V_exact, 'k--', linewidth=2, label='Analytical')\n\nplt.legend()\nplt.xlabel('Time (ms)')\nplt.ylabel('Voltage (mV)')\nplt.title('Euler Method: Effect of Time Step Size')\nplt.show()",
+                caption: "Smaller dt follows the true curve more closely. But dt=1 ms is usually good enough for neuron models.",
+              },
+            ],
+          },
+          {
+            id: "w1q11l3",
+            questId: "w1q11",
+            worldId: "world1",
+            title: "Coding Mission: Simulate a Time-Varying Input",
+            type: "coding",
+            deviceRequired: "laptop",
+            xpReward: 25,
+            estimatedMinutes: 15,
+            codingMission: {
+              id: "cm-w1q11",
+              title: "Simulate Neuron Response to Changing Input",
+              description:
+                "Implement Euler's method for the leaky neuron equation:\nτ dV/dt = -(V - V_rest) + R·I(t)\n\nWhere I(t) changes over time — ramps up at t=50ms, ramps down at t=500ms.\nPlot voltage and input current over time.",
+              starterCode: `import numpy as np\nimport matplotlib.pyplot as plt\n\n# Parameters\ntau = 10        # membrane time constant (ms)\nV_rest = -70    # resting potential (mV)\nR = 10          # resistance (MOhm)\nthreshold = -55 # spike threshold (mV)\ndt = 0.1        # time step (ms)\n\nt_max = 1000    # simulate 1 second\nt = np.arange(0, t_max, dt)\nn_steps = len(t)\n\n# Initialize\nV = np.zeros(n_steps)\nV[0] = V_rest\nspike_times = []\n\n# Time-varying input current\nI = np.zeros(n_steps)\n# Ramp up from t=50 to t=100\nramp_up = np.where((t >= 50) & (t < 100))[0]\nI[ramp_up] = 2 * (t[ramp_up] - 50) / 50  # goes from 0 to 2 nA\n# Plateau from t=100 to t=500\nI[(t >= 100) & (t < 500)] = 2\n# Ramp down from t=500 to t=550  \nramp_down = np.where((t >= 500) & (t < 550))[0]\nI[ramp_down] = 2 * (1 - (t[ramp_down] - 500) / 50)  # goes from 2 to 0\n\n# TODO: Implement Euler's method\nfor i in range(n_steps - 1):\n    # Compute dV/dt\n    dV_dt = (-(V[i] - V_rest) + R * I[i]) / tau\n    \n    # TODO: Update voltage using Euler's method\n    V[i+1] = ???\n    \n    # TODO: Detect spikes (crossing threshold) and reset\n    if V[i+1] > threshold:\n        spikes.append(t[i+1])\n        V[i+1] = V_rest\n\n# Plot results\nfig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 6))\n\nax1.plot(t, V)\nax1.axhline(y=threshold, color='r', linestyle='--', label='Threshold')\nax1.set_ylabel('Voltage (mV)')\nax1.set_title('Neuron Response to Time-Varying Input')\nax1.legend()\nax1.grid(True, alpha=0.3)\n\nax2.plot(t, I, color='green')\nax2.set_xlabel('Time (ms)')\nax2.set_ylabel('Input Current (nA)')\nax2.set_title('Input Current Profile')\nax2.grid(True, alpha=0.3)\n\nplt.tight_layout()\nplt.show()\n\nprint(f'Neuron fired {len(spike_times)} spikes')`,
+              solution: `import numpy as np\nimport matplotlib.pyplot as plt\n\ntau = 10\nV_rest = -70\nR = 10\nthreshold = -55\ndt = 0.1\n\nt_max = 1000\nt = np.arange(0, t_max, dt)\nn_steps = len(t)\n\nV = np.zeros(n_steps)\nV[0] = V_rest\nspike_times = []\n\nI = np.zeros(n_steps)\nramp_up = np.where((t >= 50) & (t < 100))[0]\nI[ramp_up] = 2 * (t[ramp_up] - 50) / 50\nI[(t >= 100) & (t < 500)] = 2\nramp_down = np.where((t >= 500) & (t < 550))[0]\nI[ramp_down] = 2 * (1 - (t[ramp_down] - 500) / 50)\n\nfor i in range(n_steps - 1):\n    dV_dt = (-(V[i] - V_rest) + R * I[i]) / tau\n    V[i+1] = V[i] + dV_dt * dt\n    \n    if V[i+1] > threshold:\n        spike_times.append(t[i+1])\n        V[i+1] = V_rest\n\nfig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 6))\nax1.plot(t, V)\nax1.axhline(y=threshold, color='r', linestyle='--', label='Threshold')\nax1.set_ylabel('Voltage (mV)')\nax1.set_title('Neuron Response to Time-Varying Input')\nax1.legend()\nax1.grid(True, alpha=0.3)\n\nax2.plot(t, I, color='green')\nax2.set_xlabel('Time (ms)')\nax2.set_ylabel('Input Current (nA)')\nax2.set_title('Input Current Profile')\nax2.grid(True, alpha=0.3)\n\nplt.tight_layout()\nplt.show()\n\nprint(f'Neuron fired {len(spike_times)} spikes')`,
+              testCode: `
+import numpy as np
+
+tau = 10
+V_rest = -70
+R = 10
+threshold = -55
+dt = 0.1
+
+t_max = 1000
+t = np.arange(0, t_max, dt)
+n_steps = len(t)
+
+V = np.zeros(n_steps)
+V[0] = V_rest
+spike_times = []
+
+I = np.zeros(n_steps)
+ramp_up = np.where((t >= 50) & (t < 100))[0]
+I[ramp_up] = 2 * (t[ramp_up] - 50) / 50
+I[(t >= 100) & (t < 500)] = 2
+ramp_down = np.where((t >= 500) & (t < 550))[0]
+I[ramp_down] = 2 * (1 - (t[ramp_down] - 500) / 50)
+
+for i in range(n_steps - 1):
+    dV_dt = (-(V[i] - V_rest) + R * I[i]) / tau
+    V[i+1] = V[i] + dV_dt * dt
+    if V[i+1] > threshold:
+        spike_times.append(t[i+1])
+        V[i+1] = V_rest
+
+assert len(spike_times) > 0, "Neuron should fire when current is applied"
+assert V.max() < 50, "Voltage should not go to infinity"
+assert len(V) == n_steps, "Simulation should complete all timesteps"
+print(f"✅ Simulation complete: {len(spike_times)} spikes fired! +25 XP")
+`,
+              hints: [
+                "V[i+1] = V[i] + dV_dt * dt is Euler's method: new = old + slope * step",
+                "Spike detection: if V > threshold, record time and reset V to V_rest",
+                "Time-varying input I(t) is already computed for you — just use it in dV/dt",
+              ],
+              xpReward: 25,
+            },
+          },
+        ],
+      },
+
+      // ── Quest 1.12 — Random Numbers ───────────────────────
+      {
+        id: "w1q12",
+        worldId: "world1",
+        number: 12,
+        title: "Stochasticity: Random Inputs & Noise",
+        description: "The brain is noisy — and that's a feature",
+        totalXP: 45,
+        lessons: [
+          {
+            id: "w1q12l1",
+            questId: "w1q12",
+            worldId: "world1",
+            title: "Noise Is Real",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 4,
+            concept: [
+              {
+                type: "text",
+                content: "The brain is not a deterministic machine. When a neuron receives the same input stimulus twice, it doesn't fire the exact same spikes. There's randomness from synaptic noise, stochastic channel opening/closing, and random thermal fluctuations.\n\nHow do you model this in code? With random numbers.",
+              },
+              {
+                type: "text",
+                content: "**Why neuroscientists care:**\n\nIgnoring noise = building unrealistic models. Real neurons are probabilistic. A neuron with mean firing rate 50 Hz doesn't fire at exactly 50 Hz every second — it fires ~50, or 48, or 52. The exact number is random, following a Poisson distribution.",
+              },
+              {
+                type: "code",
+                content: "import numpy as np\nimport matplotlib.pyplot as plt\n\n# Generate random spike counts (Poisson distribution)\n# Poisson with lambda=50 Hz\nspike_counts = np.random.poisson(lam=50, size=1000)  # 1000 trials\n\nplt.hist(spike_counts, bins=30, edgecolor='black', alpha=0.7)\nplt.axvline(x=spike_counts.mean(), color='r', linewidth=2, label=f'Mean = {spike_counts.mean():.1f}')\nplt.xlabel('Spikes per second')\nplt.ylabel('Count across 1000 trials')\nplt.title('Random Spike Counts Follow Poisson Distribution')\nplt.legend()\nplt.show()\n\nprint(f'Mean: {spike_counts.mean():.1f}')\nprint(f'Std Dev: {spike_counts.std():.1f}')",
+                caption: "Poisson(λ) models event counts when events arrive independently at rate λ. For spike trains, λ = firing rate.",
+              },
+            ],
+          },
+          {
+            id: "w1q12l2",
+            questId: "w1q12",
+            worldId: "world1",
+            title: "Common Distributions in Neuroscience",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 3,
+            concept: [
+              {
+                type: "text",
+                content: "NumPy has a whole module of random number generators. The most common in neuroscience:",
+              },
+              {
+                type: "code",
+                content: "import numpy as np\n\n# Poisson: discrete spike counts\nspikes = np.random.poisson(lam=20, size=100)  # 100 samples from Poisson(20)\n\n# Normal (Gaussian): continuous values (voltages, currents, signals)\nvoltage_noise = np.random.normal(loc=-70, scale=5, size=100)  # mean -70, std 5\n\n# Uniform: random values in a range\ninput_currents = np.random.uniform(low=0, high=2, size=100)  # random current 0-2 nA\n\n# Exponential: intervals between events (waiting times until next spike)\ninter_spike_intervals = np.random.exponential(scale=50, size=100)  # mean 50 ms\n\nprint(f'Poisson mean: {spikes.mean()}')\nprint(f'Normal mean: {voltage_noise.mean():.1f}, std: {voltage_noise.std():.1f}')\nprint(f'Uniform mean: {input_currents.mean():.1f} (should be 1.0)')",
+                caption: "These are the four distributions you'll see constantly in NMA.",
+              },
+              {
+                type: "highlight",
+                content: "Always check: np.random.seed(42) at the start if you want reproducible randomness. With the same seed, you get the same 'random' numbers every time.",
+              },
+            ],
+          },
+          {
+            id: "w1q12l3",
+            questId: "w1q12",
+            worldId: "world1",
+            title: "Coding Mission: Stochastic Neuron Simulation",
+            type: "coding",
+            deviceRequired: "laptop",
+            xpReward: 25,
+            estimatedMinutes: 15,
+            codingMission: {
+              id: "cm-w1q12",
+              title: "Add Noise to Neural Simulation",
+              description:
+                "Take the deterministic LIF neuron and add two sources of noise:\n1. Gaussian noise in the input current\n2. Stochastic reset (occasional failed spikes)\nRun 10 trials and compare spike reliability.",
+              starterCode: `import numpy as np\nimport matplotlib.pyplot as plt\n\nnp.random.seed(42)\n\n# Parameters\ntau = 10\nV_rest = -70\nR = 10\nthreshold = -55\ndt = 0.1\nI_mean = 1.5  # input current (nA)\n\nt_max = 1000\nt = np.arange(0, t_max, dt)\nn_steps = len(t)\n\n# Run 10 trials with different random inputs\nall_spikes = []\nfig, axes = plt.subplots(2, 5, figsize=(15, 6))\naxes = axes.flatten()\n\nfor trial in range(10):\n    # Initialize\n    V = np.zeros(n_steps)\n    V[0] = V_rest\n    spikes = []\n    \n    for i in range(n_steps - 1):\n        # TODO: Add Gaussian noise to input (mean=0, std=0.2)\n        noise = ???\n        I = I_mean + noise\n        \n        # Compute and update\n        dV_dt = (-(V[i] - V_rest) + R * I) / tau\n        V[i+1] = V[i] + dV_dt * dt\n        \n        # Spike detection\n        if V[i+1] > threshold:\n            spikes.append(t[i+1])\n            V[i+1] = V_rest\n    \n    all_spikes.append(spikes)\n    \n    # Plot\n    axes[trial].plot(t, V, linewidth=0.5)\n    axes[trial].axhline(y=threshold, color='r', linestyle='--', alpha=0.5)\n    axes[trial].set_title(f'Trial {trial+1}: {len(spikes)} spikes')\n    axes[trial].set_xlim([0, 1000])\n    axes[trial].set_ylim([-80, 20])\n\nplt.tight_layout()\nplt.show()\n\n# Compute spike reliability\nspike_counts = np.array([len(s) for s in all_spikes])\nprint(f'Spike counts: {spike_counts}')\nprint(f'Mean: {spike_counts.mean():.1f}, Std: {spike_counts.std():.1f}')`,
+              solution: `import numpy as np\nimport matplotlib.pyplot as plt\n\nnp.random.seed(42)\n\ntau = 10\nV_rest = -70\nR = 10\nthreshold = -55\ndt = 0.1\nI_mean = 1.5\n\nt_max = 1000\nt = np.arange(0, t_max, dt)\nn_steps = len(t)\n\nall_spikes = []\nfig, axes = plt.subplots(2, 5, figsize=(15, 6))\naxes = axes.flatten()\n\nfor trial in range(10):\n    V = np.zeros(n_steps)\n    V[0] = V_rest\n    spikes = []\n    \n    for i in range(n_steps - 1):\n        noise = np.random.normal(loc=0, scale=0.2)\n        I = I_mean + noise\n        \n        dV_dt = (-(V[i] - V_rest) + R * I) / tau\n        V[i+1] = V[i] + dV_dt * dt\n        \n        if V[i+1] > threshold:\n            spikes.append(t[i+1])\n            V[i+1] = V_rest\n    \n    all_spikes.append(spikes)\n    axes[trial].plot(t, V, linewidth=0.5)\n    axes[trial].axhline(y=threshold, color='r', linestyle='--', alpha=0.5)\n    axes[trial].set_title(f'Trial {trial+1}: {len(spikes)} spikes')\n    axes[trial].set_xlim([0, 1000])\n    axes[trial].set_ylim([-80, 20])\n\nplt.tight_layout()\nplt.show()\n\nspike_counts = np.array([len(s) for s in all_spikes])\nprint(f'Spike counts: {spike_counts}')\nprint(f'Mean: {spike_counts.mean():.1f}, Std: {spike_counts.std():.1f}')`,
+              testCode: `
+import numpy as np
+
+np.random.seed(42)
+
+tau = 10
+V_rest = -70
+R = 10
+threshold = -55
+dt = 0.1
+I_mean = 1.5
+
+t_max = 1000
+t = np.arange(0, t_max, dt)
+n_steps = len(t)
+
+spike_counts_list = []
+
+for trial in range(10):
+    V = np.zeros(n_steps)
+    V[0] = V_rest
+    spikes = []
+
+    for i in range(n_steps - 1):
+        noise = np.random.normal(loc=0, scale=0.2)
+        I = I_mean + noise
+
+        dV_dt = (-(V[i] - V_rest) + R * I) / tau
+        V[i+1] = V[i] + dV_dt * dt
+
+        if V[i+1] > threshold:
+            spikes.append(t[i+1])
+            V[i+1] = V_rest
+
+    spike_counts_list.append(len(spikes))
+
+spike_counts = np.array(spike_counts_list)
+
+# Check that we have variability across trials (noise is working)
+assert spike_counts.std() > 0, "Spike counts should vary across trials"
+# But mean should still be reasonable
+assert 5 < spike_counts.mean() < 50, "Mean spike count should be reasonable"
+
+print(f"✅ Stochastic simulation complete! Mean: {spike_counts.mean():.1f} ± {spike_counts.std():.1f} +25 XP")
+`,
+              hints: [
+                "np.random.normal(loc=0, scale=0.2) generates Gaussian noise",
+                "The noise gets added to the input current: I = I_mean + noise",
+                "Comparing spike counts across trials shows how noise affects reliability",
+              ],
+              xpReward: 25,
+            },
+          },
+        ],
+      },
+
+      // ── Quest 1.13 — LIF Capstone ──────────────────────────
+      {
+        id: "w1q13",
+        worldId: "world1",
+        number: 13,
+        title: "Capstone: Full LIF Neuron Project",
+        description: "Combine everything — build a complete neuron model",
+        totalXP: 50,
+        lessons: [
+          {
+            id: "w1q13l1",
+            questId: "w1q13",
+            worldId: "world1",
+            title: "Capstone: LIF Neuron with Population & Analysis",
+            type: "coding",
+            deviceRequired: "laptop",
+            xpReward: 50,
+            estimatedMinutes: 30,
+            codingMission: {
+              id: "cm-w1q13",
+              title: "Complete LIF Neuron Model: Implementation & Analysis",
+              description:
+                "Implement a full leaky integrate-and-fire neuron model:\n1. Simulate 10 neurons with different properties\n2. Apply time-varying stimulus\n3. Detect and record spikes\n4. Analyze population response with statistics\n5. Create publication-quality plots\n\nThis combines everything from quests 1.1-1.12 into one capstone project.",
+              starterCode: `import numpy as np\nimport matplotlib.pyplot as plt\n\nnp.random.seed(42)\n\n# Neuron parameters (vary slightly per neuron)\nn_neurons = 10\ntau = np.random.normal(10, 1, n_neurons)  # time constant: 9-11 ms\nV_rest = -70 * np.ones(n_neurons)\nR = np.random.normal(10, 1, n_neurons)  # resistance: 9-11 MOhm\nthreshold = -55 * np.ones(n_neurons)\n\n# Simulation parameters\ndt = 0.1  # ms\nt_max = 1000  # ms\nt = np.arange(0, t_max, dt)\nn_steps = len(t)\n\n# Initialize\nV = np.random.normal(-70, 2, (n_neurons, n_steps))  # voltage per neuron per time\nspike_raster = []  # list of spike times per neuron\n\n# Create time-varying stimulus\nI_baseline = 1.0  # nA\nI = I_baseline * np.ones(n_steps)\nI[(t >= 200) & (t < 700)] += np.sin((t[(t >= 200) & (t < 700)] - 200) / 100) * 0.5\n\n# TODO 1: Simulate all neurons\nfor neuron in range(n_neurons):\n    spikes = []\n    for i in range(n_steps - 1):\n        # Add noise\n        noise = np.random.normal(0, 0.1)\n        \n        # Compute dV/dt\n        dV_dt = (-(V[neuron, i] - V_rest[neuron]) + R[neuron] * (I[i] + noise)) / tau[neuron]\n        \n        # Update voltage\n        V[neuron, i+1] = V[neuron, i] + dV_dt * dt\n        \n        # Spike detection\n        if V[neuron, i+1] > threshold[neuron]:\n            spikes.append(t[i+1])\n            V[neuron, i+1] = V_rest[neuron]\n    \n    spike_raster.append(spikes)\n\n# TODO 2: Compute population statistics\nspike_counts = np.array([len(s) for s in spike_raster])\nmean_firing = spike_counts.mean() / (t_max / 1000)  # convert to Hz\nstd_firing = spike_counts.std() / (t_max / 1000)\n\nprint(f'Population firing rate: {mean_firing:.1f} ± {std_firing:.1f} Hz')\nprint(f'Range: {spike_counts.min()}-{spike_counts.max()} spikes')\n\n# TODO 3: Create plots (multi-panel figure)\nfig = plt.figure(figsize=(14, 10))\ngs = fig.add_gridspec(3, 2, hspace=0.3, wspace=0.3)\n\n# Panel 1: Voltage traces (top 3 neurons)\nax1 = fig.add_subplot(gs[0, :])\nfor i in range(3):\n    ax1.plot(t, V[i, :], alpha=0.7, label=f'Neuron {i}')\nax1.axhline(y=-55, color='r', linestyle='--', alpha=0.3, label='Threshold')\nax1.set_ylabel('Voltage (mV)')\nax1.set_title('Sample Neuron Voltage Traces')\nax1.legend(loc='upper right')\nax1.grid(True, alpha=0.2)\n\n# Panel 2: Spike raster\nax2 = fig.add_subplot(gs[1, 0])\nfor neuron in range(n_neurons):\n    for spike_time in spike_raster[neuron]:\n        ax2.vlines(spike_time, neuron - 0.4, neuron + 0.4, colors='black', linewidth=1)\nax2.set_ylabel('Neuron ID')\nax2.set_xlabel('Time (ms)')\nax2.set_title('Spike Raster: Population Firing Pattern')\nax2.set_ylim([-0.5, n_neurons - 0.5])\nax2.set_xlim([0, t_max])\nax2.grid(True, alpha=0.2, axis='x')\n\n# Panel 3: Spike count distribution\nax3 = fig.add_subplot(gs[1, 1])\nax3.bar(range(n_neurons), spike_counts, color='steelblue', edgecolor='black')\nax3.axhline(y=spike_counts.mean(), color='r', linestyle='--', linewidth=2, label=f'Mean = {spike_counts.mean():.1f}')\nax3.set_xlabel('Neuron ID')\nax3.set_ylabel('Spike Count')\nax3.set_title('Variability in Spike Counts')\nax3.legend()\nax3.grid(True, alpha=0.2, axis='y')\n\n# Panel 4: Input stimulus\nax4 = fig.add_subplot(gs[2, 0])\nax4.plot(t, I, color='green', linewidth=1.5)\nax4.fill_between(t, I_baseline, I, alpha=0.3, color='green')\nax4.set_xlabel('Time (ms)')\nax4.set_ylabel('Input Current (nA)')\nax4.set_title('Stimulus Profile')\nax4.grid(True, alpha=0.2)\n\n# Panel 5: Population firing rate over time (PSTH)\nax5 = fig.add_subplot(gs[2, 1])\nbin_size = 50  # ms\nbins = np.arange(0, t_max, bin_size)\npsth = np.zeros(len(bins) - 1)\nfor neuron in range(n_neurons):\n    hist, _ = np.histogram(spike_raster[neuron], bins=bins)\n    psth += hist\npsth = psth / (n_neurons * bin_size / 1000)  # convert to Hz\nbin_centers = (bins[:-1] + bins[1:]) / 2\nax5.bar(bin_centers, psth, width=bin_size * 0.8, edgecolor='black', color='darkorange')\nax5.set_xlabel('Time (ms)')\nax5.set_ylabel('Population Firing Rate (Hz)')\nax5.set_title('Peri-Stimulus Time Histogram (PSTH)')\nax5.grid(True, alpha=0.2, axis='y')\n\nplt.suptitle('LIF Neuron Population: Capstone Project', fontsize=16, fontweight='bold')\nplt.show()\n\nprint('\\n✅ Capstone project complete!')`,
+              solution: `import numpy as np\nimport matplotlib.pyplot as plt\n\nnp.random.seed(42)\n\nn_neurons = 10\ntau = np.random.normal(10, 1, n_neurons)\nV_rest = -70 * np.ones(n_neurons)\nR = np.random.normal(10, 1, n_neurons)\nthreshold = -55 * np.ones(n_neurons)\n\ndt = 0.1\nt_max = 1000\nt = np.arange(0, t_max, dt)\nn_steps = len(t)\n\nV = np.random.normal(-70, 2, (n_neurons, n_steps))\nspike_raster = []\n\nI_baseline = 1.0\nI = I_baseline * np.ones(n_steps)\nI[(t >= 200) & (t < 700)] += np.sin((t[(t >= 200) & (t < 700)] - 200) / 100) * 0.5\n\nfor neuron in range(n_neurons):\n    spikes = []\n    for i in range(n_steps - 1):\n        noise = np.random.normal(0, 0.1)\n        dV_dt = (-(V[neuron, i] - V_rest[neuron]) + R[neuron] * (I[i] + noise)) / tau[neuron]\n        V[neuron, i+1] = V[neuron, i] + dV_dt * dt\n        \n        if V[neuron, i+1] > threshold[neuron]:\n            spikes.append(t[i+1])\n            V[neuron, i+1] = V_rest[neuron]\n    \n    spike_raster.append(spikes)\n\nspike_counts = np.array([len(s) for s in spike_raster])\nmean_firing = spike_counts.mean() / (t_max / 1000)\nstd_firing = spike_counts.std() / (t_max / 1000)\n\nprint(f'Population firing rate: {mean_firing:.1f} ± {std_firing:.1f} Hz')\nprint(f'Range: {spike_counts.min()}-{spike_counts.max()} spikes')\n\nfig = plt.figure(figsize=(14, 10))\ngs = fig.add_gridspec(3, 2, hspace=0.3, wspace=0.3)\n\nax1 = fig.add_subplot(gs[0, :])\nfor i in range(3):\n    ax1.plot(t, V[i, :], alpha=0.7, label=f'Neuron {i}')\nax1.axhline(y=-55, color='r', linestyle='--', alpha=0.3, label='Threshold')\nax1.set_ylabel('Voltage (mV)')\nax1.set_title('Sample Neuron Voltage Traces')\nax1.legend(loc='upper right')\nax1.grid(True, alpha=0.2)\n\nax2 = fig.add_subplot(gs[1, 0])\nfor neuron in range(n_neurons):\n    for spike_time in spike_raster[neuron]:\n        ax2.vlines(spike_time, neuron - 0.4, neuron + 0.4, colors='black', linewidth=1)\nax2.set_ylabel('Neuron ID')\nax2.set_xlabel('Time (ms)')\nax2.set_title('Spike Raster: Population Firing Pattern')\nax2.set_ylim([-0.5, n_neurons - 0.5])\nax2.set_xlim([0, t_max])\nax2.grid(True, alpha=0.2, axis='x')\n\nax3 = fig.add_subplot(gs[1, 1])\nax3.bar(range(n_neurons), spike_counts, color='steelblue', edgecolor='black')\nax3.axhline(y=spike_counts.mean(), color='r', linestyle='--', linewidth=2, label=f'Mean = {spike_counts.mean():.1f}')\nax3.set_xlabel('Neuron ID')\nax3.set_ylabel('Spike Count')\nax3.set_title('Variability in Spike Counts')\nax3.legend()\nax3.grid(True, alpha=0.2, axis='y')\n\nax4 = fig.add_subplot(gs[2, 0])\nax4.plot(t, I, color='green', linewidth=1.5)\nax4.fill_between(t, I_baseline, I, alpha=0.3, color='green')\nax4.set_xlabel('Time (ms)')\nax4.set_ylabel('Input Current (nA)')\nax4.set_title('Stimulus Profile')\nax4.grid(True, alpha=0.2)\n\nax5 = fig.add_subplot(gs[2, 1])\nbin_size = 50\nbins = np.arange(0, t_max, bin_size)\npsth = np.zeros(len(bins) - 1)\nfor neuron in range(n_neurons):\n    hist, _ = np.histogram(spike_raster[neuron], bins=bins)\n    psth += hist\npsth = psth / (n_neurons * bin_size / 1000)\nbin_centers = (bins[:-1] + bins[1:]) / 2\nax5.bar(bin_centers, psth, width=bin_size * 0.8, edgecolor='black', color='darkorange')\nax5.set_xlabel('Time (ms)')\nax5.set_ylabel('Population Firing Rate (Hz)')\nax5.set_title('Peri-Stimulus Time Histogram (PSTH)')\nax5.grid(True, alpha=0.2, axis='y')\n\nplt.suptitle('LIF Neuron Population: Capstone Project', fontsize=16, fontweight='bold')\nplt.show()\n\nprint('\\n✅ Capstone project complete!')`,
+              testCode: `
+import numpy as np
+
+np.random.seed(42)
+
+n_neurons = 10
+tau = np.random.normal(10, 1, n_neurons)
+V_rest = -70 * np.ones(n_neurons)
+R = np.random.normal(10, 1, n_neurons)
+threshold = -55 * np.ones(n_neurons)
+
+dt = 0.1
+t_max = 1000
+t = np.arange(0, t_max, dt)
+n_steps = len(t)
+
+V = np.random.normal(-70, 2, (n_neurons, n_steps))
+spike_raster = []
+
+I_baseline = 1.0
+I = I_baseline * np.ones(n_steps)
+I[(t >= 200) & (t < 700)] += np.sin((t[(t >= 200) & (t < 700)] - 200) / 100) * 0.5
+
+for neuron in range(n_neurons):
+    spikes = []
+    for i in range(n_steps - 1):
+        noise = np.random.normal(0, 0.1)
+        dV_dt = (-(V[neuron, i] - V_rest[neuron]) + R[neuron] * (I[i] + noise)) / tau[neuron]
+        V[neuron, i+1] = V[neuron, i] + dV_dt * dt
+
+        if V[neuron, i+1] > threshold[neuron]:
+            spikes.append(t[i+1])
+            V[neuron, i+1] = V_rest[neuron]
+
+    spike_raster.append(spikes)
+
+spike_counts = np.array([len(s) for s in spike_raster])
+
+# Validation checks
+assert len(spike_raster) == n_neurons, "Should have spike data for all neurons"
+assert spike_counts.sum() > 0, "Population should fire at least some spikes"
+assert V.shape == (n_neurons, n_steps), "Voltage array shape should be (neurons, timesteps)"
+
+print(f"✅ Capstone Complete! Population: {len(spike_raster)} neurons, {spike_counts.sum():.0f} total spikes +50 XP")
+`,
+              hints: [
+                "This project combines: 1D/2D arrays, loops, if statements, functions, matplotlib plotting, statistics, random numbers, and integration",
+                "Multi-panel figures use plt.figure() + add_gridspec() for professional layouts",
+                "Spike raster: vertical lines at spike times for each neuron",
+                "PSTH (Peri-Stimulus Time Histogram): bin spike counts across time to see population response",
+              ],
+              xpReward: 50,
+            },
+          },
+        ],
+      },
+
+      // ── Quest 1.14 — Final Boss ────────────────────────────
+      {
+        id: "w1q14",
+        worldId: "world1",
+        number: 14,
+        title: "FINAL BOSS: Master the LIF Neuron",
+        description: "Prove you're NMA-ready with a comprehensive challenge",
+        totalXP: 70,
+        isBoss: true,
+        lessons: [
+          {
+            id: "w1q14l1",
+            questId: "w1q14",
+            worldId: "world1",
+            title: "Boss Battle: Multi-Neuron Decoding Challenge",
+            type: "coding",
+            deviceRequired: "laptop",
+            xpReward: 70,
+            estimatedMinutes: 45,
+            codingMission: {
+              id: "cm-w1q14-boss",
+              title: "FINAL BOSS: Decode Neural Population Activity",
+              description:
+                "Simulate a neural population responding to two stimuli (A and B).\nUse population statistics and boolean indexing to classify:\n• Which stimulus was presented based on spike counts?\n• Can you decode stimulus from neural activity with >70% accuracy?\n\nThis combines everything: LIF simulation, 2D arrays, statistics, random numbers, and analysis.",
+              starterCode: `import numpy as np\nimport matplotlib.pyplot as plt\n\nnp.random.seed(42)\n\n# Simulate neural population: 50 neurons responding to 100 trials of stimulus A or B\nn_neurons = 50\nn_trials = 100\ntau = 10\nV_rest = -70\nR = 10\nthreshold = -55\ndt = 0.1\nt_max = 500  # ms per trial\nt = np.arange(0, t_max, dt)\nn_steps = len(t)\n\n# Stimulus labels (random order)\nstimulus = np.random.choice(['A', 'B'], size=n_trials)\n\n# Store spike counts\nspike_counts = np.zeros((n_trials, n_neurons))\n\nfor trial in range(n_trials):\n    # Set stimulus-dependent input\n    if stimulus[trial] == 'A':\n        I_base = 0.5  # weaker for A\n    else:\n        I_base = 1.5  # stronger for B\n    \n    I = I_base * np.ones(n_steps)\n    \n    # Simulate each neuron\n    for neuron in range(n_neurons):\n        V = V_rest * np.ones(n_steps)\n        spikes = 0\n        \n        for i in range(n_steps - 1):\n            noise = np.random.normal(0, 0.1)\n            dV_dt = (-(V[i] - V_rest) + R * (I[i] + noise)) / tau\n            V[i+1] = V[i] + dV_dt * dt\n            \n            if V[i+1] > threshold:\n                spikes += 1\n                V[i+1] = V_rest\n        \n        spike_counts[trial, neuron] = spikes\n\n# TODO 1: Compute mean spike count per neuron for each stimulus\nA_trials = stimulus == 'A'\nB_trials = stimulus == 'B'\n\nmean_response_A = ???\nmean_response_B = ???\n\nprint(f'Stimulus A response: {mean_response_A.mean():.1f} ± {mean_response_A.std():.1f} spikes')\nprint(f'Stimulus B response: {mean_response_B.mean():.1f} ± {mean_response_B.std():.1f} spikes')\n\n# TODO 2: Find neurons that discriminate between A and B\n# Discriminative neurons: large difference in mean response\ndiscrimination_index = np.abs(mean_response_A - mean_response_B)\ntop_neurons = discrimination_index.argsort()[-10:]  # top 10\n\nprint(f'\\nTop 10 discriminative neurons: {top_neurons}')\n\n# TODO 3: Simple decoder: use population response to predict stimulus\n# Prediction: if total population spikes > threshold, predict B\npopulation_spikes = spike_counts.sum(axis=1)\nthreshold_decode = np.median(population_spikes)\nprediction = population_spikes > threshold_decode\nprediction_label = np.array(['B' if p else 'A' for p in prediction])\n\n# Accuracy\naccuracy = (prediction_label == stimulus).mean()\nprint(f'\\nDecoding accuracy: {accuracy*100:.1f}%')\n\n# TODO 4: Plots\nfig, axes = plt.subplots(2, 2, figsize=(12, 8))\n\n# Panel 1: Mean response per neuron\nax = axes[0, 0]\nax.plot(mean_response_A, label='Stimulus A', alpha=0.7)\nax.plot(mean_response_B, label='Stimulus B', alpha=0.7)\nax.scatter(top_neurons, mean_response_B[top_neurons], color='red', s=100, marker='o', zorder=5, label='Top discriminative')\nax.set_xlabel('Neuron ID')\nax.set_ylabel('Mean Spike Count')\nax.set_title('Population Response to Stimuli')\nax.legend()\nax.grid(True, alpha=0.2)\n\n# Panel 2: Discrimination index\nax = axes[0, 1]\nax.bar(range(n_neurons), discrimination_index, edgecolor='black')\nax.set_xlabel('Neuron ID')\nax.set_ylabel('Discrimination Index')\nax.set_title('Which Neurons Distinguish A from B?')\nax.grid(True, alpha=0.2, axis='y')\n\n# Panel 3: Population response distribution\nax = axes[1, 0]\nA_spikes = population_spikes[A_trials]\nB_spikes = population_spikes[B_trials]\nax.hist(A_spikes, bins=15, alpha=0.6, label='Stimulus A', edgecolor='black')\nax.hist(B_spikes, bins=15, alpha=0.6, label='Stimulus B', edgecolor='black')\nax.axvline(x=threshold_decode, color='r', linestyle='--', linewidth=2, label='Decode threshold')\nax.set_xlabel('Population Spike Count')\nax.set_ylabel('Count')\nax.set_title('Population Activity Distributions')\nax.legend()\nax.grid(True, alpha=0.2, axis='y')\n\n# Panel 4: Confusion matrix\nax = axes[1, 1]\ncorrect_A = (prediction_label == 'A').sum() & (stimulus == 'A').sum()\ncorrect_B = (prediction_label == 'B').sum() & (stimulus == 'B').sum()\nwrong_A_as_B = (prediction_label == 'B').sum() & (stimulus == 'A').sum()\nwrong_B_as_A = (prediction_label == 'A').sum() & (stimulus == 'B').sum()\n\nconfusion = np.array([\n    [(stimulus == 'A').sum() - wrong_B_as_A, wrong_B_as_A],\n    [wrong_A_as_B, (stimulus == 'B').sum() - wrong_A_as_B]\n])\n\nim = ax.imshow(confusion, cmap='Blues', aspect='auto')\nax.set_xticks([0, 1])\nax.set_yticks([0, 1])\nax.set_xticklabels(['Predicted A', 'Predicted B'])\nax.set_yticklabels(['True A', 'True B'])\nax.set_title(f'Decoding Accuracy: {accuracy*100:.1f}%')\n\nfor i in range(2):\n    for j in range(2):\n        ax.text(j, i, str(confusion[i, j]), ha='center', va='center', color='white', fontsize=14, fontweight='bold')\n\nplt.colorbar(im, ax=ax)\nplt.suptitle('FINAL BOSS: Neural Decoding Challenge', fontsize=14, fontweight='bold')\nplt.tight_layout()\nplt.show()\n\nprint('\\n✅ BOSS DEFEATED! You are ready for NMA!')`,
+              solution: `import numpy as np\nimport matplotlib.pyplot as plt\n\nnp.random.seed(42)\n\nn_neurons = 50\nn_trials = 100\ntau = 10\nV_rest = -70\nR = 10\nthreshold = -55\ndt = 0.1\nt_max = 500\nt = np.arange(0, t_max, dt)\nn_steps = len(t)\n\nstimulus = np.random.choice(['A', 'B'], size=n_trials)\nspike_counts = np.zeros((n_trials, n_neurons))\n\nfor trial in range(n_trials):\n    I_base = 0.5 if stimulus[trial] == 'A' else 1.5\n    I = I_base * np.ones(n_steps)\n    \n    for neuron in range(n_neurons):\n        V = V_rest * np.ones(n_steps)\n        spikes = 0\n        \n        for i in range(n_steps - 1):\n            noise = np.random.normal(0, 0.1)\n            dV_dt = (-(V[i] - V_rest) + R * (I[i] + noise)) / tau\n            V[i+1] = V[i] + dV_dt * dt\n            \n            if V[i+1] > threshold:\n                spikes += 1\n                V[i+1] = V_rest\n        \n        spike_counts[trial, neuron] = spikes\n\nA_trials = stimulus == 'A'\nB_trials = stimulus == 'B'\n\nmean_response_A = spike_counts[A_trials, :].mean(axis=0)\nmean_response_B = spike_counts[B_trials, :].mean(axis=0)\n\nprint(f'Stimulus A response: {mean_response_A.mean():.1f} ± {mean_response_A.std():.1f} spikes')\nprint(f'Stimulus B response: {mean_response_B.mean():.1f} ± {mean_response_B.std():.1f} spikes')\n\ndiscrimination_index = np.abs(mean_response_A - mean_response_B)\ntop_neurons = discrimination_index.argsort()[-10:]\n\nprint(f'\\nTop 10 discriminative neurons: {top_neurons}')\n\npopulation_spikes = spike_counts.sum(axis=1)\nthreshold_decode = np.median(population_spikes)\nprediction = population_spikes > threshold_decode\nprediction_label = np.array(['B' if p else 'A' for p in prediction])\n\naccuracy = (prediction_label == stimulus).mean()\nprint(f'\\nDecoding accuracy: {accuracy*100:.1f}%')\n\nfig, axes = plt.subplots(2, 2, figsize=(12, 8))\n\nax = axes[0, 0]\nax.plot(mean_response_A, label='Stimulus A', alpha=0.7)\nax.plot(mean_response_B, label='Stimulus B', alpha=0.7)\nax.scatter(top_neurons, mean_response_B[top_neurons], color='red', s=100, marker='o', zorder=5, label='Top discriminative')\nax.set_xlabel('Neuron ID')\nax.set_ylabel('Mean Spike Count')\nax.set_title('Population Response to Stimuli')\nax.legend()\nax.grid(True, alpha=0.2)\n\nax = axes[0, 1]\nax.bar(range(n_neurons), discrimination_index, edgecolor='black')\nax.set_xlabel('Neuron ID')\nax.set_ylabel('Discrimination Index')\nax.set_title('Which Neurons Distinguish A from B?')\nax.grid(True, alpha=0.2, axis='y')\n\nax = axes[1, 0]\nA_spikes = population_spikes[A_trials]\nB_spikes = population_spikes[B_trials]\nax.hist(A_spikes, bins=15, alpha=0.6, label='Stimulus A', edgecolor='black')\nax.hist(B_spikes, bins=15, alpha=0.6, label='Stimulus B', edgecolor='black')\nax.axvline(x=threshold_decode, color='r', linestyle='--', linewidth=2, label='Decode threshold')\nax.set_xlabel('Population Spike Count')\nax.set_ylabel('Count')\nax.set_title('Population Activity Distributions')\nax.legend()\nax.grid(True, alpha=0.2, axis='y')\n\nax = axes[1, 1]\nconf_a_correct = ((prediction_label == 'A') & (stimulus == 'A')).sum()\nconf_b_correct = ((prediction_label == 'B') & (stimulus == 'B')).sum()\nconf_a_as_b = ((prediction_label == 'B') & (stimulus == 'A')).sum()\nconf_b_as_a = ((prediction_label == 'A') & (stimulus == 'B')).sum()\n\nconfusion = np.array([[conf_a_correct, conf_a_as_b], [conf_b_as_a, conf_b_correct]])\nim = ax.imshow(confusion, cmap='Blues', aspect='auto')\nax.set_xticks([0, 1])\nax.set_yticks([0, 1])\nax.set_xticklabels(['Predicted A', 'Predicted B'])\nax.set_yticklabels(['True A', 'True B'])\nax.set_title(f'Decoding Accuracy: {accuracy*100:.1f}%')\n\nfor i in range(2):\n    for j in range(2):\n        ax.text(j, i, str(confusion[i, j]), ha='center', va='center', color='white', fontsize=14, fontweight='bold')\n\nplt.colorbar(im, ax=ax)\nplt.suptitle('FINAL BOSS: Neural Decoding Challenge', fontsize=14, fontweight='bold')\nplt.tight_layout()\nplt.show()\n\nprint('\\n✅ BOSS DEFEATED! You are ready for NMA!')`,
+              testCode: `
+import numpy as np
+
+np.random.seed(42)
+
+n_neurons = 50
+n_trials = 100
+tau = 10
+V_rest = -70
+R = 10
+threshold = -55
+dt = 0.1
+t_max = 500
+t = np.arange(0, t_max, dt)
+n_steps = len(t)
+
+stimulus = np.random.choice(['A', 'B'], size=n_trials)
+spike_counts = np.zeros((n_trials, n_neurons))
+
+for trial in range(n_trials):
+    I_base = 0.5 if stimulus[trial] == 'A' else 1.5
+    I = I_base * np.ones(n_steps)
+
+    for neuron in range(n_neurons):
+        V = V_rest * np.ones(n_steps)
+        spikes = 0
+
+        for i in range(n_steps - 1):
+            noise = np.random.normal(0, 0.1)
+            dV_dt = (-(V[i] - V_rest) + R * (I[i] + noise)) / tau
+            V[i+1] = V[i] + dV_dt * dt
+
+            if V[i+1] > threshold:
+                spikes += 1
+                V[i+1] = V_rest
+
+        spike_counts[trial, neuron] = spikes
+
+A_trials = stimulus == 'A'
+B_trials = stimulus == 'B'
+mean_response_A = spike_counts[A_trials, :].mean(axis=0)
+mean_response_B = spike_counts[B_trials, :].mean(axis=0)
+
+population_spikes = spike_counts.sum(axis=1)
+threshold_decode = np.median(population_spikes)
+prediction = population_spikes > threshold_decode
+prediction_label = np.array(['B' if p else 'A' for p in prediction])
+
+accuracy = (prediction_label == stimulus).mean()
+
+# Validation
+assert accuracy > 0.5, "Decoder should do better than random (>50%)"
+assert population_spikes.sum() > 0, "Population should fire"
+assert spike_counts.shape == (n_trials, n_neurons), "Data shape should be (trials, neurons)"
+
+print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 XP")
+`,
+              hints: [
+                "Boolean indexing: A_trials = (stimulus == 'A') to get indices of A trials",
+                "Mean per stimulus: spike_counts[A_trials, :].mean(axis=0) for mean per neuron",
+                "Population decoder: sum spikes across neurons, compare to threshold",
+                "Confusion matrix: rows=truth, columns=prediction. Diagonal = correct.",
+              ],
+              xpReward: 70,
+            },
+          },
+        ],
+      },
     ],
   },
 

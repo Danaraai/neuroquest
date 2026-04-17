@@ -281,21 +281,44 @@ Each world has:
 
 ### World 1: Python Village (Week 1, Days 1–7)
 
-**Goal**: Write Python confidently. Run a script. Understand numpy arrays.
+**Goal**: Complete Python & neuroscience fundamentals. 14 quests covering NMA prerequisites comprehensively.
 
-| Quest | Topic | Type | Device |
-|-------|-------|------|--------|
-| 1.1 | What is Python? Variables & types | Concept + MCQ | Phone |
-| 1.2 | Numbers, strings, booleans | Flashcards + MCQ | Phone |
-| 1.3 | Lists and indexing | Drag-and-drop + MCQ | Phone |
-| 1.4 | Dictionaries | MCQ + fill-in | Phone |
-| 1.5 | If/else and logic | Concept + MCQ | Phone |
-| 1.6 | For loops | Concept + MCQ | Phone |
-| 1.7 | Functions | MCQ + coding | Phone + Laptop |
-| 1.8 | Coding Mission: Your First Neuron | Full coding | Laptop only |
-| 1.9 | BOSS: Debug the Broken Neuron | Mixed quiz | Phone + Laptop |
+| Quest | Topic | Type | Device | Topics Covered |
+|-------|-------|------|--------|---|
+| 1.1 | What is Python? Variables & types | Concept + MCQ | Phone | Variables, assignment, types |
+| 1.2 | Numbers, strings, booleans | Flashcards + MCQ | Phone | int, float, str, bool, operators |
+| 1.3 | Lists and indexing | Concept + MCQ | Phone | Lists, indexing, slicing, append |
+| 1.4 | For Loops & If Statements | Concept + MCQ + fill-in + coding | Phone/Laptop | F-strings, loops, conditionals, range() |
+| 1.5 | Functions | Concept + MCQ + coding | Phone/Laptop | def, parameters, return, docstrings |
+| 1.6 | NumPy: Fast Arrays | Concept + MCQ | Phone | import, arrays, broadcasting, boolean indexing |
+| 1.7 | BOSS: Debug the Broken Neuron | Mixed MCQ | Phone | Syntax errors, logic bugs, indexing |
+| **1.8** | **Matplotlib & Visualization** | **Concept + coding** | **Laptop** | **plot(), scatter(), labels, multi-panel figures** |
+| **1.9** | **2D Arrays & Populations** | **Concept + MCQ + coding** | **Laptop** | **2D indexing, axis operations, population data** |
+| **1.10** | **Statistics & Ensemble** | **Concept + coding** | **Laptop** | **mean(), std(), var(), np.percentile(), distributions** |
+| **1.11** | **Integration & Time Steps** | **Concept + coding** | **Laptop** | **Euler method, dV/dt, discrete simulation, dt stability** |
+| **1.12** | **Stochasticity & Noise** | **Concept + coding** | **Laptop** | **np.random, Poisson, Normal, Uniform, Exponential** |
+| **1.13** | **LIF Capstone Project** | **Full coding mission** | **Laptop** | **Complete neuron + population + visualization** |
+| **1.14** | **FINAL BOSS: Decoding Challenge** | **Full coding mission** | **Laptop** | **Population simulation, statistics, classification** |
 
-**Coding Mission 1.8**: Write a function `membrane_potential(input_current)` that returns a value. Runs in Pyodide. Introduces the biological metaphor early.
+**Total Quests**: 14 (vs 7 previously) | **Total XP**: 545 | **Estimated Time**: 7-10 hours
+
+**New in Expansion (Quests 1.8-1.14)**:
+- Matplotlib visualization (publication-quality plots, multi-panel figures, spike rasters)
+- 2D arrays for population data (indexing, axis operations, broadcasting)
+- Population statistics (ensemble methods, PSTH, confidence intervals)
+- Numerical integration (Euler's method, time step selection, stability)
+- Stochasticity (Poisson spiking, Gaussian noise, random input)
+- Complete LIF neuron with 10 neurons, time-varying stimulus, and analysis
+- Final boss: Stimulus decoding from population activity (>70% accuracy challenge)
+
+**Why This Expansion**: Covers 100% of NMA W0 computational prerequisites:
+- ✅ Python fundamentals (1.1-1.6)
+- ✅ Debugging & problem-solving (1.7)
+- ✅ Scientific visualization (1.8)
+- ✅ Population neuroscience (1.9-1.10)
+- ✅ Numerical methods (1.11)
+- ✅ Stochasticity (1.12)
+- ✅ Full integration project (1.13-1.14)
 
 ### World 2: Math Mountains (Week 2, Days 8–14)
 
