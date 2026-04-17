@@ -69,7 +69,9 @@ export function MCQCard({ question, onAnswer, onContinue }: MCQCardProps) {
                 >
                   {optionState === "correct" ? "✓" : optionState === "wrong" ? "✗" : OPTION_LABELS[i]}
                 </span>
-                <span className="flex-1 text-sm leading-snug">{option}</span>
+                <pre className="flex-1 text-sm leading-snug whitespace-pre-wrap break-words bg-[#252640] rounded-lg p-3 font-mono text-[#AFAFAF]">
+                  {option}
+                </pre>
               </button>
             );
           })}
