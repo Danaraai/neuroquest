@@ -864,8 +864,8 @@ print("✅ All tests passed! +25 XP")
               },
               {
                 type: "code",
-                content: "import numpy as np\n\nV = np.array([-70.0, -68.5, -55.0, 20.0, -70.0])  # voltages\n\n# Math applies to EVERY element:\nV + 10         # [-60.  -58.5  -45.   30.  -60. ]\nV * 2          # [-140.  -137.  -110.   40.  -140.]\n\n# Statistics:\nnp.mean(V)     # mean voltage\nnp.std(V)      # standard deviation\nnp.max(V)      # peak voltage (spike!)\n\n# Boolean indexing — find spikes:\nspike_mask = V > -55    # [False False False True False]\nspike_V = V[spike_mask] # [20.0]",
-                caption: "Boolean indexing (V > -55) is used constantly in NMA for finding spikes.",
+                content: "import numpy as np\n\nV = np.array([-70.0, -68.5, -55.0, 20.0, -70.0])  # voltages\n\n# Math applies to EVERY element:\nV + 10         # [-60.  -58.5  -45.   30.  -60. ]\nV * 2          # [-140.  -137.  -110.   40.  -140.]\n\n# Statistics:\nnp.mean(V)     # mean voltage\nnp.std(V)      # standard deviation\nnp.max(V)      # peak voltage (spike!)\n\n# Boolean indexing — find spikes:\nspike_mask = V > -55              # [False False False True False]\n                                  # Check each voltage: above threshold?\nspike_V = V[spike_mask]           # [20.0]\n                                  # Give me only the voltages where mask is True",
+                caption: "Boolean indexing is a filter. V[spike_mask] means: 'Extract only the elements where spike_mask is True'. This is how you find spikes in NMA — it's used constantly.",
               },
               {
                 type: "highlight",
