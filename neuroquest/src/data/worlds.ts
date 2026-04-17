@@ -691,8 +691,8 @@ export const WORLDS: World[] = [
               },
               {
                 type: "code",
-                content: "def lif_neuron(I, R=10, V_rest=-70, threshold=-55):\n    \"\"\"Leaky integrate-and-fire neuron model.\n    \n    Parameters:\n        I: input current\n        R: resistance (default 10)\n        V_rest: resting voltage (default -70)\n        threshold: spike threshold (default -55)\n    \n    Returns:\n        True if neuron fires, False otherwise\n    \"\"\"\n    V = V_rest + I * R\n    return V > threshold",
-                caption: "The docstring (inside triple quotes) explains what the function does. NMA code has docstrings everywhere — they're essential documentation.",
+                content: "def lif_neuron(I, R=10, V_rest=-70, threshold=-55):\n    \"\"\"Simple model of a neuron firing.\n    \n    Think of it like this: a neuron sits at rest, gets stimulated by input,\n    and if it gets stimulated enough, it fires a spike.\n    \n    Parameters (inputs you provide):\n        I: input current — how much stimulation the neuron gets (YOU change this)\n        R: resistance — how the neuron's biology responds (preset: 10)\n        V_rest: resting voltage — voltage when neuron is relaxed (preset: -70 mV)\n        threshold: spike threshold — voltage needed to fire (preset: -55 mV)\n    \n    Returns:\n        True if neuron fires (voltage crosses threshold)\n        False if neuron stays quiet (voltage below threshold)\n    \"\"\"\n    # Calculate the neuron's voltage based on input\n    V = V_rest + I * R        # voltage = rest + (stimulation × resistance)\n    \n    # Check: did this voltage cross the threshold?\n    return V > threshold       # Returns True or False (not the voltage itself)",
+                caption: "The docstring explains what the function does in plain English. Only I (input) usually changes — the rest are preset based on the neuron's biology.",
               },
               {
                 type: "highlight",
