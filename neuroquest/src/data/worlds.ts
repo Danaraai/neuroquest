@@ -595,8 +595,8 @@ export const WORLDS: World[] = [
               },
               {
                 type: "code",
-                content: "spike_times = []\n\nfor t in range(1000):       # loop over each ms\n    V = -52                 # (simplified: fixed voltage)\n    threshold = -55\n\n    if V > threshold:       # did the neuron fire?\n        spike_times.append(t)  # yes — record the time\n\nprint(f'Total spikes: {len(spike_times)}')",
-                caption: "len(spike_times) counts how many spikes were recorded. This is the firing rate — a core measurement in neuroscience.",
+                content: "spike_times = []\n\nfor t in range(1000):                      # loop over each ms\n    # Voltage changes based on input stimulus over time\n    if 200 <= t < 700:                      # stimulus arrives from t=200 to t=700\n        V = -50                              # voltage rises when stimulus is present\n    else:\n        V = -65                              # resting voltage\n    \n    threshold = -55\n    \n    if V > threshold:                       # did the neuron fire?\n        spike_times.append(t)                # yes — record the time\n\nprint(f'Total spikes: {len(spike_times)}')",
+                caption: "Now V depends on t! When stimulus is present (t=200–700), voltage rises above threshold and the neuron fires. This is how real neurons work: they respond to input that changes over time.",
               },
               {
                 type: "highlight",
