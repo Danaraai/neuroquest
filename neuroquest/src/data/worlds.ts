@@ -687,11 +687,16 @@ export const WORLDS: World[] = [
               },
               {
                 type: "text",
-                content: "Functions can have **default parameters** — values used if you don't provide them:\n```python\ndef lif_neuron(I, R=10, V_rest=-70, threshold=-55):\n    V = V_rest + I * R\n    return V > threshold  # True if neuron fires\n```",
+                content: "Functions can have **default parameters** — values used if you don't provide them. They also have a **docstring** (triple quotes) that explains what they do:",
+              },
+              {
+                type: "code",
+                content: "def lif_neuron(I, R=10, V_rest=-70, threshold=-55):\n    \"\"\"Leaky integrate-and-fire neuron model.\n    \n    Parameters:\n        I: input current\n        R: resistance (default 10)\n        V_rest: resting voltage (default -70)\n        threshold: spike threshold (default -55)\n    \n    Returns:\n        True if neuron fires, False otherwise\n    \"\"\"\n    V = V_rest + I * R\n    return V > threshold",
+                caption: "The docstring (inside triple quotes) explains what the function does. NMA code has docstrings everywhere — they're essential documentation.",
               },
               {
                 type: "highlight",
-                content: "The three-quote string after def is a 'docstring' — it explains what the function does. NMA code has docstrings everywhere.",
+                content: "Always write a docstring for your functions! It tells other scientists (and future you) what the code does. In NMA notebooks, you'll see this pattern constantly.",
               },
             ],
           },
