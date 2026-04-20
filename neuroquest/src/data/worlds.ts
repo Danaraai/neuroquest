@@ -704,6 +704,81 @@ export const WORLDS: World[] = [
             id: "w1q5l2",
             questId: "w1q5",
             worldId: "world1",
+            title: "Return vs Print: Critical for NMA",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 5,
+            concept: [
+              {
+                type: "highlight",
+                content: "🚨 This is THE most important concept about functions. Getting this wrong will break your neural simulations!",
+              },
+              {
+                type: "heading",
+                content: "Two Types of Functions: Return vs Do Something",
+              },
+              {
+                type: "text",
+                content: "Not every function needs return. It depends on what you want to do with the result.",
+              },
+              {
+                type: "heading",
+                content: "Type 1: Functions that RETURN a value",
+              },
+              {
+                type: "code",
+                content: "def firing_rate(n_spikes, duration):\n    \"\"\"Calculate firing rate in Hz.\"\"\"\n    rate = n_spikes / duration\n    return rate  # ← Gives the value back to use it\n\n# Use the returned value\nmy_rate = firing_rate(42, 1)  # my_rate = 42.0\nprint(f'Rate is {my_rate} Hz')  # Now I can USE it",
+                caption: "Use RETURN when: You need the result to use in your code (like computing voltage, spike rate, etc.)",
+              },
+              {
+                type: "heading",
+                content: "Type 2: Functions that just DO something",
+              },
+              {
+                type: "code",
+                content: "def print_greeting(name):\n    \"\"\"Print a greeting message.\"\"\"\n    print(f\"Hello {name}!\")\n    # No return - just performs an action\n\n# Call it\nprint_greeting('Alice')  # Prints: Hello Alice!\n# But you get nothing back to use",
+                caption: "Use NO RETURN when: The function just needs to print, save, or modify something",
+              },
+              {
+                type: "heading",
+                content: "🧠 Mental Model: Restaurant Analogy",
+              },
+              {
+                type: "highlight",
+                content: "• `print(answer)` = Waiter SHOUTS the answer to the whole restaurant (everyone hears it, but you get nothing)\n• `return answer` = Waiter HANDS YOU the plate (you can keep it and use it)",
+              },
+              {
+                type: "heading",
+                content: "Why This MATTERS for NMA",
+              },
+              {
+                type: "text",
+                content: "In neural simulations, you MUST use return because you're building a chain of computations:",
+              },
+              {
+                type: "text",
+                content: "1. **Compute firing rate** → need to RETURN it → use it in next calculation\n2. **Calculate voltage** → need to RETURN it → use it to check for spikes\n3. **Simulate one time step** → need to RETURN state → use it in next iteration",
+              },
+              {
+                type: "code",
+                content: "# NMA example: LIF Neuron simulation\ndef lif_step(V, I, dt, tau=20, V_rest=-70, R=10):\n    \"\"\"Simulate one time step of a neuron.\n    \n    Must RETURN the new voltage because the next iteration needs it!\n    \"\"\"\n    dV = (-(V - V_rest) + R * I) / tau  # change in voltage\n    V_new = V + dV * dt                  # new voltage\n    return V_new  # ← CRITICAL! Next iteration uses this\n\n# Use it in a loop\nV = -70  # start at rest\nfor t in range(1000):\n    V = lif_step(V, I=2, dt=0.1)  # ← MUST return V for next iteration\n    if V > -55:  # threshold\n        print(f'Spike at t={t}')",
+                caption: "If lif_step didn't return V, the loop would break! Each step needs the previous step's result.",
+              },
+              {
+                type: "heading",
+                content: "Quick Rule of Thumb",
+              },
+              {
+                type: "highlight",
+                content: "❓ **Computing something?** → Use `return`\n❓ **Just doing something?** → Don't need `return`\n\nIf you're building a chain of calculations (like neural simulation), **always return**.",
+              },
+            ],
+          },
+          {
+            id: "w1q5l3",
+            questId: "w1q5",
+            worldId: "world1",
             title: "Quiz: Functions",
             type: "mcq",
             deviceRequired: "any",
@@ -740,7 +815,7 @@ export const WORLDS: World[] = [
             ],
           },
           {
-            id: "w1q5l3",
+            id: "w1q5l4",
             questId: "w1q5",
             worldId: "world1",
             title: "Coding Mission: Your First Neuron",
