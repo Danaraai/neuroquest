@@ -956,7 +956,7 @@ print("✅ All tests passed! +25 XP")
                   "Bug: spike_times should be a numpy array",
                 ],
                 correctIndex: 1,
-                explanation: "The list has 3 items (indices 0, 1, 2). Accessing index 3 causes an IndexError. The last item is spike_times[2] or spike_times[-1].",
+                explanation: "**IndexError — The Off-By-One Mistake**\n\n**Python Counts from 0, Not 1:**\nYour list has 3 spike times:\n```\nspike_times = [10, 25, 42]\n             ↑   ↑   ↑\nindex:       0   1   2\n```\n\nValid indices: 0, 1, 2\nInvalid: 3 (doesn't exist!)\n\n**What Happens:**\n```python\nspike_times[0]  # → 10  ✓\nspike_times[1]  # → 25  ✓\nspike_times[2]  # → 42  ✓\nspike_times[3]  # → IndexError! ✗\n```\n\n**This is called \"off-by-one\" error** — the most common bug beginners make.\n\n**To Get the Last Item:**\n```python\nspike_times[2]   # Explicitly use 2\nspike_times[-1]  # -1 means \"last item\" (clever trick!)\nspike_times[-2]  # -2 means \"second to last\"\n```\n\n**In NMA Code:**\nWhen analyzing spike trains:\n```python\nspikes = [10, 25, 42, 67, 89]\nfirst_spike = spikes[0]   # 10\nlast_spike = spikes[-1]   # 89\n```\nRemember: Python starts at 0, not 1!",
               },
               {
                 id: "w1q7l1q2",
@@ -968,7 +968,7 @@ print("✅ All tests passed! +25 XP")
                   "Prints: None then 0.042",
                 ],
                 correctIndex: 1,
-                explanation: "The function prints the rate but doesn't RETURN it. So result = None. Fix: use 'return rate' instead of 'print(rate)'.",
+                explanation: "**WHY THIS MATTERS — A Critical Difference**\n\n**Mental Model (Restaurant Analogy):**\nThink of a function like a waiter at a restaurant.\n• `print(rate)` = waiter SHOUTS the answer to the whole restaurant (everyone hears it, but the waiter doesn't give you anything)\n• `return rate` = waiter HANDS YOU the plate (you get to keep it, you can use it)\n\n**What Actually Happens:**\n```\n# Line 1: Function PRINTS 0.042 (displays on screen)\nresult = firing_rate(42, 1000)  # But doesn't give the value to result!\n\n# Line 2: Python prints result, which is None (nothing was handed back)\nprint(result)  # → None\n```\n\n**The Key Insight:**\n`print()` shows something on the screen for HUMANS to see.\n`return` gives something to the CODE to use.\n\nWhen you do `result = firing_rate(...)`, Python needs the function to RETURN a value. If you only print, result gets None (nothing).\n\n**The Fix:**\nChange `print(rate)` to `return rate`\n\nNow:\n```\n# Line 1: Function returns 0.042 (gives it to result)\nresult = firing_rate(42, 1000)  # result = 0.042\n\n# Line 2: Python prints 0.042\nprint(result)  # → 0.042\n```\n\n**In NMA Code:**\nEvery function that computes something should `return` that value, not just print it. When you build neural models, you'll need the computed voltage/firing_rate/etc to use in the next step of simulation.",
               },
               {
                 id: "w1q7l1q3",
@@ -980,7 +980,7 @@ print("✅ All tests passed! +25 XP")
                   "Nothing is wrong",
                 ],
                 correctIndex: 1,
-                explanation: "Python requires a colon (:) at the end of for, if, def, and while statements. Missing it is a SyntaxError.",
+                explanation: "**THE COLON — Python's Way of Saying 'Here Comes a Block'**\n\nThe colon (`:`) tells Python: \"Everything indented after this line is PART OF this for/if/def statement.\"\n\nThink of it like opening a door:\n```\nfor i in range(5):   ← Colon OPENS the block\n    print(i)         ← This code is INSIDE\n    print('hi')      ← This code is INSIDE\nprint('done')        ← No indent = this is OUTSIDE\n```\n\nWithout the colon, Python doesn't know where the block starts!\n\n**Common Syntax Error:**\n```\nfor i in range(5)    ← Missing colon!\n    print(i)         ← SyntaxError!\n```\n\n**In NMA Code:**\nYou'll use `:` constantly with for loops (simulating neurons), if statements (spike detection), and function definitions (implementing models). Get this muscle memory now!",
               },
               {
                 id: "w1q7l1q4",
@@ -992,7 +992,7 @@ print("✅ All tests passed! +25 XP")
                   "Sets V to -55",
                 ],
                 correctIndex: 2,
-                explanation: "= is assignment. == is comparison. 'if V = -55' is a syntax error. Correct: 'if V == -55'.",
+                explanation: "**= vs == — The Most Common Python Mistake**\n\n**Single = (assignment):** Stores a value\n```\nV = -55   # ← Stores -55 into V\n```\n\n**Double == (comparison):** Checks if two values are equal\n```\nif V == -55:   # ← Asks: \"Is V equal to -55?\"\n```\n\n**Mental Model:**\n= is a WORKER: it PUTS something IN\n== is a JUDGE: it ASKS if two things match\n\n**Common Bug:**\n```\nif V = -55:       # WRONG! Syntax error\n  print('hi')\n\nif V == -55:      # CORRECT!\n  print('hi')\n```\n\nPython says: \"You can't USE assignment in an if statement. Use comparison (==) instead!\"\n\n**Why This Matters in NMA:**\nYou'll constantly check: `if V > threshold:` or `if spike_detected == True:`. The == operator is essential for every neural simulation.",
               },
               {
                 id: "w1q7l1q5",
@@ -1004,7 +1004,7 @@ print("✅ All tests passed! +25 XP")
                   "[4, 10, 18]",
                 ],
                 correctIndex: 1,
-                explanation: "NumPy automatically converts the list to an array and adds element-wise. [1+4, 2+5, 3+6] = [5, 7, 9].",
+                explanation: "**NumPy's Superpower — Broadcasting & Element-Wise Operations**\n\n**What Happens:**\nNumPy is smart. It sees:\n- `a` = numpy array [1, 2, 3]\n- `b` = regular list [4, 5, 6]\n\nNumPy says: \"Let me convert that list to an array and add them element-by-element.\"\n\n**The Actual Calculation:**\n```\n[1, 2, 3] + [4, 5, 6]\n    ↓\n[1+4, 2+5, 3+6]\n    ↓\n[5, 7, 9]\n```\n\n**Regular Python vs NumPy:**\n```python\n# Regular Python list\nlist_a = [1, 2, 3]\nlist_b = [4, 5, 6]\nlist_a + list_b  # [1, 2, 3, 4, 5, 6] (concatenates!)\n\n# NumPy array\narr_a = np.array([1, 2, 3])\narr_b = [4, 5, 6]\narr_a + arr_b  # [5, 7, 9] (adds element-wise!)\n```\n\n**Why This Matters in NMA:**\nWhen simulating 100 neurons:\n```python\nV = V + dV_dt * dt  # Adds change to every neuron at once!\n```\nWithout NumPy, you'd need a for loop for each neuron. With NumPy, one line handles all 100!\n\nThis is the CORE reason neuroscience uses NumPy — it's fast and elegant.",
               },
             ],
           },
