@@ -1031,7 +1031,7 @@ print("✅ All tests passed! +25 XP")
                   "Bug: spike_times should be a numpy array",
                 ],
                 correctIndex: 1,
-                explanation: "📍 PYTHON COUNTS FROM 0!\n\nYour list: [10, 25, 42]\nIndices:     0   1   2\n\nspike_times[0]  → 10 ✓\nspike_times[1]  → 25 ✓\nspike_times[2]  → 42 ✓\nspike_times[3]  → ERROR! Doesn't exist\n\n━━━ WHY INDEXERROR? ━━━\nYou have 3 items (indices 0, 1, 2).\nThere is NO index 3.\n\n━━━ TRICK FOR LAST ITEM ━━━\nspike_times[-1]  → 42 (last item)\nspike_times[-2]  → 25 (second to last)\n\nNo counting needed! -1 always means \"last\".\n\n💡 Remember: Python starts at 0, not 1!",
+                explanation: "📍 PYTHON STARTS AT 0, NOT 1!\n\nspike_times = [10, 25, 42]\n\nFirst item:  spike_times[0]  → 10\nSecond item: spike_times[1]  → 25\nThird item:  spike_times[2]  → 42\n\nThere's NO spike_times[3] (doesn't exist!)\n\nThat's the bug: you accessed index 3, but only 0, 1, 2 exist.\n\n━━━ QUICK FIX ━━━\nspike_times[-1]  → Gets last item (42)\nspike_times[-2]  → Gets second to last (25)\n\n-1 means \"last\" - no counting needed!",
               },
               {
                 id: "w1q7l1q2",
@@ -1043,7 +1043,7 @@ print("✅ All tests passed! +25 XP")
                   "Prints: None then 0.042",
                 ],
                 correctIndex: 1,
-                explanation: "📍 THE CORE DIFFERENCE:\n\nprint(x) = Shows x on screen (for you to read)\nreturn x = Gives x to the code (for you to USE)\n\n━━━ EXAMPLE ━━━\nresult = firing_rate(42, 1000)\n\nIF the function has print(rate):\n  → Screen shows: 0.042\n  → result = None (you got nothing!)\n\nIF the function has return rate:\n  → result = 0.042 (you can USE it!)\n  → Screen shows nothing\n\n━━━ SIMPLE RULE ━━━\n❓ Do you need the answer to use in your code?\n  → Use return\n\n❓ Do you just want to see it on screen?\n  → Use print\n\n━━━ FOR NMA ━━━\nNeural simulations MUST use return.\nYou compute voltage, then USE it in the next step:\n\nV_new = V + dV * dt  ← Needs the value\nif V > threshold:    ← Needs the value\n\nWithout return, this breaks!",
+                explanation: "📍 THE DIFFERENCE:\n\nprint(x) = Shows on screen\nreturn x = Gives value to code\n\n━━━ WITH print(rate) ━━━\nresult = firing_rate(42, 1000)\nprint(result)  → Shows: None\n\nThe screen shows the number, but result is empty!\n\n━━━ WITH return rate ━━━\nresult = firing_rate(42, 1000)\nprint(result)  → Shows: 0.042\n\nNow result has the value you can USE!\n\n━━━ WHICH DO YOU NEED? ━━━\nNeed to use the answer?  → return\nJust want to see it?     → print",
               },
               {
                 id: "w1q7l1q3",
