@@ -715,16 +715,12 @@ export const WORLDS: World[] = [
                 content: "🚨 This is THE most important concept about functions. Getting this wrong will break your neural simulations!",
               },
               {
-                type: "heading",
-                content: "Two Types of Functions: Return vs Do Something",
+                type: "text",
+                content: "📌 Two Types of Functions: Return vs Do Something\n\nNot every function needs return. It depends on what you want to do with the result.",
               },
               {
                 type: "text",
-                content: "Not every function needs return. It depends on what you want to do with the result.",
-              },
-              {
-                type: "heading",
-                content: "Type 1: Functions that RETURN a value",
+                content: "🎯 Type 1: Functions that RETURN a value",
               },
               {
                 type: "code",
@@ -732,8 +728,8 @@ export const WORLDS: World[] = [
                 caption: "Use RETURN when: You need the result to use in your code (like computing voltage, spike rate, etc.)",
               },
               {
-                type: "heading",
-                content: "Type 2: Functions that just DO something",
+                type: "text",
+                content: "🎯 Type 2: Functions that just DO something",
               },
               {
                 type: "code",
@@ -741,7 +737,7 @@ export const WORLDS: World[] = [
                 caption: "Use NO RETURN when: The function just needs to print, save, or modify something",
               },
               {
-                type: "heading",
+                type: "text",
                 content: "🧠 Mental Model: Restaurant Analogy",
               },
               {
@@ -749,8 +745,8 @@ export const WORLDS: World[] = [
                 content: "• `print(answer)` = Waiter SHOUTS the answer to the whole restaurant (everyone hears it, but you get nothing)\n• `return answer` = Waiter HANDS YOU the plate (you can keep it and use it)",
               },
               {
-                type: "heading",
-                content: "Why This MATTERS for NMA",
+                type: "text",
+                content: "⚡ Why This MATTERS for NMA",
               },
               {
                 type: "text",
@@ -766,8 +762,8 @@ export const WORLDS: World[] = [
                 caption: "If lif_step didn't return V, the loop would break! Each step needs the previous step's result.",
               },
               {
-                type: "heading",
-                content: "Quick Rule of Thumb",
+                type: "text",
+                content: "📋 Quick Rule of Thumb",
               },
               {
                 type: "highlight",
