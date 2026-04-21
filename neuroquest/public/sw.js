@@ -41,6 +41,23 @@ if (self.location.hostname === 'localhost' || self.location.hostname === '127.0.
     if (event.request.url.includes('/api/') || event.request.url.includes('supabase')) {
       return;
     }
+    // Network first for HTML pages (ensures fresh content)
+    if (event.request.mode === 'navigate' || event.request.headers.get('accept')?.includes('text/html')) {
+      event.respondWith(
+        fetch(event.request)
+          .then((response) => {
+            if (response.ok) {
+              const clone = response.clone();
+              caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+            }
+            return response;
+          })
+          .catch(() => {
+            return caches.match(event.request).then((cached) => cached);
+          })
+      );
+      return;
+    }
     // Cache first for static assets
     event.respondWith(
       caches.match(event.request).then((cached) => {

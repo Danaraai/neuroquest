@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Nunito, Inter } from "next/font/google";
 import "./globals.css";
+import { VersionCheck } from "@/components/VersionCheck";
 
 const nunito = Nunito({
   variable: "--font-display",
@@ -51,6 +52,7 @@ export default function RootLayout({
       </head>
       <body className="h-full bg-[#1A1B2E] text-white antialiased">
         {children}
+        <VersionCheck />
         <script
           dangerouslySetInnerHTML={{
             __html: `
