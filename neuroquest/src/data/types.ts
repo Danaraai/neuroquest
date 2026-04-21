@@ -20,9 +20,10 @@ export interface FlashCard {
 }
 
 export interface ConceptBlock {
-  type: "text" | "code" | "formula" | "highlight" | "image-placeholder";
+  type: "text" | "code" | "formula" | "highlight" | "image-placeholder" | "executable-code";
   content: string;
   caption?: string;
+  annotations?: { line: number; text: string }[]; // For executable-code: explanations for specific lines
 }
 
 export interface CodingMission {

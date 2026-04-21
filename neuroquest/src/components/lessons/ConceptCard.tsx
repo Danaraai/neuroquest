@@ -2,6 +2,7 @@
 
 import type { ConceptBlock } from "@/data/types";
 import { cn } from "@/lib/utils";
+import { ExecutableCodeBlock } from "./ExecutableCodeBlock";
 
 interface ConceptCardProps {
   blocks: ConceptBlock[];
@@ -28,6 +29,17 @@ export function ConceptCard({ blocks }: ConceptCardProps) {
                 {block.content}
               </p>
             </div>
+          );
+        }
+
+        if (block.type === "executable-code") {
+          return (
+            <ExecutableCodeBlock
+              key={i}
+              code={block.content}
+              annotations={block.annotations}
+              caption={block.caption}
+            />
           );
         }
 
