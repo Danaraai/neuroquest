@@ -149,16 +149,22 @@ export function ExecutableCodeBlock({
           >
             <span className="text-[10px] text-[#6B7094] font-mono">Output</span>
           </div>
-          <pre
-            className="px-4 py-3 text-sm leading-relaxed overflow-x-auto"
+          <div
+            className="px-4 py-3 text-sm leading-relaxed overflow-auto"
             style={{
               background: "#0D0E1A",
               fontFamily: "var(--font-code)",
               color: "#58CC02",
+              maxHeight: "450px",
+              maxWidth: "100%",
             }}
-          >
-            {output}
-          </pre>
+            dangerouslySetInnerHTML={{
+              __html: `<style>
+                svg { max-width: 100% !important; height: auto !important; }
+                img { max-width: 100% !important; height: auto !important; }
+              </style>${output}`,
+            }}
+          />
         </div>
       )}
 
@@ -172,11 +178,12 @@ export function ExecutableCodeBlock({
             <span className="text-[10px] text-white font-mono">Error</span>
           </div>
           <pre
-            className="px-4 py-3 text-sm leading-relaxed overflow-x-auto"
+            className="px-4 py-3 text-sm leading-relaxed overflow-auto"
             style={{
               background: "#3D0000",
               fontFamily: "var(--font-code)",
               color: "#FF6B6B",
+              maxHeight: "200px",
             }}
           >
             {error}
