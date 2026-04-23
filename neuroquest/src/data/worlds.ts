@@ -1156,15 +1156,15 @@ print("✅ All tests passed! +25 XP")
             questions: [
               {
                 id: "w1q8l0q1",
-                text: "A neuron is sitting at –70 mV. Then a signal arrives and voltage rises to –50 mV. What happens next?",
+                text: "A neuron is sitting at –70 mV. A signal arrives and voltage rises to –60 mV. What happens next?",
                 options: [
-                  "Nothing — –50 mV is still below threshold, no spike",
-                  "The neuron fires immediately at –50 mV",
+                  "Nothing — voltage is still below threshold, no spike yet",
+                  "The neuron fires a spike immediately",
                   "The neuron resets to 0 mV",
-                  "The firing rate drops to 0 Hz",
+                  "The firing rate jumps to 100 Hz",
                 ],
                 correctIndex: 0,
-                explanation: "📍 THRESHOLD IS THE TRIGGER\n\nResting: –70 mV (quiet)\nThreshold: ~–55 mV (trigger point)\nSpike: +40 mV (fired!)\n\n–50 mV is above threshold (–55 mV), so actually this neuron WOULD fire — but the key insight is: nothing happens UNTIL threshold is crossed. The neuron could sit at –60 mV indefinitely with no spike.\n\nThink of it as a gun safety: voltage builds up, but the shot only fires when you cross the trigger point.",
+                explanation: "📍 THRESHOLD vs SPIKE — two different moments\n\n–60 mV is below threshold (~–55 mV), so nothing fires. The neuron just sits there, a little more excited than before.\n\nTwo things happen at different moments:\n• Threshold (–55 mV) = the trigger — neuron commits to firing. Like pulling a gun trigger.\n• Spike (+40 mV) = the bullet leaving — the actual electrical signal.\n\nBelow threshold → small changes just fade away.\nCross threshold → unstoppable: Na⁺ channels flood open, voltage rockets to +40 mV automatically.\n\nKey rule: nothing OR everything. There is no 'small spike'.",
               },
               {
                 id: "w1q8l0q2",
