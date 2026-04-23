@@ -1254,7 +1254,7 @@ print("✅ All tests passed! +25 XP")
                   "plt.line(V)",
                 ],
                 correctIndex: 1,
-                explanation: "📍 ax.plot(x, y) — the most used function in neuroscience\n\nPattern: ax.plot(x_axis_data, y_axis_data)\n\nSo for voltage over time:\nax.plot(t, V)   ← x = time, y = voltage\n\nOrder matters: x always comes first, y second. Think of it as 'plot y against x' — voltage (y) against time (x).\n\nYou'll write ax.plot() in almost every NMA notebook.",
+                explanation: "📍 Why is it called ax?\n\nax is short for 'axes' — not just one axis, but the entire plot area: the x-axis, y-axis, and everything drawn inside them. matplotlib named it that because one plot = one set of axes.\n\nfig = the whole window (like a picture frame)\nax  = the plot inside it (where data actually lives)\n\nSo ax.plot(t, V) means: 'on this plot area, draw a line with t on x and V on y.'\n\nOrder always matters: x first, y second.\nax.plot(t, V) → time on x-axis, voltage on y-axis ✅\nax.plot(V, t) → voltage on x-axis, time on y-axis ❌ (upside-down plot)",
               },
               {
                 id: "w1q8l1q2",
@@ -1355,7 +1355,7 @@ print("✅ All tests passed! +25 XP")
                   "Marks a single data point at (0, –55)",
                 ],
                 correctIndex: 2,
-                explanation: "📍 axhline = horizontal reference line\n\naxhline(y=value) draws a flat line all the way across the plot at that y value.\n\nIn neuroscience you use it constantly to mark:\n• Threshold: ax.axhline(y=-55, color='r', linestyle='--')\n• Resting potential: ax.axhline(y=-70, color='gray')\n• Baseline firing rate: ax.axhline(y=0)\n\nlinestyle='--' = dashed   color='r' = red\n\naxvline() does the same but vertical — useful for marking stimulus onset time.",
+                explanation: "📍 Why is it called axhline?\n\nBreak the name apart:\n• ax  = axes (the plot area, same ax as always)\n• h   = horizontal\n• line = draws a line\n\nSo axhline = 'draw a horizontal line on the axes.'\nAnd axvline = 'draw a vertical line on the axes.' Same pattern.\n\naxhline(y=value) draws flat across the entire plot at that y value — useful for any reference level:\n• Threshold:       ax.axhline(y=-55, color='r', linestyle='--')\n• Resting:         ax.axhline(y=-70, color='gray')\n• Stimulus onset:  ax.axvline(x=200, color='b', linestyle=':')\n\nlinestyle='--' = dashed   linestyle=':' = dotted   color='r' = red",
               },
               {
                 id: "w1q8l2q3",
@@ -1367,7 +1367,7 @@ print("✅ All tests passed! +25 XP")
                   "A single number: 1000 divided by 1000 = 1.0",
                 ],
                 correctIndex: 2,
-                explanation: "📍 np.linspace(start, stop, num) — evenly spaced points\n\nnp.linspace(0, 1000, 1000) gives you:\n[0.0, 1.001, 2.002, ... 1000.0] — exactly 1000 values\n\nThis represents time in milliseconds: 0 ms to 1000 ms, sampled 1000 times.\n\nWhy not just range(1000)? linspace gives floats and lets you control exactly how many points, regardless of step size. np.linspace(0, 1, 500) gives 500 points from 0 to 1 — range() can't do that cleanly.",
+                explanation: "📍 Why is it called linspace?\n\nlin = linear (evenly spaced, straight line of values)\nspace = the space between numbers\n\nSo linspace = 'create a linearly spaced range of numbers.'\n\nnp.linspace(start, stop, num_points)\nnp.linspace(0, 1000, 1000) → 1000 evenly spaced values from 0 to 1000\n\nThis exists because range() only does whole integers:\nrange(0, 1000) → [0, 1, 2, ... 999]  ← integers only\nlinspace(0, 1, 5) → [0.0, 0.25, 0.5, 0.75, 1.0]  ← decimals, any count\n\nFor time arrays in neuroscience you always use linspace — because time doesn't jump by whole milliseconds, it's continuous.\n\nContrast with logspace (log-spaced) used for frequency axes. If you see logspace, it's the same idea but on a logarithmic scale.",
               },
             ],
           },
