@@ -1127,6 +1127,18 @@ print("✅ All tests passed! +25 XP")
                 content: "**So what do neuroscience plots show?**\n\n• **Voltage vs Time** — you're watching a neuron in real time. Did it fire? When? How big was the spike? This is like an EKG for a single neuron.\n\n• **Firing Rate vs Time** — you're watching how busy the neuron is over seconds or minutes. Did it respond to the stimulus? Did it adapt (slow down) over time?\n\nThese two plots appear in nearly every NMA project. Now when you see `V` on the y-axis, you know: that's the neuron's charge level. When you see `Hz`, you know: that's how often it's spiking.",
               },
               {
+                type: "text",
+                content: "**Wait — isn't this just electricity from physics?**\n\nYes. Exactly. Same vocabulary, same units:\n\n• **Voltage (mV)** → electrical potential difference — identical concept to physics\n• **Current** → movement of charged particles — same idea, but ions (Na⁺, K⁺) instead of electrons in a wire\n• **Hz** → events per second — mathematically identical to frequency in physics\n\nThe difference is the *mechanism*. In a circuit, electrons flow continuously through metal. In a neuron, charged ions (sodium, potassium) move through tiny protein channels in the cell wall — like valves opening and closing.\n\nSo if physics electricity felt familiar: trust that instinct. You already have the foundation.",
+              },
+              {
+                type: "text",
+                content: "**The one big difference: neurons are not continuous**\n\nIn physics, voltage changes smoothly. A circuit can output 1.5V, then 1.6V, then 1.7V — a gradual ramp.\n\nNeurons don't work like that. They're mostly silent, sitting at –70 mV doing nothing. Then — when the threshold is crossed — they fire a full spike instantly. Then silence again.\n\nIt's more like a **gun trigger** than a **volume knob**:\n• Volume knob = smooth, continuous, adjustable\n• Gun trigger = nothing, nothing, nothing… BANG. Reset.\n\nThis is why neuroscientists count spikes (discrete events) rather than measure continuous voltage levels when describing what a neuron is \"saying.\"",
+              },
+              {
+                type: "highlight",
+                content: "🤖 Why this matters for AI: Neural networks (like ChatGPT) use 'activation functions' — ReLU, sigmoid — that loosely mimic this threshold behavior. A ReLU fires 0 until input crosses 0, then outputs the value. It's a simplified, smooth version of what biological neurons do. So when you understand real neurons, you understand why AI is designed the way it is.",
+              },
+              {
                 type: "highlight",
                 content: "Quick cheat sheet:\n• mV (millivolts) = voltage = is the neuron about to fire?\n• Hz (hertz) = firing rate = how often is it firing?\n• –70 mV = resting (quiet)\n• –55 mV = threshold (about to fire)\n• +40 mV = peak of spike (firing!)",
               },
