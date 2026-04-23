@@ -155,7 +155,7 @@ export function ExecutableCodeBlock({
               background: "#0D0E1A",
               fontFamily: "var(--font-code)",
               color: "#58CC02",
-              maxHeight: "450px",
+              maxHeight: "320px",
               maxWidth: "100%",
             }}
             dangerouslySetInnerHTML={{

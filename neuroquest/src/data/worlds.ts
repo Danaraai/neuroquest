@@ -1089,8 +1089,49 @@ print("✅ All tests passed! +25 XP")
         number: 8,
         title: "Matplotlib: Plot Like a Neuroscientist",
         description: "Visualize data the way NMA does",
-        totalXP: 40,
+        totalXP: 50,
         lessons: [
+          {
+            id: "w1q8l0",
+            questId: "w1q8",
+            worldId: "world1",
+            title: "What Are We Even Plotting?",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 5,
+            concept: [
+              {
+                type: "text",
+                content: "Before we touch any code, let's understand what neuroscience plots actually show — because if you don't know what voltage and firing rate *mean*, the code is just noise.",
+              },
+              {
+                type: "highlight",
+                content: "Two numbers describe almost everything a neuron does:\n1. Membrane voltage (mV) — is the neuron about to fire?\n2. Firing rate (Hz) — how often is it firing?",
+              },
+              {
+                type: "text",
+                content: "**Membrane Voltage — the neuron's 'charge level'**\n\nYour phone has a battery voltage. Neurons do too — it's called membrane voltage, and it's measured in millivolts (mV). 1 mV = 1/1000 of a volt.\n\nAt rest, a neuron sits around **–70 mV**. That negative sign matters — the inside of the neuron is negatively charged compared to the outside. Think of it like a spring being held down: stored energy, ready to release.\n\nWhen something stimulates the neuron (a signal from another neuron, a sound, a touch), the voltage rises. If it crosses the **threshold (~–55 mV)**, the neuron fires — an electrical spike shoots down the axon. Then it resets back to –70 mV and waits.",
+              },
+              {
+                type: "formula",
+                content: "Resting: –70 mV → Threshold: –55 mV → Spike: +40 mV → Reset: –70 mV",
+                caption: "This cycle is called an action potential. It happens in ~2 milliseconds.",
+              },
+              {
+                type: "text",
+                content: "**Firing Rate — how busy is the neuron?**\n\nA single spike isn't very informative. What matters is: *how many spikes per second?* That's the firing rate, measured in **Hz** (hertz = times per second).\n\n• 0 Hz → silent, not responding\n• 5 Hz → quietly active (5 spikes per second)\n• 40 Hz → strongly active (40 spikes per second)\n• 100 Hz → maximum effort (a neuron can't go much faster)\n\nWhen you look at a hand, your visual neurons might fire at 2 Hz. When you look at a bright flash of light, those same neurons might jump to 80 Hz. The difference *is* the information.",
+              },
+              {
+                type: "text",
+                content: "**So what do neuroscience plots show?**\n\n• **Voltage vs Time** — you're watching a neuron in real time. Did it fire? When? How big was the spike? This is like an EKG for a single neuron.\n\n• **Firing Rate vs Time** — you're watching how busy the neuron is over seconds or minutes. Did it respond to the stimulus? Did it adapt (slow down) over time?\n\nThese two plots appear in nearly every NMA project. Now when you see `V` on the y-axis, you know: that's the neuron's charge level. When you see `Hz`, you know: that's how often it's spiking.",
+              },
+              {
+                type: "highlight",
+                content: "Quick cheat sheet:\n• mV (millivolts) = voltage = is the neuron about to fire?\n• Hz (hertz) = firing rate = how often is it firing?\n• –70 mV = resting (quiet)\n• –55 mV = threshold (about to fire)\n• +40 mV = peak of spike (firing!)",
+              },
+            ],
+          },
           {
             id: "w1q8l1",
             questId: "w1q8",
@@ -1171,6 +1212,54 @@ print("✅ All tests passed! +25 XP")
               {
                 type: "highlight",
                 content: "Every plot needs: x-label, y-label, title, and legend (if multiple lines). Missing these = instant feedback from NMA instructors. These three lines keep you safe:\nax.set_xlabel(...)\nax.set_ylabel(...)\nax.set_title(...)",
+              },
+            ],
+          },
+          {
+            id: "w1q8l2q",
+            questId: "w1q8",
+            worldId: "world1",
+            title: "What Do You Actually Need to Remember?",
+            type: "mcq",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 3,
+            questions: [
+              {
+                id: "w1q8l2q1",
+                text: "You're in NMA and need to plot voltage vs time. You don't remember the exact matplotlib syntax. What do you do?",
+                options: [
+                  "Panic — you should have memorized every parameter",
+                  "Google 'matplotlib line plot example' and adapt it",
+                  "Skip the plot — it's too complex",
+                  "Write the plot from memory using fontsize, linewidth, alpha, etc.",
+                ],
+                correctIndex: 1,
+                explanation: "📍 NOBODY MEMORIZES MATPLOTLIB\n\nEvery neuroscientist — from students to professors — Googles matplotlib syntax. That's not a weakness, it's the workflow.\n\nWhat you DO need to know:\n• fig, ax = plt.subplots()  ← make a canvas\n• ax.plot(x, y)            ← draw a line\n• ax.set_xlabel/ylabel/title ← label it\n• plt.show()               ← display it\n\nEverything else (fontsize=12, linewidth=2, alpha=0.3)? Look it up when you need it.",
+              },
+              {
+                id: "w1q8l2q2",
+                text: "Which of these does NMA actually require you to be able to do?",
+                options: [
+                  "Write a complete matplotlib plot from memory without any reference",
+                  "Memorize all marker styles: 'o-', 's-', '^-', 'D-'",
+                  "Read a plot, understand what it shows, and modify existing code",
+                  "Know every optional parameter for ax.plot()",
+                ],
+                correctIndex: 2,
+                explanation: "📍 NMA GIVES YOU STARTER CODE\n\nEvery NMA tutorial notebook has pre-written code. Your job:\n✅ Read it and understand what's happening\n✅ Modify it (change data, colors, labels)\n✅ Know which function to call (ax.plot vs ax.scatter)\n\nYou will NEVER be asked to write a full plot from scratch with no reference.\n\nThink of matplotlib like a car — you need to know how to drive, not how to build an engine.",
+              },
+              {
+                id: "w1q8l2q3",
+                text: "An NMA instructor looks at your plot. What's the ONE thing they'll always call out if it's missing?",
+                options: [
+                  "A grid (ax.grid(True))",
+                  "Axis labels and a title",
+                  "A legend with custom colors",
+                  "figsize set to exactly (10, 6)",
+                ],
+                correctIndex: 1,
+                explanation: "📍 THE ONE RULE THAT NEVER CHANGES\n\nEvery NMA plot must have:\n• ax.set_xlabel('...')  ← what is the x-axis?\n• ax.set_ylabel('...')  ← what is the y-axis?\n• ax.set_title('...')   ← what is this plot showing?\n\nWithout labels, a plot is meaningless. 'Time' on x-axis and '-70 to -50' on y-axis tells you nothing — 'Time (ms)' and 'Voltage (mV)' tells you everything.\n\nGrids, legends, figsize — nice to have. Labels — non-negotiable.",
               },
             ],
           },

@@ -77,6 +77,15 @@ sys.stderr = _capture
       // Load numpy and matplotlib (async, may take a moment)
       await pyodide.loadPackage(["numpy", "matplotlib"]);
 
+      // Force the non-interactive Agg backend so plt.show() never injects
+      // a canvas element into the DOM. We capture figures manually after each run.
+      await pyodide.runPythonAsync(`
+import matplotlib
+matplotlib.use('agg')
+import matplotlib.pyplot as _plt
+_plt.show = lambda *a, **kw: None  # no-op: we capture figures ourselves
+      `);
+
       pyodideRef.current = pyodide;
       window.pyodide = pyodide;
       setReady(true);
@@ -108,6 +117,30 @@ sys.stderr = _capture
       // Get stdout
       const stdout = await py.runPythonAsync(`"\\n".join(_capture._lines)`) as string;
 
+      // Capture any matplotlib figures as base64 PNGs and embed as HTML
+      const figuresHtml = await py.runPythonAsync(`
+import io as _io, base64 as _b64
+_figs = []
+try:
+    import matplotlib.pyplot as _plt
+    for _i, _fn in enumerate(_plt.get_fignums()):
+        _fig = _plt.figure(_fn)
+        _buf = _io.BytesIO()
+        _fig.savefig(_buf, format='png', bbox_inches='tight', dpi=96)
+        _buf.seek(0)
+        _enc = _b64.b64encode(_buf.getvalue()).decode('utf-8')
+        _figs.append(
+            '<div style="text-align:center;margin:8px 0">'
+            f'<img src="data:image/png;base64,{_enc}" '
+            'style="max-width:100%;max-height:280px;object-fit:contain"/>'
+            '</div>'
+        )
+        _plt.close(_fig)
+except Exception:
+    pass
+''.join(_figs)
+      `) as string;
+
       let testPassed: boolean | undefined;
       let testError = "";
 
@@ -132,7 +165,14 @@ sys.stderr = _capture
         }
       }
 
-      return { stdout: stdout || "(no output)", stderr: testError, success: true, testPassed };
+      const combinedOutput = [
+        figuresHtml,
+        stdout && stdout !== "(no output)" ? `<pre style="margin:0">${stdout}</pre>` : "",
+      ]
+        .filter(Boolean)
+        .join("\n") || "(no output)";
+
+      return { stdout: combinedOutput, stderr: testError, success: true, testPassed };
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : String(err);
       const cleanMsg = msg.split("\n").slice(-3).join("\n");
