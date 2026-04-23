@@ -1089,7 +1089,7 @@ print("✅ All tests passed! +25 XP")
         number: 8,
         title: "Matplotlib: Plot Like a Neuroscientist",
         description: "Visualize data the way NMA does",
-        totalXP: 50,
+        totalXP: 70,
         lessons: [
           {
             id: "w1q8l0",
@@ -1145,6 +1145,54 @@ print("✅ All tests passed! +25 XP")
             ],
           },
           {
+            id: "w1q8l0q",
+            questId: "w1q8",
+            worldId: "world1",
+            title: "Check: Voltage, Firing Rate & Electricity",
+            type: "mcq",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 3,
+            questions: [
+              {
+                id: "w1q8l0q1",
+                text: "A neuron is sitting at –70 mV. Then a signal arrives and voltage rises to –50 mV. What happens next?",
+                options: [
+                  "Nothing — –50 mV is still below threshold, no spike",
+                  "The neuron fires immediately at –50 mV",
+                  "The neuron resets to 0 mV",
+                  "The firing rate drops to 0 Hz",
+                ],
+                correctIndex: 0,
+                explanation: "📍 THRESHOLD IS THE TRIGGER\n\nResting: –70 mV (quiet)\nThreshold: ~–55 mV (trigger point)\nSpike: +40 mV (fired!)\n\n–50 mV is above threshold (–55 mV), so actually this neuron WOULD fire — but the key insight is: nothing happens UNTIL threshold is crossed. The neuron could sit at –60 mV indefinitely with no spike.\n\nThink of it as a gun safety: voltage builds up, but the shot only fires when you cross the trigger point.",
+              },
+              {
+                id: "w1q8l0q2",
+                text: "A neuron fires 40 times in one second. What is its firing rate?",
+                options: [
+                  "40 mV",
+                  "40 Hz",
+                  "–70 Hz",
+                  "0.04 kHz",
+                ],
+                correctIndex: 1,
+                explanation: "📍 FIRING RATE = SPIKES PER SECOND = Hz\n\n40 spikes in 1 second = 40 Hz. That's it.\n\nHz always means 'times per second' — same as in physics.\n• 40 Hz = moderately active neuron (responding to a stimulus)\n• 0 Hz = silent\n• 100 Hz = near maximum (neurons can't spike much faster)\n\nmV measures voltage (instant state). Hz measures firing rate (behavior over time). Two different things, two different units.",
+              },
+              {
+                id: "w1q8l0q3",
+                text: "How is a neuron different from a wire in a circuit, even though both use voltage?",
+                options: [
+                  "Neurons don't actually use voltage — it's just an analogy",
+                  "Wires use ions; neurons use electrons",
+                  "Neurons fire discrete all-or-nothing spikes; wires carry continuous smooth signals",
+                  "Neurons operate at much higher voltages than circuits",
+                ],
+                correctIndex: 2,
+                explanation: "📍 DISCRETE vs CONTINUOUS — the key difference\n\nA circuit wire: voltage changes smoothly (1V → 1.5V → 2V)\nA neuron: mostly silent at –70 mV, then BANG → spike → reset\n\nNeurons are more like a gun trigger than a volume knob.\n\nThis is why:\n• Neuroscientists COUNT spikes (discrete events)\n• Engineers MEASURE voltage (continuous signal)\n\nAnd it's why AI neural networks use threshold-like activation functions (ReLU) — they're modeling this same all-or-nothing behavior, just in software.",
+              },
+            ],
+          },
+          {
             id: "w1q8l1",
             questId: "w1q8",
             worldId: "world1",
@@ -1183,6 +1231,54 @@ print("✅ All tests passed! +25 XP")
               {
                 type: "highlight",
                 content: "NMA Week 1: Your first project outputs will be plots. Week 2-4: You'll generate 10+ plots per project. Master plotting now and you're unstoppable.",
+              },
+            ],
+          },
+          {
+            id: "w1q8l1q",
+            questId: "w1q8",
+            worldId: "world1",
+            title: "Check: Reading Neuroscience Plots",
+            type: "mcq",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 3,
+            questions: [
+              {
+                id: "w1q8l1q1",
+                text: "You see a plot with Time (ms) on the x-axis and Voltage (mV) on the y-axis. The line is flat at –70, then shoots up sharply to +40, then drops back down. What are you looking at?",
+                options: [
+                  "A firing rate plot showing spikes per second",
+                  "A voltage vs time plot showing a single action potential (spike)",
+                  "A broken simulation — voltage shouldn't go positive",
+                  "A plot of two neurons firing at the same time",
+                ],
+                correctIndex: 1,
+                explanation: "📍 READING A VOLTAGE PLOT\n\nFlat at –70 mV = neuron at rest\nSharp rise to +40 mV = the spike (action potential)\nDrop back to –70 = neuron resetting\n\nThis is the most common plot in neuroscience. One spike = one 'decision' by the neuron. When you see this shape, you know the neuron fired exactly once.\n\nVoltage going positive (+40 mV) is totally normal during a spike — it's not an error.",
+              },
+              {
+                id: "w1q8l1q2",
+                text: "Why do neuroscientists plot data instead of just reading the raw numbers?",
+                options: [
+                  "Because Python can't print numbers larger than 100",
+                  "Because plots look impressive in presentations",
+                  "Because a plot shows the full pattern instantly — spikes, timing, and response that numbers alone can't convey",
+                  "Because NMA requires a minimum of 3 plots per project",
+                ],
+                correctIndex: 2,
+                explanation: "📍 PLOTS ARE HOW THE BRAIN MAKES SENSE OF DATA\n\nRaw numbers: [-70, -70, -69, -68, -60, -40, +20, +40, +30, -10, -70, -70...]\n→ Meaningless without context\n\nA voltage plot of those same numbers: you instantly see a spike at t=5ms, recovery by t=8ms.\n\nThree reasons plots matter in NMA:\n1. Debugging — bad math produces obviously weird patterns\n2. Intuition — equations are abstract, plots are visual\n3. Communication — advisors always ask 'show me a plot'",
+              },
+              {
+                id: "w1q8l1q3",
+                text: "A neuron's voltage plot shows 5 spikes over 1000 ms. What is its approximate firing rate?",
+                options: [
+                  "5 mV",
+                  "1000 Hz",
+                  "5 Hz",
+                  "0.005 Hz",
+                ],
+                correctIndex: 2,
+                explanation: "📍 CONNECTING VOLTAGE PLOTS TO FIRING RATE\n\n5 spikes in 1000 ms = 5 spikes in 1 second = 5 Hz\n\nThis is the bridge between the two main plot types:\n• Voltage vs Time — shows you WHEN each spike happened\n• Firing Rate vs Time — summarizes HOW MANY spikes per second\n\nIf you count spikes on a voltage plot and divide by the time window in seconds, you get the firing rate. That's it.",
               },
             ],
           },
