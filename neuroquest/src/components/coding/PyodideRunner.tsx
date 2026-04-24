@@ -1,13 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
-
-interface PyodideRunnerProps {
-  code: string;
-  testCode?: string;
-  onTestPass?: () => void;
-  onTestFail?: (error: string) => void;
-}
+import { useState, useRef, useCallback } from "react";
 
 interface PyodideInterface {
   runPythonAsync: (code: string) => Promise<unknown>;
@@ -17,7 +10,6 @@ interface PyodideInterface {
 declare global {
   interface Window {
     loadPyodide?: (config: { indexURL: string }) => Promise<PyodideInterface>;
-    pyodide?: PyodideInterface;
   }
 }
 
@@ -28,42 +20,44 @@ export interface RunResult {
   testPassed?: boolean;
 }
 
-export function usePyodide() {
-  const [ready, setReady] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const pyodideRef = useRef<PyodideInterface | null>(null);
-  const stdoutRef = useRef<string[]>([]);
+// ── Module-level singleton ─────────────────────────────────────────────────
+// Pyodide is ~10 MB + package downloads. We load it once for the whole app
+// session and reuse the same instance across all pages/components.
+let _pyodideInstance: PyodideInterface | null = null;
+let _pyodideInitPromise: Promise<PyodideInterface> | null = null;
 
-  const load = useCallback(async () => {
-    if (pyodideRef.current || loading) return;
-    setLoading(true);
+async function getPyodide(): Promise<PyodideInterface> {
+  // Already initialised — return immediately
+  if (_pyodideInstance) return _pyodideInstance;
 
-    try {
-      // Load Pyodide script
-      if (!window.loadPyodide) {
-        await new Promise<void>((resolve, reject) => {
-          const script = document.createElement("script");
-          script.src = "https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js";
-          script.onload = () => resolve();
-          script.onerror = () => reject(new Error("Failed to load Pyodide"));
-          document.head.appendChild(script);
-        });
-      }
+  // Initialisation already in flight — wait for it
+  if (_pyodideInitPromise) return _pyodideInitPromise;
 
-      const pyodide = await window.loadPyodide!({
-        indexURL: "https://cdn.jsdelivr.net/pyodide/v0.26.4/full/",
+  // First call — kick off the full init
+  _pyodideInitPromise = (async () => {
+    // Load the CDN script if not already on the page
+    if (!window.loadPyodide) {
+      await new Promise<void>((resolve, reject) => {
+        const script = document.createElement("script");
+        script.src = "https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js";
+        script.onload = () => resolve();
+        script.onerror = () => reject(new Error("Failed to load Pyodide script"));
+        document.head.appendChild(script);
       });
+    }
 
-      // Redirect stdout
-      await pyodide.runPythonAsync(`
-import sys
-import io
+    const pyodide = await window.loadPyodide!({
+      indexURL: "https://cdn.jsdelivr.net/pyodide/v0.26.4/full/",
+    });
+
+    // Set up stdout capture
+    await pyodide.runPythonAsync(`
+import sys, io
 
 class CaptureOutput(io.StringIO):
     def __init__(self):
         super().__init__()
         self._lines = []
-
     def write(self, s):
         super().write(s)
         if s.strip():
@@ -72,29 +66,49 @@ class CaptureOutput(io.StringIO):
 _capture = CaptureOutput()
 sys.stdout = _capture
 sys.stderr = _capture
-      `);
+    `);
 
-      // Load numpy and matplotlib (async, may take a moment)
-      await pyodide.loadPackage(["numpy", "matplotlib"]);
+    // Load numpy and matplotlib once
+    await pyodide.loadPackage(["numpy", "matplotlib"]);
 
-      // Force the non-interactive Agg backend so plt.show() never injects
-      // a canvas element into the DOM. We capture figures manually after each run.
-      await pyodide.runPythonAsync(`
+    // Force the non-interactive Agg backend so plt.show() never injects
+    // a canvas element into the DOM. We capture figures manually after each run.
+    await pyodide.runPythonAsync(`
 import matplotlib
 matplotlib.use('agg')
 import matplotlib.pyplot as _plt
 _plt.show = lambda *a, **kw: None  # no-op: we capture figures ourselves
-      `);
+    `);
 
-      pyodideRef.current = pyodide;
-      window.pyodide = pyodide;
+    _pyodideInstance = pyodide;
+    return pyodide;
+  })();
+
+  return _pyodideInitPromise;
+}
+// ──────────────────────────────────────────────────────────────────────────
+
+export function usePyodide() {
+  const [ready, setReady] = useState(() => _pyodideInstance !== null);
+  const [loading, setLoading] = useState(false);
+  // Keep a ref so run() always has the latest instance
+  const pyodideRef = useRef<PyodideInterface | null>(_pyodideInstance);
+
+  const load = useCallback(async () => {
+    // Already ready in this component or globally — nothing to do
+    if (pyodideRef.current) return;
+
+    setLoading(true);
+    try {
+      const py = await getPyodide();
+      pyodideRef.current = py;
       setReady(true);
     } catch (err) {
       console.error("Pyodide load failed:", err);
     } finally {
       setLoading(false);
     }
-  }, [loading]);
+  }, []);
 
   const run = useCallback(async (code: string, testCode?: string): Promise<RunResult> => {
     if (!pyodideRef.current) {
