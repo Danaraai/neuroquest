@@ -1388,23 +1388,31 @@ print("✅ All tests passed! +25 XP")
               starterCode: `import matplotlib.pyplot as plt\nimport numpy as np\n\n# Simulated spike times (milliseconds)\nspike_times = [10, 25, 42, 67, 89, 103, 125, 156, 178, 201]\n\n# Create figure\nfig, ax = plt.subplots(figsize=(10, 3))\n\n# TODO: Plot spike times on y-axis = 1, x-axis = spike_times\n# Use scatter() with marker='|', markersize=20\nax.scatter(???)\n\n# TODO: Set labels\nax.set_xlabel('???')\nax.set_ylabel('???')\nax.set_title('???')\n\n# TODO: Set y-axis limits so spike times look like a raster\nax.set_ylim(0.5, 1.5)\nax.set_yticks([])\n\nplt.tight_layout()\nplt.show()`,
               solution: `import matplotlib.pyplot as plt\nimport numpy as np\n\nspike_times = [10, 25, 42, 67, 89, 103, 125, 156, 178, 201]\n\nfig, ax = plt.subplots(figsize=(10, 3))\nax.scatter(spike_times, [1]*len(spike_times), marker='|', markersize=20, color='black')\n\nax.set_xlabel('Time (ms)', fontsize=12)\nax.set_ylabel('Neuron', fontsize=12)\nax.set_title('Spike Raster: When Did the Neuron Fire?', fontsize=14)\nax.set_ylim(0.5, 1.5)\nax.set_yticks([])\nax.grid(True, alpha=0.2, axis='x')\n\nplt.tight_layout()\nplt.show()`,
               testCode: `
-import matplotlib.pyplot as plt
-import numpy as np
+import matplotlib.pyplot as _plt_test
 
-spike_times = [10, 25, 42, 67, 89, 103, 125, 156, 178, 201]
+# Check a figure was created
+_figs = _plt_test.get_fignums()
+assert len(_figs) > 0, "No plot found. Did you call plt.subplots() and plt.show()?"
 
-# Check that code runs without error
-try:
-    fig, ax = plt.subplots(figsize=(10, 3))
-    ax.scatter(spike_times, [1]*len(spike_times), marker='|', markersize=20, color='black')
-    ax.set_xlabel('Time (ms)', fontsize=12)
-    ax.set_ylabel('Neuron', fontsize=12)
-    ax.set_title('Spike Raster: When Did the Neuron Fire?', fontsize=14)
-    ax.set_ylim(0.5, 1.5)
-    ax.set_yticks([])
-    print("✅ Plot generated successfully! +20 XP")
-except Exception as e:
-    print(f"❌ Error: {e}")
+# Get axes of the user's figure
+_ax = _plt_test.figure(_figs[0]).get_axes()[0]
+
+# Check scatter was called
+_scatter_colls = _ax.collections
+assert len(_scatter_colls) > 0, "No scatter plot found. Use ax.scatter(spike_times, [1]*len(spike_times), marker='|', markersize=20)"
+
+# Check 10 spike points were plotted
+_pts = _scatter_colls[0].get_offsets()
+assert len(_pts) == 10, f"Expected 10 spike points but got {len(_pts)}. Make sure x=spike_times (10 values) and y=[1]*len(spike_times) (10 ones)."
+
+# Check y-values are all close to 1
+_ys = [float(p[1]) for p in _pts]
+assert all(abs(y - 1.0) < 0.1 for y in _ys), f"Y-values should all be 1 (got {_ys[:3]}...). Use [1]*len(spike_times), not len(spike_times)."
+
+# Check labels exist
+assert _ax.get_xlabel() != '', "Missing x-axis label. Add ax.set_xlabel('Time (ms)')"
+assert _ax.get_ylabel() != '', "Missing y-axis label. Add ax.set_ylabel('Neuron')"
+assert _ax.get_title()  != '', "Missing title. Add ax.set_title('...')"
 `,
               hints: [
                 "scatter(x_values, y_values, ...) plots dots. Use spike_times for x and [1]*len(spike_times) for y.",

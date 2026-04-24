@@ -291,23 +291,24 @@ export default function CodingMissionPage() {
                     </div>
                   )}
 
-                  {/* stdout */}
-                  {output.stdout && (
+                  {/* stdout / plot output */}
+                  {output.stdout && output.stdout !== "(no output)" && (
                     <div
-                      className="p-3 rounded-xl font-mono text-[12px] text-[#E0E0E0] whitespace-pre-wrap"
-                      style={{ background: "#0D0E1A" }}
-                    >
-                      {output.stdout}
-                    </div>
+                      className="p-3 rounded-xl text-[12px] text-[#E0E0E0] overflow-auto"
+                      style={{ background: "#0D0E1A", maxHeight: "400px" }}
+                      dangerouslySetInnerHTML={{
+                        __html: `<style>img{max-width:100%!important;height:auto!important}</style>${output.stdout}`,
+                      }}
+                    />
                   )}
 
-                  {/* Runtime error */}
+                  {/* Runtime error (code crashed) */}
                   {!output.success && output.stderr && (
                     <div
                       className="p-3 rounded-xl font-mono text-[12px] text-[#FF6B6B] whitespace-pre-wrap"
                       style={{ background: "rgba(255,75,75,0.08)", border: "1px solid #FF4B4B" }}
                     >
-                      Error: {output.stderr}
+                      ❌ Error: {output.stderr}
                     </div>
                   )}
                 </div>

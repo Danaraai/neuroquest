@@ -117,6 +117,23 @@ sys.stderr = _capture
       // Get stdout
       const stdout = await py.runPythonAsync(`"\\n".join(_capture._lines)`) as string;
 
+      let testPassed: boolean | undefined;
+      let testError = "";
+
+      // Run test code BEFORE closing figures so tests can inspect matplotlib state
+      if (testCode) {
+        try {
+          await py.runPythonAsync(testCode);
+          testPassed = true;
+        } catch (e: unknown) {
+          const msg = e instanceof Error ? e.message : String(e);
+          testPassed = false;
+          // Extract the last meaningful line (usually the assertion message)
+          const lines = msg.split("\n").filter((l) => l.trim());
+          testError = lines[lines.length - 1] ?? msg;
+        }
+      }
+
       // Capture any matplotlib figures as base64 PNGs and embed as HTML
       const figuresHtml = await py.runPythonAsync(`
 import io as _io, base64 as _b64
@@ -140,30 +157,6 @@ except Exception:
     pass
 ''.join(_figs)
       `) as string;
-
-      let testPassed: boolean | undefined;
-      let testError = "";
-
-      // Run test code if provided
-      if (testCode) {
-        try {
-          await py.runPythonAsync(testCode);
-          testPassed = true;
-        } catch (e: unknown) {
-          const msg = e instanceof Error ? e.message : String(e);
-          // Check for assertion errors
-          if (msg.includes("AssertionError") || msg.includes("assert")) {
-            testPassed = false;
-            testError = msg.split("\n").pop() ?? msg;
-          } else if (msg.includes("NameError") || msg.includes("not defined")) {
-            testPassed = false;
-            testError = "Function not found — make sure your function is defined correctly.";
-          } else {
-            testPassed = false;
-            testError = msg;
-          }
-        }
-      }
 
       const combinedOutput = [
         figuresHtml,
