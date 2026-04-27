@@ -293,8 +293,270 @@ export const WORLDS: World[] = [
         ],
       },
 
-      // ── Quests 0.2–0.12 will be added as transcripts arrive ──
-      // w0q2: Human Psychophysics
+      // ── Quest 0.2 — Human Psychophysics (Jenny Read) ─────────
+      {
+        id: "w0q2",
+        worldId: "world0",
+        number: 2,
+        title: "Human Psychophysics",
+        description: "How scientists measure what we perceive — and what it reveals about the brain",
+        totalXP: 50,
+        lessons: [
+
+          // ── Lesson 1: What is Psychophysics + Weber-Fechner Law ──
+          {
+            id: "w0q2l1",
+            questId: "w0q2",
+            worldId: "world0",
+            title: "What Is Psychophysics?",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 5,
+            concept: [
+              {
+                type: "highlight",
+                content: "Psychophysics is the scientific study of the relationship between physical stimuli and what we perceive. It was founded by Gustav Fechner in 1860 — and it's still one of the most powerful tools in neuroscience.",
+              },
+              {
+                type: "text",
+                content: "Modern definition: **the analysis of perception by studying the effect on experience of systematically varying the properties of a stimulus**. In practice: you change something in the physical world (brightness, weight, sound) and measure precisely what the human notices.",
+              },
+              {
+                type: "text",
+                content: "**Why psychophysics matters for neuroscience:**\nTo understand how the brain represents the world, you need to precisely measure both the stimulus (physics) and the perception (experience). Psychophysics does the second half. Without it, you'd have detailed neural recordings but no way to know what the brain was actually computing.\n\nExample: Hermann von Helmholtz used psychophysics in the 19th century to deduce that humans have three types of color receptors — before anyone had looked at the retina with a microscope. The prediction was later confirmed exactly.",
+              },
+              {
+                type: "highlight",
+                content: "📐 Weber's Law: The Just Noticeable Difference (JND) is a constant *fraction* of the baseline stimulus — not a constant amount. If you can detect +1g from 20g, you'd need +50g from 1000g to notice the same difference.",
+              },
+              {
+                type: "text",
+                content: "**Just Noticeable Difference (JND):** the smallest change in a stimulus that you can reliably detect. Weber found this holds across many senses: vision, hearing, weight, touch. The JND is always ~5% of the baseline (the exact fraction varies by sense, but the proportional relationship holds).",
+              },
+              {
+                type: "text",
+                content: "**The Weber-Fechner Law:** if JND is proportional to baseline, then perception must be a **logarithmic function** of stimulus intensity.\n\nWhy? If you need 10× as much physical change to notice a difference at high intensities, your internal representation is compressing the stimulus — squishing the scale. A log function does exactly this: equal ratios feel like equal steps.\n\nThis is why music uses decibels (log scale), why the Richter scale is logarithmic, and why your phone's brightness slider feels linear even though it spans millions of photons.",
+              },
+            ],
+          },
+
+          // ── MCQ 1 ──
+          {
+            id: "w0q2l1q",
+            questId: "w0q2",
+            worldId: "world0",
+            title: "Weber-Fechner Quiz",
+            type: "mcq",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 3,
+            questions: [
+              {
+                id: "w0q2l1q_1",
+                text: "You can just barely detect adding 1g to a 20g weight. According to Weber's Law, how much would you need to add to a 1000g weight to just barely notice it?",
+                options: ["1g — the JND is always 1g", "5g — because 1g is 5% of 20g so add 5% of 1000g", "50g — because 1/20 = 5% and 5% of 1000g = 50g", "200g — because 1000g is 50× heavier"],
+                correctIndex: 2,
+                explanation: "Weber's Law: JND = constant fraction × baseline. 1g / 20g = 5%. So for 1000g: JND = 5% × 1000g = 50g. The JND scales proportionally with the baseline — not a fixed number of grams.",
+              },
+              {
+                id: "w0q2l1q_2",
+                text: "Why does the Weber-Fechner Law imply a logarithmic encoding of stimulus intensity in the brain?",
+                options: [
+                  "Because log functions are easy to compute with neurons",
+                  "Because if JND is proportional to stimulus intensity, equal perceived steps require exponentially increasing physical steps — consistent with a log compression",
+                  "Because the retina has logarithmic receptors",
+                  "Because Fechner proved it mathematically in 1860",
+                ],
+                correctIndex: 1,
+                explanation: "If equal perceptual steps (1 JND) require proportionally larger physical changes as intensity increases, then the relationship between physics and perception must compress at high values — exactly what a log function does. Going from 1 to 10 (×10) feels the same as going from 10 to 100 (×10) on a log scale.",
+              },
+              {
+                id: "w0q2l1q_3",
+                text: "Hermann von Helmholtz predicted the existence of three types of color receptors in the retina using only psychophysical experiments. What does this tell us about psychophysics?",
+                options: [
+                  "Psychophysics only works for color perception",
+                  "Psychophysical measurements can make powerful predictions about underlying neural machinery — before physiology confirms them",
+                  "Helmholtz was lucky — psychophysics can't normally predict neural structure",
+                  "All neural mechanisms can be deduced from behavior alone",
+                ],
+                correctIndex: 1,
+                explanation: "This is one of the great triumphs of psychophysics: behavioral measurements predicted the three cone types decades before anyone could examine the retina directly. Precise measurement of perception (trichromacy, color matching) implied the structure of the neural substrate. This is the core logic of psychophysics-to-neuroscience.",
+              },
+            ],
+          },
+
+          // ── Lesson 2: Psychometric Functions + Yes/No vs 2IFC ──
+          {
+            id: "w0q2l2",
+            questId: "w0q2",
+            worldId: "world0",
+            title: "Psychometric Functions: Measuring Sensitivity",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 5,
+            concept: [
+              {
+                type: "highlight",
+                content: "A psychometric function plots the probability of a correct (or 'yes') response against stimulus intensity. Its position tells you the threshold — how sensitive the observer is. But naively measuring it can be misleading.",
+              },
+              {
+                type: "text",
+                content: "**The problem with Yes/No tasks:**\nImagine you flash a dim light and ask 'Did you see it?' (yes or no). Two observers could have identical visual sensitivity but give very different psychometric functions — simply because one says 'yes' more liberally (lower decision criterion) than the other.\n\nThe cautious observer's curve shifts right. The liberal observer's curve shifts left. You can't tell if the difference is due to **sensitivity** (they actually see better) or **criterion** (they're just more willing to say yes).",
+              },
+              {
+                type: "highlight",
+                content: "✅ The fix: Two-Interval Forced Choice (2IFC). Present two intervals — one with the stimulus, one blank — and ask 'which interval had the light?' The observer must choose, so there's no decision criterion. Performance at zero signal is always exactly 50% by chance.",
+              },
+              {
+                type: "text",
+                content: "**2IFC advantages:**\n• Performance at zero signal is locked at 50% (chance)\n• Performance approaches 100% at high signal strength\n• Threshold = stimulus level at some defined performance (e.g., 75% or 84% correct)\n• 75% is halfway between chance (50%) and perfect (100%)\n• 84% is one standard deviation above 50% on a cumulative Gaussian — commonly used in research\n\nA **lower threshold** (the curve is shifted left) means the observer is genuinely MORE sensitive.",
+              },
+              {
+                type: "text",
+                content: "**Simultaneous contrast — an example of PSE:**\nTwo grey discs are physically the same luminance, but the one on a dark background looks brighter. The **Point of Subjective Equivalence (PSE)** is where two stimuli *feel* equal — even if they're physically different. PSE ≠ physical equality reveals a perceptual **bias** in the brain.\n\nFor this illusion, the brain seems to encode *contrast* (luminance relative to background) rather than absolute luminance. The neural correlate may be center-surround cells in the retina.",
+              },
+            ],
+          },
+
+          // ── MCQ 2 ──
+          {
+            id: "w0q2l2q",
+            questId: "w0q2",
+            worldId: "world0",
+            title: "Psychometric Functions Quiz",
+            type: "mcq",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 3,
+            questions: [
+              {
+                id: "w0q2l2q_1",
+                text: "Two subjects take a yes/no light detection test. Subject A's psychometric curve is shifted to the left (reports 'yes' at lower light levels). What can you conclude?",
+                options: [
+                  "Subject A definitely has better visual sensitivity",
+                  "Subject A definitely has a lower decision criterion (more liberal in saying 'yes')",
+                  "You can't distinguish whether A is more sensitive or just more liberal — you'd need a 2IFC task",
+                  "Subject A needs more trials to get a valid result",
+                ],
+                correctIndex: 2,
+                explanation: "In a yes/no task, the psychometric curve position is confounded by sensitivity AND decision criterion. Subject A might be more sensitive — or they might just say 'yes' more readily. Without a 2IFC design, you cannot separate these two explanations. This is the core problem with single-interval detection tasks.",
+              },
+              {
+                id: "w0q2l2q_2",
+                text: "In a 2IFC task with a well-designed experiment, what should performance be at zero signal strength (no stimulus present in either interval)?",
+                options: [
+                  "0% — they can't detect anything so they always get it wrong",
+                  "50% — pure chance, since the stimulus is absent",
+                  "75% — the standard threshold",
+                  "100% — they guess correctly half the time",
+                ],
+                correctIndex: 1,
+                explanation: "At zero signal, both intervals are blank — no information to distinguish them. A rational observer guesses randomly → 50% correct by chance. If you see a number other than 50% at zero signal, something went wrong with your randomization. This 50% floor is what makes 2IFC clean: it's a fixed reference point.",
+              },
+              {
+                id: "w0q2l2q_3",
+                text: "The Point of Subjective Equivalence (PSE) in the simultaneous contrast illusion is NOT at the point where the two discs are physically equal in luminance. What does this tell us?",
+                options: [
+                  "The experiment was designed incorrectly",
+                  "The brain encodes something other than absolute luminance — likely contrast relative to the background",
+                  "Psychophysics cannot study illusions",
+                  "Human eyes are always calibrated wrongly",
+                ],
+                correctIndex: 1,
+                explanation: "PSE reveals what the brain is actually computing. If two physically equal stimuli feel unequal, the brain must be representing something other than their raw physical value. Here it suggests the brain encodes relative contrast (disc vs background), not absolute luminance — which matches center-surround receptive fields in the retina and LGN.",
+              },
+            ],
+          },
+
+          // ── Lesson 3: Methods — Constant Stimuli vs Staircase ──
+          {
+            id: "w0q2l3",
+            questId: "w0q2",
+            worldId: "world0",
+            title: "Measuring Thresholds: Speed vs Precision",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 4,
+            concept: [
+              {
+                type: "highlight",
+                content: "Once you've chosen a task design (2IFC), you still need to decide how to choose stimulus intensities on each trial. Two classic methods: Method of Constant Stimuli (thorough but slow) and Staircases (fast but fragile).",
+              },
+              {
+                type: "text",
+                content: "**Method of Constant Stimuli:**\n• Pre-select a fixed set of stimulus intensities\n• Randomly present each many times (~20+ repetitions per level)\n• Plot proportion correct at each level → fit a smooth curve (cumulative Gaussian)\n• Read threshold off the fitted curve\n\n✅ Very reliable — hard to go wrong\n❌ Inefficient — needs ~300 trials; many trials at uninformative levels (too easy or too hard)",
+              },
+              {
+                type: "text",
+                content: "**Staircase methods:**\n• Start with an easy (high intensity) stimulus → subject gets it right\n• Make it harder (lower intensity) until they make a mistake\n• Then make it easier → harder → easier, 'walking up and down' around the threshold\n• Step size decreases over time, homing in on threshold\n\n✅ Fast — only ~30 trials needed\n❌ A few early errors (button press mistakes) can derail the whole staircase\n\n**Best practice:** average multiple interleaved staircases to get a stable estimate.",
+              },
+              {
+                type: "text",
+                content: "**JND vs Threshold:**\nThe detection threshold is really just a JND from zero — the smallest stimulus you can detect at all. For discrimination tasks (which weight is heavier? which light is brighter?), the JND is measured relative to a reference stimulus.\n\n**PSE vs JND in discrimination:**\n• PSE = stimulus level where subject is at 50% (what feels equal)\n• JND = how far you need to go from PSE to reach threshold performance (75% or 84%)\n• PSE tells you about **bias**; JND tells you about **sensitivity**",
+              },
+              {
+                type: "highlight",
+                content: "🎯 The big picture: neuroscience aims to relate all of human experience to neural activity. But you need precise measurement of *both* sides. Neural recordings give you the biology. Psychophysics gives you the perception. Without rigorous psychophysics, neural data has no behavioral anchor.",
+              },
+            ],
+          },
+
+          // ── MCQ 3 ──
+          {
+            id: "w0q2l3q",
+            questId: "w0q2",
+            worldId: "world0",
+            title: "Threshold Measurement Quiz",
+            type: "mcq",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 3,
+            questions: [
+              {
+                id: "w0q2l3q_1",
+                text: "A staircase procedure starts easy and adjusts difficulty based on responses. What is its main advantage over the Method of Constant Stimuli?",
+                options: [
+                  "It gives a more accurate threshold with fewer errors",
+                  "It's much faster — ~30 trials vs ~300 — because it focuses trials near the threshold",
+                  "It eliminates the decision criterion problem",
+                  "It works without a psychometric function",
+                ],
+                correctIndex: 1,
+                explanation: "The staircase's key advantage is efficiency: it automatically converges on the threshold region, so almost all trials carry useful information. The Method of Constant Stimuli wastes many trials at very easy or very hard levels. Staircase: ~30 trials. Constant stimuli: ~300 trials for similar accuracy.",
+              },
+              {
+                id: "w0q2l3q_2",
+                text: "You're measuring a staircase and the first two trials are wrong due to the subject accidentally pressing the wrong button. What is the risk?",
+                options: [
+                  "No risk — a staircase recovers automatically",
+                  "The staircase starts too easy and takes longer",
+                  "Early errors can push the staircase to very high intensities and it may struggle to recover, giving a biased threshold",
+                  "The staircase stops immediately after two errors",
+                ],
+                correctIndex: 2,
+                explanation: "Staircases are reactive — each error makes the next trial easier. Early accidental errors drive stimulus intensity up and the algorithm may spend many trials at high (easy) intensities before converging back near threshold. Best practice: average multiple staircases to wash out the effect of occasional error trials.",
+              },
+              {
+                id: "w0q2l3q_3",
+                text: "In a discrimination experiment, the PSE is at 3.2 log units and the reference is at 3.0 log units. What does this mean?",
+                options: [
+                  "The subject is very sensitive to differences",
+                  "The subject has a perceptual bias — they perceive the reference as if it were at 3.2, not its true 3.0",
+                  "The measurement was done incorrectly",
+                  "The JND is 0.2 log units",
+                ],
+                correctIndex: 1,
+                explanation: "PSE is where the subject is at 50% — where the test 'feels equal' to the reference. If PSE is at 3.2 but the reference is 3.0, the subject needs the test to be physically 0.2 log units higher before it feels equal. This reveals a bias: the reference is perceived as stronger than it actually is (like the disc that looks brighter on a dark background).",
+              },
+            ],
+          },
+        ],
+      },
+
+      // ── Quests 0.3–0.12 will be added as transcripts arrive ──
       // w0q3: Behavioral Readout
       // w0q4: Live in Lab
       // w0q5: Brain Signals — Spiking Activity

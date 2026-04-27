@@ -25,6 +25,7 @@ const initialState: UserState = {
   lessonProgress: {},
   questProgress: {},
   worldProgress: {
+    world0: { worldId: "world0", unlocked: true, completed: false },
     world1: { worldId: "world1", unlocked: true, completed: false },
     world2: { worldId: "world2", unlocked: true, completed: false },
     world3: { worldId: "world3", unlocked: true, completed: false },
@@ -32,8 +33,8 @@ const initialState: UserState = {
     world5: { worldId: "world5", unlocked: true, completed: false },
   },
   srCards: {},
-  currentWorldId: "world1",
-  currentQuestId: "w1q1",
+  currentWorldId: "world0",
+  currentQuestId: "w0q1",
 };
 
 // ─── Store Actions ─────────────────────────────────────────────
