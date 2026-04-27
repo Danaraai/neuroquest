@@ -3,6 +3,312 @@ import type { World } from "./types";
 // ─── World 1: Python Village ─────────────────────────────────
 
 export const WORLDS: World[] = [
+
+  // ─── World 0: NeuroJungle ──────────────────────────────────────
+  // Mirrors NMA W0D0 Neuro Video Series — brain science before any coding
+  {
+    id: "world0",
+    number: 0,
+    title: "NeuroJungle",
+    subtitle: "Explore how the brain works before you model it",
+    emoji: "🌴",
+    color: "#10B981",
+    colorDark: "#059669",
+    totalXP: 200,
+    quests: [
+
+      // ── Quest 0.1 — What Is the Brain? (Intro by Arvind Kumar) ──
+      {
+        id: "w0q1",
+        worldId: "world0",
+        number: 1,
+        title: "What Is the Brain?",
+        description: "Brain vs mind, neurons, synapses — the foundation of everything at NMA",
+        totalXP: 50,
+        lessons: [
+
+          // ── Lesson 1: Brain vs Mind + Anatomy ──
+          {
+            id: "w0q1l1",
+            questId: "w0q1",
+            worldId: "world0",
+            title: "Brain vs Mind — The Deepest Question",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 5,
+            concept: [
+              {
+                type: "highlight",
+                content: "The brain is made of matter. The mind is made of ideas. How does a physical object give rise to thoughts, memories, and consciousness? This is the central question of neuroscience.",
+              },
+              {
+                type: "text",
+                content: "**Mind** refers to ideas, purposes, and the ability to find patterns in the world. **Brain** is the material object — cells, chemicals, electrical signals. The brain's dynamics somehow *implement* the mind. We don't fully know how.",
+              },
+              {
+                type: "highlight",
+                content: "🔥 The brain uses ~20% of your body's oxygen despite being only 2% of your body weight. It is incredibly expensive to run — which means it must be doing something extremely important.",
+              },
+              {
+                type: "text",
+                content: "**The neocortex** (the outer wrinkled surface) is divided into regions with specific jobs:\n• **Occipital lobe** → Primary Visual Cortex (early vision processing)\n• **Temporal lobe** → Auditory Cortex, Wernicke's area (language understanding)\n• **Frontal lobe** → Broca's area (speech production), Motor Cortex, higher cognition\n• **Parietal lobe** → Somatosensory Cortex (touch, body position)",
+              },
+              {
+                type: "text",
+                content: "**Beneath the neocortex** are subcortical structures — evolutionarily older regions with specific roles:\n• **Hippocampus** → Memory formation and spatial navigation (\"where am I? what happened?\")\n• **Amygdala** → Fear processing and emotion (\"is this dangerous?\")\n• **Cerebellum** → Movement coordination and timing\n• **Basal ganglia** → Action selection and reward learning",
+              },
+              {
+                type: "highlight",
+                content: "💡 Knowing which region does what is not enough to understand the brain. To understand *how* the brain works, we need to zoom in to the cells — and that means neurons.",
+              },
+            ],
+          },
+
+          // ── MCQ 1 ──
+          {
+            id: "w0q1l1q",
+            questId: "w0q1",
+            worldId: "world0",
+            title: "Brain vs Mind Quiz",
+            type: "mcq",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 3,
+            questions: [
+              {
+                id: "w0q1l1q_1",
+                text: "The brain uses about 20% of the body's oxygen. What does this tell us?",
+                options: [
+                  "The brain is very large and needs a lot of fuel for its size",
+                  "The brain is metabolically expensive — it must be doing something critically important",
+                  "Oxygen is only needed for memory functions",
+                  "The brain is inefficient and wastes most of its energy",
+                ],
+                correctIndex: 1,
+                explanation: "The brain is only ~2% of body weight but uses ~20% of oxygen — a 10× disproportionate energy budget. This high cost reflects the immense computational work happening: billions of neurons firing, synapses updating, signals traveling at all times.",
+              },
+              {
+                id: "w0q1l1q_2",
+                text: "A patient loses the ability to understand spoken language but can still speak fluently. Which area is most likely damaged?",
+                options: [
+                  "Motor Cortex",
+                  "Primary Visual Cortex",
+                  "Wernicke's area (temporal lobe)",
+                  "Hippocampus",
+                ],
+                correctIndex: 2,
+                explanation: "Wernicke's area (temporal lobe) is responsible for language comprehension — understanding what is said. Broca's area (frontal lobe) handles speech production. Damage to Wernicke's → fluent but meaningless speech, no comprehension (Wernicke's aphasia).",
+              },
+              {
+                id: "w0q1l1q_3",
+                text: "A person can no longer form new long-term memories but can still remember their childhood. Which structure is most likely damaged?",
+                options: [
+                  "Amygdala",
+                  "Hippocampus",
+                  "Motor Cortex",
+                  "Occipital lobe",
+                ],
+                correctIndex: 1,
+                explanation: "The hippocampus is essential for forming NEW memories (encoding). Old memories already stored in cortex survive hippocampal damage. This is exactly what happened to famous patient H.M. — he couldn't form new memories but remembered his childhood perfectly.",
+              },
+            ],
+          },
+
+          // ── Lesson 2: Neurons — The Basic Unit ──
+          {
+            id: "w0q1l2",
+            questId: "w0q1",
+            worldId: "world0",
+            title: "Neurons: The Currency of Thought",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 5,
+            concept: [
+              {
+                type: "highlight",
+                content: "The brain has ~86 billion neurons. But that number alone doesn't make us special — elephants have more. What matters is HOW they connect.",
+              },
+              {
+                type: "text",
+                content: "A neuron is a highly specialized cell with three main parts:\n• **Dendrites** — branching input ports that receive signals from other neurons (think: antennae)\n• **Cell body (soma)** — integrates all incoming signals\n• **Axon** — the single output cable that sends signals to other neurons (can be up to 1 meter long!)",
+              },
+              {
+                type: "highlight",
+                content: "⚡ When a neuron receives enough input, it fires an **action potential** — a rapid voltage spike (~1 ms). Action potentials are the universal language of the brain: the 'currency of information processing.'",
+              },
+              {
+                type: "text",
+                content: "**All action potentials look the same** — same shape, same size, ~+40 mV peak. Information is encoded in the *timing* and *rate* of spikes, not the amplitude. A neuron firing 80 times per second is sending a different message than one firing 10 times per second.",
+              },
+              {
+                type: "text",
+                content: "**Excitatory vs Inhibitory neurons (Dale's Dogma):**\nNeurons are classified by what they release:\n• **Excitatory neurons** release glutamate → *increases* the chance the receiving neuron fires\n• **Inhibitory neurons** release GABA → *decreases* the chance the receiving neuron fires\n\nMost neurons are exclusively one or the other — this is called Dale's Principle. The balance between excitation and inhibition is crucial for normal brain function.",
+              },
+              {
+                type: "highlight",
+                content: "🎨 Santiago Ramón y Cajal (1852–1934) made the first drawings of neurons under a microscope. He proved neurons are individual cells — not one continuous network. He won the Nobel Prize in 1906 and is considered the father of modern neuroscience.",
+              },
+            ],
+          },
+
+          // ── MCQ 2 ──
+          {
+            id: "w0q1l2q",
+            questId: "w0q1",
+            worldId: "world0",
+            title: "Neurons Quiz",
+            type: "mcq",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 3,
+            questions: [
+              {
+                id: "w0q1l2q_1",
+                text: "A neuron's dendrites receive input and its axon sends output. Which direction does information flow?",
+                options: [
+                  "Axon → Cell body → Dendrites",
+                  "Dendrites → Cell body → Axon",
+                  "Cell body → Dendrites → Axon",
+                  "Randomly in all directions",
+                ],
+                correctIndex: 1,
+                explanation: "Information flows: Dendrites (receive input) → Cell body (integrates signals) → Axon (sends output). This directional flow is fundamental to how neural circuits work. Dendrites are inputs, axons are outputs — always.",
+              },
+              {
+                id: "w0q1l2q_2",
+                text: "Two neurons are firing. Neuron A fires at 80 Hz, Neuron B fires at 10 Hz. Their action potentials are otherwise identical. What encodes the difference in their messages?",
+                options: [
+                  "The amplitude (size) of the action potential",
+                  "The color of the electrical signal",
+                  "The firing rate (how often they fire per second)",
+                  "The location of the cell body",
+                ],
+                correctIndex: 2,
+                explanation: "All action potentials have the same shape and amplitude — this is the 'all-or-nothing' principle. Information is encoded in the firing RATE (how many spikes per second) and the TIMING of spikes. 80 Hz vs 10 Hz carries different information even though each individual spike looks identical.",
+              },
+              {
+                id: "w0q1l2q_3",
+                text: "An inhibitory neuron fires and releases GABA onto a target neuron. What happens to the target neuron's membrane voltage?",
+                options: [
+                  "It depolarizes (becomes more positive) — more likely to fire",
+                  "It hyperpolarizes (becomes more negative) — less likely to fire",
+                  "It immediately fires an action potential",
+                  "Nothing — GABA has no effect on voltage",
+                ],
+                correctIndex: 1,
+                explanation: "Inhibitory neurons release GABA, which causes hyperpolarization — the membrane potential becomes more negative (e.g., from -60 mV to -70 mV). This moves the neuron away from firing threshold (-50 mV), making it less likely to fire. Excitatory input does the opposite (depolarization).",
+              },
+            ],
+          },
+
+          // ── Lesson 3: Connections & What Makes the Brain Complex ──
+          {
+            id: "w0q1l3",
+            questId: "w0q1",
+            worldId: "world0",
+            title: "The Secret of Brain Complexity: Connections",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 5,
+            concept: [
+              {
+                type: "highlight",
+                content: "What makes the brain complex isn't the number of neurons — it's the connections. Each neuron receives ~10,000 inputs AND sends ~10,000 outputs. No other system we know has this density of interactions.",
+              },
+              {
+                type: "text",
+                content: "**Synapses** are the connections between neurons. Two types:\n• **Chemical synapses** (most common): the axon terminal releases **neurotransmitters** that diffuse across a tiny gap and bind to receptors on the receiving neuron's dendrite\n• **Electrical synapses** (gap junctions): direct physical contact — signals pass through instantly, but these are rare",
+              },
+              {
+                type: "text",
+                content: "**The synapse in detail:**\n1. Action potential arrives at axon terminal (pre-synaptic side)\n2. Vesicles release neurotransmitter into the synaptic cleft\n3. Neurotransmitter binds to receptors on the post-synaptic neuron\n4. Result: membrane potential goes up (excitatory) or down (inhibitory)\n\nSynaptic strength changes with learning and development — this plasticity is how memories are formed.",
+              },
+              {
+                type: "text",
+                content: "**The neocortex has 6 layers**, each with specific roles:\n• **Layer 4**: main input layer — receives signals from the thalamus\n• **Layers 2/3**: process and pass signals up; project to other cortical areas\n• **Layers 5/6**: send output to subcortical regions and back to layer 2/3\n\nThis layered circuit motif repeats across the entire neocortex — the same basic 'recipe' everywhere.",
+              },
+              {
+                type: "highlight",
+                content: "🧠 What makes the brain complex: (1) Dense connections — 10,000 per neuron. (2) Delayed connections — signals take time to travel. (3) Dynamic connections — strength changes through learning. (4) Structured connectivity — not random, but organized into a 'network of networks'.",
+              },
+              {
+                type: "text",
+                content: "**How do we study the brain?** We record neural activity while animals perform tasks, then look for correlations between behavior and activity. But correlation ≠ causation — we also need perturbation experiments (temporary lesions, optogenetics) to establish what's actually causing what. This is the scientific method applied to the brain.",
+              },
+            ],
+          },
+
+          // ── MCQ 3 ──
+          {
+            id: "w0q1l3q",
+            questId: "w0q1",
+            worldId: "world0",
+            title: "Connections Quiz",
+            type: "mcq",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 3,
+            questions: [
+              {
+                id: "w0q1l3q_1",
+                text: "C. elegans (a tiny worm) has only 302 neurons. Humans have ~86 billion. Yet humans are vastly more cognitively capable. According to Arvind Kumar's lecture, what primarily explains this difference?",
+                options: [
+                  "The number of neurons is what matters most",
+                  "Human neurons are much larger",
+                  "The structure and density of connections between neurons, not just the count",
+                  "Human neurons fire much faster",
+                ],
+                correctIndex: 2,
+                explanation: "Elephants have MORE neurons than humans (~256 billion vs ~86 billion) yet humans are cognitively different. The key is connectivity: how neurons are connected, the structure of those connections, and how synaptic strength changes with experience. The brain's complexity comes from its wiring, not the raw neuron count.",
+              },
+              {
+                id: "w0q1l3q_2",
+                text: "In a chemical synapse, what is the sequence of events when a signal arrives?",
+                options: [
+                  "Receptors open → neurotransmitter releases → action potential arrives",
+                  "Action potential arrives → neurotransmitter releases → receptors open → voltage changes",
+                  "Voltage changes → gap junction opens → signal passes through",
+                  "GABA releases → dendrites fire → axon resets",
+                ],
+                correctIndex: 1,
+                explanation: "Sequence: (1) Action potential arrives at axon terminal, (2) vesicles release neurotransmitter into the synaptic cleft, (3) neurotransmitter binds to post-synaptic receptors, (4) receptors open → membrane voltage changes (up for excitatory, down for inhibitory). This sequence takes ~1-2 ms.",
+              },
+              {
+                id: "w0q1l3q_3",
+                text: "Why isn't it sufficient to just record brain activity and find correlations with behavior?",
+                options: [
+                  "Because brain activity is too fast to measure",
+                  "Because correlation alone doesn't prove causation — we need perturbation experiments to find causal links",
+                  "Because behavior doesn't relate to brain activity at all",
+                  "Because all neurons are always active at the same rate",
+                ],
+                correctIndex: 1,
+                explanation: "Correlation tells you two things happen together, but not WHY. A region active during fear might just be nearby the real fear center. To establish causation, we need perturbation: temporarily inactivate a region (optogenetics, lesions) and see if behavior changes. This is the standard in systems neuroscience.",
+              },
+            ],
+          },
+        ],
+      },
+
+      // ── Quests 0.2–0.12 will be added as transcripts arrive ──
+      // w0q2: Human Psychophysics
+      // w0q3: Behavioral Readout
+      // w0q4: Live in Lab
+      // w0q5: Brain Signals — Spiking Activity
+      // w0q6: Brain Signals — LFP
+      // w0q7: Brain Signals — EEG & MEG
+      // w0q8: Brain Signals — fMRI
+      // w0q9: Brain Signals — Calcium Imaging
+      // w0q10: Stimulus Representation
+      // w0q11: Neurotransmitters
+      // w0q12: Neurons to Consciousness
+
+    ],
+  },
+
   {
     id: "world1",
     number: 1,
