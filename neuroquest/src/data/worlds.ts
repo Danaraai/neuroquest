@@ -556,8 +556,280 @@ export const WORLDS: World[] = [
         ],
       },
 
-      // ── Quests 0.3–0.12 will be added as transcripts arrive ──
-      // w0q3: Behavioral Readout
+      // ── Quest 0.3 — Behavioral Readout (Ella Betty) ──────────
+      {
+        id: "w0q3",
+        worldId: "world0",
+        number: 3,
+        title: "Behavioral Readouts",
+        description: "How neuroscientists measure what animals do — from wheel turns to whisker twitches",
+        totalXP: 50,
+        lessons: [
+
+          // ── Lesson 1: Why Behavior + 2AFC in Animals ──
+          {
+            id: "w0q3l1",
+            questId: "w0q3",
+            worldId: "world0",
+            title: "Why Measure Behavior?",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 5,
+            concept: [
+              {
+                type: "highlight",
+                content: "Neuroscientists don't just record from the brain — they need to know what the animal is *doing* and *experiencing* at the same time. Behavior is the other half of the equation.",
+              },
+              {
+                type: "text",
+                content: "**Two reasons to study behavior:**\n1. **Behavior itself is interesting** — studying it reveals decision-making strategies, memory quality, and how animals perceive the world\n2. **Relating behavior to neural activity** — to understand the brain, you need to know what the animal is experiencing or doing while you record from it",
+              },
+              {
+                type: "text",
+                content: "**Model organisms** in neuroscience include mice, rats, flies, fish, monkeys, and humans. Each species brings different behavioral repertoires. The challenge: there are many levels of granularity:\n• **Coarse**: did the monkey look left or right?\n• **Fine**: what tiny nose twitch did the mouse make 200 ms before a decision?",
+              },
+              {
+                type: "highlight",
+                content: "🐭 Animals can't speak. So to study decision making, we need behavioral *proxies* — physical actions that report what the animal perceived or decided.",
+              },
+              {
+                type: "text",
+                content: "**Two-Alternative Forced Choice (2AFC) in animals:**\nThe same logic as in human psychophysics, adapted for animals that can't press buttons or speak:\n• **Mice**: turn a wheel (left/right), lick one of two spouts, nose-poke into one of two ports\n• **Monkeys**: look left or right (eye tracking), use a joystick\n\nExample: the International Brain Laboratory showed mice a grating on the left or right side of a screen. Mice turned a wheel clockwise/counterclockwise to report which side they saw. Same experiment as human psychophysics — but the readout is the wheel.",
+              },
+              {
+                type: "text",
+                content: "**The Niesol/Churchland 2019 study:** mice performed a *delayed* 2AFC — they grab handles (initiating the trial), see the stimulus, wait 1 second, then lick a spout to report their decision. The 1-second delay separates perception from motor action, so neural recordings during the delay reflect the mouse's memory of what it saw — not the movement itself.\n\nSensors captured: handle grabs (trial start), lick spouts (choice), left/right decision, success/failure.",
+              },
+            ],
+          },
+
+          // ── MCQ 1 ──
+          {
+            id: "w0q3l1q",
+            questId: "w0q3",
+            worldId: "world0",
+            title: "Behavioral Readouts Quiz 1",
+            type: "mcq",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 3,
+            questions: [
+              {
+                id: "w0q3l1q_1",
+                text: "In the Niesol/Churchland 2019 study, mice had a 1-second delay between seeing the stimulus and making a response. Why is this delay important?",
+                options: [
+                  "It gives the mouse time to rest before responding",
+                  "It temporally separates perception from movement, so neural activity during the delay reflects memory/decision, not motor action",
+                  "It makes the task harder so the mouse learns better",
+                  "The delay ensures the mouse always chooses correctly",
+                ],
+                correctIndex: 1,
+                explanation: "The 1-second delay separates the sensory event (seeing the stimulus) from the motor event (licking). Neural recordings during this delay window reflect the animal's internal representation of what it saw — not any movement. This is a classic technique for studying working memory and decision formation.",
+              },
+              {
+                id: "w0q3l1q_2",
+                text: "A monkey experiment uses eye tracking to determine the monkey's choice in a 2AFC task. Why use eye tracking instead of a joystick?",
+                options: [
+                  "Monkeys can't use joysticks",
+                  "Eye movements are faster and more natural for primates — gaze reveals attention and decision without requiring manual training",
+                  "Eye tracking is more accurate than joysticks",
+                  "Joysticks only work for mice",
+                ],
+                correctIndex: 1,
+                explanation: "Monkeys naturally move their eyes to look at things of interest. For a 'look left or look right' decision task, eye tracking directly captures where the monkey is directing attention. It's natural, doesn't require extensive motor training, and is widely used in primate research. The direction of gaze is the behavioral readout of the decision.",
+              },
+              {
+                id: "w0q3l1q_3",
+                text: "Why do neuroscientists use passive viewing experiments (just showing a video to an animal) less often than active task experiments?",
+                options: [
+                  "Passive viewing is illegal in most countries",
+                  "In passive viewing we can't relate neural activity to behavior — there is no behavior — which limits what we can infer about function",
+                  "Animals don't watch videos",
+                  "Passive viewing only works with humans",
+                ],
+                correctIndex: 1,
+                explanation: "In passive viewing, the animal just receives stimuli — there's no decision, no action, nothing to relate the neural activity TO. Active task designs give you a behavioral readout (a choice, a movement) that you can correlate with neural signals, allowing you to ask: 'when the neuron fires, what is the animal deciding/perceiving/doing?'",
+              },
+            ],
+          },
+
+          // ── Lesson 2: Complex Movement + DeepLabCut ──
+          {
+            id: "w0q3l2",
+            questId: "w0q3",
+            worldId: "world0",
+            title: "Tracking Complex Movements",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 5,
+            concept: [
+              {
+                type: "highlight",
+                content: "Recording 'the mouse turned left' captures the decision. But the mouse was also twitching its whiskers, moving its paws, dilating its pupils — and all of that movement influences brain activity too. Modern neuroscience increasingly tracks everything.",
+              },
+              {
+                type: "text",
+                content: "**The problem with video data:** a behavioral video has thousands of pixels per frame and hundreds of frames per second. That's millions of numbers — a very high-dimensional dataset. It's hard to analyze or relate to neural activity in that raw form.",
+              },
+              {
+                type: "text",
+                content: "**Solution 1: Body part tracking with DeepLabCut**\nNeuroscientists developed DeepLabCut — a software tool that uses deep neural networks to automatically track body parts:\n1. You manually label a few frames (where are the fingers? the nose? the tail?)\n2. A deep network trains on your labels\n3. The network tracks those body parts automatically in all remaining frames\n\nResult: instead of raw pixels, you get x/y coordinates of each body part over time — much easier to analyze. Works on mice, flies, fish, monkeys, humans.",
+              },
+              {
+                type: "text",
+                content: "**Solution 2: Dimensionality reduction**\nEven beyond body parts, there are micro-movements (throat movements, tiny nose twitches) that DeepLabCut doesn't easily capture. A complementary approach: compress the entire video into a low-dimensional representation.\n\nIn the Niesol/Churchland study, each video frame (thousands of pixels) was compressed into ~200 numbers that captured most of the movement information. This makes statistical analysis tractable.",
+              },
+              {
+                type: "highlight",
+                content: "🔑 Key finding from the Churchland lab: cortex-wide neural activity was dominated by movement — especially *uninstructed* movements (whisking, fidgeting) not related to the task. This shows why capturing ALL behaviors matters: they're not noise, they're driving brain activity.",
+              },
+              {
+                type: "text",
+                content: "**Naturalistic behavior: behavioral syllables**\nBob Datta's lab (Harvard) used a depth camera to record mice freely exploring an open arena. Using dimensionality reduction + Hidden Markov Models, they automatically segmented behavior into discrete 'syllables': walking, pausing, rearing, grooming. This allows quantitative analysis of natural behavior without any task — just a mouse being a mouse.",
+              },
+            ],
+          },
+
+          // ── MCQ 2 ──
+          {
+            id: "w0q3l2q",
+            questId: "w0q3",
+            worldId: "world0",
+            title: "Movement Tracking Quiz",
+            type: "mcq",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 3,
+            questions: [
+              {
+                id: "w0q3l2q_1",
+                text: "DeepLabCut requires manually labeling body parts in only a few video frames. How does it then track those parts in thousands of remaining frames?",
+                options: [
+                  "It copies the labels from the first frame to all others",
+                  "A researcher manually labels every frame",
+                  "It trains a deep neural network on the labeled examples, then the network predicts body part locations in unlabeled frames",
+                  "It uses GPS sensors attached to the animal",
+                ],
+                correctIndex: 2,
+                explanation: "DeepLabCut uses supervised learning: your manual labels are the training data. The network learns what each body part looks like, then applies that knowledge to every frame. This turns hours of manual labeling into minutes — and is more consistent than human annotation across thousands of frames.",
+              },
+              {
+                id: "w0q3l2q_2",
+                text: "The Churchland lab found that cortex-wide neural activity was dominated by movement — especially *uninstructed* movements like whisking and fidgeting. What does this imply for experimental design?",
+                options: [
+                  "Experiments should prevent animals from moving so neural data is cleaner",
+                  "Only task-related neural activity should be analyzed",
+                  "Capturing all behavioral readouts is essential — uninstructed movements are not noise, they strongly modulate brain activity",
+                  "Fidgeting behavior means the animal is not engaged in the task",
+                ],
+                correctIndex: 2,
+                explanation: "If uninstructed movements (not part of the task) strongly drive neural activity, then ignoring them means your neural analysis is confounded. You'd attribute activity to the task when it's actually explained by a whisker twitch. This is why modern neuroscience insists on comprehensive behavioral monitoring alongside neural recording.",
+              },
+              {
+                id: "w0q3l2q_3",
+                text: "Why compress a behavioral video from thousands of pixels per frame down to ~200 numbers?",
+                options: [
+                  "To save storage space on the computer",
+                  "Because 200 pixels is the maximum any camera can record",
+                  "A lower-dimensional representation retains most behavioral information while making statistical analysis and correlation with neural data tractable",
+                  "Compression improves video quality",
+                ],
+                correctIndex: 2,
+                explanation: "You can't directly correlate thousands of pixel values with neural spike trains — too many dimensions, too noisy. Dimensionality reduction (e.g., PCA, autoencoders) finds a compact representation that captures the most important variation in behavior. With ~200 numbers per frame, you can run regressions against neural activity and find what movements explain neural responses.",
+              },
+            ],
+          },
+
+          // ── Lesson 3: Memory, Fear, Eye Tracking ──
+          {
+            id: "w0q3l3",
+            questId: "w0q3",
+            worldId: "world0",
+            title: "Memory, Fear, and Gaze",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 4,
+            concept: [
+              {
+                type: "highlight",
+                content: "Navigation, freezing, and eye movements are three classic behavioral readouts that reveal memory, internal state, and attention — without needing the animal to press a button or lick a spout.",
+              },
+              {
+                type: "text",
+                content: "**Morris Water Maze — spatial memory:**\nA mouse is placed in a pool of water with a hidden submerged platform. Initially the mouse swims randomly. After repeated trials, it learns the platform's location relative to visual landmarks on the walls.\n\nAfter learning: the mouse swims *directly* to the platform. The readout is the swim path — how quickly and directly it finds the platform. This tests **spatial learning and memory** (hippocampus-dependent).\n\nApplications: hippocampal lesion studies, Alzheimer's disease models, effects of drugs on memory.",
+              },
+              {
+                type: "text",
+                content: "**Fear conditioning — internal state:**\nMice naturally freeze (stop all movement) when they see a predator. Neuroscientists exploit this:\n1. **Context conditioning**: shock the mouse in an environment → the mouse freezes when returned to that environment days later (it remembered the scary place)\n2. **Cue conditioning**: pair a tone with a shock → the mouse eventually freezes just on hearing the tone (Pavlovian conditioning)\n\nFreezing duration = indirect measure of fear. No surgery required — just a camera measuring movement.",
+              },
+              {
+                type: "text",
+                content: "**Eye tracking — attention and social cognition:**\nTracking exactly where an animal looks reveals what it's paying attention to and how it parses complex scenes.\n\nExample: monkeys were shown images of other monkeys' faces. Eye tracking revealed they spent the most time looking at the eyes — just like humans do when viewing faces. This shows that social attention mechanisms are conserved across primates.",
+              },
+              {
+                type: "highlight",
+                content: "🧠 The goal of all these readouts: pair behavioral data with neural recordings to understand what computations the brain is performing. Behavior is the output we're trying to explain. Neural activity is the mechanism. Behavioral readouts connect the two.",
+              },
+            ],
+          },
+
+          // ── MCQ 3 ──
+          {
+            id: "w0q3l3q",
+            questId: "w0q3",
+            worldId: "world0",
+            title: "Memory & Internal State Quiz",
+            type: "mcq",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 3,
+            questions: [
+              {
+                id: "w0q3l3q_1",
+                text: "In the Morris Water Maze, a mouse that has learned the platform location swims directly to it. What neural structure is this task most commonly used to study?",
+                options: [
+                  "Motor cortex — because swimming requires motor planning",
+                  "Hippocampus — because the task requires spatial learning and memory",
+                  "Amygdala — because water is stressful",
+                  "Visual cortex — because the mouse uses visual landmarks",
+                ],
+                correctIndex: 1,
+                explanation: "The Morris Water Maze is the canonical test for hippocampal function. The hippocampus is essential for spatial navigation and encoding the relationship between locations and landmarks. Hippocampal lesions severely impair Morris Water Maze performance — the mouse can't remember where the platform was even after many trials.",
+              },
+              {
+                id: "w0q3l3q_2",
+                text: "A mouse was shocked in a blue box, then a tone was paired with shocks in a different location. Two days later, it freezes both when placed back in the blue box AND when it hears the tone in a neutral environment. What do these two freezing responses demonstrate?",
+                options: [
+                  "Context conditioning (blue box) and cue conditioning (tone) — both forms of fear memory",
+                  "The mouse is generally anxious and freezes randomly",
+                  "The mouse forgot the context but remembered the tone",
+                  "Freezing is triggered by any novel environment",
+                ],
+                correctIndex: 0,
+                explanation: "Two distinct memory types: context conditioning associates the entire environment (blue box) with fear — the hippocampus is critical here. Cue conditioning associates a specific stimulus (tone) with fear — the amygdala is critical. Both can exist independently. Selective lesions allow researchers to dissect which brain regions mediate each type.",
+              },
+              {
+                id: "w0q3l3q_3",
+                text: "Eye tracking showed that monkeys viewing images of other monkeys' faces focused most on the eyes — just like humans do. What does this finding demonstrate?",
+                options: [
+                  "Monkeys are attracted to shiny objects",
+                  "Eye tracking is only valid for human studies",
+                  "Social attention mechanisms (prioritizing eyes in face processing) are conserved across primates — monkeys and humans share this neural strategy",
+                  "Monkeys have better vision than other animals",
+                ],
+                correctIndex: 2,
+                explanation: "This is a beautiful example of comparative neuroscience. The same face-parsing strategy (focus on eyes first) found in humans also appears in monkeys. This suggests these attention mechanisms are evolutionarily ancient and likely involve similar neural circuits in both species — making monkeys a valid model for studying human social cognition.",
+              },
+            ],
+          },
+        ],
+      },
+
+      // ── Quests 0.4–0.12 will be added as transcripts arrive ──
+      // w0q4: Live in Lab
       // w0q4: Live in Lab
       // w0q5: Brain Signals — Spiking Activity
       // w0q6: Brain Signals — LFP
