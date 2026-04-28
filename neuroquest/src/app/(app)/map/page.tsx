@@ -34,7 +34,8 @@ export default function MapPage() {
 
           {WORLDS.map((world, index) => {
             const wp = worldProgress[world.id];
-            const unlocked = wp?.unlocked ?? false;
+            // Default to unlocked=true if no persisted entry exists (handles new worlds added after user's first visit)
+            const unlocked = wp?.unlocked ?? true;
             const completed = wp?.completed ?? false;
             const isFirst = index === 0;
 

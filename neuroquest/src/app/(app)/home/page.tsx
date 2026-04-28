@@ -175,7 +175,7 @@ export default function HomePage() {
         <div className="grid grid-cols-5 gap-2">
           {WORLDS.map((world) => {
             const wp = worldProgress[world.id];
-            const unlocked = wp?.unlocked ?? false;
+            const unlocked = wp?.unlocked ?? true;
             const completed = wp?.completed ?? false;
 
             return (
