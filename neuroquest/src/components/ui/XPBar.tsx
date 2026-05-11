@@ -9,9 +9,10 @@ import { Flame } from "lucide-react";
 interface XPBarProps {
   compact?: boolean;
   className?: string;
+  accentColor?: string;
 }
 
-export function XPBar({ compact = false, className }: XPBarProps) {
+export function XPBar({ compact = false, className, accentColor = "#58CC02" }: XPBarProps) {
   const { stats } = useStore();
   const { level, nextLevel, progress } = getXPProgress(stats.totalXP);
 
@@ -38,22 +39,25 @@ export function XPBar({ compact = false, className }: XPBarProps) {
 
   return (
     <div className={cn("w-full", className)}>
-      <div className="flex items-center justify-between mb-1">
+      <div className="flex items-center justify-between mb-[5px]">
         <span
-          className="text-xs font-bold text-[#AFAFAF] uppercase tracking-wide"
-          style={{ fontFamily: "var(--font-display)" }}
+          className="text-[11px] font-semibold uppercase tracking-wide"
+          style={{ color: "#5A5E8A", fontFamily: "var(--font-display)" }}
         >
-          Lv {level.level} · {level.title}
+          LV {level.level} · {level.title}
         </span>
-        <span className="text-xs font-semibold text-[#FFD700]">
-          {formatXP(stats.totalXP)} XP
-          {nextLevel && ` / ${formatXP(nextLevel.minXP)}`}
+        <span className="text-[11px] font-semibold" style={{ color: "#5A5E8A" }}>
+          {formatXP(stats.totalXP)} / {nextLevel ? formatXP(nextLevel.minXP) : "MAX"} XP
         </span>
       </div>
-      <div className="progress-bar-track">
+      <div className="h-[5px] rounded-full" style={{ background: "rgba(255,255,255,0.06)" }}>
         <div
-          className="progress-bar-fill"
-          style={{ width: `${Math.min(progress * 100, 100)}%` }}
+          className="h-full rounded-full transition-all duration-500"
+          style={{
+            width: `${Math.min(progress * 100, 100)}%`,
+            background: `linear-gradient(90deg, ${accentColor}, #58CC02)`,
+            boxShadow: `0 0 8px ${accentColor}66`,
+          }}
         />
       </div>
     </div>

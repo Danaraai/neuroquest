@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NeuroQuest — System Architecture</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: #F0F4F8;
+  padding: 28px 28px 20px;
+  color: #1E293B;
+}
+
+.container { max-width: 1320px; margin: 0 auto; }
+
+h1 { text-align: center; font-size: 20px; font-weight: 800; color: #0F172A; letter-spacing: -0.4px; margin-bottom: 3px; }
+.subtitle { text-align: center; color: #64748B; font-size: 11.5px; margin-bottom: 18px; }
+
+/* ── Layers ── */
+.layer { border-radius: 12px; padding: 10px 14px; }
+.layer-label { font-size: 8.5px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; opacity: 0.6; }
+
+.layer-author  { background: #F8FAFC; border: 1.5px solid #CBD5E1; }
+.layer-vercel  { background: #FFFBEB; border: 1.5px solid #FCD34D; }
+.layer-browser { background: #EFF6FF; border: 1.5px solid #BFDBFE; }
+.layer-rag     { background: #FFF1F2; border: 1.5px solid #FECDD3; }
+
+/* ── Nodes ── */
+.node {
+  background: #fff;
+  border-radius: 8px;
+  padding: 8px 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.07);
+  transition: box-shadow .15s, transform .15s;
+  cursor: default;
+}
+.node:hover { box-shadow: 0 4px 14px rgba(0,0,0,.12); transform: translateY(-2px); }
+.node-title { font-size: 11px; font-weight: 700; color: #0F172A; margin-bottom: 3px; display: flex; align-items: center; gap: 4px; }
+.node-sub { font-size: 9.5px; color: #64748B; line-height: 1.5; }
+
+/* ── Rows ── */
+.row { display: flex; align-items: center; gap: 8px; }
+.row-center  { justify-content: center; }
+.row-stretch > .node { flex: 1; }
+
+/* ── Arrows ── */
+.arr     { color: #94A3B8; font-size: 16px; flex-shrink: 0; user-select: none; }
+.arr-red { color: #F43F5E; }
+
+/* ── Vertical connectors ── */
+.v-conn { display: flex; flex-direction: column; align-items: center; padding: 4px 0; }
+.v-line { width: 2px; height: 12px; background: #CBD5E1; }
+.v-pill {
+  font-size: 9px; font-weight: 600; color: #64748B;
+  padding: 1px 10px; background: #fff;
+  border: 1px solid #E2E8F0; border-radius: 20px;
+  margin: 2px 0; white-space: nowrap;
+}
+.v-head { width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 6px solid #CBD5E1; }
+
+.v-conn.red .v-line { background: #F43F5E; }
+.v-conn.red .v-pill { border-color: #FECDD3; color: #F43F5E; }
+.v-conn.red .v-head { border-top-color: #F43F5E; }
+
+/* ── Split arrows ── */
+.split-row { display: flex; gap: 24px; }
+.split-col { flex: 1; display: flex; justify-content: center; }
+
+/* ── Service boxes ── */
+.services { display: flex; gap: 16px; }
+.svc { flex: 1; border-radius: 10px; padding: 12px 14px; }
+.svc-supabase  { background: #F0FDF4; border: 2px solid #4ADE80; }
+.svc-fireworks { background: #FFF7ED; border: 2px solid #FB923C; }
+.svc-title { font-size: 12px; font-weight: 800; margin-bottom: 8px; }
+.svc-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.svc-chip {
+  font-size: 10px; color: #374151; background: #fff;
+  border-radius: 5px; padding: 4px 9px;
+  box-shadow: 0 1px 2px rgba(0,0,0,.05);
+}
+.svc-chip.muted { color: #94A3B8; }
+
+/* ── Accents ── */
+.t-green  { border-top: 3px solid #16A34A; }
+.t-purple { border-top: 3px solid #9333EA; }
+.t-teal   { border-top: 3px solid #0D9488; }
+.t-red    { border-top: 3px solid #F43F5E; }
+
+/* ── Step badge ── */
+.badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 15px; height: 15px; border-radius: 50%;
+  background: #F43F5E; color: #fff;
+  font-size: 8px; font-weight: 800; flex-shrink: 0;
+}
+
+/* ── Legend ── */
+.legend { display: flex; gap: 20px; justify-content: center; margin-top: 14px; padding-top: 12px; border-top: 1px solid #E2E8F0; }
+.leg { display: flex; align-items: center; gap: 6px; font-size: 10.5px; color: #64748B; }
+.leg-dot { width: 9px; height: 9px; border-radius: 2px; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <h1>🧠 NeuroQuest — System Architecture</h1>
+  <p class="subtitle">Next.js 16 PWA &nbsp;·&nbsp; Agentic RAG Chat &nbsp;·&nbsp; Vercel &nbsp;·&nbsp; Supabase &nbsp;·&nbsp; Fireworks AI</p>
+
+  <!-- LAYER 1: AUTHORING -->
+  <div class="layer layer-author">
+    <div class="layer-label">📝 Content Authoring</div>
+    <div class="row row-center">
+      <svg width="36" height="36" viewBox="0 0 44 44" fill="none" style="flex-shrink:0">
+        <circle cx="22" cy="14" r="8" fill="#94A3B8"/>
+        <ellipse cx="22" cy="34" rx="14" ry="9" fill="#94A3B8"/>
+      </svg>
+      <span class="arr">→</span>
+      <div class="node">
+        <div class="node-title">NMA Transcripts &amp; Book Text</div>
+        <div class="node-sub">Video transcripts + textbook excerpts</div>
+      </div>
+      <span class="arr">→</span>
+      <div class="node">
+        <div class="node-title">sources/ folder</div>
+        <div class="node-sub">Raw .md files per world/quest</div>
+      </div>
+      <span class="arr">→</span>
+      <div class="node">
+        <div class="node-title">worlds.ts</div>
+        <div class="node-sub">Worlds → Quests → Lessons (TypeScript)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="v-conn">
+    <div class="v-line"></div>
+    <div class="v-pill">git push</div>
+    <div class="v-line"></div>
+    <div class="v-head"></div>
+  </div>
+
+  <!-- LAYER 2: VERCEL -->
+  <div class="layer layer-vercel">
+    <div class="layer-label">🚀 Vercel — Build &amp; Deploy</div>
+    <div class="row row-stretch row-center">
+      <div class="node">
+        <div class="node-title">npm run build</div>
+        <div class="node-sub">Bundles worlds.ts into JS · Static generation</div>
+      </div>
+      <span class="arr">→</span>
+      <div class="node">
+        <div class="node-title">Global CDN Edge</div>
+        <div class="node-sub">Worldwide distribution · &lt;50ms TTFB</div>
+      </div>
+      <span class="arr">→</span>
+      <div class="node">
+        <div class="node-title">Service Worker</div>
+        <div class="node-sub">PWA / Offline support · Installable on mobile</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="v-conn">
+    <div class="v-line"></div>
+    <div class="v-pill">HTTP request</div>
+    <div class="v-line"></div>
+    <div class="v-head"></div>
+  </div>
+
+  <!-- LAYER 3: BROWSER -->
+  <div class="layer layer-browser">
+    <div class="layer-label">🖥️ User Browser / Mobile — Client Side (no server needed for lessons)</div>
+    <div class="row row-stretch">
+      <div class="node t-green">
+        <div class="node-title">Lesson Engine</div>
+        <div class="node-sub">ConceptCard · MCQCard · FlashCard · FillCard</div>
+      </div>
+      <div class="node t-purple">
+        <div class="node-title">Python Sandbox</div>
+        <div class="node-sub">Pyodide / WASM · numpy · matplotlib (in-tab)</div>
+      </div>
+      <div class="node t-teal">
+        <div class="node-title">State Layer</div>
+        <div class="node-sub">Zustand + localStorage · XP · Streak · SM-2</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="v-conn red">
+    <div class="v-line"></div>
+    <div class="v-pill">/api/chat — user taps Ilya</div>
+    <div class="v-line"></div>
+    <div class="v-head"></div>
+  </div>
+
+  <!-- LAYER 4: RAG -->
+  <div class="layer layer-rag">
+    <div class="layer-label">🔍 RAG Layer — Next.js API Route /api/chat</div>
+    <div class="row row-center">
+      <div class="node t-red">
+        <div class="node-title"><span class="badge">1</span> Embed Question</div>
+        <div class="node-sub">Fireworks nomic-embed-text</div>
+      </div>
+      <span class="arr arr-red">→</span>
+      <div class="node t-red">
+        <div class="node-title"><span class="badge">2</span> Vector Search</div>
+        <div class="node-sub">Supabase pgvector · top 3 chunks</div>
+      </div>
+      <span class="arr arr-red">→</span>
+      <div class="node t-red">
+        <div class="node-title"><span class="badge">3</span> Generate Answer</div>
+        <div class="node-sub">Fireworks Llama 3.3 70B + context</div>
+      </div>
+      <span class="arr arr-red">→</span>
+      <div class="node t-red">
+        <div class="node-title"><span class="badge">4</span> Stream Response</div>
+        <div class="node-sub">→ Ilya mascot chat UI</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SPLIT ARROWS -->
+  <div class="split-row">
+    <div class="split-col">
+      <div class="v-conn"><div class="v-line"></div><div class="v-head"></div></div>
+    </div>
+    <div class="split-col">
+      <div class="v-conn"><div class="v-line"></div><div class="v-head"></div></div>
+    </div>
+  </div>
+
+  <!-- LAYER 5: SERVICES -->
+  <div class="services">
+    <div class="svc svc-supabase">
+      <div class="svc-title" style="color:#15803D">🗄️ SUPABASE</div>
+      <div class="svc-row">
+        <span class="svc-chip">pgvector — NMA chunks + embeddings</span>
+        <span class="svc-chip">user_stats</span>
+        <span class="svc-chip">lesson_progress</span>
+        <span class="svc-chip">quest_progress</span>
+        <span class="svc-chip muted">sr_cards (future)</span>
+      </div>
+    </div>
+    <div class="svc svc-fireworks">
+      <div class="svc-title" style="color:#C2410C">🔥 FIREWORKS AI</div>
+      <div class="svc-row">
+        <span class="svc-chip">nomic-embed-text — embeddings (runs once per content update)</span>
+        <span class="svc-chip">Llama 3.3 70B — chat responses (streaming)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEGEND -->
+  <div class="legend">
+    <div class="leg"><div class="leg-dot" style="background:#3B82F6"></div>Client-side</div>
+    <div class="leg"><div class="leg-dot" style="background:#F43F5E"></div>Server / API</div>
+    <div class="leg"><div class="leg-dot" style="background:#16A34A"></div>External Services</div>
+    <div class="leg" style="margin-left:24px;font-size:10px;color:#94A3B8">Next.js · Vercel · Supabase · Fireworks AI · Pyodide</div>
+  </div>
+
+</div>
+</body>
+</html>

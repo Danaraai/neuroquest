@@ -1,14 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { Flame, BookOpen, RotateCcw, Trophy, ChevronRight, Lock } from "lucide-react";
-import { Ilya, IlyaBubble } from "@/components/ilya/Ilya";
-import { IlyaIntro } from "@/components/home/IlyaIntro";
-import { XPBar } from "@/components/ui/XPBar";
 import { useStore, selectDueReviewCount } from "@/lib/store";
 import { WORLDS } from "@/data/worlds";
 import { getGreeting, pluralize } from "@/lib/utils";
-import { cn } from "@/lib/utils";
+import { Ilya, IlyaBubble } from "@/components/ilya/Ilya";
+import { IlyaIntro } from "@/components/home/IlyaIntro";
+import { XPBar } from "@/components/ui/XPBar";
+import { NeuronCanvas } from "@/components/ui/NeuronCanvas";
+
+const ACCENT = "#00DCFF";
 
 export default function HomePage() {
   const { stats, worldProgress, questProgress, currentWorldId, currentQuestId } = useStore();
@@ -20,222 +21,215 @@ export default function HomePage() {
   const greeting = getGreeting();
   const completedQuests = Object.values(questProgress).filter((q) => q.completed).length;
 
-  // Compute Ilya's message
   const ilyaMessage =
     stats.currentStreak >= 7
       ? `${stats.currentStreak} days in a row! You're unstoppable! 🔥`
       : stats.currentStreak > 0
-      ? `Day ${stats.currentStreak} streak! Keep going!`
+      ? `Day ${stats.currentStreak} streak — keep going!`
       : dueCount > 0
       ? `${dueCount} cards need review — your brain will thank you!`
       : `Ready to unlock ${currentWorld?.title ?? "the next world"}?`;
 
   return (
-    <div className="min-h-screen bg-[#1A1B2E] px-4 pt-safe safe-top">
+    <div className="min-h-screen relative overflow-x-hidden" style={{ background: "#080A18", fontFamily: "'Inter', sans-serif" }}>
+      {/* Animated neuron background */}
+      <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 0 }}>
+        <NeuronCanvas width={800} height={900} density={0.5} color={ACCENT} />
+      </div>
+
       <IlyaIntro />
 
-      {/* ── Top bar ── */}
-      <div className="flex items-center justify-between pt-4 pb-3">
-        <div className="flex items-center gap-2">
-          <Ilya state="idle" size={36} />
-          <span
-            className="text-base font-black text-white"
-            style={{ fontFamily: "var(--font-display)" }}
-          >
-            NeuroQuest
-          </span>
-        </div>
-        <div className="flex items-center gap-2">
-          {/* Streak */}
-          <div className="flex items-center gap-1 bg-[#2E3058] rounded-full px-3 py-1.5">
-            <Flame className="w-4 h-4 text-orange-400" />
-            <span className="text-sm font-bold text-white" style={{ fontFamily: "var(--font-display)" }}>
-              {stats.currentStreak}
-            </span>
-          </div>
-          {/* XP */}
-          <div className="flex items-center gap-1 bg-[#2E3058] rounded-full px-3 py-1.5">
-            <span className="text-yellow-400 text-xs">⭐</span>
-            <span className="text-sm font-bold text-white" style={{ fontFamily: "var(--font-display)" }}>
-              {stats.totalXP}
-            </span>
-          </div>
-        </div>
-      </div>
-
-      {/* ── XP Progress bar ── */}
-      <div className="mb-5">
-        <XPBar />
-      </div>
-
-      {/* ── Ilya greeting ── */}
-      <div className="mb-5 animate-slide-up">
-        <IlyaBubble
-          message={`${greeting}! ${ilyaMessage}`}
-          state={stats.currentStreak >= 3 ? "celebrate" : "idle"}
-          size={56}
-        />
-      </div>
-
-      {/* ── Daily Review card (shown if due cards exist) ── */}
-      {dueCount > 0 && (
-        <Link href="/review" className="block mb-4 animate-slide-up">
-          <div
-            className="card p-4 flex items-center justify-between"
-            style={{
-              background: "linear-gradient(135deg, #252640, #2E3058)",
-              borderLeft: "4px solid #1CB0F6",
-            }}
-          >
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-[#1CB0F6]/20 flex items-center justify-center">
-                <RotateCcw className="w-5 h-5 text-[#1CB0F6]" />
-              </div>
-              <div>
-                <p
-                  className="font-black text-white text-sm"
-                  style={{ fontFamily: "var(--font-display)" }}
-                >
-                  Daily Review
-                </p>
-                <p className="text-xs text-[#AFAFAF]">
-                  {pluralize(dueCount, "card")} waiting for you
-                </p>
-              </div>
+      <div className="relative" style={{ zIndex: 2 }}>
+        {/* ── Top bar ── */}
+        <div className="flex items-center justify-between px-5 pt-[18px] pb-0">
+          <div className="flex items-center gap-2">
+            <div
+              className="flex items-center justify-center text-lg"
+              style={{ width: 32, height: 32, borderRadius: 10, background: "rgba(255,255,255,0.08)" }}
+            >
+              🦌
             </div>
-            <ChevronRight className="w-5 h-5 text-[#1CB0F6]" />
+            <span className="font-black text-[17px]" style={{ color: "#F0F0FF", fontFamily: "var(--font-display)", letterSpacing: "-0.3px" }}>
+              NeuroQuest
+            </span>
           </div>
-        </Link>
-      )}
+          <div className="flex gap-[10px]">
+            <div
+              className="flex items-center gap-[5px] px-3 py-[5px] rounded-full"
+              style={{ background: "rgba(255,136,0,0.12)", border: "1px solid rgba(255,136,0,0.3)" }}
+            >
+              <span className="text-[15px]">🔥</span>
+              <span className="text-[13px] font-bold" style={{ color: "#FF8800" }}>{stats.currentStreak}</span>
+            </div>
+            <div
+              className="flex items-center gap-[5px] px-3 py-[5px] rounded-full"
+              style={{ background: "rgba(255,215,0,0.1)", border: "1px solid rgba(255,215,0,0.3)" }}
+            >
+              <span className="text-[15px]">⭐</span>
+              <span className="text-[13px] font-bold" style={{ color: "#FFD700" }}>{stats.totalXP.toLocaleString()}</span>
+            </div>
+          </div>
+        </div>
 
-      {/* ── Continue Quest card ── */}
-      {currentWorld && currentQuest && (
-        <Link
-          href={`/learn/${currentWorldId}/${currentQuestId}`}
-          className="block mb-4 animate-slide-up"
-          style={{ animationDelay: "80ms" }}
-        >
-          <div
-            className="card p-4"
-            style={{
-              background: "linear-gradient(135deg, #252640, #2E3058)",
-              borderLeft: `4px solid ${currentWorld.color}`,
-            }}
-          >
-            <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center gap-2">
-                <span className="text-xl">{currentWorld.emoji}</span>
+        {/* ── XP bar ── */}
+        <div className="px-5 pt-[10px]">
+          <XPBar accentColor={ACCENT} />
+        </div>
+
+        {/* ── Ilya greeting ── */}
+        <div className="px-5 pt-[18px] animate-fade-up">
+          <IlyaBubble
+            message={`${greeting}! ${ilyaMessage}`}
+            state={stats.currentStreak >= 3 ? "celebrate" : "idle"}
+            size={72}
+          />
+        </div>
+
+        {/* ── Daily Review card ── */}
+        {dueCount > 0 && (
+          <Link href="/review" className="block mx-5 mt-4 animate-fade-up" style={{ animationDelay: "80ms" }}>
+            <div
+              className="flex items-center justify-between px-4 py-[14px] rounded-2xl cursor-pointer"
+              style={{
+                background: `linear-gradient(135deg, rgba(0,220,255,0.08), rgba(0,180,220,0.04))`,
+                border: `1px solid ${ACCENT}33`,
+                boxShadow: `0 0 20px rgba(0,220,255,0.06)`,
+              }}
+            >
+              <div className="flex items-center gap-3">
+                <div
+                  className="w-10 h-10 rounded-xl flex items-center justify-center text-xl"
+                  style={{ background: `${ACCENT}22`, border: `1px solid ${ACCENT}44` }}
+                >
+                  🔄
+                </div>
                 <div>
-                  <p className="text-[10px] font-bold text-[#AFAFAF] uppercase tracking-wider">
-                    {currentWorld.title}
+                  <p className="font-black text-sm m-0" style={{ color: "#F0F0FF", fontFamily: "var(--font-display)" }}>
+                    Daily Review
                   </p>
-                  <p
-                    className="font-black text-white text-sm leading-tight"
-                    style={{ fontFamily: "var(--font-display)" }}
-                  >
-                    {currentQuest.title}
+                  <p className="text-xs m-0 mt-0.5" style={{ color: "#6A70A0" }}>
+                    {pluralize(dueCount, "card")} waiting · est. {Math.ceil(dueCount * 0.8)} min
                   </p>
                 </div>
               </div>
-              <div className="flex flex-col items-end gap-1">
-                <span className="text-xs text-[#FFD700] font-bold">+{currentQuest.totalXP} XP</span>
-                <ChevronRight className="w-5 h-5" style={{ color: currentWorld.color }} />
+              <div
+                className="w-7 h-7 rounded-lg flex items-center justify-center text-[13px] font-black"
+                style={{ background: ACCENT, color: "#000" }}
+              >
+                ›
               </div>
             </div>
-            {/* Progress */}
-            <div className="space-y-1">
-              <div className="flex justify-between">
-                <span className="text-[10px] text-[#AFAFAF]">Quest progress</span>
-                <span className="text-[10px] text-[#AFAFAF]">
-                  {currentQuest.lessons.filter((l) => questProgress[l.id]).length} / {currentQuest.lessons.length} lessons
-                </span>
+          </Link>
+        )}
+
+        {/* ── Continue Quest ── */}
+        {currentWorld && currentQuest && (
+          <Link
+            href={`/learn/${currentWorldId}/${currentQuestId}`}
+            className="block mx-5 mt-[10px] animate-fade-up"
+            style={{ animationDelay: "120ms" }}
+          >
+            <div
+              className="px-4 py-[14px] rounded-2xl cursor-pointer"
+              style={{
+                background: `linear-gradient(135deg, ${currentWorld.color}0D, ${currentWorld.color}07)`,
+                border: `1px solid ${currentWorld.color}40`,
+              }}
+            >
+              <div className="text-[11px] font-black uppercase tracking-[0.5px] mb-1" style={{ color: currentWorld.color }}>
+                {currentWorld.title} · Quest {currentWorld.number}.{currentQuest.number}
               </div>
-              <div className="progress-bar-track">
+              <div className="text-[15px] font-black mb-[10px]" style={{ color: "#F0F0FF", fontFamily: "var(--font-display)" }}>
+                {currentQuest.title}
+              </div>
+              <div className="h-[5px] rounded-full" style={{ background: "rgba(255,255,255,0.06)" }}>
                 <div
-                  className="progress-bar-fill"
+                  className="h-full rounded-full"
                   style={{
                     width: `${(currentQuest.lessons.filter((l) => questProgress[l.id]).length / currentQuest.lessons.length) * 100}%`,
-                    background: currentWorld.color,
+                    background: `linear-gradient(90deg, ${currentWorld.color}, ${currentWorld.colorDark})`,
+                    boxShadow: `0 0 8px ${currentWorld.color}66`,
                   }}
                 />
               </div>
-            </div>
-          </div>
-        </Link>
-      )}
-
-      {/* ── World progress summary ── */}
-      <div className="mb-4" style={{ animationDelay: "160ms" }}>
-        <h2
-          className="text-xs font-black text-[#AFAFAF] uppercase tracking-widest mb-3"
-          style={{ fontFamily: "var(--font-display)" }}
-        >
-          Your Journey
-        </h2>
-        <div className="grid grid-cols-5 gap-2">
-          {WORLDS.map((world) => {
-            const wp = worldProgress[world.id];
-            const unlocked = wp?.unlocked ?? true;
-            const completed = wp?.completed ?? false;
-
-            return (
-              <Link
-                key={world.id}
-                href={unlocked ? `/map` : "#"}
-                className={cn(
-                  "flex flex-col items-center gap-1 p-2 rounded-xl transition-all",
-                  unlocked ? "opacity-100" : "opacity-40",
-                  completed && "ring-2 ring-[#58CC02]"
-                )}
-                style={{ background: unlocked ? `${world.color}22` : "#252640" }}
-              >
-                <span className="text-2xl">{unlocked ? world.emoji : "🔒"}</span>
-                <span className="text-[9px] text-center text-[#AFAFAF] font-bold leading-tight" style={{ fontFamily: "var(--font-display)" }}>
-                  W{world.number}
+              <div className="flex justify-between mt-[6px]">
+                <span className="text-[11px] font-semibold" style={{ color: currentWorld.color }}>
+                  {currentQuest.lessons.filter((l) => questProgress[l.id]).length} / {currentQuest.lessons.length} lessons
                 </span>
-                {completed && <span className="text-[#58CC02] text-[10px]">✓</span>}
-              </Link>
-            );
-          })}
+                <span className="text-[11px] font-bold" style={{ color: "#FFD700" }}>+{currentQuest.totalXP} XP</span>
+              </div>
+            </div>
+          </Link>
+        )}
+
+        {/* ── Your Journey ── */}
+        <div className="pt-4 animate-fade-up" style={{ animationDelay: "160ms" }}>
+          <div className="text-[11px] font-black uppercase tracking-[1px] px-5 mb-[10px]" style={{ color: "#4A4E78" }}>
+            Your Journey
+          </div>
+          <div className="flex gap-2 overflow-x-auto px-5 pb-1" style={{ scrollbarWidth: "none" }}>
+            {WORLDS.map((world) => {
+              const wp = worldProgress[world.id];
+              const unlocked = wp?.unlocked ?? true;
+              const completed = wp?.completed ?? false;
+              const active = world.id === currentWorldId;
+
+              return (
+                <Link
+                  key={world.id}
+                  href={unlocked ? "/map" : "#"}
+                  className="flex-shrink-0 flex flex-col items-center justify-center gap-0.5 rounded-2xl cursor-pointer relative"
+                  style={{
+                    width: 64,
+                    height: 64,
+                    background: (unlocked || active) ? `${world.color}1E` : "rgba(255,255,255,0.03)",
+                    border: `1px solid ${(unlocked || active) ? world.color + "66" : "rgba(255,255,255,0.08)"}`,
+                    opacity: unlocked ? 1 : 0.45,
+                  }}
+                >
+                  <span className="text-xl">{world.emoji}</span>
+                  <span className="text-[9px] font-black" style={{ color: (unlocked || active) ? world.color : "#5A608A" }}>
+                    W{world.number}
+                  </span>
+                  {completed && (
+                    <div className="absolute top-[3px] right-[3px] w-[14px] h-[14px] rounded-full bg-[#58CC02] flex items-center justify-center text-[8px] text-white font-black">
+                      ✓
+                    </div>
+                  )}
+                  {active && !completed && (
+                    <div
+                      className="absolute bottom-[4px]"
+                      style={{ width: 5, height: 5, borderRadius: "50%", background: world.color, boxShadow: `0 0 6px ${world.color}` }}
+                    />
+                  )}
+                </Link>
+              );
+            })}
+          </div>
         </div>
-      </div>
 
-      {/* ── Stats row ── */}
-      <div className="grid grid-cols-3 gap-3 mb-6" style={{ animationDelay: "240ms" }}>
-        <StatCard
-          label="Quests done"
-          value={completedQuests}
-          icon={<BookOpen className="w-5 h-5 text-[#58CC02]" />}
-          color="#58CC02"
-        />
-        <StatCard
-          label="Day streak"
-          value={stats.currentStreak}
-          icon={<Flame className="w-5 h-5 text-orange-400" />}
-          color="#F97316"
-        />
-        <StatCard
-          label="Best streak"
-          value={stats.longestStreak}
-          icon={<Trophy className="w-5 h-5 text-[#FFD700]" />}
-          color="#FFD700"
-        />
-      </div>
+        {/* ── Stats row ── */}
+        <div className="flex gap-2 px-5 pt-[14px] animate-fade-up" style={{ animationDelay: "200ms" }}>
+          <StatBadge icon="📖" value={completedQuests} label="Quests done" />
+          <StatBadge icon="🔥" value={stats.currentStreak} label="Day streak" />
+          <StatBadge icon="🏆" value={stats.longestStreak} label="Best streak" />
+        </div>
 
-      {/* ── NMA countdown ── */}
-      <div className="card p-4 mb-6">
-        <div className="flex items-center gap-3">
-          <div className="text-3xl">🧠</div>
-          <div>
-            <p
-              className="font-black text-white text-sm"
-              style={{ fontFamily: "var(--font-display)" }}
-            >
-              NMA Prep — 4 Weeks
-            </p>
-            <p className="text-xs text-[#AFAFAF]">
-              Complete all 5 worlds to be NMA-ready
-            </p>
+        {/* ── NMA Prep banner ── */}
+        <div className="mx-5 mt-[14px] mb-6 animate-fade-up" style={{ animationDelay: "240ms" }}>
+          <div
+            className="flex items-center gap-[10px] px-[14px] py-3 rounded-2xl"
+            style={{ background: "rgba(155,89,255,0.08)", border: "1px solid rgba(155,89,255,0.2)" }}
+          >
+            <span className="text-[22px]">🧠</span>
+            <div>
+              <div className="text-xs font-black" style={{ color: "#C084FF", fontFamily: "var(--font-display)" }}>
+                NMA Prep — 4 Weeks
+              </div>
+              <div className="text-[11px]" style={{ color: "#6A70A0" }}>
+                Complete all worlds to be NMA-ready
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -243,24 +237,15 @@ export default function HomePage() {
   );
 }
 
-function StatCard({ label, value, icon, color }: {
-  label: string;
-  value: number;
-  icon: React.ReactNode;
-  color: string;
-}) {
+function StatBadge({ icon, value, label }: { icon: string; value: number; label: string }) {
   return (
-    <div className="card p-3 flex flex-col items-center gap-1">
-      {icon}
-      <span
-        className="text-2xl font-black text-white"
-        style={{ fontFamily: "var(--font-display)" }}
-      >
-        {value}
-      </span>
-      <span className="text-[10px] text-[#AFAFAF] text-center font-semibold">
-        {label}
-      </span>
+    <div
+      className="flex-1 flex flex-col items-center py-[14px] px-2 rounded-2xl text-center"
+      style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}
+    >
+      <span className="text-[22px] mb-1">{icon}</span>
+      <span className="text-[22px] font-black" style={{ color: "#F0F0FF", fontFamily: "var(--font-display)" }}>{value}</span>
+      <span className="text-[11px] font-semibold mt-0.5" style={{ color: "#6A70A0" }}>{label}</span>
     </div>
   );
 }

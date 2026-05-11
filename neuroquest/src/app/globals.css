@@ -2,26 +2,27 @@
 
 /* ─── Design Tokens ─────────────────────────────────────────── */
 @theme inline {
-  --color-primary:        #1A1B2E;
-  --color-surface:        #252640;
-  --color-surface-raised: #2E3058;
-  --color-accent:         #58CC02;
-  --color-accent-hover:   #46A302;
+  --color-primary:        #080A18;
+  --color-surface:        #0E1028;
+  --color-surface-raised: #12143A;
+  --color-accent:         #00DCFF;
+  --color-accent-green:   #58CC02;
+  --color-accent-hover:   #00B8D9;
   --color-accent-blue:    #1CB0F6;
   --color-gold:           #FFD700;
   --color-danger:         #FF4B4B;
   --color-danger-light:   #FF6B6B;
-  --color-text:           #FFFFFF;
-  --color-text-muted:     #AFAFAF;
-  --color-text-dim:       #6B7094;
-  --color-ilya:           #F5F0E8;
-  --color-border:         #3A3D5C;
+  --color-text:           #F0F0FF;
+  --color-text-muted:     #8890C0;
+  --color-text-dim:       #4A4E78;
+  --color-ilya:           #F5EFD8;
+  --color-border:         rgba(255,255,255,0.08);
 
   --font-display: "Nunito", system-ui, sans-serif;
   --font-body:    "Inter", system-ui, sans-serif;
   --font-code:    "JetBrains Mono", "Fira Code", monospace;
 
-  --bottom-nav-height: 64px;
+  --bottom-nav-height: 80px;
 }
 
 /* ─── Base ───────────────────────────────────────────────────── */
@@ -36,8 +37,8 @@ html {
 body {
   height: 100%;
   margin: 0;
-  background-color: #1A1B2E;
-  color: #FFFFFF;
+  background-color: #080A18;
+  color: #F0F0FF;
   font-family: "Inter", system-ui, sans-serif;
   font-size: 16px;
   line-height: 1.5;
@@ -52,7 +53,7 @@ body {
 /* ─── Animations ─────────────────────────────────────────────── */
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
-  50%       { transform: translateY(-6px); }
+  50%       { transform: translateY(-7px); }
 }
 @keyframes bounce-in {
   0%   { transform: scale(0.3); opacity: 0; }
@@ -75,6 +76,10 @@ body {
   from { opacity: 0; }
   to   { opacity: 1; }
 }
+@keyframes fade-up {
+  from { transform: translateY(16px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
 @keyframes xp-pop {
   0%   { transform: scale(1); }
   50%  { transform: scale(1.4); }
@@ -84,25 +89,64 @@ body {
   0%, 100% { opacity: 1; }
   50%       { opacity: 0.7; }
 }
+@keyframes approach {
+  from { transform: scale(0.08) translateY(60px); opacity: 0; }
+  to   { transform: scale(1) translateY(0); opacity: 1; }
+}
+@keyframes run-bob {
+  0%, 100% { transform: translateY(0) rotate(-1.5deg); }
+  50%       { transform: translateY(-5px) rotate(1.5deg); }
+}
+@keyframes ilya-leg-l {
+  from { transform: rotate(-22deg); }
+  to   { transform: rotate(22deg); }
+}
+@keyframes ilya-leg-r {
+  from { transform: rotate(22deg); }
+  to   { transform: rotate(-22deg); }
+}
+@keyframes pop-in {
+  0%   { transform: scale(0.5); opacity: 0; }
+  70%  { transform: scale(1.06); }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes spark-out {
+  0%   { transform: scale(0); opacity: 1; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+@keyframes world-enter {
+  0%   { transform: scale(0.6) translateY(20px); opacity: 0; }
+  70%  { transform: scale(1.05) translateY(0); }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 14px currentColor; }
+  50%       { box-shadow: 0 0 28px currentColor; }
+}
 
 .animate-float      { animation: float 3s ease-in-out infinite; }
 .animate-bounce-in  { animation: bounce-in 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both; }
 .animate-shake      { animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both; }
 .animate-slide-up   { animation: slide-up 0.3s ease-out both; }
 .animate-fade-in    { animation: fade-in 0.3s ease-out both; }
+.animate-fade-up    { animation: fade-up 0.4s ease-out both; }
+.animate-pop-in     { animation: pop-in 0.5s cubic-bezier(0.34,1.56,0.64,1) both; }
+.animate-approach   { animation: approach 2s cubic-bezier(0.34,1.4,0.64,1) forwards; }
+.animate-run-bob    { animation: run-bob 0.32s ease-in-out infinite; }
+.animate-world-enter { animation: world-enter 0.4s both; }
 .animate-xp-pop     { animation: xp-pop 0.4s ease-out; }
 .animate-streak     { animation: streak-flicker 1.5s ease-in-out infinite; }
 
 /* ─── Card styles ────────────────────────────────────────────── */
 .card {
-  background-color: #252640;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
   border-radius: 16px;
-  border-bottom: 3px solid rgba(0,0,0,0.35);
 }
 .card-raised {
-  background-color: #2E3058;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
   border-radius: 16px;
-  border-bottom: 3px solid rgba(0,0,0,0.35);
 }
 
 /* ─── Answer options ─────────────────────────────────────────── */
