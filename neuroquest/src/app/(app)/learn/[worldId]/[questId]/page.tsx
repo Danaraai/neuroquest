@@ -112,7 +112,7 @@ export default function QuestPage() {
               }
               className={cn(
                 "flex items-center gap-3 p-4 rounded-xl border transition-all",
-                done && "border-[#4BAD02]/30 bg-[rgba(75,173,2,0.06)]",
+                done && "border-[rgba(255,255,255,0.08)] bg-[#191C3B]",
                 isCurrent && !done && "border-[#1CB0F6] bg-[#12143A]",
                 !done && !isCurrent && "border-[rgba(255,255,255,0.10)] bg-[#0E1028]"
               )}
@@ -125,7 +125,7 @@ export default function QuestPage() {
                 )}
                 style={{
                   fontFamily: "var(--font-display)",
-                  ...(done && { background: "#4BAD02", color: "white" }),
+                  ...(done && { background: "#252850", color: "#A5A9FA" }),
                 }}
               >
                 {done ? "✓" : isLaptop ? <Laptop className="w-4 h-4" /> : i + 1}
@@ -145,7 +145,7 @@ export default function QuestPage() {
                 </div>
               </div>
 
-              <ChevronRight className={cn("w-4 h-4 flex-shrink-0", done ? "text-[#4BAD02]" : isCurrent ? "text-[#1CB0F6]" : "text-[#6B7094]")} />
+              <ChevronRight className={cn("w-4 h-4 flex-shrink-0", done ? "text-[#6B6FA8]" : isCurrent ? "text-[#1CB0F6]" : "text-[#6B7094]")} />
             </Link>
           );
         })}
