@@ -74,7 +74,7 @@ export const WORLDS: World[] = [
             deviceRequired: "any",
             xpReward: 10,
             estimatedMinutes: 4,
-            funFact: "🦛 The hippocampus is named after the Greek word for seahorse — because in cross-section, that's exactly what it looks like under a microscope.",
+            funFact: "Have you ever had a bad dream and woken up in the middle of the night feeling like it was real? That happens because your amygdala — the brain's fear detector — can stay activated even after you wake up, so your body may still feel unsafe even though the danger isn't real. One reason journaling helps is that naming the fear and rewriting the dream recruits the prefrontal cortex, which helps your brain organize the emotion, restore a sense of agency, and calm the alarm.",
             concept: [
               {
                 type: "text",
