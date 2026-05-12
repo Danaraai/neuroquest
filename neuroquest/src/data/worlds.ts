@@ -184,6 +184,13 @@ export const WORLDS: World[] = [
                 content: "**All action potentials look the same** — same shape, same size, ~+40 mV peak. Information is encoded in the *timing* and *rate* of spikes, not the amplitude. A neuron firing 80 times per second is sending a different message than one firing 10 times per second.",
               },
               {
+                type: "image",
+                content: "/images/dales-dogma.png",
+                alt: "Diagram illustrating Dale's Dogma — excitatory and inhibitory neuron types",
+                caption: "Dale's Dogma: each neuron releases only one type of neurotransmitter",
+                size: "small",
+              },
+              {
                 type: "text",
                 content: "**Excitatory vs Inhibitory neurons (Dale's Dogma):**\nNeurons are classified by what they release:\n• **Excitatory neurons** release glutamate → *increases* the chance the receiving neuron fires\n• **Inhibitory neurons** release GABA → *decreases* the chance the receiving neuron fires\n\nMost neurons are exclusively one or the other — this is called Dale's Principle. The balance between excitation and inhibition is crucial for normal brain function.",
               },
