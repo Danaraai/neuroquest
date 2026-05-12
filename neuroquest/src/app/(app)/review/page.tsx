@@ -29,9 +29,8 @@ export default function ReviewPage() {
     const dueCardIds = getDueCards(srCards).map((c) => c.cardId);
     const allCards = getAllSRCards();
     const dueCards = allCards.filter((c) => dueCardIds.includes(c.cardId));
-    // Shuffle
     const shuffled = [...dueCards].sort(() => Math.random() - 0.5);
-    setQueue(shuffled.slice(0, 20)); // Max 20 per session
+    setQueue(shuffled.slice(0, 20));
   }, []);
 
   const currentCard = queue[index];
@@ -56,18 +55,30 @@ export default function ReviewPage() {
 
   if (queue.length === 0 && !sessionDone) {
     return (
-      <div className="min-h-screen bg-[#080A18] flex flex-col items-center justify-center px-4 text-center">
+      <div className="min-h-screen flex flex-col items-center justify-center px-4 text-center" style={{ background: "#151735" }}>
         <Ilya state="celebrate" size={100} className="mb-6" />
-        <h1 className="text-2xl font-black text-white mb-3" style={{ fontFamily: "var(--font-display)" }}>
+        <h1 className="text-2xl font-black mb-3" style={{ color: "#F2F1F8", fontFamily: "var(--font-display)" }}>
           You&apos;re all caught up! 🎉
         </h1>
-        <p className="text-[#AFAFAF] text-sm mb-8 max-w-xs">
+        <p className="text-sm mb-8 max-w-xs" style={{ color: "#9EA3BD" }}>
           No cards due for review. Come back tomorrow — Ilya will have a fresh queue ready!
         </p>
         <Link
           href="/home"
-          className="btn-primary"
-          style={{ maxWidth: 220, display: "block", textAlign: "center", fontFamily: "var(--font-display)" }}
+          style={{
+            maxWidth: 220,
+            display: "block",
+            textAlign: "center",
+            padding: "14px 32px",
+            borderRadius: 14,
+            background: "#252850",
+            border: "1px solid rgba(124,130,248,0.35)",
+            color: "#A5A9FA",
+            fontWeight: 700,
+            fontSize: 14,
+            textDecoration: "none",
+            fontFamily: "var(--font-display)",
+          }}
         >
           Back to Home
         </Link>
@@ -78,37 +89,45 @@ export default function ReviewPage() {
   if (sessionDone) {
     const accuracy = Math.round((results.correct / totalCards) * 100);
     return (
-      <div className="min-h-screen bg-[#080A18] flex flex-col items-center justify-center px-4 text-center">
+      <div className="min-h-screen flex flex-col items-center justify-center px-4 text-center" style={{ background: "#151735" }}>
         <Ilya state={accuracy >= 80 ? "celebrate" : "idle"} size={100} className="mb-6" />
-        <h1 className="text-2xl font-black text-white mb-2" style={{ fontFamily: "var(--font-display)" }}>
+        <h1 className="text-2xl font-black mb-2" style={{ color: "#F2F1F8", fontFamily: "var(--font-display)" }}>
           Review Complete!
         </h1>
-        <p className="text-[#AFAFAF] text-sm mb-6">
+        <p className="text-sm mb-6" style={{ color: "#9EA3BD" }}>
           {accuracy >= 80 ? "Outstanding memory!" : "Keep practicing — you'll get there!"}
         </p>
 
         <div className="grid grid-cols-3 gap-4 w-full max-w-xs mb-8">
           <div className="card p-3 text-center">
-            <p className="text-2xl font-black text-white" style={{ fontFamily: "var(--font-display)" }}>{totalCards}</p>
-            <p className="text-[10px] text-[#AFAFAF]">Reviewed</p>
+            <p className="text-2xl font-black" style={{ color: "#F2F1F8", fontFamily: "var(--font-display)" }}>{totalCards}</p>
+            <p className="text-[10px]" style={{ color: "#9EA3BD" }}>Reviewed</p>
           </div>
           <div className="card p-3 text-center">
-            <p className="text-2xl font-black text-[#58CC02]" style={{ fontFamily: "var(--font-display)" }}>{results.correct}</p>
-            <p className="text-[10px] text-[#AFAFAF]">Correct</p>
+            <p className="text-2xl font-black" style={{ color: "#6EE7A8", fontFamily: "var(--font-display)" }}>{results.correct}</p>
+            <p className="text-[10px]" style={{ color: "#9EA3BD" }}>Correct</p>
           </div>
           <div className="card p-3 text-center">
-            <p className="text-2xl font-black text-[#FF4B4B]" style={{ fontFamily: "var(--font-display)" }}>{results.wrong}</p>
-            <p className="text-[10px] text-[#AFAFAF]">To review</p>
+            <p className="text-2xl font-black" style={{ color: "#FF7878", fontFamily: "var(--font-display)" }}>{results.wrong}</p>
+            <p className="text-[10px]" style={{ color: "#9EA3BD" }}>To review</p>
           </div>
         </div>
 
-        <div className="w-full max-w-xs space-y-3">
+        <div className="w-full max-w-xs">
           <Link
             href="/home"
-            className="block text-center w-full py-4 rounded-xl font-black text-white text-base"
             style={{
-              background: "#58CC02",
-              borderBottom: "4px solid #46A302",
+              display: "block",
+              textAlign: "center",
+              width: "100%",
+              padding: "15px 24px",
+              borderRadius: 14,
+              background: "#252850",
+              border: "1px solid rgba(124,130,248,0.35)",
+              color: "#A5A9FA",
+              fontWeight: 700,
+              fontSize: 15,
+              textDecoration: "none",
               fontFamily: "var(--font-display)",
             }}
           >
@@ -122,23 +141,22 @@ export default function ReviewPage() {
   if (!currentCard) return null;
 
   return (
-    <div className="min-h-screen bg-[#080A18] flex flex-col">
+    <div className="min-h-screen flex flex-col" style={{ background: "#151735" }}>
       {/* Header */}
       <div className="px-4 pt-4 pb-3 flex-shrink-0">
         <div className="flex items-center justify-between mb-2">
           <div className="flex items-center gap-2">
-            <RotateCcw className="w-4 h-4 text-[#1CB0F6]" />
-            <span className="text-sm font-black text-white" style={{ fontFamily: "var(--font-display)" }}>
+            <RotateCcw className="w-4 h-4" style={{ color: "#7C82F8" }} />
+            <span className="text-sm font-black" style={{ color: "#F2F1F8", fontFamily: "var(--font-display)" }}>
               Daily Review
             </span>
           </div>
-          <span className="text-xs text-[#AFAFAF]">{index + 1} / {totalCards}</span>
+          <span className="text-xs" style={{ color: "#9EA3BD" }}>{index + 1} / {totalCards}</span>
         </div>
-        {/* Progress */}
         <div className="progress-bar-track">
           <div
             className="progress-bar-fill"
-            style={{ width: `${((index) / totalCards) * 100}%`, background: "#1CB0F6" }}
+            style={{ width: `${((index) / totalCards) * 100}%` }}
           />
         </div>
       </div>
@@ -151,35 +169,55 @@ export default function ReviewPage() {
           onClick={cardState === "question" ? handleReveal : undefined}
           style={{ minHeight: 180 }}
         >
-          <span className="text-[10px] text-[#AFAFAF] font-bold uppercase tracking-widest mb-3">
+          <span
+            style={{
+              fontSize: 10,
+              color: "#9EA3BD",
+              fontWeight: 700,
+              textTransform: "uppercase",
+              letterSpacing: "0.1em",
+              marginBottom: 12,
+              display: "block",
+            }}
+          >
             Question
           </span>
           <pre
-            className="text-white font-bold text-base leading-relaxed flex-1 whitespace-pre-wrap"
-            style={{ fontFamily: "var(--font-display)" }}
+            className="font-bold text-base leading-relaxed flex-1 whitespace-pre-wrap"
+            style={{ color: "#F2F1F8", fontFamily: "var(--font-display)", margin: 0 }}
           >
             {currentCard.front}
           </pre>
           {cardState === "question" && (
-            <p className="text-xs text-[#6B7094] mt-4">Tap to reveal answer</p>
+            <p className="text-xs mt-4" style={{ color: "#6A70A0" }}>Tap to reveal answer</p>
           )}
         </div>
 
         {/* Answer */}
         {cardState === "answer" && (
           <div
-            className="rounded-xl p-6 mb-6 animate-slide-up"
+            className="rounded-xl p-6 mb-5 animate-slide-up"
             style={{
-              background: "linear-gradient(135deg, #0A0C1E, #0E1028)",
-              border: "1px solid rgba(255,255,255,0.10)",
+              background: "#252850",
+              border: "1px solid rgba(124,130,248,0.2)",
             }}
           >
-            <span className="text-[10px] text-[#58CC02] font-bold uppercase tracking-widest mb-3 block">
+            <span
+              style={{
+                fontSize: 10,
+                color: "#7C82F8",
+                fontWeight: 700,
+                textTransform: "uppercase",
+                letterSpacing: "0.1em",
+                marginBottom: 10,
+                display: "block",
+              }}
+            >
               Answer
             </span>
             <pre
-              className="text-white text-sm leading-relaxed whitespace-pre-wrap"
-              style={{ fontFamily: "var(--font-display)" }}
+              className="text-sm leading-relaxed whitespace-pre-wrap"
+              style={{ color: "#C5C7D8", fontFamily: "var(--font-display)", margin: 0 }}
             >
               {currentCard.back}
             </pre>
@@ -193,9 +231,9 @@ export default function ReviewPage() {
               onClick={() => handleAnswer(false)}
               className="flex items-center justify-center gap-2 py-4 rounded-xl font-black text-sm transition-all active:scale-95"
               style={{
-                background: "rgba(255, 75, 75, 0.15)",
-                border: "2px solid #FF4B4B",
-                color: "#FF4B4B",
+                background: "rgba(255,92,92,0.10)",
+                border: "1.5px solid #FF5C5C",
+                color: "#FF7878",
                 fontFamily: "var(--font-display)",
               }}
             >
@@ -206,9 +244,9 @@ export default function ReviewPage() {
               onClick={() => handleAnswer(true)}
               className="flex items-center justify-center gap-2 py-4 rounded-xl font-black text-sm transition-all active:scale-95"
               style={{
-                background: "rgba(88, 204, 2, 0.15)",
-                border: "2px solid #58CC02",
-                color: "#58CC02",
+                background: "rgba(110,231,168,0.10)",
+                border: "1.5px solid #6EE7A8",
+                color: "#6EE7A8",
                 fontFamily: "var(--font-display)",
               }}
             >
@@ -221,10 +259,11 @@ export default function ReviewPage() {
         {cardState === "question" && (
           <button
             onClick={handleReveal}
-            className="w-full py-4 rounded-xl font-black text-white text-base transition-all active:scale-95"
+            className="w-full py-4 rounded-xl font-black text-base transition-all active:scale-95"
             style={{
-              background: "#1CB0F6",
-              borderBottom: "4px solid #0E98D9",
+              background: "#252850",
+              border: "1px solid rgba(124,130,248,0.35)",
+              color: "#A5A9FA",
               fontFamily: "var(--font-display)",
             }}
           >

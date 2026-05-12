@@ -12,7 +12,7 @@ interface XPBarProps {
   accentColor?: string;
 }
 
-export function XPBar({ compact = false, className, accentColor = "#58CC02" }: XPBarProps) {
+export function XPBar({ compact = false, className, accentColor = "#7C82F8" }: XPBarProps) {
   const { stats } = useStore();
   const { level, nextLevel, progress } = getXPProgress(stats.totalXP);
 
@@ -20,14 +20,14 @@ export function XPBar({ compact = false, className, accentColor = "#58CC02" }: X
     return (
       <div className={cn("flex items-center gap-2", className)}>
         {/* Streak */}
-        <div className="flex items-center gap-1 bg-[#12143A] rounded-full px-3 py-1">
+        <div className="flex items-center gap-1 bg-[#252850] rounded-full px-3 py-1">
           <Flame className="w-4 h-4 text-orange-400 animate-streak" />
           <span className="text-sm font-bold text-white" style={{ fontFamily: "var(--font-display)" }}>
             {stats.currentStreak}
           </span>
         </div>
         {/* XP */}
-        <div className="flex items-center gap-1 bg-[#12143A] rounded-full px-3 py-1">
+        <div className="flex items-center gap-1 bg-[#252850] rounded-full px-3 py-1">
           <span className="text-yellow-400 text-xs font-bold">⭐</span>
           <span className="text-sm font-bold text-white" style={{ fontFamily: "var(--font-display)" }}>
             {formatXP(stats.totalXP)}
@@ -55,8 +55,7 @@ export function XPBar({ compact = false, className, accentColor = "#58CC02" }: X
           className="h-full rounded-full transition-all duration-500"
           style={{
             width: `${Math.min(progress * 100, 100)}%`,
-            background: `linear-gradient(90deg, ${accentColor}, #58CC02)`,
-            boxShadow: `0 0 8px ${accentColor}66`,
+            background: `linear-gradient(90deg, ${accentColor}, #6EE7A8)`,
           }}
         />
       </div>

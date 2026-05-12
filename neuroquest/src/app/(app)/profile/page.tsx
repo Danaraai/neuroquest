@@ -33,7 +33,7 @@ export default function ProfilePage() {
   const totalCards   = Object.keys(srCards).length;
 
   return (
-    <div className="min-h-screen bg-[#080A18] px-4 pb-6">
+    <div className="min-h-screen px-4 pb-6" style={{ background: "#151735" }}>
       {/* Header */}
       <div className="pt-6 pb-4 flex items-center gap-4">
         <Ilya
@@ -43,18 +43,18 @@ export default function ProfilePage() {
         />
         <div className="flex-1">
           <h1
-            className="text-xl font-black text-white"
-            style={{ fontFamily: "var(--font-display)" }}
+            className="text-xl font-black"
+            style={{ color: "#F2F1F8", fontFamily: "var(--font-display)" }}
           >
             Your Progress
           </h1>
-          <p className="text-sm text-[#AFAFAF]">
+          <p className="text-sm" style={{ color: "#9EA3BD" }}>
             {level.title} — Level {level.level}
           </p>
           {stats.currentStreak > 0 && (
             <div className="flex items-center gap-1 mt-1">
-              <Flame className="w-3.5 h-3.5 text-orange-400" />
-              <span className="text-xs font-bold text-orange-400">
+              <Flame className="w-3.5 h-3.5" style={{ color: "#FF9B45" }} />
+              <span className="text-xs font-bold" style={{ color: "#FF9B45" }}>
                 {stats.currentStreak} day streak
               </span>
             </div>
@@ -64,9 +64,9 @@ export default function ProfilePage() {
 
       {/* XP bar */}
       <div className="card p-4 mb-4">
-        <XPBar />
+        <XPBar accentColor="#7C82F8" />
         {nextLevel && (
-          <p className="text-[10px] text-[#AFAFAF] mt-2 text-center">
+          <p className="text-[10px] mt-2 text-center" style={{ color: "#9EA3BD" }}>
             {nextLevel.minXP - stats.totalXP} XP to reach "{nextLevel.title}"
           </p>
         )}
@@ -74,19 +74,19 @@ export default function ProfilePage() {
 
       {/* Stats grid */}
       <div className="grid grid-cols-2 gap-3 mb-4">
-        <StatCard icon={<Star className="w-5 h-5 text-[#FFD700]" />} label="Total XP" value={stats.totalXP} color="#FFD700" />
-        <StatCard icon={<Flame className="w-5 h-5 text-orange-400" />} label="Best Streak" value={stats.longestStreak} suffix="days" color="#F97316" />
-        <StatCard icon={<BookOpen className="w-5 h-5 text-[#1CB0F6]" />} label="Lessons Done" value={totalLessons} color="#1CB0F6" />
-        <StatCard icon={<Trophy className="w-5 h-5 text-[#58CC02]" />} label="Quests Done" value={totalQuests} color="#58CC02" />
-        <StatCard icon={<RotateCcw className="w-5 h-5 text-[#AFAFAF]" />} label="Cards in SR" value={totalCards} color="#AFAFAF" />
-        <StatCard icon={<Zap className="w-5 h-5 text-[#FF4B4B]" />} label="Due Today" value={dueCards} color="#FF4B4B" />
+        <StatCard icon={<Star className="w-5 h-5" style={{ color: "#F6D95B" }} />} label="Total XP" value={stats.totalXP} color="#F6D95B" />
+        <StatCard icon={<Flame className="w-5 h-5" style={{ color: "#FF9B45" }} />} label="Best Streak" value={stats.longestStreak} suffix="days" color="#FF9B45" />
+        <StatCard icon={<BookOpen className="w-5 h-5" style={{ color: "#7C82F8" }} />} label="Lessons Done" value={totalLessons} color="#7C82F8" />
+        <StatCard icon={<Trophy className="w-5 h-5" style={{ color: "#6EE7A8" }} />} label="Quests Done" value={totalQuests} color="#6EE7A8" />
+        <StatCard icon={<RotateCcw className="w-5 h-5" style={{ color: "#9EA3BD" }} />} label="Cards in SR" value={totalCards} color="#9EA3BD" />
+        <StatCard icon={<Zap className="w-5 h-5" style={{ color: "#FF7878" }} />} label="Due Today" value={dueCards} color="#FF7878" />
       </div>
 
       {/* World progress */}
       <div className="mb-4">
         <h2
-          className="text-xs font-black text-[#AFAFAF] uppercase tracking-widest mb-3"
-          style={{ fontFamily: "var(--font-display)" }}
+          className="text-xs font-black uppercase tracking-widest mb-3"
+          style={{ color: "#5A5F80", fontFamily: "var(--font-display)" }}
         >
           World Progress
         </h2>
@@ -108,11 +108,11 @@ export default function ProfilePage() {
                   <div className="flex items-center justify-between mb-1">
                     <span
                       className="text-xs font-bold truncate"
-                      style={{ color: unlocked ? "white" : "#6B7094", fontFamily: "var(--font-display)" }}
+                      style={{ color: unlocked ? "#F2F1F8" : "#6A70A0", fontFamily: "var(--font-display)" }}
                     >
                       {world.title}
                     </span>
-                    <span className="text-[10px] text-[#AFAFAF] ml-2 flex-shrink-0">
+                    <span className="text-[10px] ml-2 flex-shrink-0" style={{ color: "#9EA3BD" }}>
                       {unlocked ? `${doneQuests}/${world.quests.length}` : "Locked"}
                     </span>
                   </div>
@@ -123,7 +123,7 @@ export default function ProfilePage() {
                     />
                   </div>
                 </div>
-                {completed && <span className="text-[#58CC02] text-sm flex-shrink-0">✅</span>}
+                {completed && <span className="text-sm flex-shrink-0" style={{ color: "#6EE7A8" }}>✓</span>}
               </div>
             );
           })}
@@ -133,8 +133,8 @@ export default function ProfilePage() {
       {/* Badges */}
       <div className="mb-6">
         <h2
-          className="text-xs font-black text-[#AFAFAF] uppercase tracking-widest mb-3"
-          style={{ fontFamily: "var(--font-display)" }}
+          className="text-xs font-black uppercase tracking-widest mb-3"
+          style={{ color: "#5A5F80", fontFamily: "var(--font-display)" }}
         >
           Badges ({stats.badges.length}/{BADGES.length})
         </h2>
@@ -146,14 +146,14 @@ export default function ProfilePage() {
                 key={badge.id}
                 className={cn(
                   "flex flex-col items-center gap-1 p-2 rounded-xl",
-                  earned ? "bg-[#12143A]" : "bg-[#0E1028] opacity-40"
+                  earned ? "bg-[#252850]" : "bg-[#1A1D3A] opacity-40"
                 )}
                 title={badge.desc}
               >
                 <span className="text-2xl">{earned ? badge.emoji : "❓"}</span>
                 <span
-                  className="text-[8px] text-center text-[#AFAFAF] leading-tight font-bold"
-                  style={{ fontFamily: "var(--font-display)" }}
+                  className="text-[8px] text-center leading-tight font-bold"
+                  style={{ color: "#9EA3BD", fontFamily: "var(--font-display)" }}
                 >
                   {badge.label}
                 </span>
@@ -165,12 +165,12 @@ export default function ProfilePage() {
 
       {/* Streak freeze */}
       <div className="card p-4 mb-4 flex items-center gap-3">
-        <Shield className="w-6 h-6 text-[#1CB0F6] flex-shrink-0" />
+        <Shield className="w-6 h-6 flex-shrink-0" style={{ color: "#7C82F8" }} />
         <div className="flex-1">
-          <p className="text-sm font-bold text-white" style={{ fontFamily: "var(--font-display)" }}>
+          <p className="text-sm font-bold" style={{ color: "#F2F1F8", fontFamily: "var(--font-display)" }}>
             Streak Freezes: {stats.streakFreezes}
           </p>
-          <p className="text-[10px] text-[#AFAFAF]">
+          <p className="text-[10px]" style={{ color: "#9EA3BD" }}>
             Protects your streak if you miss a day
           </p>
         </div>
@@ -181,8 +181,13 @@ export default function ProfilePage() {
         onClick={() => {
           if (confirm("Reset ALL progress? This cannot be undone.")) reset();
         }}
-        className="w-full py-3 rounded-xl text-[#FF4B4B] text-xs font-bold border border-[#FF4B4B]/30 transition-all hover:bg-[rgba(255,75,75,0.08)]"
-        style={{ fontFamily: "var(--font-display)" }}
+        className="w-full py-3 rounded-xl text-xs font-bold transition-all"
+        style={{
+          color: "#FF7878",
+          border: "1px solid rgba(255,120,120,0.2)",
+          background: "transparent",
+          fontFamily: "var(--font-display)",
+        }}
       >
         Reset Progress (Dev)
       </button>
@@ -207,13 +212,13 @@ function StatCard({
     <div className="card p-4 flex flex-col gap-2">
       {icon}
       <p
-        className="text-2xl font-black text-white"
-        style={{ fontFamily: "var(--font-display)", color }}
+        className="text-2xl font-black"
+        style={{ fontFamily: "var(--font-display)", color, margin: 0 }}
       >
         {value}
-        {suffix && <span className="text-sm ml-1 text-[#AFAFAF]">{suffix}</span>}
+        {suffix && <span className="text-sm ml-1" style={{ color: "#9EA3BD" }}>{suffix}</span>}
       </p>
-      <p className="text-[10px] text-[#AFAFAF] font-semibold">{label}</p>
+      <p className="text-[10px] font-semibold" style={{ color: "#9EA3BD", margin: 0 }}>{label}</p>
     </div>
   );
 }

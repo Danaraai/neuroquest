@@ -9,7 +9,7 @@ import { IlyaIntro } from "@/components/home/IlyaIntro";
 import { XPBar } from "@/components/ui/XPBar";
 import { NeuronCanvas } from "@/components/ui/NeuronCanvas";
 
-const ACCENT = "#00DCFF";
+const ACCENT = "#7C82F8";
 
 export default function HomePage() {
   const { stats, worldProgress, questProgress, currentWorldId, currentQuestId } = useStore();
@@ -31,10 +31,10 @@ export default function HomePage() {
       : `Ready to unlock ${currentWorld?.title ?? "the next world"}?`;
 
   return (
-    <div className="min-h-screen relative overflow-x-hidden" style={{ background: "#080A18", fontFamily: "'Inter', sans-serif" }}>
+    <div className="min-h-screen relative overflow-x-hidden" style={{ background: "#151735", fontFamily: "'Inter', sans-serif" }}>
       {/* Animated neuron background */}
       <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 0 }}>
-        <NeuronCanvas width={800} height={900} density={0.5} color={ACCENT} />
+        <NeuronCanvas width={800} height={900} density={0.4} color={ACCENT} />
       </div>
 
       <IlyaIntro />
@@ -45,28 +45,28 @@ export default function HomePage() {
           <div className="flex items-center gap-2">
             <div
               className="flex items-center justify-center text-lg"
-              style={{ width: 32, height: 32, borderRadius: 10, background: "rgba(255,255,255,0.08)" }}
+              style={{ width: 32, height: 32, borderRadius: 10, background: "rgba(255,255,255,0.07)" }}
             >
               🦌
             </div>
-            <span className="font-black text-[17px]" style={{ color: "#F0F0FF", fontFamily: "var(--font-display)", letterSpacing: "-0.3px" }}>
+            <span className="font-black text-[17px]" style={{ color: "#F2F1F8", fontFamily: "var(--font-display)", letterSpacing: "-0.3px" }}>
               NeuroQuest
             </span>
           </div>
           <div className="flex gap-[10px]">
             <div
               className="flex items-center gap-[5px] px-3 py-[5px] rounded-full"
-              style={{ background: "rgba(255,136,0,0.12)", border: "1px solid rgba(255,136,0,0.3)" }}
+              style={{ background: "rgba(255,136,0,0.10)", border: "1px solid rgba(255,136,0,0.22)" }}
             >
               <span className="text-[15px]">🔥</span>
-              <span className="text-[13px] font-bold" style={{ color: "#FF8800" }}>{stats.currentStreak}</span>
+              <span className="text-[13px] font-bold" style={{ color: "#FF9B45" }}>{stats.currentStreak}</span>
             </div>
             <div
               className="flex items-center gap-[5px] px-3 py-[5px] rounded-full"
-              style={{ background: "rgba(255,215,0,0.1)", border: "1px solid rgba(255,215,0,0.3)" }}
+              style={{ background: "rgba(246,217,91,0.08)", border: "1px solid rgba(246,217,91,0.22)" }}
             >
               <span className="text-[15px]">⭐</span>
-              <span className="text-[13px] font-bold" style={{ color: "#FFD700" }}>{stats.totalXP.toLocaleString()}</span>
+              <span className="text-[13px] font-bold" style={{ color: "#F6D95B" }}>{stats.totalXP.toLocaleString()}</span>
             </div>
           </div>
         </div>
@@ -91,20 +91,19 @@ export default function HomePage() {
             <div
               className="flex items-center justify-between px-4 py-[14px] rounded-2xl cursor-pointer"
               style={{
-                background: `linear-gradient(135deg, rgba(0,220,255,0.08), rgba(0,180,220,0.04))`,
-                border: `1px solid ${ACCENT}33`,
-                boxShadow: `0 0 20px rgba(0,220,255,0.06)`,
+                background: "rgba(124,130,248,0.07)",
+                border: "1px solid rgba(124,130,248,0.2)",
               }}
             >
               <div className="flex items-center gap-3">
                 <div
                   className="w-10 h-10 rounded-xl flex items-center justify-center text-xl"
-                  style={{ background: `${ACCENT}22`, border: `1px solid ${ACCENT}44` }}
+                  style={{ background: "rgba(124,130,248,0.12)", border: "1px solid rgba(124,130,248,0.25)" }}
                 >
                   🔄
                 </div>
                 <div>
-                  <p className="font-black text-sm m-0" style={{ color: "#F0F0FF", fontFamily: "var(--font-display)" }}>
+                  <p className="font-black text-sm m-0" style={{ color: "#F2F1F8", fontFamily: "var(--font-display)" }}>
                     Daily Review
                   </p>
                   <p className="text-xs m-0 mt-0.5" style={{ color: "#6A70A0" }}>
@@ -114,7 +113,7 @@ export default function HomePage() {
               </div>
               <div
                 className="w-7 h-7 rounded-lg flex items-center justify-center text-[13px] font-black"
-                style={{ background: ACCENT, color: "#000" }}
+                style={{ background: ACCENT, color: "#151735" }}
               >
                 ›
               </div>
@@ -133,13 +132,13 @@ export default function HomePage() {
               className="px-4 py-[14px] rounded-2xl cursor-pointer"
               style={{
                 background: `linear-gradient(135deg, ${currentWorld.color}0D, ${currentWorld.color}07)`,
-                border: `1px solid ${currentWorld.color}40`,
+                border: `1px solid ${currentWorld.color}33`,
               }}
             >
               <div className="text-[11px] font-black uppercase tracking-[0.5px] mb-1" style={{ color: currentWorld.color }}>
                 {currentWorld.title} · Quest {currentWorld.number}.{currentQuest.number}
               </div>
-              <div className="text-[15px] font-black mb-[10px]" style={{ color: "#F0F0FF", fontFamily: "var(--font-display)" }}>
+              <div className="text-[15px] font-black mb-[10px]" style={{ color: "#F2F1F8", fontFamily: "var(--font-display)" }}>
                 {currentQuest.title}
               </div>
               <div className="h-[5px] rounded-full" style={{ background: "rgba(255,255,255,0.06)" }}>
@@ -148,7 +147,6 @@ export default function HomePage() {
                   style={{
                     width: `${(currentQuest.lessons.filter((l) => questProgress[l.id]).length / currentQuest.lessons.length) * 100}%`,
                     background: `linear-gradient(90deg, ${currentWorld.color}, ${currentWorld.colorDark})`,
-                    boxShadow: `0 0 8px ${currentWorld.color}66`,
                   }}
                 />
               </div>
@@ -156,7 +154,7 @@ export default function HomePage() {
                 <span className="text-[11px] font-semibold" style={{ color: currentWorld.color }}>
                   {currentQuest.lessons.filter((l) => questProgress[l.id]).length} / {currentQuest.lessons.length} lessons
                 </span>
-                <span className="text-[11px] font-bold" style={{ color: "#FFD700" }}>+{currentQuest.totalXP} XP</span>
+                <span className="text-[11px] font-bold" style={{ color: "#F6D95B" }}>+{currentQuest.totalXP} XP</span>
               </div>
             </div>
           </Link>
@@ -164,7 +162,7 @@ export default function HomePage() {
 
         {/* ── Your Journey ── */}
         <div className="pt-4 animate-fade-up" style={{ animationDelay: "160ms" }}>
-          <div className="text-[11px] font-black uppercase tracking-[1px] px-5 mb-3" style={{ color: "#4A4E78" }}>
+          <div className="text-[11px] font-black uppercase tracking-[1px] px-5 mb-3" style={{ color: "#5A5F80" }}>
             Your Journey
           </div>
           <div className="grid px-5 gap-2" style={{ gridTemplateColumns: `repeat(${WORLDS.length}, 1fr)` }}>
@@ -180,9 +178,9 @@ export default function HomePage() {
                   href={unlocked ? "/map" : "#"}
                   className="flex flex-col items-center justify-center gap-1 rounded-2xl cursor-pointer relative py-3"
                   style={{
-                    background: (unlocked || active) ? `${world.color}1E` : "rgba(255,255,255,0.03)",
-                    border: `1px solid ${(unlocked || active) ? world.color + "55" : "rgba(255,255,255,0.08)"}`,
-                    opacity: unlocked ? 1 : 0.45,
+                    background: (unlocked || active) ? `${world.color}15` : "rgba(255,255,255,0.03)",
+                    border: `1px solid ${(unlocked || active) ? world.color + "40" : "rgba(255,255,255,0.06)"}`,
+                    opacity: unlocked ? 1 : 0.4,
                   }}
                 >
                   <span className="text-2xl">{world.emoji}</span>
@@ -190,14 +188,14 @@ export default function HomePage() {
                     W{world.number}
                   </span>
                   {completed && (
-                    <div className="absolute top-[4px] right-[4px] w-[15px] h-[15px] rounded-full bg-[#58CC02] flex items-center justify-center text-[8px] text-white font-black">
+                    <div className="absolute top-[4px] right-[4px] w-[15px] h-[15px] rounded-full bg-[#6EE7A8] flex items-center justify-center text-[8px] font-black" style={{ color: "#151735" }}>
                       ✓
                     </div>
                   )}
                   {active && !completed && (
                     <div
                       className="absolute bottom-[5px]"
-                      style={{ width: 5, height: 5, borderRadius: "50%", background: world.color, boxShadow: `0 0 6px ${world.color}` }}
+                      style={{ width: 5, height: 5, borderRadius: "50%", background: world.color }}
                     />
                   )}
                 </Link>
@@ -217,11 +215,11 @@ export default function HomePage() {
         <div className="mx-5 mt-[14px] mb-6 animate-fade-up" style={{ animationDelay: "240ms" }}>
           <div
             className="flex items-center gap-[10px] px-[14px] py-3 rounded-2xl"
-            style={{ background: "rgba(155,89,255,0.08)", border: "1px solid rgba(155,89,255,0.2)" }}
+            style={{ background: "rgba(124,130,248,0.07)", border: "1px solid rgba(124,130,248,0.18)" }}
           >
             <span className="text-[22px]">🧠</span>
             <div>
-              <div className="text-xs font-black" style={{ color: "#C084FF", fontFamily: "var(--font-display)" }}>
+              <div className="text-xs font-black" style={{ color: "#A5A9FA", fontFamily: "var(--font-display)" }}>
                 NMA Prep — 4 Weeks
               </div>
               <div className="text-[11px]" style={{ color: "#6A70A0" }}>
@@ -239,10 +237,10 @@ function StatBadge({ icon, value, label }: { icon: string; value: number; label:
   return (
     <div
       className="flex-1 flex flex-col items-center py-[14px] px-2 rounded-2xl text-center"
-      style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}
+      style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)" }}
     >
       <span className="text-[22px] mb-1">{icon}</span>
-      <span className="text-[22px] font-black" style={{ color: "#F0F0FF", fontFamily: "var(--font-display)" }}>{value}</span>
+      <span className="text-[22px] font-black" style={{ color: "#F2F1F8", fontFamily: "var(--font-display)" }}>{value}</span>
       <span className="text-[11px] font-semibold mt-0.5" style={{ color: "#6A70A0" }}>{label}</span>
     </div>
   );
