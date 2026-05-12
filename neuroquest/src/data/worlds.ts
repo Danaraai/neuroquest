@@ -260,27 +260,15 @@ export const WORLDS: World[] = [
             concept: [
               {
                 type: "highlight",
-                content: "What makes the brain complex isn't the number of neurons — it's the connections. Each neuron receives ~10,000 inputs AND sends ~10,000 outputs. No other system we know has this density of interactions.",
+                content: "What makes the brain complex isn't the number of neurons — it's the **connections**. Each neuron receives ~10,000 inputs AND sends ~10,000 outputs. No other system we know of has this density of interactions.",
               },
               {
                 type: "text",
-                content: "**Synapses** are the connections between neurons. Two types:\n• **Chemical synapses** (most common): the axon terminal releases **neurotransmitters** that diffuse across a tiny gap and bind to receptors on the receiving neuron's dendrite\n• **Electrical synapses** (gap junctions): direct physical contact — signals pass through instantly, but these are rare",
+                content: "**Synapses** are the junctions where neurons connect. The most common type is the **chemical synapse**:\n1. An action potential arrives at the axon terminal\n2. Vesicles release **neurotransmitter** into the synaptic cleft\n3. Neurotransmitter binds to receptors on the receiving neuron\n4. The receiving neuron's voltage goes up (excitatory) or down (inhibitory)\n\nThe whole process takes ~1–2 ms. There are also rare **electrical synapses** (gap junctions) where signals pass through direct physical contact — instant but inflexible.",
               },
               {
                 type: "text",
-                content: "**The synapse in detail:**\n1. Action potential arrives at axon terminal (pre-synaptic side)\n2. Vesicles release neurotransmitter into the synaptic cleft\n3. Neurotransmitter binds to receptors on the post-synaptic neuron\n4. Result: membrane potential goes up (excitatory) or down (inhibitory)\n\nSynaptic strength changes with learning and development — this plasticity is how memories are formed.",
-              },
-              {
-                type: "text",
-                content: "**The neocortex has 6 layers**, each with specific roles:\n• **Layer 4**: main input layer — receives signals from the thalamus\n• **Layers 2/3**: process and pass signals up; project to other cortical areas\n• **Layers 5/6**: send output to subcortical regions and back to layer 2/3\n\nThis layered circuit motif repeats across the entire neocortex — the same basic 'recipe' everywhere.",
-              },
-              {
-                type: "highlight",
-                content: "🧠 What makes the brain complex: (1) Dense connections — 10,000 per neuron. (2) Delayed connections — signals take time to travel. (3) Dynamic connections — strength changes through learning. (4) Structured connectivity — not random, but organized into a 'network of networks'.",
-              },
-              {
-                type: "text",
-                content: "**How do we study the brain?** We record neural activity while animals perform tasks, then look for correlations between behavior and activity. But correlation ≠ causation — we also need perturbation experiments (temporary lesions, optogenetics) to establish what's actually causing what. This is the scientific method applied to the brain.",
+                content: "**Synaptic plasticity** is why connections matter even more than neurons: synaptic strength isn't fixed — it changes with every experience, every repeated pattern, every learning event. This is the physical mechanism behind memory. The brain you have today is literally wired differently from the brain you had a year ago.",
               },
             ],
           },
