@@ -24,7 +24,7 @@ export const WORLDS: World[] = [
         number: 1,
         title: "What Is the Brain?",
         description: "Brain vs mind, neurons, synapses — the foundation of everything at NMA",
-        totalXP: 50,
+        totalXP: 95,
         lessons: [
 
           // ── Lesson 1a: Brain vs Mind + Neocortex ──
@@ -331,6 +331,92 @@ export const WORLDS: World[] = [
                 ],
                 correctIndex: 1,
                 explanation: "Correlation tells you two things happen together, but not WHY. A region active during fear might just be nearby the real fear center. To establish causation, we need perturbation: temporarily inactivate a region (optogenetics, lesions) and see if behavior changes. This is the standard in systems neuroscience.",
+              },
+            ],
+          },
+
+          // ── Lesson 3b: Cortical Circuits ──
+          {
+            id: "w0q1l3b",
+            questId: "w0q1",
+            worldId: "world0",
+            title: "Cortical Columns & the Canonical Circuit",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 5,
+            funFact: "🚕 London taxi drivers must memorize thousands of streets in a feat called 'the Knowledge.' MRI scans found their hippocampus grew measurably larger after training — direct proof that sustained practice physically reshapes brain connectivity. Your brain is literally rebuilt by what you do.",
+            concept: [
+              {
+                type: "highlight",
+                content: "The neocortex has a remarkable secret: the same basic circuit repeats itself everywhere — from your visual cortex to your frontal lobe. A **cortical minicolumn** (~100 neurons) is the brain's fundamental computational unit.",
+              },
+              {
+                type: "image",
+                content: "/images/slide-cortical-layers.png",
+                alt: "Diagram showing cortical sheet, macrocolumns, minicolumns, and the canonical L4→L2/3→L5/6 circuit",
+                caption: "Cortical organisation: from the full sheet down to a single minicolumn, and the canonical inter-layer circuit",
+              },
+              {
+                type: "text",
+                content: "The neocortex is organised into **6 layers** (counted from outer surface inward):\n• **Layer 4** — the input layer: receives signals from the thalamus\n• **Layers 2/3** — integrate and project horizontally to other cortical areas\n• **Layers 5/6** — output layers: project to subcortical regions and send feedback\n\nThe signal flow **L4 → L2/3 → L5/6 → output** is the **canonical cortical circuit** — the same motif repeats across virtually the entire neocortex. (Higher cortical areas have a thin or absent L4 — they receive input differently.)",
+              },
+              {
+                type: "text",
+                content: "**Cortical column hierarchy:**\n• **1 cortical sheet** = 2 million macrocolumns = 200 million minicolumns = 20 billion neurons\n• **1 macrocolumn** = 100 minicolumns, 10,000 neurons\n• **1 minicolumn** = ~100 neurons\n\nWithin a layer, connectivity is **distance-dependent** — the probability two neurons connect drops sharply beyond ~290 μm. Zoom out slightly and you find **long-range patchy connections**: neurons skip nearby cells to link with specific patches 1+ mm away. These patches are non-random and appear to follow genetic or learned rules.",
+              },
+              {
+                type: "image",
+                content: "/images/slide-local-connectivity.png",
+                alt: "Graphs showing distance-dependent synaptic input in cortical layers L2/3, L4 and L5a, plus a tracer injection image showing patchy long-range connections",
+                caption: "Left: connection probability falls with distance in each layer. Right: tracer injection revealing patchy long-range axonal projections",
+              },
+            ],
+          },
+
+          // ── Lesson 3c: Large-Scale Connectivity ──
+          {
+            id: "w0q1l3c",
+            questId: "w0q1",
+            worldId: "world0",
+            title: "The Brain's Large-Scale Wiring",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 15,
+            estimatedMinutes: 6,
+            funFact: "🤖 The 'attention mechanism' powering ChatGPT was directly inspired by how the brain works. Researchers observed that distant cortical regions selectively weight each other's activity — and built a mathematical version of that idea into AI. It's now the engine behind almost every major AI system.",
+            concept: [
+              {
+                type: "highlight",
+                content: "Zoom out across the whole cortex and the connectivity is strikingly **non-random**. 43 cortical regions form distinct **modules** with a **hierarchy** — and this architecture is largely determined by your genes. It's your neural inheritance.",
+              },
+              {
+                type: "text",
+                content: "**Tracer studies** map long-range connections: a chemical injected into neurons travels along axons to wherever they project — revealing the brain's highway map. Across 43 cortical regions the pattern is clear:\n• **Non-random** — clear repeating structure, not noise\n• **Modular** — clusters of regions communicate densely within the group, sparsely between groups\n• **Hierarchical** — some regions act as hubs that gate access to others\n\nThis wiring is **species-specific** and likely **individual-specific**, shaped primarily by genetics.",
+              },
+              {
+                type: "image",
+                content: "/images/slide-large-scale-connectivity.png",
+                alt: "Heatmap of normalised connection density across 43 cortical regions (Allen Brain Institute data), with a stats table showing 86B neurons, 10T synapses, 10K synapses per neuron, 100K miles of axon, 220 mph conduction speed",
+                caption: "Large-scale connectivity map (Allen Brain Institute) — yellow = dense connections. Each neuron averages 10,000 inputs and 10,000 outputs.",
+              },
+              {
+                type: "text",
+                content: "**The brain in numbers:**\n• **~86 billion** neurons\n• **~10 trillion** synapses\n• **~10,000** synapses per neuron (both inputs and outputs)\n• **~100,000 miles** of total axon length — enough to circle Earth 4 times\n• **~220 mph** axon conduction speed\n\nWhat makes the brain complex isn't any single number — it's the *combination*: connections that are **dense, delayed, dynamic, and structured**.",
+              },
+              {
+                type: "highlight",
+                content: "The brain is best understood as a **network of networks**: local regions each follow their own internal rules, interconnected by long-range pathways. It's the interaction between *local* activity and *inter-regional* activity that generates thought, perception, and behavior.",
+              },
+              {
+                type: "image",
+                content: "/images/slide-network-of-networks.png",
+                alt: "Diagram showing multiple local networks (each containing excitatory and inhibitory neurons) connected by long-range pathways — the brain as a network of networks",
+                caption: "The brain as a network of networks — local E/I circuits linked by long-range axonal projections",
+              },
+              {
+                type: "text",
+                content: "**How neuroscientists study brain function:**\n1. **Record** neural activity while animals perform trained tasks\n2. **Correlate** behavior with activity — find the neural signature of a function\n3. **Perturb** to establish causation: temporarily silence a region (optogenetics, reversible lesions) and watch what breaks\n\nTo understand *how* the brain computes, researchers also compare it to **machine learning** — Reinforcement Learning mirrors the brain's reward circuits almost exactly. AI and neuroscience increasingly inform each other.",
               },
             ],
           },
