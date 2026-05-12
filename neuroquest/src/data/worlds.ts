@@ -194,10 +194,6 @@ export const WORLDS: World[] = [
                 type: "text",
                 content: "**Excitatory vs Inhibitory neurons (Dale's Dogma):**\nNeurons are classified by what they release:\n• **Excitatory neurons** release glutamate → *increases* the chance the receiving neuron fires\n• **Inhibitory neurons** release GABA → *decreases* the chance the receiving neuron fires\n\nMost neurons are exclusively one or the other — this is called Dale's Principle. The balance between excitation and inhibition is crucial for normal brain function.",
               },
-              {
-                type: "highlight",
-                content: "🎨 Santiago Ramón y Cajal (1852–1934) made the first drawings of neurons under a microscope. He proved neurons are individual cells — not one continuous network. He won the Nobel Prize in 1906 and is considered the father of modern neuroscience.",
-              },
             ],
           },
 
