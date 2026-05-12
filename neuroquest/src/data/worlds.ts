@@ -61,10 +61,6 @@ export const WORLDS: World[] = [
                 type: "text",
                 content: "Each lobe handles a different domain:\n\n• **Occipital lobe** → **Primary Visual Cortex** — the first stop for everything you see\n• **Temporal lobe** → **Auditory Cortex** (hearing) + **Wernicke's area** (understanding language)\n• **Frontal lobe** → **Motor Cortex** (voluntary movement) + **Broca's area** (producing speech) + prefrontal areas for planning and decision-making\n• **Parietal lobe** → **Somatosensory Cortex** — maps touch, pain, and body position",
               },
-              {
-                type: "highlight",
-                content: "But knowing *which region does what* is not enough. To understand how the brain's dynamics give rise to the mind, we need to zoom in — to the cells that make it all possible: **neurons**.",
-              },
             ],
           },
 
