@@ -25,52 +25,61 @@ export function LessonComplete({
   onNext,
 }: LessonCompleteProps) {
   return (
-    <div className="flex flex-col items-center justify-center h-full px-4 text-center animate-fade-in">
-      {/* Ilya celebration */}
-      <Ilya state="celebrate" size={120} className="mb-4" />
+    <div
+      className="flex flex-col items-center justify-center h-full text-center animate-fade-in"
+      style={{ padding: "32px 24px", maxWidth: 480, margin: "0 auto" }}
+    >
+      <Ilya state="celebrate" size={110} className="mb-6" />
 
-      {/* Title */}
       <h1
-        className="text-3xl font-black text-white mb-2"
-        style={{ fontFamily: "var(--font-display)" }}
+        style={{ fontSize: 28, fontWeight: 800, color: "#D8D9E8", marginBottom: 8, fontFamily: "var(--font-display)" }}
       >
         {perfect ? "Perfect! ✨" : "Lesson Done! 🎉"}
       </h1>
 
-      <p className="text-[#AFAFAF] text-sm mb-8">
-        {perfect
-          ? "No mistakes — you're on fire!"
-          : "Keep going, you're making progress!"}
+      <p style={{ fontSize: 15, color: "#7E849D", marginBottom: 32 }}>
+        {perfect ? "No mistakes — you're on fire!" : "Keep going, you're making progress!"}
       </p>
 
       {/* XP badge */}
       <div
-        className="flex items-center gap-2 rounded-2xl px-6 py-4 mb-8"
         style={{
-          background: "linear-gradient(135deg, #0E1028, #12143A)",
-          border: "2px solid #FFD700",
+          display: "flex",
+          alignItems: "center",
+          gap: 10,
+          borderRadius: 16,
+          padding: "14px 28px",
+          marginBottom: 36,
+          background: "#111827",
+          border: "1.5px solid #E8C84A44",
         }}
       >
-        <Star className="w-6 h-6 text-[#FFD700]" fill="#FFD700" />
-        <span
-          className="text-2xl font-black text-[#FFD700]"
-          style={{ fontFamily: "var(--font-display)" }}
-        >
+        <Star className="w-5 h-5" style={{ color: "#E8C84A" }} fill="#E8C84A" />
+        <span style={{ fontSize: 22, fontWeight: 800, color: "#E8C84A", fontFamily: "var(--font-display)" }}>
           +{xpEarned} XP
         </span>
       </div>
 
       {/* Buttons */}
-      <div className="w-full space-y-3">
+      <div style={{ width: "100%", display: "flex", flexDirection: "column", gap: 12 }}>
         {nextLessonId ? (
           <button
             onClick={onNext}
-            className="w-full py-4 rounded-xl font-black text-white text-base flex items-center justify-center gap-2 transition-all active:scale-95"
             style={{
-              background: "#58CC02",
+              width: "100%",
+              padding: "16px 24px",
+              borderRadius: 16,
               border: "none",
-              borderBottom: "4px solid #46A302",
+              background: "#1A2E22",
+              color: "#8FCC9A",
+              fontSize: 16,
+              fontWeight: 700,
               fontFamily: "var(--font-display)",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 8,
             }}
           >
             Next Lesson
@@ -79,11 +88,19 @@ export function LessonComplete({
         ) : (
           <Link
             href={`/learn/${worldId}/${questId}`}
-            className="w-full py-4 rounded-xl font-black text-white text-base flex items-center justify-center gap-2 transition-all active:scale-95 block"
             style={{
-              background: "#58CC02",
-              borderBottom: "4px solid #46A302",
+              width: "100%",
+              padding: "16px 24px",
+              borderRadius: 16,
+              background: "#1A2E22",
+              color: "#8FCC9A",
+              fontSize: 16,
+              fontWeight: 700,
               fontFamily: "var(--font-display)",
+              textDecoration: "none",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
             Quest Complete! →
@@ -91,11 +108,21 @@ export function LessonComplete({
         )}
         <Link
           href="/home"
-          className="w-full py-3 rounded-xl font-bold text-[#AFAFAF] text-sm flex items-center justify-center gap-2 block"
           style={{
+            width: "100%",
+            padding: "14px 24px",
+            borderRadius: 16,
             background: "transparent",
-            border: "2px solid rgba(255,255,255,0.10)",
+            border: "1.5px solid rgba(255,255,255,0.08)",
+            color: "#7E849D",
+            fontSize: 14,
+            fontWeight: 600,
             fontFamily: "var(--font-display)",
+            textDecoration: "none",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: 8,
           }}
         >
           <Home className="w-4 h-4" />

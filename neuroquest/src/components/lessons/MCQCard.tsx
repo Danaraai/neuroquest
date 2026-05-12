@@ -84,9 +84,13 @@ export function MCQCard({ question, onAnswer, onContinue }: MCQCardProps) {
           className={cn(
             "mt-6 rounded-2xl p-4 animate-slide-up",
             state === "correct"
-              ? "bg-[rgba(88,204,2,0.12)] border border-[#58CC02]/30"
-              : "bg-[rgba(255,75,75,0.12)] border border-[#FF4B4B]/30"
+              ? "border"
+              : "border"
           )}
+          style={{
+            background: state === "correct" ? "rgba(111,175,122,0.08)" : "rgba(224,85,85,0.08)",
+            borderColor: state === "correct" ? "#4F8F6A55" : "#E0555555",
+          }}
         >
           <div className="flex items-start gap-3 mb-3">
             <Ilya
@@ -118,9 +122,9 @@ export function MCQCard({ question, onAnswer, onContinue }: MCQCardProps) {
                   </>
                 )}
               </div>
-              <p className="text-xs text-[#AFAFAF] leading-relaxed">{question.explanation}</p>
+              <p className="text-xs leading-relaxed" style={{ color: "#7E849D" }}>{question.explanation}</p>
               {question.neuroConnection && (
-                <p className="text-xs text-[#1CB0F6] mt-1.5 leading-relaxed">
+                <p className="text-xs mt-1.5 leading-relaxed" style={{ color: "#6FAF7A" }}>
                   🧠 {question.neuroConnection}
                 </p>
               )}
@@ -129,11 +133,13 @@ export function MCQCard({ question, onAnswer, onContinue }: MCQCardProps) {
 
           <button
             onClick={onContinue}
-            className={cn(
-              "w-full py-3 rounded-xl font-black text-sm text-[#E8E8FF] transition-all active:scale-95",
-              state === "correct" ? "bg-[#58CC02] hover:bg-[#46A302]" : "bg-[#1CB0F6] hover:bg-[#0E98D9]"
-            )}
-            style={{ fontFamily: "var(--font-display)" }}
+            className="w-full py-3 rounded-xl font-black text-sm transition-all active:scale-95"
+            style={{
+              background: state === "correct" ? "#1A2E22" : "#111827",
+              color: state === "correct" ? "#8FCC9A" : "#AEB2C8",
+              border: `1px solid ${state === "correct" ? "#4F8F6A44" : "rgba(255,255,255,0.08)"}`,
+              fontFamily: "var(--font-display)",
+            }}
           >
             {state === "correct" ? "Continue →" : "Got it →"}
           </button>

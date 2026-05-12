@@ -2,27 +2,31 @@
 
 /* ─── Design Tokens ─────────────────────────────────────────── */
 @theme inline {
-  --color-primary:        #080A18;
-  --color-surface:        #0E1028;
-  --color-surface-raised: #12143A;
+  --color-primary:        #0B1020;
+  --color-surface:        #111827;
+  --color-surface-raised: #161F30;
   --color-accent:         #00DCFF;
-  --color-accent-green:   #58CC02;
-  --color-accent-hover:   #00B8D9;
+  --color-accent-green:   #6FAF7A;
+  --color-accent-hover:   #5A9868;
   --color-accent-blue:    #1CB0F6;
-  --color-gold:           #FFD700;
-  --color-danger:         #FF4B4B;
-  --color-danger-light:   #FF6B6B;
-  --color-text:           #F0F0FF;
-  --color-text-muted:     #8890C0;
+  --color-gold:           #E8C84A;
+  --color-danger:         #E05555;
+  --color-danger-light:   #E87070;
+  --color-text:           #D8D9E8;
+  --color-text-secondary: #AEB2C8;
+  --color-text-muted:     #7E849D;
   --color-text-dim:       #4A4E78;
+  --color-callout-bg:     #10201B;
+  --color-callout-border: #4F8F6A;
   --color-ilya:           #F5EFD8;
-  --color-border:         rgba(255,255,255,0.08);
+  --color-border:         rgba(255,255,255,0.07);
 
   --font-display: "Nunito", system-ui, sans-serif;
   --font-body:    "Inter", system-ui, sans-serif;
   --font-code:    "JetBrains Mono", "Fira Code", monospace;
 
   --bottom-nav-height: 80px;
+  --lesson-max-width: 720px;
 }
 
 /* ─── Base ───────────────────────────────────────────────────── */
@@ -37,11 +41,11 @@ html {
 body {
   height: 100%;
   margin: 0;
-  background-color: #080A18;
-  color: #F0F0FF;
+  background-color: #0B1020;
+  color: #D8D9E8;
   font-family: "Inter", system-ui, sans-serif;
-  font-size: 16px;
-  line-height: 1.5;
+  font-size: 18px;
+  line-height: 1.6;
   overflow-x: hidden;
 }
 
@@ -139,39 +143,60 @@ body {
 
 /* ─── Card styles ────────────────────────────────────────────── */
 .card {
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 16px;
+  background: #111827;
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 18px;
 }
 .card-raised {
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 16px;
+  background: #161F30;
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 18px;
+}
+
+/* ─── Lesson content container ───────────────────────────────── */
+.lesson-content {
+  max-width: 720px;
+  margin: 0 auto;
+  width: 100%;
 }
 
 /* ─── Answer options ─────────────────────────────────────────── */
 .answer-option {
-  background: rgba(255,255,255,0.03);
-  border: 1.5px solid rgba(255,255,255,0.08);
-  border-radius: 12px;
-  padding: 14px 16px;
-  font-family: "Nunito", system-ui, sans-serif;
-  font-weight: 600;
-  font-size: 0.95rem;
-  color: #D0D4F0;
+  background: #111827;
+  border: 1.5px solid rgba(255,255,255,0.09);
+  border-radius: 14px;
+  padding: 16px 18px;
+  font-family: "Inter", system-ui, sans-serif;
+  font-weight: 500;
+  font-size: 1rem;
+  color: #AEB2C8;
   cursor: pointer;
-  transition: border-color 0.15s, background-color 0.15s;
+  transition: border-color 0.15s, background 0.15s;
   text-align: left;
   width: 100%;
-  min-height: 52px;
+  min-height: 54px;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
 }
 .answer-option:hover:not(.disabled) {
-  border-color: rgba(0,220,255,0.4);
-  background: rgba(0,220,255,0.05);
+  border-color: #4F8F6A;
+  background: #10201B;
+  color: #D8D9E8;
 }
+.answer-option.correct {
+  border-color: #6FAF7A;
+  background: rgba(111,175,122,0.10);
+  color: #8FCC9A;
+  animation: bounce-in 0.4s ease-out both;
+}
+.answer-option.wrong {
+  border-color: #E05555;
+  background: rgba(224,85,85,0.10);
+  color: #E05555;
+  animation: shake 0.5s ease-out both;
+}
+.answer-option.disabled { cursor: default; pointer-events: none; }
 .answer-option.correct {
   border-color: #58CC02;
   background-color: rgba(88, 204, 2, 0.12);

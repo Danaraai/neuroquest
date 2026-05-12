@@ -148,51 +148,58 @@ export default function LessonPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#080A18] flex flex-col">
+    <div className="min-h-screen flex flex-col" style={{ background: "#0B1020" }}>
       {/* Top bar */}
-      <div className="px-4 pt-4 pb-3 flex-shrink-0">
-        <div className="max-w-2xl mx-auto">
-        <div className="flex items-center gap-3 mb-2">
-          <button
-            onClick={() => router.push(`/learn/${worldId}/${questId}`)}
-            className="text-[#AFAFAF] hover:text-white transition-colors"
-          >
-            <X className="w-5 h-5" />
-          </button>
-          <div className="flex-1 progress-bar-track">
-            <div
-              className="progress-bar-fill"
-              style={{ width: `${progressPct}%`, background: world.color }}
-            />
+      <div style={{ padding: "16px 24px 12px", flexShrink: 0 }}>
+        <div style={{ maxWidth: 720, margin: "0 auto" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 10 }}>
+            <button
+              onClick={() => router.push(`/learn/${worldId}/${questId}`)}
+              style={{ color: "#5A6090", background: "none", border: "none", cursor: "pointer", padding: 0, lineHeight: 0 }}
+            >
+              <X className="w-5 h-5" />
+            </button>
+            <div className="flex-1 progress-bar-track">
+              <div
+                className="progress-bar-fill"
+                style={{ width: `${progressPct}%`, background: `linear-gradient(90deg, #4F8F6A, #6FAF7A)` }}
+              />
+            </div>
+            <span style={{ fontSize: 12, color: "#E8C84A", fontWeight: 700, whiteSpace: "nowrap" }}>
+              +{lesson.xpReward} XP
+            </span>
           </div>
-          <span className="text-xs text-[#FFD700] font-bold whitespace-nowrap">
-            +{lesson.xpReward} XP
-          </span>
-        </div>
-        <p
-          className="text-sm font-black"
-          style={{ color: "#E8E8FF", fontFamily: "var(--font-display)" }}
-        >
-          {lesson.title}
-        </p>
+          <p style={{ margin: 0, fontSize: 14, fontWeight: 700, color: "#AEB2C8", fontFamily: "var(--font-display)" }}>
+            {lesson.title}
+          </p>
         </div>
       </div>
 
       {/* Content */}
-      <div className="flex-1 px-4 pb-6 overflow-y-auto">
-        <div className="max-w-2xl mx-auto">
+      <div className="flex-1 overflow-y-auto" style={{ padding: "8px 24px 32px" }}>
+        <div style={{ maxWidth: 720, margin: "0 auto" }}>
         {lesson.type === "concept" && lesson.concept && (
           <div className="flex flex-col min-h-full">
             <ConceptCard blocks={lesson.concept} />
-            <div className="mt-auto pt-6">
+            <div style={{ marginTop: 40 }}>
               <button
                 onClick={handleConceptDone}
-                className="w-full py-4 rounded-xl font-black text-white text-base transition-all active:scale-95"
                 style={{
-                  background: world.color,
-                  borderBottom: `4px solid ${world.colorDark}`,
+                  width: "100%",
+                  padding: "16px 24px",
+                  borderRadius: 16,
+                  border: "none",
+                  background: "#1A2E22",
+                  color: "#8FCC9A",
+                  fontSize: 16,
+                  fontWeight: 700,
                   fontFamily: "var(--font-display)",
+                  cursor: "pointer",
+                  transition: "all 0.15s",
+                  letterSpacing: "0.01em",
                 }}
+                onMouseEnter={e => { (e.target as HTMLButtonElement).style.background = "#213826"; (e.target as HTMLButtonElement).style.color = "#A8D8B0"; }}
+                onMouseLeave={e => { (e.target as HTMLButtonElement).style.background = "#1A2E22"; (e.target as HTMLButtonElement).style.color = "#8FCC9A"; }}
               >
                 Got it! →
               </button>
