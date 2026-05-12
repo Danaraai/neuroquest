@@ -258,6 +258,7 @@ export const WORLDS: World[] = [
             deviceRequired: "any",
             xpReward: 10,
             estimatedMinutes: 5,
+            funFact: "Olympic champion Eileen Gu talks about neuroplasticity as the idea that she can shape how she thinks — and, over time, who she becomes. She has described analyzing her own thought patterns and \"modifying\" them, treating her brain almost like part of her athletic training. At 22, she said neuroplasticity was \"on her side\" — and the broader science backs her up: brains can keep changing throughout life through repeated experience, practice, and attention.",
             concept: [
               {
                 type: "highlight",
@@ -269,7 +270,7 @@ export const WORLDS: World[] = [
               },
               {
                 type: "text",
-                content: "**Synaptic plasticity:** the more you repeat something, the stronger those specific neural connections become — and the weaker the unused ones get.\n\n*Think of learning a language, a skill, or a habit: every repetition is your brain literally rewiring itself. The connections you fire together grow together. This is not a metaphor — it is the physical mechanism of memory and learning.*\n\nOlympic champion Eileen Gu talks about neuroplasticity as the idea that she can shape how she thinks — and, over time, who she becomes. She has described analyzing her own thought patterns and \"modifying\" them, treating her brain almost like part of her athletic training. At 22, she said neuroplasticity was \"on her side\" — and the broader science backs her up: brains can keep changing throughout life through repeated experience, practice, and attention.",
+                content: "**Synaptic plasticity:** the more you repeat something, the stronger those specific neural connections become — and the weaker the unused ones get.\n\n*Think of learning a language, a skill, or a habit: every repetition is your brain literally rewiring itself. The connections you fire together grow together. This is not a metaphor — it is the physical mechanism of memory and learning.*",
               },
             ],
           },
