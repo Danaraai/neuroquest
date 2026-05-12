@@ -212,7 +212,7 @@ export default function HomePage() {
         </div>
 
         {/* ── NMA Prep banner ── */}
-        <div className="mx-5 mt-[14px] mb-6 animate-fade-up" style={{ animationDelay: "240ms" }}>
+        <div className="mx-5 mt-[14px] animate-fade-up" style={{ animationDelay: "240ms" }}>
           <div
             className="flex items-center gap-[10px] px-[14px] py-3 rounded-2xl"
             style={{ background: "rgba(124,130,248,0.07)", border: "1px solid rgba(124,130,248,0.18)" }}
@@ -228,6 +228,15 @@ export default function HomePage() {
             </div>
           </div>
         </div>
+
+        {/* ── Footer attribution ── */}
+        <p className="text-center px-5 pt-5 pb-6" style={{ fontSize: 11, color: "#3D4168", lineHeight: 1.6 }}>
+          * Curriculum based on{" "}
+          <a href="https://neuromatch.io" target="_blank" rel="noopener noreferrer" style={{ color: "#5A6090", textDecoration: "underline" }}>
+            Neuromatch Academy
+          </a>
+          {" "}Computational Neuroscience course
+        </p>
       </div>
     </div>
   );

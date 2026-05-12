@@ -74,13 +74,18 @@ export const WORLDS: World[] = [
             concept: [
               {
                 type: "text",
-                content: "**Beneath the neocortex** are subcortical structures — evolutionarily older regions, each with a precise role:\n• **Hippocampus** → Memory formation and spatial navigation (\"where am I? what happened?\")\n• **Amygdala** → Fear processing and emotion (\"is this dangerous?\")\n• **Thalamus** → Sensory gateway — almost all signals pass through here\n• **Hypothalamus** → Regulates body functions and drives motivated behavior\n• **Cerebellum** → Movement coordination and timing\n• **Basal ganglia** → Action selection and reward learning",
+                content: "Beneath the neocortex are **subcortical structures** — evolutionarily older regions, each with a precise role.",
               },
               {
                 type: "image",
                 content: "/images/beneath-neocortex.png",
                 alt: "Cross-section of the brain showing subcortical structures including hippocampus, amygdala, thalamus and hypothalamus",
                 caption: "Subcortical structures — the brain beneath the surface",
+                size: "small",
+              },
+              {
+                type: "text",
+                content: "• **Hippocampus** → Memory formation and spatial navigation (\"where am I? what happened?\")\n• **Amygdala** → Fear processing and emotion (\"is this dangerous?\")\n• **Thalamus** → Sensory gateway — almost all signals pass through here\n• **Hypothalamus** → Regulates body functions and motivates behavior\n• **Cerebellum** → Movement coordination and timing\n• **Basal ganglia** → Action selection and reward learning",
               },
               {
                 type: "highlight",

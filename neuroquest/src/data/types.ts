@@ -24,7 +24,8 @@ export interface ConceptBlock {
   content: string;
   caption?: string;
   annotations?: { line: number; text: string }[]; // For executable-code: explanations for specific lines
-  alt?: string; // For image: alt text
+  alt?: string;  // For image: alt text
+  size?: "small" | "full"; // For image: "small" floats beside the preceding text block
 }
 
 export interface CodingMission {
