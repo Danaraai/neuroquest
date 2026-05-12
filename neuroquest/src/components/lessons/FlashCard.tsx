@@ -50,7 +50,7 @@ export function FlashCard({ card, onAnswer, onContinue, cardNumber, totalCards }
               Question
             </span>
             <p
-              className="text-white font-bold text-base leading-relaxed flex-1"
+              className="text-[#E8E8FF] font-bold text-base leading-relaxed flex-1"
               style={{ fontFamily: "var(--font-display)" }}
             >
               {card.front}
@@ -69,15 +69,15 @@ export function FlashCard({ card, onAnswer, onContinue, cardNumber, totalCards }
           <div
             className="rounded-xl p-6 mb-6 animate-slide-up"
             style={{
-              background: "linear-gradient(135deg, #1E2040, #252640)",
-              border: "1px solid #3A3D5C",
+              background: "rgba(255,255,255,0.03)",
+              border: "1px solid rgba(255,255,255,0.08)",
             }}
           >
             <span className="text-[10px] text-[#58CC02] font-bold uppercase tracking-widest mb-3 block">
               Answer
             </span>
             <pre
-              className="text-white text-sm leading-relaxed whitespace-pre-wrap"
+              className="text-[#E8E8FF] text-sm leading-relaxed whitespace-pre-wrap"
               style={{ fontFamily: "var(--font-display)" }}
             >
               {card.back}

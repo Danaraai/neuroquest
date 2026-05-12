@@ -60,7 +60,7 @@ export function ExecutableCodeBlock({
       <div className="rounded-xl overflow-hidden">
         <div
           className="px-3 py-2 flex items-center gap-2 justify-between"
-          style={{ background: "#1A1B2E" }}
+          style={{ background: "#080A18" }}
         >
           <div className="flex items-center gap-2">
             <div className="flex gap-1">
@@ -133,7 +133,7 @@ export function ExecutableCodeBlock({
         {caption && (
           <div
             className="px-4 py-2"
-            style={{ background: "#1A1B2E", borderTop: "1px solid #3A3D5C" }}
+            style={{ background: "#080A18", borderTop: "1px solid rgba(255,255,255,0.10)" }}
           >
             <p className="text-xs text-[#AFAFAF] italic">{caption}</p>
           </div>
@@ -145,7 +145,7 @@ export function ExecutableCodeBlock({
         <div className="rounded-xl overflow-hidden">
           <div
             className="px-3 py-2"
-            style={{ background: "#1A1B2E" }}
+            style={{ background: "#080A18" }}
           >
             <span className="text-[10px] text-[#6B7094] font-mono">Output</span>
           </div>

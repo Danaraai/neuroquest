@@ -151,27 +151,26 @@ body {
 
 /* ─── Answer options ─────────────────────────────────────────── */
 .answer-option {
-  background-color: #252640;
-  border: 2px solid #3A3D5C;
-  border-bottom: 4px solid #3A3D5C;
+  background: rgba(255,255,255,0.03);
+  border: 1.5px solid rgba(255,255,255,0.08);
   border-radius: 12px;
-  padding: 16px;
+  padding: 14px 16px;
   font-family: "Nunito", system-ui, sans-serif;
   font-weight: 600;
   font-size: 0.95rem;
-  color: #FFFFFF;
+  color: #D0D4F0;
   cursor: pointer;
   transition: border-color 0.15s, background-color 0.15s;
   text-align: left;
   width: 100%;
-  min-height: 56px;
+  min-height: 52px;
   display: flex;
   align-items: center;
   gap: 12px;
 }
 .answer-option:hover:not(.disabled) {
-  border-color: #1CB0F6;
-  background-color: #2E3058;
+  border-color: rgba(0,220,255,0.4);
+  background: rgba(0,220,255,0.05);
 }
 .answer-option.correct {
   border-color: #58CC02;
@@ -189,15 +188,15 @@ body {
 
 /* ─── Progress bar ───────────────────────────────────────────── */
 .progress-bar-track {
-  background-color: #2E3058;
+  background: rgba(255,255,255,0.06);
   border-radius: 9999px;
-  height: 10px;
+  height: 6px;
   overflow: hidden;
 }
 .progress-bar-fill {
   height: 100%;
   border-radius: 9999px;
-  background-color: #58CC02;
+  background: linear-gradient(90deg, #00DCFF, #58CC02);
   transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 

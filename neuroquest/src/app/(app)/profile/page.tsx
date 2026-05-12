@@ -33,7 +33,7 @@ export default function ProfilePage() {
   const totalCards   = Object.keys(srCards).length;
 
   return (
-    <div className="min-h-screen bg-[#1A1B2E] px-4 pb-6">
+    <div className="min-h-screen bg-[#080A18] px-4 pb-6">
       {/* Header */}
       <div className="pt-6 pb-4 flex items-center gap-4">
         <Ilya
@@ -146,7 +146,7 @@ export default function ProfilePage() {
                 key={badge.id}
                 className={cn(
                   "flex flex-col items-center gap-1 p-2 rounded-xl",
-                  earned ? "bg-[#2E3058]" : "bg-[#252640] opacity-40"
+                  earned ? "bg-[#12143A]" : "bg-[#0E1028] opacity-40"
                 )}
                 title={badge.desc}
               >

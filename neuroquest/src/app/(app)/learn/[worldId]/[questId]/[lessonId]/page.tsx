@@ -43,7 +43,7 @@ export default function LessonPage() {
 
   if (!world || !quest || !lesson) {
     return (
-      <div className="min-h-screen bg-[#1A1B2E] flex flex-col items-center justify-center px-4 text-center">
+      <div className="min-h-screen bg-[#080A18] flex flex-col items-center justify-center px-4 text-center">
         <Ilya state="sad" size={80} className="mb-4" />
         <h2 className="text-xl font-black text-white mb-2" style={{ fontFamily: "var(--font-display)" }}>
           Lesson not found
@@ -133,7 +133,7 @@ export default function LessonPage() {
 
   if (step === "complete") {
     return (
-      <div className="min-h-screen bg-[#1A1B2E] px-4 py-8 flex flex-col">
+      <div className="min-h-screen bg-[#080A18] px-4 py-8 flex flex-col">
         <LessonComplete
           lesson={lesson}
           xpEarned={xpEarned}
@@ -148,9 +148,10 @@ export default function LessonPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#1A1B2E] flex flex-col">
+    <div className="min-h-screen bg-[#080A18] flex flex-col">
       {/* Top bar */}
       <div className="px-4 pt-4 pb-3 flex-shrink-0">
+        <div className="max-w-2xl mx-auto">
         <div className="flex items-center gap-3 mb-2">
           <button
             onClick={() => router.push(`/learn/${worldId}/${questId}`)}
@@ -169,15 +170,17 @@ export default function LessonPage() {
           </span>
         </div>
         <p
-          className="text-sm font-black text-white"
-          style={{ fontFamily: "var(--font-display)" }}
+          className="text-sm font-black"
+          style={{ color: "#E8E8FF", fontFamily: "var(--font-display)" }}
         >
           {lesson.title}
         </p>
+        </div>
       </div>
 
       {/* Content */}
       <div className="flex-1 px-4 pb-6 overflow-y-auto">
+        <div className="max-w-2xl mx-auto">
         {lesson.type === "concept" && lesson.concept && (
           <div className="flex flex-col min-h-full">
             <ConceptCard blocks={lesson.concept} />
@@ -227,6 +230,7 @@ export default function LessonPage() {
             totalCards={lesson.fillQuestions.length}
           />
         )}
+        </div>
       </div>
     </div>
   );

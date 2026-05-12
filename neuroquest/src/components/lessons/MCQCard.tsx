@@ -37,7 +37,7 @@ export function MCQCard({ question, onAnswer, onContinue }: MCQCardProps) {
       {/* Question */}
       <div className="flex-1">
         <pre
-          className="text-white text-[15px] font-semibold leading-relaxed whitespace-pre-wrap mb-6"
+          className="text-[#E8E8FF] text-[15px] font-semibold leading-relaxed whitespace-pre-wrap mb-6"
           style={{ fontFamily: "var(--font-display)" }}
         >
           {question.text}
@@ -62,16 +62,16 @@ export function MCQCard({ question, onAnswer, onContinue }: MCQCardProps) {
                 <span
                   className={cn(
                     "w-8 h-8 rounded-lg flex items-center justify-center text-xs font-black flex-shrink-0 transition-colors",
-                    optionState === "correct" && "bg-[#58CC02] text-white",
-                    optionState === "wrong" && "bg-[#FF4B4B] text-white",
-                    !optionState && "bg-[#3A3D5C] text-[#AFAFAF]"
+                    optionState === "correct" && "bg-[#58CC02] text-[#E8E8FF]",
+                    optionState === "wrong" && "bg-[#FF4B4B] text-[#E8E8FF]",
+                    !optionState && "bg-[rgba(255,255,255,0.10)] text-[#AFAFAF]"
                   )}
                 >
                   {optionState === "correct" ? "✓" : optionState === "wrong" ? "✗" : OPTION_LABELS[i]}
                 </span>
-                <pre className="flex-1 text-sm leading-snug whitespace-pre-wrap break-words bg-[#252640] rounded-lg p-3 font-mono text-[#AFAFAF]">
+                <span className="flex-1 text-sm leading-snug break-words" style={{ color: "#D0D4F0" }}>
                   {option}
-                </pre>
+                </span>
               </button>
             );
           })}
@@ -130,7 +130,7 @@ export function MCQCard({ question, onAnswer, onContinue }: MCQCardProps) {
           <button
             onClick={onContinue}
             className={cn(
-              "w-full py-3 rounded-xl font-black text-sm text-white transition-all active:scale-95",
+              "w-full py-3 rounded-xl font-black text-sm text-[#E8E8FF] transition-all active:scale-95",
               state === "correct" ? "bg-[#58CC02] hover:bg-[#46A302]" : "bg-[#1CB0F6] hover:bg-[#0E98D9]"
             )}
             style={{ fontFamily: "var(--font-display)" }}

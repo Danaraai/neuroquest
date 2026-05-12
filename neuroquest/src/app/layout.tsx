@@ -30,7 +30,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#1A1B2E",
+  themeColor: "#080A18",
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
@@ -50,7 +50,7 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
       </head>
-      <body className="h-full bg-[#1A1B2E] text-white antialiased">
+      <body className="h-full bg-[#080A18] text-white antialiased">
         {children}
         <VersionCheck />
         <script

@@ -47,7 +47,7 @@ export function LessonComplete({
       <div
         className="flex items-center gap-2 rounded-2xl px-6 py-4 mb-8"
         style={{
-          background: "linear-gradient(135deg, #252640, #2E3058)",
+          background: "linear-gradient(135deg, #0E1028, #12143A)",
           border: "2px solid #FFD700",
         }}
       >
@@ -94,7 +94,7 @@ export function LessonComplete({
           className="w-full py-3 rounded-xl font-bold text-[#AFAFAF] text-sm flex items-center justify-center gap-2 block"
           style={{
             background: "transparent",
-            border: "2px solid #3A3D5C",
+            border: "2px solid rgba(255,255,255,0.10)",
             fontFamily: "var(--font-display)",
           }}
         >

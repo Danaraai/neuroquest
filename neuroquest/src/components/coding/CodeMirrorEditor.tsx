@@ -28,10 +28,10 @@ const customTheme = EditorView.theme({
   ".cm-line": { padding: "0 12px" },
   ".cm-gutters": {
     backgroundColor: "#0D0E1A",
-    borderRight: "1px solid #3A3D5C",
-    color: "#3A3D5C",
+    borderRight: "1px solid rgba(255,255,255,0.10)",
+    color: "rgba(255,255,255,0.10)",
   },
-  ".cm-activeLineGutter": { backgroundColor: "#1A1B2E" },
+  ".cm-activeLineGutter": { backgroundColor: "#080A18" },
   ".cm-activeLine": { backgroundColor: "rgba(88,204,2,0.04)" },
   ".cm-cursor": { borderLeftColor: "#58CC02" },
   ".cm-selectionBackground": { backgroundColor: "rgba(28,176,246,0.2) !important" },

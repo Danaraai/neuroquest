@@ -65,7 +65,7 @@ export default function CodingMissionPage() {
 
   if (!mission) {
     return (
-      <div className="min-h-screen bg-[#1A1B2E] flex flex-col items-center justify-center px-4 text-center">
+      <div className="min-h-screen bg-[#080A18] flex flex-col items-center justify-center px-4 text-center">
         <Ilya state="sad" size={80} className="mb-4" />
         <h2 className="text-xl font-black text-white mb-2" style={{ fontFamily: "var(--font-display)" }}>
           Mission not found
@@ -93,11 +93,11 @@ export default function CodingMissionPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#1A1B2E] flex flex-col" style={{ fontFamily: "var(--font-body)" }}>
+    <div className="min-h-screen bg-[#080A18] flex flex-col" style={{ fontFamily: "var(--font-body)" }}>
       {/* Header */}
       <div
         className="px-4 py-3 flex items-center gap-3 flex-shrink-0"
-        style={{ background: "#1A1B2E", borderBottom: "1px solid #3A3D5C" }}
+        style={{ background: "#080A18", borderBottom: "1px solid rgba(255,255,255,0.10)" }}
       >
         <button
           onClick={() => router.push(`/learn/${worldId}/${questId}`)}
@@ -125,7 +125,7 @@ export default function CodingMissionPage() {
       {!ready && (
         <div
           className="px-4 py-2 flex items-center gap-2 text-xs"
-          style={{ background: "#252640", borderBottom: "1px solid #3A3D5C" }}
+          style={{ background: "#0E1028", borderBottom: "1px solid rgba(255,255,255,0.10)" }}
         >
           <Loader2 className="w-3.5 h-3.5 text-[#1CB0F6] animate-spin" />
           <span className="text-[#AFAFAF]">
@@ -139,7 +139,7 @@ export default function CodingMissionPage() {
         <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-6">
           <div
             className="rounded-2xl p-8 text-center max-w-sm w-full"
-            style={{ background: "#252640", border: "2px solid #58CC02" }}
+            style={{ background: "#0E1028", border: "2px solid #58CC02" }}
           >
             <Ilya state="celebrate" size={100} className="mx-auto mb-4" />
             <h2 className="text-2xl font-black text-white mb-2" style={{ fontFamily: "var(--font-display)" }}>
@@ -170,9 +170,9 @@ export default function CodingMissionPage() {
       <div className="flex-1 flex flex-col lg:flex-row overflow-hidden">
 
         {/* Left: Instructions / Output tabs */}
-        <div className="lg:w-[42%] flex flex-col border-b lg:border-b-0 lg:border-r border-[#3A3D5C]">
+        <div className="lg:w-[42%] flex flex-col border-b lg:border-b-0 lg:border-r border-[rgba(255,255,255,0.10)]">
           {/* Tabs */}
-          <div className="flex border-b border-[#3A3D5C] flex-shrink-0">
+          <div className="flex border-b border-[rgba(255,255,255,0.10)] flex-shrink-0">
             <button
               onClick={() => setActivePanel("instructions")}
               className={cn(
@@ -225,8 +225,8 @@ export default function CodingMissionPage() {
                         onClick={() => setShowHint(showHint === i ? null : i)}
                         className="w-full text-left flex items-center gap-2 py-2.5 px-3 rounded-xl text-xs font-semibold transition-all"
                         style={{
-                          background: showHint === i ? "rgba(255,193,7,0.1)" : "#252640",
-                          border: `1px solid ${showHint === i ? "#FFD700" : "#3A3D5C"}`,
+                          background: showHint === i ? "rgba(255,193,7,0.1)" : "#0E1028",
+                          border: `1px solid ${showHint === i ? "#FFD700" : "rgba(255,255,255,0.10)"}`,
                           color: showHint === i ? "#FFD700" : "#AFAFAF",
                           fontFamily: "var(--font-display)",
                         }}
@@ -321,7 +321,7 @@ export default function CodingMissionPage() {
         <div className="flex-1 flex flex-col min-h-[400px]">
           <div
             className="px-3 py-2 flex items-center justify-between flex-shrink-0"
-            style={{ background: "#0D0E1A", borderBottom: "1px solid #3A3D5C" }}
+            style={{ background: "#0D0E1A", borderBottom: "1px solid rgba(255,255,255,0.10)" }}
           >
             <span className="text-[10px] text-[#6B7094] font-mono">solution.py</span>
             <div className="flex items-center gap-1">
@@ -346,7 +346,7 @@ export default function CodingMissionPage() {
           {/* Run button */}
           <div
             className="p-3 flex-shrink-0"
-            style={{ background: "#0D0E1A", borderTop: "1px solid #3A3D5C" }}
+            style={{ background: "#0D0E1A", borderTop: "1px solid rgba(255,255,255,0.10)" }}
           >
             <button
               onClick={handleRun}
@@ -356,8 +356,8 @@ export default function CodingMissionPage() {
                 running ? "opacity-60 cursor-wait" : "hover:opacity-90"
               )}
               style={{
-                background: running ? "#252640" : "#58CC02",
-                borderBottom: running ? "3px solid #3A3D5C" : "4px solid #46A302",
+                background: running ? "#0E1028" : "#58CC02",
+                borderBottom: running ? "3px solid rgba(255,255,255,0.10)" : "4px solid #46A302",
                 fontFamily: "var(--font-display)",
               }}
             >

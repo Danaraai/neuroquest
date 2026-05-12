@@ -20,14 +20,14 @@ export function XPBar({ compact = false, className, accentColor = "#58CC02" }: X
     return (
       <div className={cn("flex items-center gap-2", className)}>
         {/* Streak */}
-        <div className="flex items-center gap-1 bg-[#2E3058] rounded-full px-3 py-1">
+        <div className="flex items-center gap-1 bg-[#12143A] rounded-full px-3 py-1">
           <Flame className="w-4 h-4 text-orange-400 animate-streak" />
           <span className="text-sm font-bold text-white" style={{ fontFamily: "var(--font-display)" }}>
             {stats.currentStreak}
           </span>
         </div>
         {/* XP */}
-        <div className="flex items-center gap-1 bg-[#2E3058] rounded-full px-3 py-1">
+        <div className="flex items-center gap-1 bg-[#12143A] rounded-full px-3 py-1">
           <span className="text-yellow-400 text-xs font-bold">⭐</span>
           <span className="text-sm font-bold text-white" style={{ fontFamily: "var(--font-display)" }}>
             {formatXP(stats.totalXP)}

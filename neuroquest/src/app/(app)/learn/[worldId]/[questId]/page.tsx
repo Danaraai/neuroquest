@@ -19,7 +19,7 @@ export default function QuestPage() {
 
   if (!world || !quest) {
     return (
-      <div className="min-h-screen bg-[#1A1B2E] flex flex-col items-center justify-center px-4 text-center">
+      <div className="min-h-screen bg-[#080A18] flex flex-col items-center justify-center px-4 text-center">
         <Ilya state="sad" size={80} className="mb-4" />
         <h2 className="text-xl font-black text-white mb-2" style={{ fontFamily: "var(--font-display)" }}>
           Quest not found
@@ -38,9 +38,9 @@ export default function QuestPage() {
   const questDone = completedLessons >= quest.lessons.length;
 
   return (
-    <div className="min-h-screen bg-[#1A1B2E] flex flex-col">
+    <div className="min-h-screen bg-[#080A18] flex flex-col">
       {/* Header */}
-      <div className="px-4 pt-4 pb-2 flex items-center gap-3 border-b border-[#3A3D5C]">
+      <div className="px-4 pt-4 pb-2 flex items-center gap-3 border-b border-[rgba(255,255,255,0.10)]">
         <Link href="/map" className="text-[#AFAFAF] hover:text-white transition-colors">
           <ChevronLeft className="w-6 h-6" />
         </Link>
@@ -113,8 +113,8 @@ export default function QuestPage() {
               className={cn(
                 "flex items-center gap-3 p-4 rounded-xl border transition-all",
                 done && "border-[#58CC02]/30 bg-[rgba(88,204,2,0.06)]",
-                isCurrent && !done && "border-[#1CB0F6] bg-[#2E3058]",
-                !done && !isCurrent && "border-[#3A3D5C] bg-[#252640]"
+                isCurrent && !done && "border-[#1CB0F6] bg-[#12143A]",
+                !done && !isCurrent && "border-[rgba(255,255,255,0.10)] bg-[#0E1028]"
               )}
             >
               <div
@@ -122,7 +122,7 @@ export default function QuestPage() {
                   "w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 text-sm font-black",
                   done && "bg-[#58CC02] text-white",
                   isCurrent && !done && "bg-[#1CB0F6] text-white",
-                  !done && !isCurrent && "bg-[#2E3058] text-[#AFAFAF]"
+                  !done && !isCurrent && "bg-[#12143A] text-[#AFAFAF]"
                 )}
                 style={{ fontFamily: "var(--font-display)" }}
               >

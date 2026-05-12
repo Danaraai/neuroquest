@@ -12,9 +12,9 @@ export default function MapPage() {
   const { worldProgress, questProgress, lessonProgress } = useStore();
 
   return (
-    <div className="min-h-screen bg-[#1A1B2E]">
+    <div className="min-h-screen bg-[#080A18]">
       {/* Header */}
-      <div className="sticky top-0 z-10 bg-[#1A1B2E] border-b border-[#3A3D5C] px-4 py-4 flex items-center gap-3">
+      <div className="sticky top-0 z-10 bg-[#080A18] border-b border-[rgba(255,255,255,0.10)] px-4 py-4 flex items-center gap-3">
         <button onClick={() => router.back()} className="text-[#AFAFAF] hover:text-white transition-colors">
           <ChevronLeft className="w-6 h-6" />
         </button>
@@ -30,7 +30,7 @@ export default function MapPage() {
       <div className="px-4 py-6 max-w-lg mx-auto">
         <div className="relative">
           {/* Connecting line */}
-          <div className="absolute left-8 top-12 bottom-12 w-0.5 bg-[#3A3D5C]" />
+          <div className="absolute left-8 top-12 bottom-12 w-0.5 bg-[rgba(255,255,255,0.10)]" />
 
           {WORLDS.map((world, index) => {
             const wp = worldProgress[world.id];
@@ -66,7 +66,7 @@ export default function MapPage() {
                   <div
                     className="absolute left-0 w-14 h-14 rounded-2xl flex items-center justify-center text-2xl shadow-lg"
                     style={{
-                      background: unlocked ? world.color : "#2E3058",
+                      background: unlocked ? world.color : "#12143A",
                       border: completed ? "2px solid #58CC02" : "none",
                     }}
                   >
@@ -154,7 +154,7 @@ export default function MapPage() {
                           href={`/learn/${world.id}/${quest.id}`}
                           className={cn(
                             "flex items-center gap-2 px-3 py-2 rounded-xl transition-all",
-                            "bg-[#252640] border border-[#3A3D5C]",
+                            "bg-[#0E1028] border border-[rgba(255,255,255,0.10)]",
                             questDone && "opacity-70"
                           )}
                         >
@@ -184,7 +184,7 @@ export default function MapPage() {
 
           {/* NMA Gate */}
           <div className="ml-16 mt-4 card p-4 opacity-50">
-            <div className="absolute left-0 w-14 h-14 rounded-2xl flex items-center justify-center text-2xl bg-[#2E3058]">
+            <div className="absolute left-0 w-14 h-14 rounded-2xl flex items-center justify-center text-2xl bg-[#12143A]">
               🏆
             </div>
             <span className="text-xs font-bold text-[#6B7094] uppercase tracking-wider">Final Challenge</span>

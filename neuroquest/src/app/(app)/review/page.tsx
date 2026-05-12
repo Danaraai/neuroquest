@@ -56,7 +56,7 @@ export default function ReviewPage() {
 
   if (queue.length === 0 && !sessionDone) {
     return (
-      <div className="min-h-screen bg-[#1A1B2E] flex flex-col items-center justify-center px-4 text-center">
+      <div className="min-h-screen bg-[#080A18] flex flex-col items-center justify-center px-4 text-center">
         <Ilya state="celebrate" size={100} className="mb-6" />
         <h1 className="text-2xl font-black text-white mb-3" style={{ fontFamily: "var(--font-display)" }}>
           You&apos;re all caught up! 🎉
@@ -78,7 +78,7 @@ export default function ReviewPage() {
   if (sessionDone) {
     const accuracy = Math.round((results.correct / totalCards) * 100);
     return (
-      <div className="min-h-screen bg-[#1A1B2E] flex flex-col items-center justify-center px-4 text-center">
+      <div className="min-h-screen bg-[#080A18] flex flex-col items-center justify-center px-4 text-center">
         <Ilya state={accuracy >= 80 ? "celebrate" : "idle"} size={100} className="mb-6" />
         <h1 className="text-2xl font-black text-white mb-2" style={{ fontFamily: "var(--font-display)" }}>
           Review Complete!
@@ -122,7 +122,7 @@ export default function ReviewPage() {
   if (!currentCard) return null;
 
   return (
-    <div className="min-h-screen bg-[#1A1B2E] flex flex-col">
+    <div className="min-h-screen bg-[#080A18] flex flex-col">
       {/* Header */}
       <div className="px-4 pt-4 pb-3 flex-shrink-0">
         <div className="flex items-center justify-between mb-2">
@@ -170,8 +170,8 @@ export default function ReviewPage() {
           <div
             className="rounded-xl p-6 mb-6 animate-slide-up"
             style={{
-              background: "linear-gradient(135deg, #1E2040, #252640)",
-              border: "1px solid #3A3D5C",
+              background: "linear-gradient(135deg, #0A0C1E, #0E1028)",
+              border: "1px solid rgba(255,255,255,0.10)",
             }}
           >
             <span className="text-[10px] text-[#58CC02] font-bold uppercase tracking-widest mb-3 block">

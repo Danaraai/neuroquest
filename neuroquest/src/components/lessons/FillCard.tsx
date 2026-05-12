@@ -44,7 +44,7 @@ export function FillCard({ question, onAnswer, onContinue, cardNumber, totalCard
       </p>
 
       {/* Prompt */}
-      <p className="text-white font-bold text-base leading-relaxed">
+      <p className="text-[#E8E8FF] font-bold text-base leading-relaxed">
         {question.prompt}
       </p>
 
@@ -126,7 +126,7 @@ export function FillCard({ question, onAnswer, onContinue, cardNumber, totalCard
         <button
           onClick={handleSubmit}
           disabled={!value.trim()}
-          className="w-full py-4 rounded-xl font-black text-white text-base transition-all active:scale-95 disabled:opacity-40"
+          className="w-full py-4 rounded-xl font-black text-[#E8E8FF] text-base transition-all active:scale-95 disabled:opacity-40"
           style={{
             background: "#1CB0F6",
             borderBottom: "4px solid #0e8bbf",
@@ -138,7 +138,7 @@ export function FillCard({ question, onAnswer, onContinue, cardNumber, totalCard
       ) : (
         <button
           onClick={onContinue}
-          className="w-full py-4 rounded-xl font-black text-white text-base transition-all active:scale-95"
+          className="w-full py-4 rounded-xl font-black text-[#E8E8FF] text-base transition-all active:scale-95"
           style={{
             background: correct ? "#58CC02" : "#FF4B4B",
             borderBottom: `4px solid ${correct ? "#46A302" : "#cc3b3b"}`,
