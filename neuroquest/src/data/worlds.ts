@@ -335,7 +335,6 @@ export const WORLDS: World[] = [
             deviceRequired: "any",
             xpReward: 10,
             estimatedMinutes: 5,
-            funFact: "🚕 London taxi drivers must memorize thousands of streets in a feat called 'the Knowledge.' MRI scans found their hippocampus grew measurably larger after training — direct proof that sustained practice physically reshapes brain connectivity. Your brain is literally rebuilt by what you do.",
             concept: [
               {
                 type: "highlight",
@@ -374,7 +373,7 @@ export const WORLDS: World[] = [
             deviceRequired: "any",
             xpReward: 15,
             estimatedMinutes: 6,
-            funFact: "🤖 The 'attention mechanism' powering ChatGPT was directly inspired by how the brain works. Researchers observed that distant cortical regions selectively weight each other's activity — and built a mathematical version of that idea into AI. It's now the engine behind almost every major AI system.",
+            funFact: "🚕 London taxi drivers must memorise thousands of streets in a feat called 'the Knowledge.' MRI scans found their hippocampus grew measurably larger after training — direct proof that sustained practice physically reshapes brain connectivity. Your brain is literally rebuilt by what you repeatedly do.",
             concept: [
               {
                 type: "highlight",
