@@ -165,6 +165,13 @@ export const WORLDS: World[] = [
                 content: "The brain has ~86 billion neurons. But that number alone doesn't make us special — elephants have more. What matters is HOW they connect.",
               },
               {
+                type: "image",
+                content: "/images/neuron.png",
+                alt: "Diagram of a neuron showing dendrites, cell body (soma), and axon",
+                caption: "A single neuron: dendrites receive, soma integrates, axon transmits",
+                size: "small",
+              },
+              {
                 type: "text",
                 content: "A neuron is a highly specialized cell with three main parts:\n• **Dendrites** — branching input ports that receive signals from other neurons (think: antennae)\n• **Cell body (soma)** — integrates all incoming signals\n• **Axon** — the single output cable that sends signals to other neurons (can be up to 1 meter long!)",
               },
