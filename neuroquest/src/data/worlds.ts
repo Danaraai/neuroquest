@@ -55,6 +55,12 @@ export const WORLDS: World[] = [
                 content: "**The neocortex** (the outer wrinkled surface) is divided into regions with specific jobs:\n• **Occipital lobe** → Primary Visual Cortex (early vision processing)\n• **Temporal lobe** → Auditory Cortex, Wernicke's area (language understanding)\n• **Frontal lobe** → Broca's area (speech production), Motor Cortex, higher cognition\n• **Parietal lobe** → Somatosensory Cortex (touch, body position)",
               },
               {
+                type: "image",
+                content: "/images/cerebral-cortex.png",
+                alt: "Cerebral cortex geography showing the four lobes and key functional areas",
+                caption: "Cerebral cortex geography — colour-coded by lobe",
+              },
+              {
                 type: "text",
                 content: "**Beneath the neocortex** are subcortical structures — evolutionarily older regions with specific roles:\n• **Hippocampus** → Memory formation and spatial navigation (\"where am I? what happened?\")\n• **Amygdala** → Fear processing and emotion (\"is this dangerous?\")\n• **Cerebellum** → Movement coordination and timing\n• **Basal ganglia** → Action selection and reward learning",
               },

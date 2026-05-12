@@ -83,6 +83,23 @@ export function ConceptCard({ blocks }: ConceptCardProps) {
           );
         }
 
+        if (block.type === "image") {
+          return (
+            <div key={i} style={{ borderRadius: 14, overflow: "hidden", border: "1px solid rgba(255,255,255,0.07)" }}>
+              <img
+                src={block.content}
+                alt={block.alt ?? ""}
+                style={{ width: "100%", display: "block", objectFit: "contain", background: "#fff" }}
+              />
+              {block.caption && (
+                <div style={{ background: "#0D1117", borderTop: "1px solid rgba(255,255,255,0.06)", padding: "8px 14px" }}>
+                  <p style={{ margin: 0, fontSize: 13, color: "#5A6090", fontStyle: "italic" }}>{block.caption}</p>
+                </div>
+              )}
+            </div>
+          );
+        }
+
         if (block.type === "formula") {
           return (
             <div
