@@ -9,28 +9,30 @@ interface ConceptCardProps {
 
 export function ConceptCard({ blocks }: ConceptCardProps) {
   return (
-    <div className="animate-slide-up" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+    <div className="animate-slide-up" style={{ display: "flex", flexDirection: "column", gap: 20 }}>
       {blocks.map((block, i) => {
+        // ── Callout / highlight ───────────────────────────────────
+        // Medium visual weight: purple left border signals an insight
         if (block.type === "highlight") {
           return (
             <div
               key={i}
               style={{
-                background: "#1E2147",
-                borderLeft: "3px solid #7C82F8",
+                background: "#1C1F42",
                 borderRadius: "0 14px 14px 0",
-                padding: "16px 20px",
-                border: "1px solid rgba(124,130,248,0.18)",
-                borderLeftColor: "#7C82F8",
-                borderLeftWidth: 3,
+                padding: "18px 22px 18px 20px",
+                borderTop: "1px solid rgba(124,130,248,0.12)",
+                borderRight: "1px solid rgba(124,130,248,0.12)",
+                borderBottom: "1px solid rgba(124,130,248,0.12)",
+                borderLeft: "3px solid #7C82F8",
               }}
             >
               <p
                 style={{
                   margin: 0,
-                  fontSize: 15,
-                  lineHeight: 1.7,
-                  color: "#C5C7D8",
+                  fontSize: 16,
+                  lineHeight: 1.72,
+                  color: "#BFC2D6",
                   fontFamily: "var(--font-body)",
                 }}
                 dangerouslySetInnerHTML={{ __html: renderMarkdown(block.content) }}
@@ -39,6 +41,7 @@ export function ConceptCard({ blocks }: ConceptCardProps) {
           );
         }
 
+        // ── Executable code ───────────────────────────────────────
         if (block.type === "executable-code") {
           return (
             <ExecutableCodeBlock
@@ -50,9 +53,10 @@ export function ConceptCard({ blocks }: ConceptCardProps) {
           );
         }
 
+        // ── Static code block ─────────────────────────────────────
         if (block.type === "code") {
           return (
-            <div key={i} style={{ borderRadius: 14, overflow: "hidden", border: "1px solid rgba(255,255,255,0.07)" }}>
+            <div key={i} style={{ borderRadius: 14, overflow: "hidden", border: "1px solid rgba(255,255,255,0.06)" }}>
               <div
                 style={{ background: "#0D1117", padding: "8px 14px", display: "flex", alignItems: "center", gap: 8 }}
               >
@@ -66,11 +70,11 @@ export function ConceptCard({ blocks }: ConceptCardProps) {
               <pre
                 style={{
                   background: "#080B14",
-                  padding: "16px 18px",
+                  padding: "16px 20px",
                   margin: 0,
                   overflowX: "auto",
-                  fontSize: 13,
-                  lineHeight: 1.65,
+                  fontSize: 13.5,
+                  lineHeight: 1.7,
                   fontFamily: "var(--font-code)",
                   color: "#C8D0E0",
                 }}
@@ -78,7 +82,7 @@ export function ConceptCard({ blocks }: ConceptCardProps) {
                 <code dangerouslySetInnerHTML={{ __html: formatCode(block.content) }} />
               </pre>
               {block.caption && (
-                <div style={{ background: "#0D1117", borderTop: "1px solid rgba(255,255,255,0.06)", padding: "8px 14px" }}>
+                <div style={{ background: "#0D1117", borderTop: "1px solid rgba(255,255,255,0.05)", padding: "8px 14px" }}>
                   <p style={{ margin: 0, fontSize: 12, color: "#5A5F80", fontStyle: "italic" }}>{block.caption}</p>
                 </div>
               )}
@@ -86,67 +90,94 @@ export function ConceptCard({ blocks }: ConceptCardProps) {
           );
         }
 
+        // ── Diagram / image ───────────────────────────────────────
+        // Wrapped in dark card with padding; brightness reduced to avoid
+        // a white flash against the dark background
         if (block.type === "image") {
           return (
-            <div key={i} style={{ borderRadius: 14, overflow: "hidden", border: "1px solid rgba(255,255,255,0.07)" }}>
+            <div
+              key={i}
+              style={{
+                background: "#13162E",
+                border: "1px solid rgba(255,255,255,0.06)",
+                borderRadius: 16,
+                padding: 12,
+              }}
+            >
               <img
                 src={block.content}
                 alt={block.alt ?? ""}
-                style={{ width: "100%", display: "block", objectFit: "contain", background: "#fff" }}
+                style={{
+                  width: "100%",
+                  display: "block",
+                  objectFit: "contain",
+                  borderRadius: 10,
+                  filter: "brightness(0.88) saturate(0.92)",
+                }}
               />
               {block.caption && (
-                <div style={{ background: "#1A1D3A", borderTop: "1px solid rgba(255,255,255,0.06)", padding: "8px 14px" }}>
-                  <p style={{ margin: 0, fontSize: 12, color: "#5A5F80", fontStyle: "italic" }}>{block.caption}</p>
-                </div>
+                <p
+                  style={{
+                    margin: "10px 4px 2px",
+                    fontSize: 12,
+                    color: "#6A6F90",
+                    fontStyle: "italic",
+                    textAlign: "center",
+                  }}
+                >
+                  {block.caption}
+                </p>
               )}
             </div>
           );
         }
 
+        // ── Formula ───────────────────────────────────────────────
         if (block.type === "formula") {
           return (
             <div
               key={i}
               style={{
-                background: "#1E2147",
-                border: "1px solid rgba(255,255,255,0.08)",
+                background: "#1C1F42",
+                border: "1px solid rgba(124,130,248,0.18)",
                 borderRadius: 14,
-                padding: "18px 24px",
+                padding: "20px 28px",
                 textAlign: "center",
               }}
             >
-              <p style={{ margin: 0, fontSize: 18, fontWeight: 600, color: "#7C82F8", fontFamily: "var(--font-code)" }}>
+              <p style={{ margin: 0, fontSize: 19, fontWeight: 600, color: "#A5A9FA", fontFamily: "var(--font-code)" }}>
                 {block.content}
               </p>
               {block.caption && (
-                <p style={{ margin: "8px 0 0", fontSize: 12, color: "#5A5F80", fontStyle: "italic" }}>{block.caption}</p>
+                <p style={{ margin: "8px 0 0", fontSize: 12, color: "#6A6F90", fontStyle: "italic" }}>{block.caption}</p>
               )}
             </div>
           );
         }
 
-        // Default: text block — rendered as a subtle card
+        // ── Default: body text card ───────────────────────────────
+        // Quietest visual weight — nearly invisible border, darker bg
         return (
           <div
             key={i}
             style={{
-              background: "#1E2147",
-              border: "1px solid rgba(255,255,255,0.06)",
+              background: "#191C3B",
+              border: "1px solid rgba(255,255,255,0.04)",
               borderRadius: 14,
-              padding: "18px 20px",
+              padding: "20px 22px",
             }}
           >
             <p
               style={{
                 margin: 0,
-                fontSize: 15,
-                lineHeight: 1.75,
-                color: "#C5C7D8",
+                fontSize: 17,
+                lineHeight: 1.72,
+                color: "#B8BBCF",
               }}
               dangerouslySetInnerHTML={{ __html: renderMarkdown(block.content) }}
             />
             {block.caption && (
-              <p style={{ margin: "8px 0 0", fontSize: 12, color: "#5A5F80", fontStyle: "italic" }}>{block.caption}</p>
+              <p style={{ margin: "8px 0 0", fontSize: 12, color: "#6A6F90", fontStyle: "italic" }}>{block.caption}</p>
             )}
           </div>
         );
@@ -157,12 +188,12 @@ export function ConceptCard({ blocks }: ConceptCardProps) {
 
 function renderMarkdown(text: string): string {
   return text
-    // Bold
-    .replace(/\*\*(.+?)\*\*/g, '<strong style="color:#F2F1F8;font-weight:700">$1</strong>')
+    // Bold — stays brighter for emphasis
+    .replace(/\*\*(.+?)\*\*/g, '<strong style="color:#EEEDF6;font-weight:700">$1</strong>')
     // Italic
     .replace(/(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)/g, '<em style="color:#9EA3BD;font-style:italic">$1</em>')
     // Inline code
-    .replace(/`(.+?)`/g, '<code style="background:rgba(124,130,248,0.14);color:#A5A9FA;padding:2px 7px;border-radius:5px;font-size:13px;font-family:var(--font-code)">$1</code>')
+    .replace(/`(.+?)`/g, '<code style="background:rgba(124,130,248,0.13);color:#A5A9FA;padding:2px 7px;border-radius:5px;font-size:13px;font-family:var(--font-code)">$1</code>')
     // Code blocks
     .replace(/```python\n([\s\S]*?)```/g, (_, code) =>
       `<pre style="margin-top:12px;padding:14px 18px;border-radius:12px;background:#080B14;color:#C8D0E0;font-size:13px;font-family:var(--font-code);overflow-x:auto;line-height:1.65">${code.trimEnd()}</pre>`

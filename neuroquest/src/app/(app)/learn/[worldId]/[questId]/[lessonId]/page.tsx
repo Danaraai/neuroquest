@@ -13,6 +13,8 @@ import { FlashCard } from "@/components/lessons/FlashCard";
 import { FillCard } from "@/components/lessons/FillCard";
 import { LessonComplete } from "@/components/lessons/LessonComplete";
 
+const MAX_W = 840;
+
 export default function LessonPage() {
   const params = useParams();
   const router = useRouter();
@@ -34,7 +36,6 @@ export default function LessonPage() {
   const [wrongCount,    setWrongCount]    = useState(0);
   const [xpEarned,     setXpEarned]      = useState(0);
 
-  // Initialise SR cards
   useEffect(() => {
     if (lesson?.cards)         lesson.cards.forEach((c) => initSRCard(c.id));
     if (lesson?.questions)     lesson.questions.forEach((q) => initSRCard(q.id));
@@ -43,12 +44,12 @@ export default function LessonPage() {
 
   if (!world || !quest || !lesson) {
     return (
-      <div className="min-h-screen bg-[#080A18] flex flex-col items-center justify-center px-4 text-center">
+      <div className="min-h-screen flex flex-col items-center justify-center px-4 text-center" style={{ background: "#151735" }}>
         <Ilya state="sad" size={80} className="mb-4" />
-        <h2 className="text-xl font-black text-white mb-2" style={{ fontFamily: "var(--font-display)" }}>
+        <h2 className="text-xl font-black mb-2" style={{ color: "#F2F1F8", fontFamily: "var(--font-display)" }}>
           Lesson not found
         </h2>
-        <Link href="/map" className="text-[#1CB0F6] text-sm font-bold">← Back to Map</Link>
+        <Link href="/map" className="text-sm font-bold" style={{ color: "#7C82F8" }}>← Back to Map</Link>
       </div>
     );
   }
@@ -57,7 +58,6 @@ export default function LessonPage() {
   const currentStep = lesson.type === "mcq" ? questionIndex : lesson.type === "flashcard" ? cardIndex : lesson.type === "fillin" ? fillIndex : 0;
   const progressPct = step === "complete" ? 100 : (currentStep / totalSteps) * 100;
 
-  // Next lesson in quest
   const lessonIdx = quest.lessons.findIndex((l) => l.id === lessonId);
   const nextLesson = quest.lessons[lessonIdx + 1] ?? null;
 
@@ -66,10 +66,7 @@ export default function LessonPage() {
     completeLesson(lessonId, score, xp);
     setXpEarned(xp);
     setStep("complete");
-    // If this was the last lesson, mark the quest as complete
-    if (!nextLesson) {
-      completeQuest(questId, worldId);
-    }
+    if (!nextLesson) completeQuest(questId, worldId);
   }
 
   function handleConceptDone() { finishLesson(lesson!.xpReward); }
@@ -84,8 +81,7 @@ export default function LessonPage() {
     if (questionIndex < questions.length - 1) {
       setQuestionIndex((i) => i + 1);
     } else {
-      const perfect = wrongCount === 0;
-      finishLesson(perfect ? lesson!.xpReward + 5 : lesson!.xpReward);
+      finishLesson(wrongCount === 0 ? lesson!.xpReward + 5 : lesson!.xpReward);
     }
   }
 
@@ -99,8 +95,7 @@ export default function LessonPage() {
     if (cardIndex < cards.length - 1) {
       setCardIndex((i) => i + 1);
     } else {
-      const perfect = wrongCount === 0;
-      finishLesson(perfect ? lesson!.xpReward + 5 : lesson!.xpReward);
+      finishLesson(wrongCount === 0 ? lesson!.xpReward + 5 : lesson!.xpReward);
     }
   }
 
@@ -114,8 +109,7 @@ export default function LessonPage() {
     if (fillIndex < fills.length - 1) {
       setFillIndex((i) => i + 1);
     } else {
-      const perfect = wrongCount === 0;
-      finishLesson(perfect ? lesson!.xpReward + 5 : lesson!.xpReward);
+      finishLesson(wrongCount === 0 ? lesson!.xpReward + 5 : lesson!.xpReward);
     }
   }
 
@@ -133,7 +127,7 @@ export default function LessonPage() {
 
   if (step === "complete") {
     return (
-      <div className="min-h-screen bg-[#080A18] px-4 py-8 flex flex-col">
+      <div className="min-h-screen px-4 py-8 flex flex-col" style={{ background: "#151735" }}>
         <LessonComplete
           lesson={lesson}
           xpEarned={xpEarned}
@@ -147,23 +141,35 @@ export default function LessonPage() {
     );
   }
 
+  const contentPadding = "clamp(16px, 4vw, 40px)";
+
   return (
     <div className="min-h-screen flex flex-col" style={{ background: "#151735" }}>
-      {/* Top bar */}
-      <div style={{ padding: "16px 20px 12px", flexShrink: 0 }}>
-        <div style={{ maxWidth: 680, margin: "0 auto" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 8 }}>
+      {/* Top bar — same max-width as content */}
+      <div
+        style={{
+          flexShrink: 0,
+          paddingTop: 16,
+          paddingBottom: 12,
+          paddingLeft: contentPadding,
+          paddingRight: contentPadding,
+          position: "sticky",
+          top: 0,
+          background: "rgba(21,23,53,0.95)",
+          backdropFilter: "blur(8px)",
+          zIndex: 10,
+        }}
+      >
+        <div style={{ maxWidth: MAX_W, margin: "0 auto" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 8 }}>
             <button
               onClick={() => router.push(`/learn/${worldId}/${questId}`)}
-              style={{ color: "#5A5F80", background: "none", border: "none", cursor: "pointer", padding: 0, lineHeight: 0 }}
+              style={{ color: "#5A5F80", background: "none", border: "none", cursor: "pointer", padding: 4, lineHeight: 0, borderRadius: 8 }}
             >
               <X className="w-5 h-5" />
             </button>
             <div className="flex-1 progress-bar-track">
-              <div
-                className="progress-bar-fill"
-                style={{ width: `${progressPct}%` }}
-              />
+              <div className="progress-bar-fill" style={{ width: `${progressPct}%` }} />
             </div>
             <span style={{ fontSize: 12, color: "#F6D95B", fontWeight: 700, whiteSpace: "nowrap" }}>
               +{lesson.xpReward} XP
@@ -176,64 +182,74 @@ export default function LessonPage() {
       </div>
 
       {/* Content */}
-      <div className="flex-1 overflow-y-auto" style={{ padding: "8px 20px 32px" }}>
-        <div style={{ maxWidth: 680, margin: "0 auto" }}>
-        {lesson.type === "concept" && lesson.concept && (
-          <div className="flex flex-col min-h-full">
-            <ConceptCard blocks={lesson.concept} />
-            <div style={{ marginTop: 32 }}>
-              <button
-                onClick={handleConceptDone}
-                style={{
-                  width: "100%",
-                  padding: "15px 24px",
-                  borderRadius: 16,
-                  border: "1px solid rgba(124,130,248,0.35)",
-                  background: "#252850",
-                  color: "#A5A9FA",
-                  fontSize: 15,
-                  fontWeight: 700,
-                  fontFamily: "var(--font-display)",
-                  cursor: "pointer",
-                  transition: "all 0.15s",
-                }}
-              >
-                Got it! →
-              </button>
+      <div
+        className="flex-1 overflow-y-auto"
+        style={{
+          paddingTop: 24,
+          paddingBottom: 48,
+          paddingLeft: contentPadding,
+          paddingRight: contentPadding,
+        }}
+      >
+        <div style={{ maxWidth: MAX_W, margin: "0 auto" }}>
+
+          {lesson.type === "concept" && lesson.concept && (
+            <div className="flex flex-col">
+              <ConceptCard blocks={lesson.concept} />
+              <div style={{ marginTop: 36 }}>
+                <button
+                  onClick={handleConceptDone}
+                  style={{
+                    width: "100%",
+                    padding: "15px 24px",
+                    borderRadius: 14,
+                    border: "1px solid rgba(124,130,248,0.3)",
+                    background: "#252850",
+                    color: "#A5A9FA",
+                    fontSize: 15,
+                    fontWeight: 700,
+                    fontFamily: "var(--font-display)",
+                    cursor: "pointer",
+                    transition: "opacity 0.15s",
+                  }}
+                >
+                  Got it! →
+                </button>
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {lesson.type === "mcq" && lesson.questions && (
-          <MCQCard
-            key={`mcq-${questionIndex}`}
-            question={lesson.questions[questionIndex]}
-            onAnswer={handleMCQAnswer}
-            onContinue={handleMCQContinue}
-          />
-        )}
+          {lesson.type === "mcq" && lesson.questions && (
+            <MCQCard
+              key={`mcq-${questionIndex}`}
+              question={lesson.questions[questionIndex]}
+              onAnswer={handleMCQAnswer}
+              onContinue={handleMCQContinue}
+            />
+          )}
 
-        {lesson.type === "flashcard" && lesson.cards && (
-          <FlashCard
-            key={`flash-${cardIndex}`}
-            card={lesson.cards[cardIndex]}
-            onAnswer={handleFlashAnswer}
-            onContinue={handleFlashContinue}
-            cardNumber={cardIndex + 1}
-            totalCards={lesson.cards.length}
-          />
-        )}
+          {lesson.type === "flashcard" && lesson.cards && (
+            <FlashCard
+              key={`flash-${cardIndex}`}
+              card={lesson.cards[cardIndex]}
+              onAnswer={handleFlashAnswer}
+              onContinue={handleFlashContinue}
+              cardNumber={cardIndex + 1}
+              totalCards={lesson.cards.length}
+            />
+          )}
 
-        {lesson.type === "fillin" && lesson.fillQuestions && (
-          <FillCard
-            key={`fill-${fillIndex}`}
-            question={lesson.fillQuestions[fillIndex]}
-            onAnswer={handleFillAnswer}
-            onContinue={handleFillContinue}
-            cardNumber={fillIndex + 1}
-            totalCards={lesson.fillQuestions.length}
-          />
-        )}
+          {lesson.type === "fillin" && lesson.fillQuestions && (
+            <FillCard
+              key={`fill-${fillIndex}`}
+              question={lesson.fillQuestions[fillIndex]}
+              onAnswer={handleFillAnswer}
+              onContinue={handleFillContinue}
+              cardNumber={fillIndex + 1}
+              totalCards={lesson.fillQuestions.length}
+            />
+          )}
+
         </div>
       </div>
     </div>
