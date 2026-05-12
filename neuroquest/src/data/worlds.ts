@@ -377,35 +377,39 @@ export const WORLDS: World[] = [
             concept: [
               {
                 type: "highlight",
-                content: "Zoom out across the whole cortex and the connectivity is strikingly **non-random**. 43 cortical regions form distinct **modules** with a **hierarchy** — and this architecture is largely determined by your genes. It's your neural inheritance.",
+                content: "Here's something most people don't know: the large-scale map of which brain regions talk to which other regions is largely **written in your DNA before you're born**. You didn't choose it. You inherited it.",
               },
               {
                 type: "text",
-                content: "**Tracer studies** map long-range connections: a chemical injected into neurons travels along axons to wherever they project — revealing the brain's highway map. Across 43 cortical regions the pattern is clear:\n• **Non-random** — clear repeating structure, not noise\n• **Modular** — clusters of regions communicate densely within the group, sparsely between groups\n• **Hierarchical** — some regions act as hubs that gate access to others\n\nThis wiring is **species-specific** and likely **individual-specific**, shaped primarily by genetics.",
+                content: "We know this from **twin studies**. Identical twins share ~100% of their DNA — and brain scans show their connectivity maps are strikingly similar: the same regions strongly connected, the same regions weakly connected. Fraternal twins share only ~50% of DNA, and their maps are noticeably more different. The closer the DNA, the more similar the wiring.\n\nThis means your natural cognitive tendencies — how quickly you process language, how well you navigate space, how easily you regulate emotion — are *partly* shaped by this inherited blueprint. Not completely. But partly.\n\n*Think of it like a road network. Your genes build the highways and determine which cities are connected. But how much traffic flows on each road — that's still up to you.*",
+              },
+              {
+                type: "text",
+                content: "And what does this inherited map actually look like? Scientists use **tracer studies** — injecting a chemical into neurons that travels along axons to reveal where they project. Across the whole cortex, the pattern is clear:\n• **Modular** — regions cluster into 'friend groups' that talk densely within the group, sparsely outside it\n• **Hierarchical** — some regions act as hubs that everything routes through\n• **Non-random** — there is structure, at every scale\n\nThis map is largely species-specific. A mouse brain looks completely different from a human brain — different species, different genetic blueprint.",
               },
               {
                 type: "image",
                 content: "/images/slide-large-scale-connectivity.png",
                 alt: "Heatmap of normalised connection density across 43 cortical regions (Allen Brain Institute data), with a stats table showing 86B neurons, 10T synapses, 10K synapses per neuron, 100K miles of axon, 220 mph conduction speed",
-                caption: "Large-scale connectivity map (Allen Brain Institute) — yellow = dense connections. Each neuron averages 10,000 inputs and 10,000 outputs.",
+                caption: "Large-scale connectivity map — yellow = densely connected regions. The structure is unmistakably non-random.",
               },
               {
                 type: "text",
-                content: "**The brain in numbers:**\n• **~86 billion** neurons\n• **~10 trillion** synapses\n• **~10,000** synapses per neuron (both inputs and outputs)\n• **~100,000 miles** of total axon length — enough to circle Earth 4 times\n• **~220 mph** axon conduction speed\n\nWhat makes the brain complex isn't any single number — it's the *combination*: connections that are **dense, delayed, dynamic, and structured**.",
+                content: "To feel the scale of what's being wired: the brain has **~86 billion neurons**, **~10 trillion synapses**, each neuron averaging **10,000 connections** in and out, with **~100,000 miles** of total axon — enough to wrap around Earth 4 times — carrying signals at **220 mph**.\n\nWhat makes this complex isn't any one number. It's the combination: connections that are **dense, delayed, dynamic, and structured**. No computer comes close.",
               },
               {
                 type: "highlight",
-                content: "The brain is best understood as a **network of networks**: local regions each follow their own internal rules, interconnected by long-range pathways. It's the interaction between *local* activity and *inter-regional* activity that generates thought, perception, and behavior.",
+                content: "Zoom out one more level and the brain is best understood as a **network of networks** — local regions each running their own rules, talking to each other through long-range pathways. It's the *interaction* between local and global activity that generates thought, perception, and behaviour.",
               },
               {
                 type: "image",
                 content: "/images/slide-network-of-networks.png",
-                alt: "Diagram showing multiple local networks (each containing excitatory and inhibitory neurons) connected by long-range pathways — the brain as a network of networks",
-                caption: "The brain as a network of networks — local E/I circuits linked by long-range axonal projections",
+                alt: "Diagram showing multiple local networks connected by long-range pathways — the brain as a network of networks",
+                caption: "Local circuits + long-range connections = the brain's full architecture",
               },
               {
                 type: "text",
-                content: "**How neuroscientists study brain function:**\n1. **Record** neural activity while animals perform trained tasks\n2. **Correlate** behavior with activity — find the neural signature of a function\n3. **Perturb** to establish causation: temporarily silence a region (optogenetics, reversible lesions) and watch what breaks\n\nTo understand *how* the brain computes, researchers also compare it to **machine learning** — Reinforcement Learning mirrors the brain's reward circuits almost exactly. AI and neuroscience increasingly inform each other.",
+                content: "Given all this complexity, how do scientists even approach studying it? Three steps:\n1. **Record** — measure neural activity while animals or humans perform specific tasks\n2. **Correlate** — find which activity patterns match which behaviours\n3. **Perturb** — temporarily silence a region and watch what breaks, to prove causation not just correlation\n\nAnd increasingly, researchers compare the brain to **machine learning** — Reinforcement Learning, for instance, mirrors how the brain's reward circuits work almost exactly. Understanding the brain helped build AI. Now AI is helping us understand the brain.",
               },
             ],
           },
