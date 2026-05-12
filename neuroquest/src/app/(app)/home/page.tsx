@@ -164,10 +164,10 @@ export default function HomePage() {
 
         {/* ── Your Journey ── */}
         <div className="pt-4 animate-fade-up" style={{ animationDelay: "160ms" }}>
-          <div className="text-[11px] font-black uppercase tracking-[1px] px-5 mb-[10px]" style={{ color: "#4A4E78" }}>
+          <div className="text-[11px] font-black uppercase tracking-[1px] px-5 mb-3" style={{ color: "#4A4E78" }}>
             Your Journey
           </div>
-          <div className="flex gap-2 overflow-x-auto px-5 pb-1" style={{ scrollbarWidth: "none" }}>
+          <div className="grid px-5 gap-2" style={{ gridTemplateColumns: `repeat(${WORLDS.length}, 1fr)` }}>
             {WORLDS.map((world) => {
               const wp = worldProgress[world.id];
               const unlocked = wp?.unlocked ?? true;
@@ -178,27 +178,25 @@ export default function HomePage() {
                 <Link
                   key={world.id}
                   href={unlocked ? "/map" : "#"}
-                  className="flex-shrink-0 flex flex-col items-center justify-center gap-0.5 rounded-2xl cursor-pointer relative"
+                  className="flex flex-col items-center justify-center gap-1 rounded-2xl cursor-pointer relative py-3"
                   style={{
-                    width: 64,
-                    height: 64,
                     background: (unlocked || active) ? `${world.color}1E` : "rgba(255,255,255,0.03)",
-                    border: `1px solid ${(unlocked || active) ? world.color + "66" : "rgba(255,255,255,0.08)"}`,
+                    border: `1px solid ${(unlocked || active) ? world.color + "55" : "rgba(255,255,255,0.08)"}`,
                     opacity: unlocked ? 1 : 0.45,
                   }}
                 >
-                  <span className="text-xl">{world.emoji}</span>
-                  <span className="text-[9px] font-black" style={{ color: (unlocked || active) ? world.color : "#5A608A" }}>
+                  <span className="text-2xl">{world.emoji}</span>
+                  <span className="text-[10px] font-black" style={{ color: (unlocked || active) ? world.color : "#5A608A" }}>
                     W{world.number}
                   </span>
                   {completed && (
-                    <div className="absolute top-[3px] right-[3px] w-[14px] h-[14px] rounded-full bg-[#58CC02] flex items-center justify-center text-[8px] text-white font-black">
+                    <div className="absolute top-[4px] right-[4px] w-[15px] h-[15px] rounded-full bg-[#58CC02] flex items-center justify-center text-[8px] text-white font-black">
                       ✓
                     </div>
                   )}
                   {active && !completed && (
                     <div
-                      className="absolute bottom-[4px]"
+                      className="absolute bottom-[5px]"
                       style={{ width: 5, height: 5, borderRadius: "50%", background: world.color, boxShadow: `0 0 6px ${world.color}` }}
                     />
                   )}
