@@ -108,6 +108,7 @@ export const WORLDS: World[] = [
             deviceRequired: "any",
             xpReward: 10,
             estimatedMinutes: 3,
+            funFact: "🦛 The hippocampus is named after the Greek word for seahorse — because in cross-section, that's exactly what it looks like under a microscope.",
             questions: [
               {
                 id: "w0q1l1q_1",
