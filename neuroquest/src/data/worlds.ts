@@ -339,27 +339,27 @@ export const WORLDS: World[] = [
             concept: [
               {
                 type: "highlight",
-                content: "The neocortex has a remarkable secret: the same basic circuit repeats itself everywhere — from your visual cortex to your frontal lobe. A **cortical minicolumn** (~100 neurons) is the brain's fundamental computational unit.",
+                content: "What if your brain uses the same algorithm for seeing, hearing, and thinking? It does. The neocortex runs one repeating circuit — the same blueprint, copied millions of times across every region.",
+              },
+              {
+                type: "text",
+                content: "The neocortex has **6 layers**, but the logic is simple — **input → process → output**:\n\n• **Layer 4** receives incoming signals (from the thalamus or other regions) — *the mailroom*\n• **Layers 2/3** process and share with neighbouring cortical areas — *the team meeting*\n• **Layers 5/6** send output downstream to other brain regions — *the decision that ships*\n\nThis exact flow repeats in your visual cortex, your language areas, your frontal lobe — everywhere. Neuroscientists call it the **canonical cortical circuit**. The implication is profound: the brain might be running *one universal computation*, not thousands of different ones. Crack the code of one column and you've potentially cracked the whole cortex.",
               },
               {
                 type: "image",
                 content: "/images/slide-cortical-layers.png",
                 alt: "Diagram showing cortical sheet, macrocolumns, minicolumns, and the canonical L4→L2/3→L5/6 circuit",
-                caption: "Cortical organisation: from the full sheet down to a single minicolumn, and the canonical inter-layer circuit",
+                caption: "The same L4 → L2/3 → L5/6 circuit repeats across the entire neocortex",
               },
               {
                 type: "text",
-                content: "The neocortex is organised into **6 layers** (counted from outer surface inward):\n• **Layer 4** — the input layer: receives signals from the thalamus\n• **Layers 2/3** — integrate and project horizontally to other cortical areas\n• **Layers 5/6** — output layers: project to subcortical regions and send feedback\n\nThe signal flow **L4 → L2/3 → L5/6 → output** is the **canonical cortical circuit** — the same motif repeats across virtually the entire neocortex. (Higher cortical areas have a thin or absent L4 — they receive input differently.)",
-              },
-              {
-                type: "text",
-                content: "**Cortical column hierarchy:**\n• **1 cortical sheet** = 2 million macrocolumns = 200 million minicolumns = 20 billion neurons\n• **1 macrocolumn** = 100 minicolumns, 10,000 neurons\n• **1 minicolumn** = ~100 neurons\n\nWithin a layer, connectivity is **distance-dependent** — the probability two neurons connect drops sharply beyond ~290 μm. Zoom out slightly and you find **long-range patchy connections**: neurons skip nearby cells to link with specific patches 1+ mm away. These patches are non-random and appear to follow genetic or learned rules.",
+                content: "Now here's where it gets interesting. You'd expect neurons to just connect with whoever is closest — but that's not what happens. Within a layer, nearby neurons do connect more, but zoom out and you see something stranger: **neurons skip their immediate neighbours to wire with specific patches far away**.\n\nThose patches aren't random. The rule appears to be: **similar neurons wire with similar neurons, regardless of distance**. In visual cortex, neurons that detect the same edge orientation find each other across millimetres. It's like being at a conference and ignoring the people next to you to find someone across the room working on the exact same problem.\n\nThis self-sorting is how **specialised brain regions emerge** — not from a master blueprint, but from neurons finding their functional colleagues and strengthening those connections through use.",
               },
               {
                 type: "image",
                 content: "/images/slide-local-connectivity.png",
                 alt: "Graphs showing distance-dependent synaptic input in cortical layers L2/3, L4 and L5a, plus a tracer injection image showing patchy long-range connections",
-                caption: "Left: connection probability falls with distance in each layer. Right: tracer injection revealing patchy long-range axonal projections",
+                caption: "Nearby neurons connect more — but neurons also skip distance to find functional partners, forming distinct patches",
               },
             ],
           },
