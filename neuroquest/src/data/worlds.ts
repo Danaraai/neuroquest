@@ -523,6 +523,7 @@ export const WORLDS: World[] = [
             deviceRequired: "any",
             xpReward: 10,
             estimatedMinutes: 5,
+            funFact: "👗 Remember 'The Dress' — the photo some people saw as blue/black and others as white/gold? That went viral in 2015 because it revealed something profound: your brain doesn't read raw light. It interprets colour based on context, background, and assumptions about the lighting source. People who assumed the dress was lit by daylight saw it as white/gold. People who assumed artificial light saw it as blue/black. Same pixels, completely different perception. In psychophysics, moments like this can be measured precisely — the PSE (Point of Subjective Equivalence) captures exactly where two physically different stimuli feel the same. The Dress is just PSE at a dramatic scale.",
             concept: [
               {
                 type: "highlight",
