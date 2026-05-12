@@ -2,22 +2,25 @@
 
 /* ─── Design Tokens ─────────────────────────────────────────── */
 @theme inline {
-  --color-primary:        #0B1020;
-  --color-surface:        #111827;
-  --color-surface-raised: #161F30;
+  --color-primary:        #151735;
+  --color-surface:        #1E2147;
+  --color-surface-raised: #252850;
+  --color-surface-soft:   #202348;
   --color-accent:         #00DCFF;
-  --color-accent-green:   #6FAF7A;
-  --color-accent-hover:   #5A9868;
+  --color-accent-green:   #6EE7A8;
+  --color-accent-hover:   #5BD699;
   --color-accent-blue:    #1CB0F6;
-  --color-gold:           #E8C84A;
-  --color-danger:         #E05555;
-  --color-danger-light:   #E87070;
-  --color-text:           #D8D9E8;
-  --color-text-secondary: #AEB2C8;
-  --color-text-muted:     #7E849D;
-  --color-text-dim:       #4A4E78;
-  --color-callout-bg:     #10201B;
-  --color-callout-border: #4F8F6A;
+  --color-accent-purple:  #7C82F8;
+  --color-gold:           #F6D95B;
+  --color-orange:         #FF9B45;
+  --color-danger:         #FF5C5C;
+  --color-danger-light:   #FF7878;
+  --color-text:           #F2F1F8;
+  --color-text-secondary: #C5C7D8;
+  --color-text-muted:     #9EA3BD;
+  --color-text-dim:       #5A5F80;
+  --color-callout-bg:     #1E2147;
+  --color-callout-border: #7C82F8;
   --color-ilya:           #F5EFD8;
   --color-border:         rgba(255,255,255,0.07);
 
@@ -26,7 +29,7 @@
   --font-code:    "JetBrains Mono", "Fira Code", monospace;
 
   --bottom-nav-height: 80px;
-  --lesson-max-width: 720px;
+  --lesson-max-width: 680px;
 }
 
 /* ─── Base ───────────────────────────────────────────────────── */
@@ -41,18 +44,18 @@ html {
 body {
   height: 100%;
   margin: 0;
-  background-color: #0B1020;
-  color: #D8D9E8;
+  background-color: #151735;
+  color: #F2F1F8;
   font-family: "Inter", system-ui, sans-serif;
-  font-size: 18px;
-  line-height: 1.6;
+  font-size: 16px;
+  line-height: 1.65;
   overflow-x: hidden;
 }
 
 /* ─── Scrollbar ──────────────────────────────────────────────── */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #3A3D5C; border-radius: 9999px; }
+::-webkit-scrollbar-thumb { background: #3A3D6C; border-radius: 9999px; }
 
 /* ─── Animations ─────────────────────────────────────────────── */
 @keyframes float {
@@ -143,70 +146,57 @@ body {
 
 /* ─── Card styles ────────────────────────────────────────────── */
 .card {
-  background: #111827;
+  background: #1E2147;
   border: 1px solid rgba(255,255,255,0.07);
   border-radius: 18px;
 }
 .card-raised {
-  background: #161F30;
+  background: #252850;
   border: 1px solid rgba(255,255,255,0.09);
   border-radius: 18px;
 }
 
 /* ─── Lesson content container ───────────────────────────────── */
 .lesson-content {
-  max-width: 720px;
+  max-width: 680px;
   margin: 0 auto;
   width: 100%;
 }
 
 /* ─── Answer options ─────────────────────────────────────────── */
 .answer-option {
-  background: #111827;
+  background: #1E2147;
   border: 1.5px solid rgba(255,255,255,0.09);
   border-radius: 14px;
-  padding: 16px 18px;
+  padding: 14px 16px;
   font-family: "Inter", system-ui, sans-serif;
   font-weight: 500;
-  font-size: 1rem;
-  color: #AEB2C8;
+  font-size: 0.925rem;
+  color: #C5C7D8;
   cursor: pointer;
   transition: border-color 0.15s, background 0.15s;
   text-align: left;
   width: 100%;
-  min-height: 54px;
+  min-height: 52px;
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
 }
 .answer-option:hover:not(.disabled) {
-  border-color: #4F8F6A;
-  background: #10201B;
-  color: #D8D9E8;
+  border-color: #7C82F8;
+  background: #252850;
+  color: #F2F1F8;
 }
 .answer-option.correct {
-  border-color: #6FAF7A;
-  background: rgba(111,175,122,0.10);
-  color: #8FCC9A;
+  border-color: #6EE7A8;
+  background: rgba(110,231,168,0.10);
+  color: #6EE7A8;
   animation: bounce-in 0.4s ease-out both;
 }
 .answer-option.wrong {
-  border-color: #E05555;
-  background: rgba(224,85,85,0.10);
-  color: #E05555;
-  animation: shake 0.5s ease-out both;
-}
-.answer-option.disabled { cursor: default; pointer-events: none; }
-.answer-option.correct {
-  border-color: #58CC02;
-  background-color: rgba(88, 204, 2, 0.12);
-  color: #58CC02;
-  animation: bounce-in 0.4s ease-out both;
-}
-.answer-option.wrong {
-  border-color: #FF4B4B;
-  background-color: rgba(255, 75, 75, 0.12);
-  color: #FF4B4B;
+  border-color: #FF5C5C;
+  background: rgba(255,92,92,0.10);
+  color: #FF5C5C;
   animation: shake 0.5s ease-out both;
 }
 .answer-option.disabled { cursor: default; pointer-events: none; }
@@ -221,7 +211,7 @@ body {
 .progress-bar-fill {
   height: 100%;
   border-radius: 9999px;
-  background: linear-gradient(90deg, #00DCFF, #58CC02);
+  background: linear-gradient(90deg, #7C82F8, #6EE7A8);
   transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -231,7 +221,7 @@ body {
   overflow: hidden;
   font-size: 13px !important;
 }
-.cm-editor.cm-focused { outline: 2px solid #1CB0F6 !important; }
+.cm-editor.cm-focused { outline: 2px solid #7C82F8 !important; }
 
 /* ─── iOS safe areas ─────────────────────────────────────────── */
 .safe-bottom { padding-bottom: env(safe-area-inset-bottom, 0px); }

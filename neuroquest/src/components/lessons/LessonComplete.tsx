@@ -32,12 +32,18 @@ export function LessonComplete({
       <Ilya state="celebrate" size={110} className="mb-6" />
 
       <h1
-        style={{ fontSize: 28, fontWeight: 800, color: "#D8D9E8", marginBottom: 8, fontFamily: "var(--font-display)" }}
+        style={{
+          fontSize: 26,
+          fontWeight: 800,
+          color: "#F2F1F8",
+          marginBottom: 8,
+          fontFamily: "var(--font-display)",
+        }}
       >
         {perfect ? "Perfect! ✨" : "Lesson Done! 🎉"}
       </h1>
 
-      <p style={{ fontSize: 15, color: "#7E849D", marginBottom: 32 }}>
+      <p style={{ fontSize: 14, color: "#9EA3BD", marginBottom: 32 }}>
         {perfect ? "No mistakes — you're on fire!" : "Keep going, you're making progress!"}
       </p>
 
@@ -50,12 +56,12 @@ export function LessonComplete({
           borderRadius: 16,
           padding: "14px 28px",
           marginBottom: 36,
-          background: "#111827",
-          border: "1.5px solid #E8C84A44",
+          background: "#1E2147",
+          border: "1.5px solid rgba(246,217,91,0.35)",
         }}
       >
-        <Star className="w-5 h-5" style={{ color: "#E8C84A" }} fill="#E8C84A" />
-        <span style={{ fontSize: 22, fontWeight: 800, color: "#E8C84A", fontFamily: "var(--font-display)" }}>
+        <Star className="w-5 h-5" style={{ color: "#F6D95B" }} fill="#F6D95B" />
+        <span style={{ fontSize: 22, fontWeight: 800, color: "#F6D95B", fontFamily: "var(--font-display)" }}>
           +{xpEarned} XP
         </span>
       </div>
@@ -67,12 +73,12 @@ export function LessonComplete({
             onClick={onNext}
             style={{
               width: "100%",
-              padding: "16px 24px",
+              padding: "15px 24px",
               borderRadius: 16,
-              border: "none",
-              background: "#1A2E22",
-              color: "#8FCC9A",
-              fontSize: 16,
+              border: "1px solid rgba(124,130,248,0.35)",
+              background: "#252850",
+              color: "#A5A9FA",
+              fontSize: 15,
               fontWeight: 700,
               fontFamily: "var(--font-display)",
               cursor: "pointer",
@@ -90,11 +96,12 @@ export function LessonComplete({
             href={`/learn/${worldId}/${questId}`}
             style={{
               width: "100%",
-              padding: "16px 24px",
+              padding: "15px 24px",
               borderRadius: 16,
-              background: "#1A2E22",
-              color: "#8FCC9A",
-              fontSize: 16,
+              background: "#252850",
+              border: "1px solid rgba(124,130,248,0.35)",
+              color: "#A5A9FA",
+              fontSize: 15,
               fontWeight: 700,
               fontFamily: "var(--font-display)",
               textDecoration: "none",
@@ -110,12 +117,12 @@ export function LessonComplete({
           href="/home"
           style={{
             width: "100%",
-            padding: "14px 24px",
+            padding: "13px 24px",
             borderRadius: 16,
             background: "transparent",
-            border: "1.5px solid rgba(255,255,255,0.08)",
-            color: "#7E849D",
-            fontSize: 14,
+            border: "1.5px solid rgba(255,255,255,0.07)",
+            color: "#9EA3BD",
+            fontSize: 13,
             fontWeight: 600,
             fontFamily: "var(--font-display)",
             textDecoration: "none",

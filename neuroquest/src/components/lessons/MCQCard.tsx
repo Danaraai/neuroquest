@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { CheckCircle2, XCircle, ChevronRight } from "lucide-react";
+import { CheckCircle2, XCircle } from "lucide-react";
 import type { MCQQuestion } from "@/data/types";
 import { Ilya } from "@/components/ilya/Ilya";
 import { cn } from "@/lib/utils";
@@ -24,7 +24,6 @@ export function MCQCard({ question, onAnswer, onContinue }: MCQCardProps) {
     const correct = index === question.correctIndex;
     setState(correct ? "correct" : "wrong");
     onAnswer(correct, question.id);
-    // Haptic feedback on mobile
     if ("vibrate" in navigator) {
       navigator.vibrate(correct ? [50] : [100, 50, 100]);
     }
@@ -34,17 +33,34 @@ export function MCQCard({ question, onAnswer, onContinue }: MCQCardProps) {
 
   return (
     <div className="flex flex-col h-full animate-fade-in">
-      {/* Question */}
-      <div className="flex-1">
+      {/* Question card */}
+      <div
+        style={{
+          background: "#1E2147",
+          border: "1px solid rgba(255,255,255,0.07)",
+          borderRadius: 16,
+          padding: "20px 20px 18px",
+          marginBottom: 16,
+        }}
+      >
         <pre
-          className="text-[#E8E8FF] text-[15px] font-semibold leading-relaxed whitespace-pre-wrap mb-6"
-          style={{ fontFamily: "var(--font-display)" }}
+          style={{
+            margin: 0,
+            color: "#F2F1F8",
+            fontSize: 15,
+            fontWeight: 600,
+            lineHeight: 1.7,
+            whiteSpace: "pre-wrap",
+            fontFamily: "var(--font-display)",
+          }}
         >
           {question.text}
         </pre>
+      </div>
 
-        {/* Options */}
-        <div className="space-y-3">
+      {/* Options */}
+      <div className="flex-1">
+        <div className="space-y-2.5">
           {question.options.map((option, i) => {
             let optionState = "";
             if (state !== "unanswered") {
@@ -61,15 +77,15 @@ export function MCQCard({ question, onAnswer, onContinue }: MCQCardProps) {
               >
                 <span
                   className={cn(
-                    "w-8 h-8 rounded-lg flex items-center justify-center text-xs font-black flex-shrink-0 transition-colors",
-                    optionState === "correct" && "bg-[#58CC02] text-[#E8E8FF]",
-                    optionState === "wrong" && "bg-[#FF4B4B] text-[#E8E8FF]",
-                    !optionState && "bg-[rgba(255,255,255,0.10)] text-[#AFAFAF]"
+                    "w-7 h-7 rounded-lg flex items-center justify-center text-xs font-black flex-shrink-0 transition-colors",
+                    optionState === "correct" && "bg-[#6EE7A8] text-[#0D1020]",
+                    optionState === "wrong" && "bg-[#FF5C5C] text-white",
+                    !optionState && "bg-[rgba(255,255,255,0.07)] text-[#9EA3BD]"
                   )}
                 >
                   {optionState === "correct" ? "✓" : optionState === "wrong" ? "✗" : OPTION_LABELS[i]}
                 </span>
-                <span className="flex-1 text-sm leading-snug break-words" style={{ color: "#D0D4F0" }}>
+                <span className="flex-1 text-sm leading-snug break-words" style={{ color: "#C5C7D8" }}>
                   {option}
                 </span>
               </button>
@@ -81,50 +97,45 @@ export function MCQCard({ question, onAnswer, onContinue }: MCQCardProps) {
       {/* Result panel */}
       {state !== "unanswered" && (
         <div
-          className={cn(
-            "mt-6 rounded-2xl p-4 animate-slide-up",
-            state === "correct"
-              ? "border"
-              : "border"
-          )}
+          className="mt-5 rounded-2xl p-4 animate-slide-up"
           style={{
-            background: state === "correct" ? "rgba(111,175,122,0.08)" : "rgba(224,85,85,0.08)",
-            borderColor: state === "correct" ? "#4F8F6A55" : "#E0555555",
+            background: state === "correct" ? "rgba(110,231,168,0.07)" : "rgba(255,92,92,0.07)",
+            border: `1px solid ${state === "correct" ? "rgba(110,231,168,0.25)" : "rgba(255,92,92,0.25)"}`,
           }}
         >
           <div className="flex items-start gap-3 mb-3">
             <Ilya
               state={state === "correct" ? "correct" : "wrong"}
-              size={48}
+              size={44}
               className="flex-shrink-0"
             />
             <div className="flex-1">
               <div className="flex items-center gap-1.5 mb-1">
                 {state === "correct" ? (
                   <>
-                    <CheckCircle2 className="w-4 h-4 text-[#58CC02]" />
+                    <CheckCircle2 className="w-4 h-4 text-[#6EE7A8]" />
                     <span
-                      className="text-[#58CC02] font-black text-sm"
-                      style={{ fontFamily: "var(--font-display)" }}
+                      className="font-black text-sm"
+                      style={{ color: "#6EE7A8", fontFamily: "var(--font-display)" }}
                     >
                       Correct! ✨
                     </span>
                   </>
                 ) : (
                   <>
-                    <XCircle className="w-4 h-4 text-[#FF4B4B]" />
+                    <XCircle className="w-4 h-4 text-[#FF5C5C]" />
                     <span
-                      className="text-[#FF4B4B] font-black text-sm"
-                      style={{ fontFamily: "var(--font-display)" }}
+                      className="font-black text-sm"
+                      style={{ color: "#FF5C5C", fontFamily: "var(--font-display)" }}
                     >
                       Not quite!
                     </span>
                   </>
                 )}
               </div>
-              <p className="text-xs leading-relaxed" style={{ color: "#7E849D" }}>{question.explanation}</p>
+              <p className="text-xs leading-relaxed" style={{ color: "#9EA3BD" }}>{question.explanation}</p>
               {question.neuroConnection && (
-                <p className="text-xs mt-1.5 leading-relaxed" style={{ color: "#6FAF7A" }}>
+                <p className="text-xs mt-1.5 leading-relaxed" style={{ color: "#6EE7A8" }}>
                   🧠 {question.neuroConnection}
                 </p>
               )}
@@ -135,9 +146,9 @@ export function MCQCard({ question, onAnswer, onContinue }: MCQCardProps) {
             onClick={onContinue}
             className="w-full py-3 rounded-xl font-black text-sm transition-all active:scale-95"
             style={{
-              background: state === "correct" ? "#1A2E22" : "#111827",
-              color: state === "correct" ? "#8FCC9A" : "#AEB2C8",
-              border: `1px solid ${state === "correct" ? "#4F8F6A44" : "rgba(255,255,255,0.08)"}`,
+              background: "#252850",
+              color: state === "correct" ? "#6EE7A8" : "#C5C7D8",
+              border: "1px solid rgba(255,255,255,0.09)",
               fontFamily: "var(--font-display)",
             }}
           >

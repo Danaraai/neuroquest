@@ -24,7 +24,6 @@ export function FlashCard({ card, onAnswer, onContinue, cardNumber, totalCards }
   function handleAnswer(correct: boolean) {
     setAnswered(true);
     onAnswer(correct, card.id);
-    // Small delay then continue
     setTimeout(onContinue, 600);
   }
 
@@ -32,31 +31,55 @@ export function FlashCard({ card, onAnswer, onContinue, cardNumber, totalCards }
     <div className="flex flex-col h-full animate-fade-in">
       {/* Card counter */}
       <div className="text-center mb-4">
-        <span className="text-xs text-[#AFAFAF] font-semibold">
+        <span className="text-xs font-semibold" style={{ color: "#9EA3BD" }}>
           Card {cardNumber} of {totalCards}
         </span>
       </div>
 
-      {/* The flashcard */}
       <div className="flex-1 flex flex-col">
         {/* Front */}
         <div
-          className="card p-6 mb-4 cursor-pointer active:scale-[0.98] transition-transform"
+          style={{
+            background: "#1E2147",
+            border: "1px solid rgba(255,255,255,0.07)",
+            borderRadius: 16,
+            padding: 24,
+            marginBottom: 12,
+            minHeight: 160,
+            cursor: "pointer",
+          }}
           onClick={handleFlip}
-          style={{ minHeight: 180 }}
+          className="active:scale-[0.98] transition-transform"
         >
           <div className="flex flex-col h-full">
-            <span className="text-[10px] text-[#AFAFAF] font-bold uppercase tracking-widest mb-3">
+            <span
+              style={{
+                fontSize: 10,
+                color: "#9EA3BD",
+                fontWeight: 700,
+                textTransform: "uppercase",
+                letterSpacing: "0.1em",
+                marginBottom: 12,
+                display: "block",
+              }}
+            >
               Question
             </span>
             <p
-              className="text-[#E8E8FF] font-bold text-base leading-relaxed flex-1"
-              style={{ fontFamily: "var(--font-display)" }}
+              style={{
+                color: "#F2F1F8",
+                fontWeight: 700,
+                fontSize: 15,
+                lineHeight: 1.65,
+                flex: 1,
+                margin: 0,
+                fontFamily: "var(--font-display)",
+              }}
             >
               {card.front}
             </p>
             {!flipped && (
-              <div className="flex items-center gap-2 mt-4 text-[#AFAFAF]">
+              <div className="flex items-center gap-2 mt-4" style={{ color: "#9EA3BD" }}>
                 <RotateCcw className="w-4 h-4" />
                 <span className="text-xs">Tap to reveal answer</span>
               </div>
@@ -64,37 +87,53 @@ export function FlashCard({ card, onAnswer, onContinue, cardNumber, totalCards }
           </div>
         </div>
 
-        {/* Back (revealed on flip) */}
+        {/* Back */}
         {flipped && (
           <div
-            className="rounded-xl p-6 mb-6 animate-slide-up"
+            className="rounded-2xl p-5 mb-5 animate-slide-up"
             style={{
-              background: "rgba(255,255,255,0.03)",
-              border: "1px solid rgba(255,255,255,0.08)",
+              background: "#252850",
+              border: "1px solid rgba(124,130,248,0.2)",
             }}
           >
-            <span className="text-[10px] text-[#58CC02] font-bold uppercase tracking-widest mb-3 block">
+            <span
+              style={{
+                fontSize: 10,
+                color: "#7C82F8",
+                fontWeight: 700,
+                textTransform: "uppercase",
+                letterSpacing: "0.1em",
+                marginBottom: 10,
+                display: "block",
+              }}
+            >
               Answer
             </span>
             <pre
-              className="text-[#E8E8FF] text-sm leading-relaxed whitespace-pre-wrap"
-              style={{ fontFamily: "var(--font-display)" }}
+              style={{
+                color: "#C5C7D8",
+                fontSize: 14,
+                lineHeight: 1.65,
+                whiteSpace: "pre-wrap",
+                margin: 0,
+                fontFamily: "var(--font-display)",
+              }}
             >
               {card.back}
             </pre>
           </div>
         )}
 
-        {/* Self-assessment buttons */}
+        {/* Self-assessment */}
         {flipped && !answered && (
           <div className="grid grid-cols-2 gap-3 animate-slide-up">
             <button
               onClick={() => handleAnswer(false)}
               className="flex items-center justify-center gap-2 py-4 rounded-xl font-black text-sm transition-all active:scale-95"
               style={{
-                background: "rgba(255, 75, 75, 0.15)",
-                border: "2px solid #FF4B4B",
-                color: "#FF4B4B",
+                background: "rgba(255,92,92,0.10)",
+                border: "1.5px solid #FF5C5C",
+                color: "#FF5C5C",
                 fontFamily: "var(--font-display)",
               }}
             >
@@ -105,9 +144,9 @@ export function FlashCard({ card, onAnswer, onContinue, cardNumber, totalCards }
               onClick={() => handleAnswer(true)}
               className="flex items-center justify-center gap-2 py-4 rounded-xl font-black text-sm transition-all active:scale-95"
               style={{
-                background: "rgba(88, 204, 2, 0.15)",
-                border: "2px solid #58CC02",
-                color: "#58CC02",
+                background: "rgba(110,231,168,0.10)",
+                border: "1.5px solid #6EE7A8",
+                color: "#6EE7A8",
                 fontFamily: "var(--font-display)",
               }}
             >

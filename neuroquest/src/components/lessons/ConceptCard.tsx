@@ -9,25 +9,28 @@ interface ConceptCardProps {
 
 export function ConceptCard({ blocks }: ConceptCardProps) {
   return (
-    <div className="animate-slide-up" style={{ display: "flex", flexDirection: "column", gap: 28 }}>
+    <div className="animate-slide-up" style={{ display: "flex", flexDirection: "column", gap: 16 }}>
       {blocks.map((block, i) => {
         if (block.type === "highlight") {
           return (
             <div
               key={i}
               style={{
-                background: "#10201B",
-                borderLeft: "3px solid #4F8F6A",
+                background: "#1E2147",
+                borderLeft: "3px solid #7C82F8",
                 borderRadius: "0 14px 14px 0",
                 padding: "16px 20px",
+                border: "1px solid rgba(124,130,248,0.18)",
+                borderLeftColor: "#7C82F8",
+                borderLeftWidth: 3,
               }}
             >
               <p
                 style={{
                   margin: 0,
-                  fontSize: 16,
-                  lineHeight: 1.65,
-                  color: "#A8C8B0",
+                  fontSize: 15,
+                  lineHeight: 1.7,
+                  color: "#C5C7D8",
                   fontFamily: "var(--font-body)",
                 }}
                 dangerouslySetInnerHTML={{ __html: renderMarkdown(block.content) }}
@@ -58,7 +61,7 @@ export function ConceptCard({ blocks }: ConceptCardProps) {
                   <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#FEBC2E" }} />
                   <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#28C840" }} />
                 </div>
-                <span style={{ fontSize: 11, color: "#5A6090", fontFamily: "var(--font-code)" }}>python</span>
+                <span style={{ fontSize: 11, color: "#5A5F80", fontFamily: "var(--font-code)" }}>python</span>
               </div>
               <pre
                 style={{
@@ -66,7 +69,7 @@ export function ConceptCard({ blocks }: ConceptCardProps) {
                   padding: "16px 18px",
                   margin: 0,
                   overflowX: "auto",
-                  fontSize: 14,
+                  fontSize: 13,
                   lineHeight: 1.65,
                   fontFamily: "var(--font-code)",
                   color: "#C8D0E0",
@@ -76,7 +79,7 @@ export function ConceptCard({ blocks }: ConceptCardProps) {
               </pre>
               {block.caption && (
                 <div style={{ background: "#0D1117", borderTop: "1px solid rgba(255,255,255,0.06)", padding: "8px 14px" }}>
-                  <p style={{ margin: 0, fontSize: 13, color: "#5A6090", fontStyle: "italic" }}>{block.caption}</p>
+                  <p style={{ margin: 0, fontSize: 12, color: "#5A5F80", fontStyle: "italic" }}>{block.caption}</p>
                 </div>
               )}
             </div>
@@ -92,8 +95,8 @@ export function ConceptCard({ blocks }: ConceptCardProps) {
                 style={{ width: "100%", display: "block", objectFit: "contain", background: "#fff" }}
               />
               {block.caption && (
-                <div style={{ background: "#0D1117", borderTop: "1px solid rgba(255,255,255,0.06)", padding: "8px 14px" }}>
-                  <p style={{ margin: 0, fontSize: 13, color: "#5A6090", fontStyle: "italic" }}>{block.caption}</p>
+                <div style={{ background: "#1A1D3A", borderTop: "1px solid rgba(255,255,255,0.06)", padding: "8px 14px" }}>
+                  <p style={{ margin: 0, fontSize: 12, color: "#5A5F80", fontStyle: "italic" }}>{block.caption}</p>
                 </div>
               )}
             </div>
@@ -105,37 +108,45 @@ export function ConceptCard({ blocks }: ConceptCardProps) {
             <div
               key={i}
               style={{
-                background: "#0D1117",
+                background: "#1E2147",
                 border: "1px solid rgba(255,255,255,0.08)",
                 borderRadius: 14,
                 padding: "18px 24px",
                 textAlign: "center",
               }}
             >
-              <p style={{ margin: 0, fontSize: 18, fontWeight: 600, color: "#6FB8D4", fontFamily: "var(--font-code)" }}>
+              <p style={{ margin: 0, fontSize: 18, fontWeight: 600, color: "#7C82F8", fontFamily: "var(--font-code)" }}>
                 {block.content}
               </p>
               {block.caption && (
-                <p style={{ margin: "8px 0 0", fontSize: 13, color: "#5A6090", fontStyle: "italic" }}>{block.caption}</p>
+                <p style={{ margin: "8px 0 0", fontSize: 12, color: "#5A5F80", fontStyle: "italic" }}>{block.caption}</p>
               )}
             </div>
           );
         }
 
-        // Default: text block
+        // Default: text block — rendered as a subtle card
         return (
-          <div key={i}>
+          <div
+            key={i}
+            style={{
+              background: "#1E2147",
+              border: "1px solid rgba(255,255,255,0.06)",
+              borderRadius: 14,
+              padding: "18px 20px",
+            }}
+          >
             <p
               style={{
                 margin: 0,
-                fontSize: 17,
+                fontSize: 15,
                 lineHeight: 1.75,
-                color: "#C8CAD8",
+                color: "#C5C7D8",
               }}
               dangerouslySetInnerHTML={{ __html: renderMarkdown(block.content) }}
             />
             {block.caption && (
-              <p style={{ margin: "6px 0 0", fontSize: 13, color: "#5A6090", fontStyle: "italic" }}>{block.caption}</p>
+              <p style={{ margin: "8px 0 0", fontSize: 12, color: "#5A5F80", fontStyle: "italic" }}>{block.caption}</p>
             )}
           </div>
         );
@@ -147,14 +158,14 @@ export function ConceptCard({ blocks }: ConceptCardProps) {
 function renderMarkdown(text: string): string {
   return text
     // Bold
-    .replace(/\*\*(.+?)\*\*/g, '<strong style="color:#D8D9E8;font-weight:650">$1</strong>')
+    .replace(/\*\*(.+?)\*\*/g, '<strong style="color:#F2F1F8;font-weight:700">$1</strong>')
     // Italic
-    .replace(/(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)/g, '<em style="color:#AEB2C8;font-style:italic">$1</em>')
+    .replace(/(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)/g, '<em style="color:#9EA3BD;font-style:italic">$1</em>')
     // Inline code
-    .replace(/`(.+?)`/g, '<code style="background:rgba(111,175,122,0.12);color:#8FCC9A;padding:2px 7px;border-radius:5px;font-size:14px;font-family:var(--font-code)">$1</code>')
+    .replace(/`(.+?)`/g, '<code style="background:rgba(124,130,248,0.14);color:#A5A9FA;padding:2px 7px;border-radius:5px;font-size:13px;font-family:var(--font-code)">$1</code>')
     // Code blocks
     .replace(/```python\n([\s\S]*?)```/g, (_, code) =>
-      `<pre style="margin-top:12px;padding:14px 18px;border-radius:12px;background:#080B14;color:#C8D0E0;font-size:14px;font-family:var(--font-code);overflow-x:auto;line-height:1.65">${code.trimEnd()}</pre>`
+      `<pre style="margin-top:12px;padding:14px 18px;border-radius:12px;background:#080B14;color:#C8D0E0;font-size:13px;font-family:var(--font-code);overflow-x:auto;line-height:1.65">${code.trimEnd()}</pre>`
     )
     // Newlines
     .replace(/\n/g, "<br/>");
