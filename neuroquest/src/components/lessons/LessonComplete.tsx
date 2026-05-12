@@ -26,24 +26,24 @@ export function LessonComplete({
 }: LessonCompleteProps) {
   return (
     <div
-      className="flex flex-col items-center justify-center h-full text-center animate-fade-in"
+      className="flex flex-col items-center h-full text-center animate-fade-in"
       style={{ padding: "32px 24px", maxWidth: 480, margin: "0 auto" }}
     >
-      <Ilya state="celebrate" size={110} className="mb-6" />
+      <Ilya state="celebrate" size={100} className="mb-5" />
 
       <h1
         style={{
           fontSize: 26,
           fontWeight: 800,
           color: "#F2F1F8",
-          marginBottom: 8,
+          marginBottom: 6,
           fontFamily: "var(--font-display)",
         }}
       >
         {perfect ? "Perfect! ✨" : "Lesson Done! 🎉"}
       </h1>
 
-      <p style={{ fontSize: 14, color: "#9EA3BD", marginBottom: 32 }}>
+      <p style={{ fontSize: 14, color: "#9EA3BD", marginBottom: 24 }}>
         {perfect ? "No mistakes — you're on fire!" : "Keep going, you're making progress!"}
       </p>
 
@@ -54,8 +54,8 @@ export function LessonComplete({
           alignItems: "center",
           gap: 10,
           borderRadius: 16,
-          padding: "14px 28px",
-          marginBottom: 36,
+          padding: "12px 28px",
+          marginBottom: lesson.funFact ? 24 : 32,
           background: "#1E2147",
           border: "1.5px solid rgba(246,217,91,0.35)",
         }}
@@ -65,6 +65,29 @@ export function LessonComplete({
           +{xpEarned} XP
         </span>
       </div>
+
+      {/* Fun fact */}
+      {lesson.funFact && (
+        <div
+          className="animate-slide-up w-full"
+          style={{
+            background: "#1C1F42",
+            border: "1px solid rgba(124,130,248,0.2)",
+            borderLeft: "3px solid #7C82F8",
+            borderRadius: "0 14px 14px 0",
+            padding: "16px 18px",
+            marginBottom: 28,
+            textAlign: "left",
+          }}
+        >
+          <p style={{ margin: "0 0 6px", fontSize: 11, fontWeight: 700, color: "#7C82F8", textTransform: "uppercase", letterSpacing: "0.08em" }}>
+            Did you know?
+          </p>
+          <p style={{ margin: 0, fontSize: 14, lineHeight: 1.65, color: "#C5C7D8" }}>
+            {lesson.funFact}
+          </p>
+        </div>
+      )}
 
       {/* Buttons */}
       <div style={{ width: "100%", display: "flex", flexDirection: "column", gap: 12 }}>

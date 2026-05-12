@@ -55,6 +55,7 @@ export interface Lesson {
   deviceRequired: DeviceRequired;
   xpReward: number;
   estimatedMinutes: number;
+  funFact?: string; // Shown on the LessonComplete screen
   // Content - one of these will be populated based on type
   concept?: ConceptBlock[];
   questions?: MCQQuestion[];

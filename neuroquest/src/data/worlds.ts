@@ -27,7 +27,7 @@ export const WORLDS: World[] = [
         totalXP: 50,
         lessons: [
 
-          // ── Lesson 1: Brain vs Mind + Anatomy ──
+          // ── Lesson 1a: Brain vs Mind + Neocortex ──
           {
             id: "w0q1l1",
             questId: "w0q1",
@@ -37,6 +37,7 @@ export const WORLDS: World[] = [
             deviceRequired: "any",
             xpReward: 10,
             estimatedMinutes: 5,
+            funFact: "🔥 The brain uses ~20% of your body's oxygen despite being only 2% of your body weight — making it by far the most metabolically expensive organ you own.",
             concept: [
               {
                 type: "highlight",
@@ -45,10 +46,6 @@ export const WORLDS: World[] = [
               {
                 type: "text",
                 content: "**Mind** refers to ideas, purposes, and the ability to find patterns in the world. **Brain** is the material object — cells, chemicals, electrical signals. The brain's dynamics somehow *implement* the mind. We don't fully know how.",
-              },
-              {
-                type: "highlight",
-                content: "🔥 The brain uses ~20% of your body's oxygen despite being only 2% of your body weight. It is incredibly expensive to run — which means it must be doing something extremely important.",
               },
               {
                 type: "text",
@@ -60,13 +57,34 @@ export const WORLDS: World[] = [
                 alt: "Cerebral cortex geography showing the four lobes and key functional areas",
                 caption: "Cerebral cortex geography — colour-coded by lobe",
               },
+            ],
+          },
+
+          // ── Lesson 1b: Beneath the Neocortex ──
+          {
+            id: "w0q1l1b",
+            questId: "w0q1",
+            worldId: "world0",
+            title: "Beneath the Neocortex",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 4,
+            funFact: "🦛 The hippocampus is named after the Greek word for seahorse — because in cross-section, that's exactly what it looks like under a microscope.",
+            concept: [
               {
                 type: "text",
-                content: "**Beneath the neocortex** are subcortical structures — evolutionarily older regions with specific roles:\n• **Hippocampus** → Memory formation and spatial navigation (\"where am I? what happened?\")\n• **Amygdala** → Fear processing and emotion (\"is this dangerous?\")\n• **Cerebellum** → Movement coordination and timing\n• **Basal ganglia** → Action selection and reward learning",
+                content: "**Beneath the neocortex** are subcortical structures — evolutionarily older regions, each with a precise role:\n• **Hippocampus** → Memory formation and spatial navigation (\"where am I? what happened?\")\n• **Amygdala** → Fear processing and emotion (\"is this dangerous?\")\n• **Thalamus** → Sensory gateway — almost all signals pass through here\n• **Hypothalamus** → Regulates body functions and drives motivated behavior\n• **Cerebellum** → Movement coordination and timing\n• **Basal ganglia** → Action selection and reward learning",
+              },
+              {
+                type: "image",
+                content: "/images/beneath-neocortex.png",
+                alt: "Cross-section of the brain showing subcortical structures including hippocampus, amygdala, thalamus and hypothalamus",
+                caption: "Subcortical structures — the brain beneath the surface",
               },
               {
                 type: "highlight",
-                content: "💡 Knowing which region does what is not enough to understand the brain. To understand *how* the brain works, we need to zoom in to the cells — and that means neurons.",
+                content: "💡 Knowing *which region does what* is not enough to understand the brain. To understand *how* it works, we need to zoom in to the cells — and that means neurons.",
               },
             ],
           },
@@ -131,6 +149,7 @@ export const WORLDS: World[] = [
             deviceRequired: "any",
             xpReward: 10,
             estimatedMinutes: 5,
+            funFact: "🎨 Santiago Ramón y Cajal drew every neuron he discovered by hand in the 1880s — before practical photography existed. His artwork is still reproduced in neuroscience textbooks today, over 130 years later.",
             concept: [
               {
                 type: "highlight",
