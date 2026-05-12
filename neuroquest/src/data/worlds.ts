@@ -264,11 +264,15 @@ export const WORLDS: World[] = [
               },
               {
                 type: "text",
-                content: "**Synapses** are the junctions where neurons connect. The most common type is the **chemical synapse**:\n1. An action potential arrives at the axon terminal\n2. Vesicles release **neurotransmitter** into the synaptic cleft\n3. Neurotransmitter binds to receptors on the receiving neuron\n4. The receiving neuron's voltage goes up (excitatory) or down (inhibitory)\n\nThe whole process takes ~1–2 ms. There are also rare **electrical synapses** (gap junctions) where signals pass through direct physical contact — instant but inflexible.",
+                content: "A **synapse** is the junction where one neuron passes a message to the next. Here's how the most common type — the **chemical synapse** — works step by step:\n\n**1. An action potential arrives at the axon terminal.**\n*An action potential is the neuron's electrical 'shout' — a sudden voltage spike that travels the full length of the axon. Think of a falling domino: once it tips, it goes all the way.*\n\n**2. Vesicles release neurotransmitter into the synaptic cleft.**\n*Vesicles are tiny bubbles packed with chemical messengers. The cleft is a microscopic gap — about 20 nanometres wide. Imagine throwing hundreds of tiny envelopes across a hair-thin alley.*\n\n**3. Neurotransmitter binds to receptors on the receiving neuron.**\n*Each neurotransmitter fits one specific receptor like a key fits a lock. Only the right molecule triggers the right response.*\n\n**4. The receiving neuron's voltage goes up (excitatory) or down (inhibitory).**\n*'Up' means the neuron is nudged closer to firing its own signal. 'Down' means it's pushed further away. Every neuron is constantly tallying thousands of these +/− votes and firing only when the 'yes' votes win.*\n\nThe whole process takes ~1–2 ms.",
               },
               {
                 type: "text",
-                content: "**Synaptic plasticity** is why connections matter even more than neurons: synaptic strength isn't fixed — it changes with every experience, every repeated pattern, every learning event. This is the physical mechanism behind memory. The brain you have today is literally wired differently from the brain you had a year ago.",
+                content: "There are also **electrical synapses** (gap junctions), where two neurons physically touch and current flows directly between them — instant, but the signal can't be filtered or adjusted.\n\n*Think of it this way: a chemical synapse is like sending a text — a small delay, but the message can be shaped. An electrical synapse is like grabbing someone's hand — immediate, but you pass exactly what you feel, nothing more.*",
+              },
+              {
+                type: "text",
+                content: "**Synaptic plasticity:** synaptic strength isn't fixed. Every experience, every repeated pattern, every learning event physically changes how strong a connection is.\n\n*Imagine connections as paths through a field. Walk a path repeatedly and it gets worn in — easier to walk next time. Ignore it and grass grows back. Learning is literally this: the most-used neural paths get stronger, the unused ones weaken. The brain you have today is wired differently from the brain you had a year ago.*",
               },
             ],
           },
