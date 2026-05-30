@@ -956,10 +956,306 @@ export const WORLDS: World[] = [
         ],
       },
 
-      // ── Quests 0.4–0.12 will be added as transcripts arrive ──
+      // ── Quest 0.5 — Brain Signals: Spiking Activity ────────────
+      {
+        id: "w0q5",
+        worldId: "world0",
+        number: 5,
+        title: "Brain Signals: Spiking Activity",
+        description: "From dendrites to action potentials — how neurons fire and how we record them",
+        totalXP: 70,
+        lessons: [
+
+          // ── Lesson 1: Neurons & Graded Potentials ──
+          {
+            id: "w0q5l1",
+            questId: "w0q5",
+            worldId: "world0",
+            title: "Neurons & Graded Potentials",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 5,
+            concept: [
+              {
+                type: "highlight",
+                content: "Neurons are the basic processing units of the nervous system. Everything the brain does — move, remember, perceive — happens through neurons communicating via electrical signals.",
+              },
+              {
+                type: "text",
+                content: "A neuron has four key parts:\n\n• **Dendrites** — the input ports. They collect incoming electrical signals from other neurons and carry them toward the cell body.\n• **Soma (cell body)** — sums all the incoming signals. It's the decision-making centre.\n• **Axon Hillock** — the trigger zone where the axon meets the soma. If the summed signal exceeds a threshold here, a spike is fired.\n• **Axon Terminals** — the output end. They release neurotransmitters into the synapse, triggering a signal in the next neuron's dendrites.",
+              },
+              {
+                type: "text",
+                content: "Before a neuron fires a full spike, it receives **graded potentials** — small voltage changes that vary in size and duration depending on the strength of the input. Think of them as whispers: individually they may not be loud enough to act on, but multiple whispers arriving at the soma at the same time can add up.\n\nWhen the sum of all graded potentials pushes the membrane voltage past a critical threshold, the neuron fires an **action potential** (spike). Below threshold: nothing happens. Above threshold: full spike.",
+              },
+              {
+                type: "highlight",
+                content: "💡 Graded potentials are the inputs — variable in size, they sum in the soma. Action potentials are the output — fixed and all-or-nothing. The soma is constantly doing a weighted vote: fire or stay silent.",
+              },
+            ],
+          },
+
+          // ── MCQ 1 ──
+          {
+            id: "w0q5l1q",
+            questId: "w0q5",
+            worldId: "world0",
+            title: "Neuron Structure Quiz",
+            type: "mcq",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 3,
+            questions: [
+              {
+                id: "w0q5l1q_1",
+                text: "What is the primary role of dendrites?",
+                options: [
+                  "Collect electrical signals from other neurons and bring them toward the soma",
+                  "Release neurotransmitters into the synapse",
+                  "Generate and propagate action potentials",
+                  "Insulate the axon to speed up signal transmission",
+                ],
+                correctIndex: 0,
+                explanation: "Dendrites are the input ports of the neuron. They receive incoming signals (graded potentials) from the axon terminals of other neurons at synapses, and funnel that activity toward the soma where it is summed.",
+              },
+              {
+                id: "w0q5l1q_2",
+                text: "Where on the neuron is an action potential first triggered?",
+                options: [
+                  "At the tip of the dendrites, closest to the incoming signal",
+                  "At the axon hillock, where the soma meets the axon",
+                  "At the axon terminals, just before neurotransmitters are released",
+                  "At the synapse, in the gap between two neurons",
+                ],
+                correctIndex: 1,
+                explanation: "The axon hillock is the trigger zone. It's where the soma transitions into the axon, and it has the highest density of voltage-gated sodium channels. If the summed graded potentials push the membrane voltage past threshold here, an action potential is initiated and propagates down the axon.",
+              },
+              {
+                id: "w0q5l1q_3",
+                text: "A neuron receives five weak graded potentials simultaneously — none of which alone would cross threshold. What is most likely to happen?",
+                options: [
+                  "Nothing — each graded potential must independently exceed threshold to have any effect",
+                  "The neuron fires five action potentials, one for each input",
+                  "The graded potentials sum in the soma, and if their combined voltage exceeds threshold, an action potential fires",
+                  "The dendrites grow longer to compensate for weak inputs",
+                ],
+                correctIndex: 2,
+                explanation: "This is spatial summation — multiple simultaneous inputs add up at the soma. If the sum exceeds threshold at the axon hillock, one action potential fires. This is how neurons integrate information: they don't just relay signals, they compute a weighted sum of everything arriving at once.",
+              },
+            ],
+          },
+
+          // ── Lesson 2: The Action Potential ──
+          {
+            id: "w0q5l2",
+            questId: "w0q5",
+            worldId: "world0",
+            title: "The Action Potential",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 5,
+            concept: [
+              {
+                type: "highlight",
+                content: "At rest, the inside of a neuron sits at –70 mV — more negative than the outside. This is the resting membrane potential, maintained by an unequal distribution of ions across the cell membrane.",
+              },
+              {
+                type: "text",
+                content: "The key ions involved:\n\n• **Sodium (Na⁺)** — concentrated *outside* the cell\n• **Potassium (K⁺)** — concentrated *inside* the cell\n\nWhen graded potentials push the membrane to **–55 mV (threshold)**, voltage-gated sodium channels snap open:\n\n1. **Na⁺ rushes in** → inside becomes positive (rises to about +30 mV)\n2. **K⁺ rushes out** → positive charge leaves, inside goes negative again\n3. Membrane returns to –70 mV resting potential\n\nThis rapid flip — from –70 to +30 and back — is the **action potential**. It takes about 2–4 milliseconds.",
+              },
+              {
+                type: "highlight",
+                content: "🚽 The toilet flush analogy: push the handle gently and nothing happens. Push it hard enough and the full flush always occurs — same amount of water every time, regardless of how firmly you pushed. Action potentials work the same way: once threshold is crossed, the spike is always the same size. This is the **all-or-nothing principle**.",
+              },
+              {
+                type: "text",
+                content: "After each spike, the neuron enters a **refractory period** — a brief window where it cannot fire again regardless of how strong the next input is. This is like the toilet tank refilling: you have to wait before the next flush is possible.\n\nThe refractory period sets the neuron's **maximum firing frequency**. Even under constant strong stimulation, there's a ceiling on how many spikes per second a neuron can produce. This is part of why there's a maximum speed at which you can wiggle your fingers — motor neurons can only signal so fast.",
+              },
+            ],
+          },
+
+          // ── MCQ 2 ──
+          {
+            id: "w0q5l2q",
+            questId: "w0q5",
+            worldId: "world0",
+            title: "Action Potential Quiz",
+            type: "mcq",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 3,
+            questions: [
+              {
+                id: "w0q5l2q_1",
+                text: "A neuron's resting membrane potential is –70 mV. What does this negative value represent?",
+                options: [
+                  "The neuron is damaged and has lost its charge",
+                  "The inside of the cell is more negatively charged than the outside due to unequal ion distribution",
+                  "Potassium ions have all left the cell",
+                  "The neuron is currently firing an action potential",
+                ],
+                correctIndex: 1,
+                explanation: "The –70 mV resting potential exists because of the differential distribution of ions: sodium (Na⁺) is concentrated outside, potassium (K⁺) inside, and the net charge inside is more negative. This gradient is actively maintained by the sodium-potassium pump and is essential for the neuron's ability to fire.",
+              },
+              {
+                id: "w0q5l2q_2",
+                text: "A researcher applies two stimuli to the same neuron: one barely above threshold and one very strong. Both trigger an action potential. What will be different about the two spikes?",
+                options: [
+                  "The stronger stimulus produces a larger spike (higher amplitude)",
+                  "The stronger stimulus produces a faster spike",
+                  "Nothing — both spikes are identical in size and shape (all-or-nothing principle)",
+                  "The stronger stimulus produces two spikes",
+                ],
+                correctIndex: 2,
+                explanation: "This is the all-or-nothing principle. Once threshold is crossed, the spike is stereotypical — same amplitude (~100 mV swing), same duration (~2–4 ms) — regardless of how strong the triggering stimulus was. Intensity is encoded not by spike size but by firing frequency.",
+              },
+              {
+                id: "w0q5l2q_3",
+                text: "Why can't a neuron fire a second action potential immediately after the first one ends?",
+                options: [
+                  "The dendrites need time to retract and re-extend",
+                  "The refractory period — sodium channels are temporarily inactivated and potassium channels are still open, preventing re-firing",
+                  "The neuron needs to synthesize new neurotransmitters first",
+                  "The axon hillock moves position after each spike",
+                ],
+                correctIndex: 1,
+                explanation: "During the refractory period, the voltage-gated sodium channels that drove the upstroke are temporarily inactivated (absolute refractory period), and excess potassium efflux briefly hyperpolarizes the membrane below resting potential (relative refractory period). This enforces a minimum interval between spikes and places a ceiling on maximum firing rate.",
+              },
+            ],
+          },
+
+          // ── Lesson 3: Recording Spikes & Neural Coding ──
+          {
+            id: "w0q5l3",
+            questId: "w0q5",
+            worldId: "world0",
+            title: "Recording Spikes & Neural Coding",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 5,
+            concept: [
+              {
+                type: "highlight",
+                content: "Action potentials are tiny electrical signals — just millivolts. To record them, scientists place a conducting electrode (metal or glass pipette filled with fluid) near or inside a neuron, amplify the signal, digitize it, and store it for analysis.",
+              },
+              {
+                type: "text",
+                content: "**What encodes information in spikes?**\n\nUnlike graded potentials (variable size), all action potentials from the same neuron look identical: fixed amplitude, fixed duration (~2–4 ms). So the *size* of each spike carries no information.\n\nInformation is instead encoded in:\n• **Firing frequency** — how many spikes per second (a neuron responding to a loud sound fires faster than one responding to a soft sound)\n• **Firing pattern** — the temporal arrangement of spikes (some neurons burst briefly then go quiet; others fire at a steady regular rate; others at variable intervals)\n\nDifferent neuron types have characteristic firing patterns, and these patterns change with the strength and type of stimulus.",
+              },
+              {
+                type: "text",
+                content: "**Receptive fields:**\nMany neurons only respond to stimuli in a specific part of the world — their *receptive field*.\n\nExample: some visual neurons fire strongly when light falls on the centre of their receptive field (*on-centre*) and weakly when light hits the surrounding ring (*off-surround*). Other cells do the opposite. This centre-surround organisation is how the retina detects edges and contrast, before the signal even reaches the cortex.\n\n**Plasticity:**\nNeural properties are not fixed. Learning, experience, drugs, and disease all reshape how neurons fire. In a diseased state, a neuron given the same stimulus may fire irregularly and reach a lower maximum frequency — revealing that the underlying electrical machinery has changed.",
+              },
+              {
+                type: "highlight",
+                content: "🔑 Key insight: because all spikes look the same, the *only* things that vary are timing and frequency. The entire richness of neural coding — everything you see, hear, feel, remember — is built from patterns of identical pulses.",
+              },
+            ],
+          },
+
+          // ── MCQ 3 ──
+          {
+            id: "w0q5l3q",
+            questId: "w0q5",
+            worldId: "world0",
+            title: "Neural Coding Quiz",
+            type: "mcq",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 3,
+            questions: [
+              {
+                id: "w0q5l3q_1",
+                text: "Two neurons both fire 10 action potentials in response to a stimulus, but neuron A fires them all within 50 ms and neuron B spreads them over 500 ms. What differs between them, and why does it matter?",
+                options: [
+                  "Nothing important — only the total spike count matters for neural coding",
+                  "The spike amplitude — faster neurons produce bigger spikes",
+                  "The firing frequency — neuron A fires at a higher rate, signalling stronger or more urgent activity",
+                  "The membrane potential — neuron A has a lower resting potential",
+                ],
+                correctIndex: 2,
+                explanation: "Firing frequency (spikes per second) is a primary channel for neural coding. Neuron A fires at ~200 Hz, neuron B at ~20 Hz. Since each spike is identical in size, the rate difference is the signal. Higher rates typically encode stronger stimuli — for example, a louder sound or brighter light.",
+              },
+              {
+                id: "w0q5l3q_2",
+                text: "A visual neuron fires rapidly when a small spot of light appears in the centre of its receptive field, but slows its firing when the same light appears in the surrounding ring. What type of cell is this?",
+                options: [
+                  "An inhibitory interneuron that suppresses visual processing",
+                  "An on-centre / off-surround cell — it signals contrast between centre and surround",
+                  "A motor neuron that controls eye movements",
+                  "A place cell encoding spatial location",
+                ],
+                correctIndex: 1,
+                explanation: "On-centre / off-surround cells are excited by light in their receptive field centre and inhibited by light in the surround (and vice versa for off-centre cells). This organisation makes them exquisitely sensitive to edges and contrast — not just raw brightness — and is a fundamental building block of visual processing from retina to cortex.",
+              },
+              {
+                id: "w0q5l3q_3",
+                text: "A neuron in a diseased brain shows irregular, lower-frequency spiking compared to the same stimulus in a healthy brain. What is the most accurate interpretation?",
+                options: [
+                  "The electrode is faulty",
+                  "The diseased neuron has fewer dendrites",
+                  "The disease has altered the neuron's intrinsic electrical properties — its channels, thresholds, or ion gradients have changed",
+                  "The synapse is releasing too much neurotransmitter",
+                ],
+                correctIndex: 2,
+                explanation: "Because action potentials depend on voltage-gated channel dynamics, anything that disrupts those channels — disease, mutations, toxins — changes firing patterns. Recording from diseased tissue allows neuroscientists to identify *which* electrical property is abnormal, guiding targeted treatments. This is neural coding used as a diagnostic tool.",
+              },
+            ],
+          },
+
+          // ── Flashcards: Key Terms ──
+          {
+            id: "w0q5l4",
+            questId: "w0q5",
+            worldId: "world0",
+            title: "Spiking Activity — Key Terms",
+            type: "flashcard",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 4,
+            cards: [
+              {
+                id: "w0q5l4_c1",
+                front: "What is an action potential (spike)?",
+                back: "A rapid, all-or-nothing flip in membrane voltage — from –70 mV (resting) up to +30 mV and back — caused by Na⁺ rushing in then K⁺ rushing out. Lasts ~2–4 ms. The fundamental unit of neural communication.",
+              },
+              {
+                id: "w0q5l4_c2",
+                front: "What is the refractory period?",
+                back: "The minimum time required between two action potentials. During this window the neuron cannot fire again (Na⁺ channels are inactivated). Sets the neuron's maximum firing frequency — like the time needed for a toilet to refill between flushes.",
+              },
+              {
+                id: "w0q5l4_c3",
+                front: "What are voltage-gated channels?",
+                back: "Membrane proteins that open when the voltage crosses a threshold. Voltage-gated Na⁺ channels open first (depolarisation), then voltage-gated K⁺ channels open (repolarisation). Together they generate the action potential waveform.",
+              },
+              {
+                id: "w0q5l4_c4",
+                front: "What is a receptive field?",
+                back: "The region of the external world (e.g., a patch of the visual field) where a stimulus changes a neuron's firing rate. Different neurons have different receptive fields — allowing the brain to map the outside world onto neural activity.",
+              },
+              {
+                id: "w0q5l4_c5",
+                front: "What is a Central Pattern Generator (CPG)?",
+                back: "A neural circuit of interconnected excitatory and inhibitory neurons that generates self-sustaining rhythmic activity without external input. Examples: the circuits driving walking gait, breathing rhythm, and circadian (day/night) cycles.",
+              },
+              {
+                id: "w0q5l4_c6",
+                front: "What is the all-or-nothing principle?",
+                back: "Once a neuron reaches threshold (–55 mV), it always fires the same spike regardless of how strong the triggering input was. Stimulus intensity is encoded in firing frequency, not spike size. Like a toilet: partial pressure = no flush; enough pressure = full flush every time.",
+              },
+            ],
+          },
+
+        ],
+      },
+
+      // ── Quests 0.4 and 0.6–0.12 will be added as transcripts arrive ──
       // w0q4: Live in Lab
-      // w0q4: Live in Lab
-      // w0q5: Brain Signals — Spiking Activity
+      // w0q5: Brain Signals — Spiking Activity ✓ done
       // w0q6: Brain Signals — LFP
       // w0q7: Brain Signals — EEG & MEG
       // w0q8: Brain Signals — fMRI
