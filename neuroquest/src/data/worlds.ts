@@ -982,6 +982,13 @@ export const WORLDS: World[] = [
                 content: "Neurons are the basic processing units of the nervous system. Everything the brain does — move, remember, perceive — happens through neurons communicating via electrical signals.",
               },
               {
+                type: "image",
+                content: "/images/dendrites-soma.png",
+                alt: "Labeled diagram of a neuron showing dendrites, cell body (soma), axon, myelin sheath, terminal branches, and the direction of the neural impulse",
+                caption: "Anatomy of a neuron: dendrites receive signals, the soma integrates them, and the axon transmits the impulse to other cells",
+                size: "small",
+              },
+              {
                 type: "text",
                 content: "A neuron has four key parts:\n\n• **Dendrites** — the input ports. They collect incoming electrical signals from other neurons and carry them toward the cell body.\n• **Soma (cell body)** — sums all the incoming signals. It's the decision-making centre.\n• **Axon Hillock** — the trigger zone where the axon meets the soma. If the summed signal exceeds a threshold here, a spike is fired.\n• **Axon Terminals** — the output end. They release neurotransmitters into the synapse, triggering a signal in the next neuron's dendrites.",
               },
