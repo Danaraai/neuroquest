@@ -983,9 +983,9 @@ export const WORLDS: World[] = [
               },
               {
                 type: "image",
-                content: "/images/dendrites-soma.png",
-                alt: "Labeled diagram of a neuron showing dendrites, cell body (soma), axon, myelin sheath, terminal branches, and the direction of the neural impulse",
-                caption: "Anatomy of a neuron: dendrites receive signals, the soma integrates them, and the axon transmits the impulse to other cells",
+                content: "/images/dendrites-soma-new.png",
+                alt: "Labeled diagram of a neuron showing the dendrite, soma (cell body), axon hillock, axon, myelin, and axon terminal, plus a zoom-in of a chemical synapse with presynaptic cell, neurotransmitter, and postsynaptic cell",
+                caption: "Anatomy of a neuron with a synapse zoom-in: dendrites receive, the soma integrates, the axon hillock decides whether to fire, and the axon terminal passes the signal across the synapse",
                 size: "small",
               },
               {
