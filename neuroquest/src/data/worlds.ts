@@ -1277,7 +1277,7 @@ export const WORLDS: World[] = [
   {
     id: "world1",
     number: 1,
-    title: "Python Village",
+    title: "Python Basics",
     subtitle: "Learn to speak the language of science",
     emoji: "🏘️",
     color: "#F59E0B",
@@ -3400,7 +3400,7 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
   {
     id: "world2",
     number: 2,
-    title: "The Neuron Lab",
+    title: "Simulate a Neuron",
     subtitle: "Simulate a real LIF neuron — the same model used at NMA",
     emoji: "🧪",
     color: "#1CB0F6",
@@ -4621,10 +4621,45 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
     ],
   },
 
-  // ─── World 3: Stats Swamps ─────────────────────────────────
+  // ─── World 3: Math Mountains ──────────────────────────────────
   {
     id: "world3",
     number: 3,
+    title: "Math Mountains",
+    subtitle: "Linear algebra and calculus — the engine behind every model",
+    emoji: "⛰️",
+    color: "#F97316",
+    colorDark: "#C2410C",
+    totalXP: 300,
+    quests: [
+      // ── Quest 3.1 — Linear Algebra ─────────────────────────
+      {
+        id: "w3q1",
+        worldId: "world3",
+        number: 1,
+        title: "Linear Algebra",
+        description: "Vectors, matrices, and the geometry behind neural data",
+        totalXP: 150,
+        lessons: [],
+      },
+
+      // ── Quest 3.2 — Calculus ───────────────────────────────
+      {
+        id: "w3q2",
+        worldId: "world3",
+        number: 2,
+        title: "Calculus",
+        description: "Derivatives, integrals, and how models learn",
+        totalXP: 150,
+        lessons: [],
+      },
+    ],
+  },
+
+  // ─── World 4: Stats Swamps ─────────────────────────────────
+  {
+    id: "world4",
+    number: 4,
     title: "Stats Swamps",
     subtitle: "Probability, distributions, and inference",
     emoji: "🌿",
@@ -4634,17 +4669,17 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
     quests: [
       // ── Quest 3.1 — Probability Basics ────────────────────
       {
-        id: "w3q1",
-        worldId: "world3",
+        id: "w4q1",
+        worldId: "world4",
         number: 1,
         title: "Probability Basics",
         description: "The math of uncertainty — essential for all NMA analyses",
         totalXP: 30,
         lessons: [
           {
-            id: "w3q1l1",
-            questId: "w3q1",
-            worldId: "world3",
+            id: "w4q1l1",
+            questId: "w4q1",
+            worldId: "world4",
             title: "What Is Probability?",
             type: "concept",
             deviceRequired: "any",
@@ -4675,9 +4710,9 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
             ],
           },
           {
-            id: "w3q1l2",
-            questId: "w3q1",
-            worldId: "world3",
+            id: "w4q1l2",
+            questId: "w4q1",
+            worldId: "world4",
             title: "Quiz: Probability",
             type: "mcq",
             deviceRequired: "any",
@@ -4685,7 +4720,7 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
             estimatedMinutes: 3,
             questions: [
               {
-                id: "w3q1l2_q1",
+                id: "w4q1l2_q1",
                 text: "A neuron fires on 30% of trials. What is P(does NOT fire)?",
                 options: ["0.7", "0.3", "0.6", "0.15"],
                 correctIndex: 0,
@@ -4693,7 +4728,7 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
                 neuroConnection: "Computing P(no spike) is used when calculating the reliability of a neuron's response in NMA.",
               },
               {
-                id: "w3q1l2_q2",
+                id: "w4q1l2_q2",
                 text: "Two independent neurons each fire with P=0.4. What is P(both fire)?",
                 options: ["0.8", "0.16", "0.4", "0.04"],
                 correctIndex: 1,
@@ -4707,17 +4742,17 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
 
       // ── Quest 3.2 — Distributions ─────────────────────────
       {
-        id: "w3q2",
-        worldId: "world3",
+        id: "w4q2",
+        worldId: "world4",
         number: 2,
         title: "The Normal Distribution",
         description: "The bell curve that describes almost everything",
         totalXP: 35,
         lessons: [
           {
-            id: "w3q2l1",
-            questId: "w3q2",
-            worldId: "world3",
+            id: "w4q2l1",
+            questId: "w4q2",
+            worldId: "world4",
             title: "Mean, Variance & the Bell Curve",
             type: "concept",
             deviceRequired: "any",
@@ -4749,9 +4784,9 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
             ],
           },
           {
-            id: "w3q2l2",
-            questId: "w3q2",
-            worldId: "world3",
+            id: "w4q2l2",
+            questId: "w4q2",
+            worldId: "world4",
             title: "Quiz: Distributions",
             type: "mcq",
             deviceRequired: "any",
@@ -4759,7 +4794,7 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
             estimatedMinutes: 3,
             questions: [
               {
-                id: "w3q2l2_q1",
+                id: "w4q2l2_q1",
                 text: "A neuron's firing rate is normally distributed: mean=20 Hz, std=4 Hz. ~95% of trials fall between…",
                 options: ["16–24 Hz", "12–28 Hz", "18–22 Hz", "8–32 Hz"],
                 correctIndex: 1,
@@ -4767,7 +4802,7 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
                 neuroConnection: "This is how NMA researchers report confidence intervals on neural tuning curves.",
               },
               {
-                id: "w3q2l2_q2",
+                id: "w4q2l2_q2",
                 text: "Which numpy function computes the standard deviation?",
                 options: ["np.mean()", "np.std()", "np.var()", "np.norm()"],
                 correctIndex: 1,
@@ -4781,17 +4816,17 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
 
       // ── Quest 3.3 — Hypothesis Testing ────────────────────
       {
-        id: "w3q3",
-        worldId: "world3",
+        id: "w4q3",
+        worldId: "world4",
         number: 3,
         title: "Hypothesis Testing",
         description: "Is this result real or just noise?",
         totalXP: 35,
         lessons: [
           {
-            id: "w3q3l1",
-            questId: "w3q3",
-            worldId: "world3",
+            id: "w4q3l1",
+            questId: "w4q3",
+            worldId: "world4",
             title: "p-values & Statistical Significance",
             type: "concept",
             deviceRequired: "any",
@@ -4818,9 +4853,9 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
             ],
           },
           {
-            id: "w3q3l2",
-            questId: "w3q3",
-            worldId: "world3",
+            id: "w4q3l2",
+            questId: "w4q3",
+            worldId: "world4",
             title: "Quiz: Hypothesis Testing",
             type: "mcq",
             deviceRequired: "any",
@@ -4828,7 +4863,7 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
             estimatedMinutes: 3,
             questions: [
               {
-                id: "w3q3l2_q1",
+                id: "w4q3l2_q1",
                 text: "You get p = 0.002. What should you conclude?",
                 options: [
                   "There is definitely a real effect",
@@ -4841,7 +4876,7 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
                 neuroConnection: "NMA researchers always report both p-values and effect sizes when claiming a neuron is 'selective' for a stimulus.",
               },
               {
-                id: "w3q3l2_q2",
+                id: "w4q3l2_q2",
                 text: "Which scipy function runs a two-sample t-test?",
                 options: ["stats.ttest_1samp()", "stats.ttest_ind()", "stats.norm.cdf()", "stats.anova()"],
                 correctIndex: 1,
@@ -4855,17 +4890,17 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
 
       // ── Quest 3.4 — Boss Battle ───────────────────────────
       {
-        id: "w3q4",
-        worldId: "world3",
+        id: "w4q4",
+        worldId: "world4",
         number: 4,
         title: "Boss Battle: Stats Slam",
         description: "Prove your stats chops with real neuroscience scenarios",
         totalXP: 50,
         lessons: [
           {
-            id: "w3q4l1",
-            questId: "w3q4",
-            worldId: "world3",
+            id: "w4q4l1",
+            questId: "w4q4",
+            worldId: "world4",
             title: "Boss: Stats in the Wild",
             type: "mcq",
             deviceRequired: "any",
@@ -4873,7 +4908,7 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
             estimatedMinutes: 6,
             questions: [
               {
-                id: "w3q4l1_q1",
+                id: "w4q4l1_q1",
                 text: "You measure firing rates from 40 neurons. Mean = 15 Hz, std = 6 Hz. What is the standard error of the mean (SEM)?",
                 options: ["6 Hz", "0.15 Hz", "0.95 Hz", "1.5 Hz"],
                 correctIndex: 2,
@@ -4881,7 +4916,7 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
                 neuroConnection: "NMA plots always show error bars as SEM (±1 SEM) to show how precisely the mean was estimated.",
               },
               {
-                id: "w3q4l1_q2",
+                id: "w4q4l1_q2",
                 text: "You run 100 statistical tests and use p < 0.05 as threshold. How many false positives do you expect by chance?",
                 options: ["0", "1", "5", "50"],
                 correctIndex: 2,
@@ -4889,7 +4924,7 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
                 neuroConnection: "NMA tutorials explicitly cover Bonferroni correction and FDR for neural population analyses with many neurons.",
               },
               {
-                id: "w3q4l1_q3",
+                id: "w4q4l1_q3",
                 text: "A distribution has mean=0 and variance=1. What is its standard deviation?",
                 options: ["0", "0.5", "1", "2"],
                 correctIndex: 2,
@@ -4902,298 +4937,6 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
       },
     ],
   },
-
-  // ─── World 4: Neuro Jungle ─────────────────────────────────
-  {
-    id: "world4",
-    number: 4,
-    title: "Neuro Jungle",
-    subtitle: "Neurons, spikes, and brain signals",
-    emoji: "🌴",
-    color: "#22C55E",
-    colorDark: "#15803D",
-    totalXP: 300,
-    quests: [
-      // ── Quest 4.1 — The Neuron ────────────────────────────
-      {
-        id: "w4q1",
-        worldId: "world4",
-        number: 1,
-        title: "The Neuron",
-        description: "Biology first — what you're modelling",
-        totalXP: 30,
-        lessons: [
-          {
-            id: "w4q1l1",
-            questId: "w4q1",
-            worldId: "world4",
-            title: "Anatomy of a Neuron",
-            type: "concept",
-            deviceRequired: "any",
-            xpReward: 10,
-            estimatedMinutes: 3,
-            concept: [
-              {
-                type: "highlight",
-                content: "A neuron receives signals through dendrites, integrates them in the cell body (soma), and sends an output spike down the axon.",
-              },
-              {
-                type: "text",
-                content: "The key parts:\n• **Dendrites** — branches that receive inputs from other neurons\n• **Soma** — the cell body that sums all inputs\n• **Axon** — the long cable that sends the output\n• **Synapse** — the gap between neurons where signals transfer",
-              },
-              {
-                type: "text",
-                content: "The **resting membrane potential** is about **–70 mV**. When enough excitatory inputs arrive, the membrane depolarizes toward the **threshold** of about –55 mV, triggering an action potential (spike).",
-              },
-              {
-                type: "formula",
-                content: "V_rest ≈ –70 mV    V_threshold ≈ –55 mV\nV_peak ≈ +40 mV",
-                caption: "Key voltages every computational neuroscientist knows.",
-              },
-              {
-                type: "highlight",
-                content: "🦌 Ilya says: NMA models neurons as voltage variables. Knowing the biology makes the math intuitive — V is always the membrane potential.",
-              },
-            ],
-          },
-          {
-            id: "w4q1l2",
-            questId: "w4q1",
-            worldId: "world4",
-            title: "Quiz: Neuron Anatomy",
-            type: "mcq",
-            deviceRequired: "any",
-            xpReward: 15,
-            estimatedMinutes: 3,
-            questions: [
-              {
-                id: "w4q1l2_q1",
-                text: "What is the approximate resting membrane potential of a neuron?",
-                options: ["0 mV", "+40 mV", "–70 mV", "–55 mV"],
-                correctIndex: 2,
-                explanation: "Resting potential is ~–70 mV. Threshold is ~–55 mV. Peak of action potential is ~+40 mV.",
-                neuroConnection: "NMA LIF models always initialize voltage at V_rest = –70 mV before the simulation begins.",
-              },
-              {
-                id: "w4q1l2_q2",
-                text: "Which part of the neuron SENDS the output signal?",
-                options: ["Dendrite", "Soma", "Axon", "Synapse"],
-                correctIndex: 2,
-                explanation: "The axon carries the action potential away from the soma to downstream neurons. Dendrites receive; axons send.",
-                neuroConnection: "In NMA network models, 'connections' are axonal projections — the weight matrix represents axon → dendrite strength.",
-              },
-            ],
-          },
-        ],
-      },
-
-      // ── Quest 4.2 — Action Potentials ─────────────────────
-      {
-        id: "w4q2",
-        worldId: "world4",
-        number: 2,
-        title: "Action Potentials",
-        description: "The spike — a neuron's only output",
-        totalXP: 35,
-        lessons: [
-          {
-            id: "w4q2l1",
-            questId: "w4q2",
-            worldId: "world4",
-            title: "The Action Potential",
-            type: "concept",
-            deviceRequired: "any",
-            xpReward: 10,
-            estimatedMinutes: 3,
-            concept: [
-              {
-                type: "highlight",
-                content: "An action potential (spike) is an all-or-none electrical signal. The neuron either fires fully or not at all — there's no 'half spike'.",
-              },
-              {
-                type: "text",
-                content: "Sequence of events:\n1. Voltage rises to threshold (–55 mV)\n2. Na⁺ channels open → rapid **depolarization** to +40 mV\n3. K⁺ channels open → rapid **repolarization** back to –70 mV\n4. Brief **hyperpolarization** (refractory period: ~2 ms)\n5. Return to rest — ready to fire again",
-              },
-              {
-                type: "text",
-                content: "The **refractory period** limits how fast a neuron can fire — maximum ~500 Hz, but typical rates are 1–100 Hz. Information is encoded in the **timing** and **rate** of spikes.",
-              },
-              {
-                type: "highlight",
-                content: "🦌 Ilya says: NMA records spikes as 0/1 arrays — 1 means a spike occurred in that millisecond bin. You'll process millions of these!",
-              },
-            ],
-          },
-          {
-            id: "w4q2l2",
-            questId: "w4q2",
-            worldId: "world4",
-            title: "Spike Trains & Firing Rates",
-            type: "concept",
-            deviceRequired: "any",
-            xpReward: 15,
-            estimatedMinutes: 4,
-            concept: [
-              {
-                type: "highlight",
-                content: "A spike train is a time series of 0s and 1s. The firing rate is the average number of spikes per second (Hz).",
-              },
-              {
-                type: "code",
-                content: "import numpy as np\n\n# Spike train: 1 second, 1ms bins\ndt = 0.001        # 1 ms time step\nt  = np.arange(0, 1.0, dt)   # 1000 time bins\n\n# Poisson neuron at 40 Hz\nfiring_rate = 40  # Hz\nspikes = np.random.poisson(firing_rate * dt, len(t))\n\nprint(f'Total spikes: {spikes.sum()}')  # ≈ 40\nprint(f'Firing rate: {spikes.sum() / 1.0:.1f} Hz')",
-                caption: "Poisson spike train — the standard NMA neural noise model.",
-              },
-              {
-                type: "text",
-                content: "To estimate firing rate from spikes, use a **sliding window** (bin the spikes and divide by the window size). Wider windows → smoother rate, less temporal precision.",
-              },
-              {
-                type: "highlight",
-                content: "🦌 Ilya says: The Poisson process is the standard model for spike generation in NMA. Spikes are random — the rate parameter carries the signal.",
-              },
-            ],
-          },
-        ],
-      },
-
-      // ── Quest 4.3 — LIF Neuron Model ──────────────────────
-      {
-        id: "w4q3",
-        worldId: "world4",
-        number: 3,
-        title: "The LIF Neuron Model",
-        description: "Simulate a real neuron with 10 lines of Python",
-        totalXP: 45,
-        lessons: [
-          {
-            id: "w4q3l1",
-            questId: "w4q3",
-            worldId: "world4",
-            title: "Leaky Integrate-and-Fire",
-            type: "concept",
-            deviceRequired: "any",
-            xpReward: 15,
-            estimatedMinutes: 5,
-            concept: [
-              {
-                type: "highlight",
-                content: "The Leaky Integrate-and-Fire (LIF) model is the workhorse of NMA. It integrates inputs, leaks voltage back to rest, and fires when threshold is crossed.",
-              },
-              {
-                type: "formula",
-                content: "τ_m · dV/dt = -(V - V_rest) + R·I(t)",
-                caption: "τ_m = membrane time constant (~10ms), R = resistance, I = input current.",
-              },
-              {
-                type: "code",
-                content: "import numpy as np\n\n# LIF parameters\ndt     = 0.001    # 1 ms time step\nV_rest = -0.070   # –70 mV\nV_thr  = -0.055   # –55 mV\ntau_m  = 0.010    # 10 ms time constant\nR      = 10e6     # 10 MΩ resistance\nI_ext  = 3e-9     # 3 nA input current\n\nV = V_rest        # start at rest\nspikes = []\n\nfor t in np.arange(0, 0.5, dt):\n    dV = dt/tau_m * (-(V - V_rest) + R*I_ext)\n    V += dV\n    if V >= V_thr:\n        spikes.append(t)\n        V = V_rest   # reset after spike\n\nprint(f'{len(spikes)} spikes in 500 ms')",
-                caption: "Full LIF simulation — this exact code appears in NMA tutorials!",
-              },
-              {
-                type: "highlight",
-                content: "🦌 Ilya says: This is THE model in NMA Week 1. When you see it in the tutorial, you'll think 'I already know this!'",
-              },
-            ],
-          },
-          {
-            id: "w4q3l2",
-            questId: "w4q3",
-            worldId: "world4",
-            title: "Quiz: LIF Model",
-            type: "mcq",
-            deviceRequired: "any",
-            xpReward: 20,
-            estimatedMinutes: 4,
-            questions: [
-              {
-                id: "w4q3l2_q1",
-                text: "In the LIF model, what happens to voltage V after a spike?",
-                options: ["It continues rising", "It resets to V_rest", "It stays at threshold", "It goes to zero"],
-                correctIndex: 1,
-                explanation: "After a spike, V resets to V_rest (–70 mV). This simulates the after-hyperpolarization.",
-                neuroConnection: "Every NMA LIF simulation has `if V >= V_thr: V = V_rest` — the reset condition.",
-              },
-              {
-                id: "w4q3l2_q2",
-                text: "The 'leaky' in LIF means:",
-                options: [
-                  "The neuron occasionally fires without input",
-                  "Voltage naturally decays toward V_rest when there's no input",
-                  "Some input current is lost",
-                  "The threshold slowly decreases over time",
-                ],
-                correctIndex: 1,
-                explanation: "The -(V - V_rest) term pulls voltage back to rest. Without input, V leaks back to V_rest exponentially.",
-                neuroConnection: "The leak is the τ_m term. Longer τ_m = slower leak = better memory of past inputs. This tunes neuron sensitivity.",
-              },
-              {
-                id: "w4q3l2_q3",
-                text: "Doubling the input current I_ext will:",
-                options: [
-                  "Double the firing rate exactly",
-                  "Increase the firing rate (not necessarily double)",
-                  "Have no effect on firing rate",
-                  "Stop the neuron from firing",
-                ],
-                correctIndex: 1,
-                explanation: "More current → faster charging → reaches threshold sooner → higher rate. But the relationship isn't always linear due to the leak.",
-                neuroConnection: "The I-F (current-frequency) curve is a fundamental NMA plot — it shows how input current drives firing rate.",
-              },
-            ],
-          },
-        ],
-      },
-
-      // ── Quest 4.4 — Boss Battle ───────────────────────────
-      {
-        id: "w4q4",
-        worldId: "world4",
-        number: 4,
-        title: "Boss Battle: Build a Neuron",
-        description: "Prove you can think like a computational neuroscientist",
-        totalXP: 50,
-        lessons: [
-          {
-            id: "w4q4l1",
-            questId: "w4q4",
-            worldId: "world4",
-            title: "Boss: Neuron Mastery",
-            type: "mcq",
-            deviceRequired: "any",
-            xpReward: 25,
-            estimatedMinutes: 6,
-            questions: [
-              {
-                id: "w4q4l1_q1",
-                text: "A Poisson neuron fires at 50 Hz. In a 100 ms window (dt=1ms), how many spikes do you expect?",
-                options: ["50", "0.5", "5", "500"],
-                correctIndex: 2,
-                explanation: "50 spikes/sec × 0.1 sec = 5 expected spikes. Or: 50 Hz × 0.001 s/bin × 100 bins = 5.",
-                neuroConnection: "Computing expected spike counts per trial is the first step of every NMA firing rate analysis.",
-              },
-              {
-                id: "w4q4l1_q2",
-                text: "A neuron's spike train is [0,0,1,0,1,1,0,0,0,1] (10 ms window). What is its firing rate?",
-                options: ["40 Hz", "400 Hz", "4 Hz", "0.4 Hz"],
-                correctIndex: 1,
-                explanation: "4 spikes in 10 ms = 4 / 0.010 s = 400 Hz. Spike rate = count / window_duration.",
-                neuroConnection: "This exact calculation — spikes.sum() / window_duration — computes instantaneous firing rate in NMA.",
-              },
-              {
-                id: "w4q4l1_q3",
-                text: "Membrane time constant τ_m = 10 ms. If I turn off all input, how long until V decays to ~37% of its initial deviation from rest?",
-                options: ["1 ms", "10 ms", "37 ms", "100 ms"],
-                correctIndex: 1,
-                explanation: "τ_m is the time constant of exponential decay. After 1τ, the voltage decays to 1/e ≈ 37% of its starting value.",
-                neuroConnection: "Understanding τ_m helps predict how long a neuron 'remembers' a brief input — crucial for NMA temporal dynamics.",
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  },
-
   // ─── World 5: Computation Caves ───────────────────────────
   {
     id: "world5",
