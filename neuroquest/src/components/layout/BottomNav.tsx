@@ -9,6 +9,7 @@ const ACCENT = "#00DCFF";
 const NAV_ITEMS = [
   { href: "/home",    label: "Home",   emoji: "🏠" },
   { href: "/map",     label: "Map",    emoji: "🗺️" },
+  { href: "/facts",   label: "Sparks", emoji: "⚡" },
   { href: "/review",  label: "Review", emoji: "🔄" },
   { href: "/profile", label: "Me",     emoji: "👤" },
 ];
