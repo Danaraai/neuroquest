@@ -3401,7 +3401,7 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
     id: "world2",
     number: 2,
     title: "Simulate a Neuron",
-    subtitle: "Simulate a real LIF neuron — the same model used at NMA",
+    subtitle: "Use Python to simulate neuron spikes. The same model used in NMA course.",
     emoji: "🧪",
     color: "#1CB0F6",
     colorDark: "#1899D6",
