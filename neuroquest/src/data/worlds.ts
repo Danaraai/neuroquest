@@ -4630,27 +4630,71 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
     emoji: "⛰️",
     color: "#F97316",
     colorDark: "#C2410C",
-    totalXP: 300,
+    totalXP: 600,
     quests: [
-      // ── Quest 3.1 — Linear Algebra ─────────────────────────
+      // ── Quest 3.1 — Vectors (W0D3 T1) ─────────────────────
       {
         id: "w3q1",
         worldId: "world3",
         number: 1,
-        title: "Linear Algebra",
-        description: "Vectors, matrices, and the geometry behind neural data",
-        totalXP: 150,
+        title: "Vectors",
+        description: "Direction, magnitude, and the building block of all linear algebra",
+        totalXP: 100,
         lessons: [],
       },
 
-      // ── Quest 3.2 — Calculus ───────────────────────────────
+      // ── Quest 3.2 — Matrices (W0D3 T2) ────────────────────
       {
         id: "w3q2",
         worldId: "world3",
         number: 2,
-        title: "Calculus",
-        description: "Derivatives, integrals, and how models learn",
-        totalXP: 150,
+        title: "Matrices",
+        description: "Grids of numbers that rotate, scale, and transform neural data",
+        totalXP: 100,
+        lessons: [],
+      },
+
+      // ── Quest 3.3 — Discrete Dynamical Systems (W0D3 Bonus)
+      {
+        id: "w3q3",
+        worldId: "world3",
+        number: 3,
+        title: "Discrete Dynamical Systems",
+        description: "How systems evolve step by step — the math of neural circuits",
+        totalXP: 100,
+        lessons: [],
+      },
+
+      // ── Quest 3.4 — Differentiation & Integration (W0D4 T1)
+      {
+        id: "w3q4",
+        worldId: "world3",
+        number: 4,
+        title: "Differentiation & Integration",
+        description: "Rates of change and area under the curve — the core of calculus",
+        totalXP: 100,
+        lessons: [],
+      },
+
+      // ── Quest 3.5 — Differential Equations (W0D4 T2) ──────
+      {
+        id: "w3q5",
+        worldId: "world3",
+        number: 5,
+        title: "Differential Equations",
+        description: "Equations that describe how things change — like a neuron's voltage",
+        totalXP: 100,
+        lessons: [],
+      },
+
+      // ── Quest 3.6 — Numerical Methods (W0D4 T3) ───────────
+      {
+        id: "w3q6",
+        worldId: "world3",
+        number: 6,
+        title: "Numerical Methods",
+        description: "When calculus gets too hard — let the computer solve it step by step",
+        totalXP: 100,
         lessons: [],
       },
     ],
