@@ -4639,8 +4639,662 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
         number: 1,
         title: "Vectors",
         description: "Direction, magnitude, and the building block of all linear algebra",
-        totalXP: 100,
-        lessons: [],
+        totalXP: 200,
+        lessons: [
+
+          // ── L1: What Is a Vector? ──────────────────────────
+          {
+            id: "w3q1l1",
+            questId: "w3q1",
+            worldId: "world3",
+            title: "What Is a Vector?",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 3,
+            concept: [
+              {
+                type: "highlight",
+                content: "A vector is two things at once: an **ordered list of numbers** AND an **arrow in space**. Same object, two ways to see it.",
+              },
+              {
+                type: "text",
+                content: "Imagine you record three neurons while a mouse looks at a dog. You measure their firing rates:\n\n• Neuron 1 fires at **10 Hz**\n• Neuron 2 fires at **50 Hz**\n• Neuron 3 fires at **2 Hz**\n\nYou can organize this as a vector: **[10, 50, 2]**. Each number is one neuron — one **component**. Because there are 3 neurons, this is a **3-dimensional vector**.",
+              },
+              {
+                type: "text",
+                content: "You can also draw this as an **arrow in space**. Imagine a 3D plot where each axis is one neuron's firing rate. The arrow points to the spot (10, 50, 2). The whole arrow describes the state of the **entire population** at that moment.",
+              },
+              {
+                type: "code",
+                content: "import numpy as np\n\n# Three neurons firing at different rates\nfiring_rates = np.array([10, 50, 2])  # Hz\n\nprint(firing_rates)        # [10 50  2]\nprint(firing_rates[0])     # 10 — neuron 1\nprint(firing_rates[1])     # 50 — neuron 2\nprint(len(firing_rates))   # 3 — dimensionality",
+                caption: "np.array() is how you create vectors in Python. Index with [0], [1], [2] to get individual components.",
+              },
+              {
+                type: "highlight",
+                content: "Key vocab: **component** = one number in the vector (= one neuron's rate). **Dimensionality** = how many components (= how many neurons you recorded).",
+              },
+            ],
+          },
+
+          // ── L2: Vector Length ──────────────────────────────
+          {
+            id: "w3q1l2",
+            questId: "w3q1",
+            worldId: "world3",
+            title: "Vector Length",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 3,
+            concept: [
+              {
+                type: "text",
+                content: "Before we can do anything useful with vectors — compare them, combine them, find angles between them — we need to know how to **measure** them. Length is the ruler. That's it. You'll need it for normalization and for the dot product later.",
+              },
+              {
+                type: "text",
+                content: "Take 2 neurons: neuron 1 fires at 3 Hz, neuron 2 fires at 4 Hz → vector **[3, 4]**. Draw it as an arrow on a 2D plot. How long is that arrow?\n\nIt's exactly the same as the hypotenuse of a right triangle — the Pythagorean theorem you know from school:\n\n**Length = √(3² + 4²) = √(9 + 16) = √25 = 5**",
+              },
+              {
+                type: "formula",
+                content: "‖v‖ = √(v₁² + v₂² + ... + vₙ²)\n\nThe length of any vector = square root of the sum of all components squared.",
+                caption: "Same Pythagorean theorem, extended to N dimensions.",
+              },
+              {
+                type: "code",
+                content: "import numpy as np\n\n# 2 neurons: one fires at 3 Hz, one at 4 Hz\nv = np.array([3, 4])\n\nlength = np.linalg.norm(v)\nprint(length)  # 5.0\n\n# Works for any number of neurons\nfiring_rates = np.array([10, 50, 2])\nprint(np.linalg.norm(firing_rates))  # ≈ 51.0",
+                caption: "np.linalg.norm() computes vector length. 'linalg' = linear algebra, 'norm' = length.",
+              },
+            ],
+          },
+
+          // ── L3: Why Normalize? ─────────────────────────────
+          {
+            id: "w3q1l3",
+            questId: "w3q1",
+            worldId: "world3",
+            title: "Why Normalize?",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 3,
+            concept: [
+              {
+                type: "highlight",
+                content: "WHY: You run two experiments recording the same neurons — but the second session used louder sounds, so ALL firing rates are 3× higher. The **pattern** (which neurons fire more) is identical. The **intensity** is different. To compare patterns, you remove the magnitude.",
+              },
+              {
+                type: "text",
+                content: "That's normalization: divide every component by the vector's length. The result is a **unit vector** — same direction, length = exactly 1.\n\n**Key insight from NMA:** Normalizing does NOT change direction. The arrow still points the same way — it just gets shrunk to length 1.",
+              },
+              {
+                type: "formula",
+                content: "x̂ = x / ‖x‖\n\nDivide each component by the length → unit vector with length 1.",
+                caption: "x̂ is pronounced 'x-hat'. The hat symbol means 'unit vector'.",
+              },
+              {
+                type: "code",
+                content: "import numpy as np\n\nv = np.array([3, 4])           # length = 5\nv_unit = v / np.linalg.norm(v) # normalize\n\nprint(v_unit)                  # [0.6, 0.8]\nprint(np.linalg.norm(v_unit))  # 1.0 — always 1 after normalization",
+                caption: "After normalization, np.linalg.norm() always returns 1.0.",
+              },
+              {
+                type: "text",
+                content: "Session A neurons: **[10, 50, 2]** (quiet lab)\nSession B neurons: **[30, 150, 6]** (loud lab — 3× everything)\n\nBoth normalize to the same unit vector → you can now compare the pattern of activity, not the volume.",
+              },
+            ],
+          },
+
+          // ── L4: MCQ — Vectors & Length ────────────────────
+          {
+            id: "w3q1l4",
+            questId: "w3q1",
+            worldId: "world3",
+            title: "Quiz: Vectors & Length",
+            type: "mcq",
+            deviceRequired: "any",
+            xpReward: 15,
+            estimatedMinutes: 3,
+            questions: [
+              {
+                id: "w3q1l4_q1",
+                text: "Three neurons fire at 5, 0, and 12 Hz. Which Python line correctly stores this as a vector?",
+                options: [
+                  "v = [5, 0, 12]",
+                  "v = np.array([5, 0, 12])",
+                  "v = np.vector([5, 0, 12])",
+                  "v = np.matrix([5, 0, 12])",
+                ],
+                correctIndex: 1,
+                explanation: "np.array() is the correct way to create a NumPy vector. A plain Python list [5,0,12] exists but lacks the math operations you need (norm, dot product, etc.).",
+                neuroConnection: "All NMA tutorials store neural data as NumPy arrays — this is the first line of almost every notebook.",
+              },
+              {
+                id: "w3q1l4_q2",
+                text: "Neuron 1 fires at 3 Hz, Neuron 2 fires at 4 Hz → vector [3, 4]. What is its length?",
+                options: ["7", "5", "3.5", "25"],
+                correctIndex: 1,
+                explanation: "‖[3,4]‖ = √(3²+4²) = √(9+16) = √25 = 5. This is the Pythagorean theorem: the arrow from the origin to (3,4) has hypotenuse length 5.",
+                neuroConnection: "Vector length measures the overall intensity of a neural response across a population.",
+              },
+              {
+                id: "w3q1l4_q3",
+                text: "You record the same neurons in two sessions. Session B had louder stimuli — all firing rates tripled. You want to compare the PATTERN of activity, not the intensity. What do you do?",
+                options: [
+                  "Multiply session A by 3",
+                  "Normalize both vectors to unit vectors",
+                  "Take the average of both sessions",
+                  "Subtract the mean firing rate",
+                ],
+                correctIndex: 1,
+                explanation: "Normalizing removes the magnitude (intensity) while preserving direction (pattern). Both vectors point the same direction — normalization makes that obvious.",
+                neuroConnection: "Normalization is used in NMA when comparing neural responses across sessions, animals, or stimuli with different baseline firing rates.",
+              },
+            ],
+          },
+
+          // ── L5: Fillin — Normalization in Code ────────────
+          {
+            id: "w3q1l5",
+            questId: "w3q1",
+            worldId: "world3",
+            title: "Code: Normalize It",
+            type: "fillin",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 2,
+            fillQuestions: [
+              {
+                id: "w3q1l5_q1",
+                prompt: "v = [3, 4]. What does np.linalg.norm(v) return? Type the number.",
+                codeTemplate: "v = np.array([3, 4])\nresult = np.linalg.norm(v)\n# result = ___",
+                answer: "5",
+                explanation: "‖[3,4]‖ = √(9+16) = √25 = 5. The Pythagorean theorem in one function call.",
+              },
+              {
+                id: "w3q1l5_q2",
+                prompt: "Fill in the blank to normalize vector v:",
+                codeTemplate: "v = np.array([4, 3])\nv_unit = v / ___\n# v_unit should have length 1",
+                answer: "np.linalg.norm(v)",
+                explanation: "Divide each component by the length. np.linalg.norm(v) = 5 for [4,3], so v_unit = [0.8, 0.6] — a unit vector pointing the same direction.",
+              },
+            ],
+          },
+
+          // ── L6: Scalar Multiplication ─────────────────────
+          {
+            id: "w3q1l6",
+            questId: "w3q1",
+            worldId: "world3",
+            title: "Scalar Multiplication",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 3,
+            concept: [
+              {
+                type: "highlight",
+                content: "WHY: Synaptic strength controls how much one neuron's signal affects another. A strong excitatory synapse triples the effect. An inhibitory synapse flips it negative. That scaling IS scalar multiplication.",
+              },
+              {
+                type: "text",
+                content: "A **scalar** is just a single number. When you multiply a vector by a scalar, you multiply every component by that number:\n\n• Strong synapse (×3): **[2, 1] → [6, 3]** — signal amplified\n• Weak synapse (×0.1): **[2, 1] → [0.2, 0.1]** — signal dampened\n• Inhibitory neuron (×−1): **[2, 1] → [−2, −1]** — signal flipped",
+              },
+              {
+                type: "text",
+                content: "**What changes and what doesn't:**\n\n✅ Length changes (stronger or weaker)\n✅ Direction flips if the scalar is negative (inhibition)\n❌ Direction does NOT change for positive scalars",
+              },
+              {
+                type: "code",
+                content: "import numpy as np\n\nretinal_signal = np.array([2, 1])  # firing rates\n\nprint(3 * retinal_signal)          # [6, 3]  — strong synapse\nprint(-1 * retinal_signal)         # [-2, -1] — inhibitory\nprint(0.5 * retinal_signal)        # [1.0, 0.5] — weak synapse",
+                caption: "Python: multiply a NumPy array by any number and every component scales.",
+              },
+            ],
+          },
+
+          // ── L7: Vector Addition ────────────────────────────
+          {
+            id: "w3q1l7",
+            questId: "w3q1",
+            worldId: "world3",
+            title: "Vector Addition",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 3,
+            concept: [
+              {
+                type: "highlight",
+                content: "WHY: A real neuron doesn't receive input from just one source. Your visual cortex receives signals from your left eye AND your right eye. Both arrive and add together. That combining IS vector addition.",
+              },
+              {
+                type: "text",
+                content: "When adding two vectors, you add **corresponding components** — component by component:\n\nLeft eye input: **[10, 5, 2]**\nRight eye input: **[3, 8, 1]**\nTotal input:     **[13, 13, 3]**",
+              },
+              {
+                type: "text",
+                content: "Geometrically, vector addition is **tip-to-tail**: place the base of the second arrow at the tip of the first. The resulting vector goes from the origin to where you end up.",
+              },
+              {
+                type: "code",
+                content: "import numpy as np\n\nleft_eye  = np.array([10, 5, 2])\nright_eye = np.array([3, 8, 1])\n\ntotal_input = left_eye + right_eye\nprint(total_input)  # [13, 13,  3]",
+                caption: "NumPy addition is component-wise. No loops needed — Python handles it automatically.",
+              },
+            ],
+          },
+
+          // ── L8: Linear Combinations ────────────────────────
+          {
+            id: "w3q1l8",
+            questId: "w3q1",
+            worldId: "world3",
+            title: "Linear Combinations",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 4,
+            concept: [
+              {
+                type: "highlight",
+                content: "This is the most important concept in linear algebra for neuroscience. A linear combination = scale some vectors, then add them. That's it. But it shows up everywhere.",
+              },
+              {
+                type: "text",
+                content: "**WHY 1 — Every neuron computes one.**\n\nThe LGN (Lateral Geniculate Nucleus) is your brain's first visual relay station — it sits between your eyes and visual cortex. One LGN neuron receives signals from 3 retinal neurons with synaptic weights [4, 3, 1]. If those neurons fire at [10, 5, 2] Hz:\n\nLGN output = 4×10 + 3×5 + 1×2 = **57**\n\nThat sum of (weight × signal) across all inputs IS a linear combination.",
+              },
+              {
+                type: "text",
+                content: "**WHY 2 — PCA uses linear combinations to make neural data visible.**\n\nYou record 100 neurons. You cannot plot 100 dimensions — humans see in 3D. But neurons are correlated: groups fire together. PCA finds 3 'summary directions,' each one a specific weighted mix of all 100 neurons, that captures most of the information. Now you can plot it. Linear combinations are how you compress without losing what matters.",
+              },
+              {
+                type: "text",
+                content: "**WHY 3 — Every AI does this too.**\n\nWhen GPT processes a word, it turns it into a vector of ~1000 numbers. At each layer, it computes a weighted sum of those 1000 numbers — multiplying each by a learned weight and adding up. The weights are what the network learned during training. This is exactly what a biological neuron does. Linear algebra is the shared language of both brains and AI.",
+              },
+              {
+                type: "formula",
+                content: "u = c₁v₁ + c₂v₂ + ... + cₙvₙ\n\nScale each vector by its coefficient, then sum everything up.",
+                caption: "c₁, c₂... are the weights/coefficients. v₁, v₂... are the input vectors.",
+              },
+              {
+                type: "code",
+                content: "import numpy as np\n\n# Standard basis vectors (the x and y axes)\nv1 = np.array([1, 0])\nv2 = np.array([0, 1])\n\n# Linear combination: 2 units along x, 3 units along y\nu = 2*v1 + 3*v2\nprint(u)  # [2, 3]\n\n# LGN neuron: weights × retinal firing rates\nweights      = np.array([4, 3, 1])\nfiring_rates = np.array([10, 5, 2])\noutput = np.sum(weights * firing_rates)\nprint(output)  # 57",
+                caption: "The LGN computation is just weights × inputs summed up — a linear combination.",
+              },
+            ],
+          },
+
+          // ── L9: MCQ — Vector Operations ───────────────────
+          {
+            id: "w3q1l9",
+            questId: "w3q1",
+            worldId: "world3",
+            title: "Quiz: Vector Operations",
+            type: "mcq",
+            deviceRequired: "any",
+            xpReward: 15,
+            estimatedMinutes: 3,
+            questions: [
+              {
+                id: "w3q1l9_q1",
+                text: "An inhibitory interneuron suppresses a downstream neuron's signal. In vector terms, its synaptic weight does what?",
+                options: [
+                  "Adds a positive vector",
+                  "Multiplies the signal by a negative scalar",
+                  "Normalizes the signal",
+                  "Computes the dot product",
+                ],
+                correctIndex: 1,
+                explanation: "Inhibitory synapses have negative weights — they flip the signal direction. Multiplying a vector by a negative scalar reverses it: [2,1] × -1 = [-2,-1].",
+                neuroConnection: "GABA-ergic interneurons are the inhibitory neurons in the cortex — they scale signals negatively, which is critical for controlling circuit excitability.",
+              },
+              {
+                id: "w3q1l9_q2",
+                text: "v1 = np.array([1, 2]), v2 = np.array([3, 4]). What is v1 + v2?",
+                options: [
+                  "np.array([4, 6])",
+                  "np.array([3, 8])",
+                  "np.array([2, 6])",
+                  "np.array([4, 8])",
+                ],
+                correctIndex: 0,
+                explanation: "[1+3, 2+4] = [4, 6]. Vector addition is component-wise: add the first components, then the second components.",
+                neuroConnection: "Combining input from two populations (e.g., left and right eye) is vector addition.",
+              },
+              {
+                id: "w3q1l9_q3",
+                text: "An LGN neuron receives inputs from 3 retinal neurons with weights [4, 3, 1] and firing rates [10, 5, 2]. Its output is:",
+                options: ["55", "57", "60", "45"],
+                correctIndex: 1,
+                explanation: "4×10 + 3×5 + 1×2 = 40 + 15 + 2 = 57. This weighted sum is a linear combination.",
+                neuroConnection: "Every neuron in the visual pathway computes this exact operation — synaptic weights scale each input, then everything sums.",
+              },
+            ],
+          },
+
+          // ── L10: Fillin — Operations in Code ──────────────
+          {
+            id: "w3q1l10",
+            questId: "w3q1",
+            worldId: "world3",
+            title: "Code: Scale & Add",
+            type: "fillin",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 2,
+            fillQuestions: [
+              {
+                id: "w3q1l10_q1",
+                prompt: "What does 3 * v return? Type: [___, ___]",
+                codeTemplate: "v = np.array([2, 5])\nresult = 3 * v\n# result = ___",
+                answer: "[6, 15]",
+                explanation: "Scalar multiplication scales every component: 3×2=6, 3×5=15. This models a synapse 3× stronger than normal.",
+              },
+              {
+                id: "w3q1l10_q2",
+                prompt: "What does x + y return? Type: [___, ___]",
+                codeTemplate: "x = np.array([1, 3])\ny = np.array([4, 2])\nresult = x + y\n# result = ___",
+                answer: "[5, 5]",
+                explanation: "Component-wise addition: [1+4, 3+2] = [5, 5]. Like combining signals from two neural populations.",
+              },
+            ],
+          },
+
+          // ── L11: Span & Linear Independence ───────────────
+          {
+            id: "w3q1l11",
+            questId: "w3q1",
+            worldId: "world3",
+            title: "Span & Linear Independence",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 4,
+            concept: [
+              {
+                type: "highlight",
+                content: "WHY: If you record 50 neurons, you might expect 50-dimensional data. But neurons are correlated — groups fire together. The data actually only lives in a few independent dimensions. Knowing how many truly independent directions exist is the foundation of PCA.",
+              },
+              {
+                type: "text",
+                content: "Think of a 50-piece orchestra. Each musician could theoretically play anything independently. But they follow the same conductor and sheet music — so instead of 50 independent sounds, there are maybe only 4 sections (strings, brass, woodwind, percussion) moving somewhat independently. 50 musicians, but only ~4 independent dimensions of variation.",
+              },
+              {
+                type: "text",
+                content: "Same with neurons. Groups fire together because they receive similar inputs and are connected. The data might have 50 neurons but only move along 3, 5, or 8 truly independent directions.\n\n**Span:** all the points you can reach using linear combinations of a set of vectors.\n\n**Linearly independent:** two vectors are independent if neither is just a scaled copy of the other. They point in genuinely different directions.\n\n**Linearly dependent:** one IS a scaled copy — they carry redundant information.",
+              },
+              {
+                type: "text",
+                content: "Example: two neurons that ALWAYS fire at exactly double each other's rate.\n\nNeuron A = [1, 2, 3], Neuron B = [2, 4, 6] = 2 × Neuron A\n\nThey are **linearly dependent** — they always move together. Together they only span a 1D line, not 2D space. You're not getting independent information from both.",
+              },
+              {
+                type: "highlight",
+                content: "Real neural data almost always lives on a low-dimensional subspace — far fewer dimensions than neurons. This is why PCA works. The brain is not using all available dimensions.",
+              },
+            ],
+          },
+
+          // ── L12: Basis Vectors & Vector Spaces ────────────
+          {
+            id: "w3q1l12",
+            questId: "w3q1",
+            worldId: "world3",
+            title: "Basis Vectors & Vector Spaces",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 4,
+            concept: [
+              {
+                type: "highlight",
+                content: "WHY: Normal brain data uses 'neuron space' — each axis is one neuron. PCA finds a BETTER basis where each axis represents a pattern of population activity. Same data, different coordinate system — suddenly the structure becomes visible.",
+              },
+              {
+                type: "text",
+                content: "The **standard basis** in 2D is the axes you already know:\n\n• **e₁ = [1, 0]** — the x-axis\n• **e₂ = [0, 1]** — the y-axis\n\nWhen you say a point is at (4, 2), you mean: 4 units along e₁, 2 units along e₂. You've been using a basis all along.",
+              },
+              {
+                type: "text",
+                content: "A **basis** is any set of vectors that:\n1. Are **linearly independent** (no redundancy)\n2. **Span** the entire space (you can reach any point)\n\nYou need exactly **N basis vectors for N-dimensional space** — no more, no less.",
+              },
+              {
+                type: "text",
+                content: "**Vector space:** a set of vectors closed under linear combinations — adding or scaling any vectors in the set always gives you another vector still in the set. ℝ¹, ℝ², ℝ³ are all vector spaces.\n\n**Subspace:** a smaller space inside a bigger one. Example: a plane through the origin inside 3D space is a valid subspace (linear combinations of vectors on the plane always stay on the plane). A plane NOT through the origin is NOT a subspace.\n\n**Neural meaning:** population activity typically lives on a low-dimensional subspace of the full neuron space. PCA finds the axes of that subspace.",
+              },
+              {
+                type: "highlight",
+                content: "Switching to a better basis = PCA. Same data points, different axes — axes that align with how the population actually varies. A cleaner picture of what the brain is doing.",
+              },
+            ],
+          },
+
+          // ── L13: MCQ — Span, Basis & Spaces ───────────────
+          {
+            id: "w3q1l13",
+            questId: "w3q1",
+            worldId: "world3",
+            title: "Quiz: Span, Basis & Spaces",
+            type: "mcq",
+            deviceRequired: "any",
+            xpReward: 15,
+            estimatedMinutes: 3,
+            questions: [
+              {
+                id: "w3q1l13_q1",
+                text: "You record 50 neurons, but their activity only varies along a few independent directions. This means:",
+                options: [
+                  "You need 50 basis vectors to fully describe the data",
+                  "The neural data lives on a low-dimensional subspace",
+                  "The neurons are all linearly independent",
+                  "The span of the data is 50-dimensional",
+                ],
+                correctIndex: 1,
+                explanation: "Like the orchestra: 50 musicians, but only a few independent voices. The neural data lives in a much smaller subspace than 50D. This is why PCA can compress it.",
+                neuroConnection: "This is the central insight behind dimensionality reduction in NMA — real neural circuits are highly structured, not 50 random independent signals.",
+              },
+              {
+                id: "w3q1l13_q2",
+                text: "Two neurons always fire at exactly double each other's rate: A = [1,2,3], B = [2,4,6]. They are:",
+                options: [
+                  "Linearly independent",
+                  "Linearly dependent",
+                  "Orthogonal",
+                  "Unit vectors",
+                ],
+                correctIndex: 1,
+                explanation: "B = 2×A — one is a scaled copy of the other. They carry the same information in different magnitudes, not genuinely different dimensions.",
+                neuroConnection: "Redundant neurons in a circuit fire in lockstep — they're linearly dependent. They contribute only one independent dimension of information.",
+              },
+              {
+                id: "w3q1l13_q3",
+                text: "A line through the ORIGIN in 2D is a valid subspace. A line that does NOT pass through the origin — is it a valid vector space?",
+                options: [
+                  "Yes — it's still a line",
+                  "No — linear combinations can land off the line",
+                  "Yes — if the vectors are long enough",
+                  "No — it needs more dimensions",
+                ],
+                correctIndex: 1,
+                explanation: "Vector spaces must be closed under linear combinations. For a line not through the origin, scaling a vector by 0 gives [0,0] — the origin — which is OFF the line. So it fails.",
+                neuroConnection: "Neural population subspaces always include the origin (zero firing = rest). Subspaces that pass through the origin are the mathematically valid ones.",
+              },
+            ],
+          },
+
+          // ── L14: The Dot Product ───────────────────────────
+          {
+            id: "w3q1l14",
+            questId: "w3q1",
+            worldId: "world3",
+            title: "The Dot Product",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 4,
+            concept: [
+              {
+                type: "highlight",
+                content: "WHY: The dot product IS what a neuron computes. Every incoming signal gets multiplied by its synaptic weight, then everything sums to one number. That number determines whether the neuron fires. This operation appears in PCA, in neural decoding, and in every layer of every AI model.",
+              },
+              {
+                type: "text",
+                content: "The LGN (your brain's first visual relay, between eye and cortex) receives from 3 retinal neurons.\n\n• Retinal firing rates: **r = [15, 7, 3]** Hz\n• Synaptic weights: **w = [4, 3, 1]**\n• LGN activity: g = 4×15 + 3×7 + 1×3 = 60 + 21 + 3 = **84**\n\nThat sum of (weight × input) IS the dot product: **g = w · r**",
+              },
+              {
+                type: "formula",
+                content: "Algebraic definition:\nw · r = w₁r₁ + w₂r₂ + ... + wₙrₙ\n\nMultiply corresponding components, then sum everything up.\nResult: always a single number (a scalar).",
+                caption: "vector + vector → vector. scalar × vector → vector. vector · vector → scalar (one number).",
+              },
+              {
+                type: "formula",
+                content: "Geometric definition:\nw · r = ‖w‖ ‖r‖ cos(θ)\n\nθ = angle between the two vectors.",
+                caption: "Same result, geometric view. The dot product depends on lengths AND the angle between vectors.",
+              },
+              {
+                type: "text",
+                content: "**What the angle tells you:**\n\n• θ = 0° (same direction): cos(0°) = 1 → **maximum** — input pattern matches what the neuron 'prefers'\n• θ = 90° (perpendicular): cos(90°) = 0 → **no response** — the input is completely irrelevant to this neuron\n• θ = 180° (opposite): cos(180°) = −1 → **strongest inhibition**\n\nThe dot product is a **similarity measure** between two vectors.",
+              },
+              {
+                type: "code",
+                content: "import numpy as np\n\nw = np.array([4, 3, 1])    # synaptic weights\nr = np.array([15, 7, 3])   # retinal firing rates\n\ng = np.dot(w, r)           # LGN neuron activity\nprint(g)  # 84",
+                caption: "np.dot(a, b) — the most important NumPy function in computational neuroscience.",
+              },
+            ],
+          },
+
+          // ── L15: MCQ — Dot Product ─────────────────────────
+          {
+            id: "w3q1l15",
+            questId: "w3q1",
+            worldId: "world3",
+            title: "Quiz: Dot Product",
+            type: "mcq",
+            deviceRequired: "any",
+            xpReward: 15,
+            estimatedMinutes: 3,
+            questions: [
+              {
+                id: "w3q1l15_q1",
+                text: "An LGN neuron has weights [1, 2]. Retinal neurons fire at [3, 2]. What is the LGN activity?",
+                options: ["5", "6", "7", "8"],
+                correctIndex: 2,
+                explanation: "np.dot([1,2],[3,2]) = 1×3 + 2×2 = 3 + 4 = 7. The neuron sums up (weight × input) for each connection.",
+                neuroConnection: "This is exactly the computation a real LGN neuron performs every millisecond — weighted sum of retinal inputs.",
+              },
+              {
+                id: "w3q1l15_q2",
+                text: "A neuron's weight vector and the input firing-rate vector are perpendicular (90° apart). The dot product is:",
+                options: [
+                  "Maximum positive",
+                  "Depends on their lengths",
+                  "Zero",
+                  "Maximum negative",
+                ],
+                correctIndex: 2,
+                explanation: "cos(90°) = 0, so w·r = ‖w‖‖r‖×0 = 0 regardless of lengths. A perpendicular input pattern produces no response from this neuron.",
+                neuroConnection: "Neurons are 'tuned' to specific patterns. An input orthogonal to a neuron's preferred direction produces zero firing — the neuron is silent.",
+              },
+              {
+                id: "w3q1l15_q3",
+                text: "Which Python code computes the dot product of vectors a and b?",
+                options: ["a * b", "np.dot(a, b)", "a.sum(b)", "np.cross(a, b)"],
+                correctIndex: 1,
+                explanation: "np.dot(a, b) is the dot product. 'a * b' is element-wise multiplication (not summed). np.cross gives the cross product (different operation).",
+                neuroConnection: "np.dot() appears in almost every NMA computation — from LIF neuron models to PCA to linear regression.",
+              },
+            ],
+          },
+
+          // ── L16: Fillin — Dot Product in Code ─────────────
+          {
+            id: "w3q1l16",
+            questId: "w3q1",
+            worldId: "world3",
+            title: "Code: Dot Product",
+            type: "fillin",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 2,
+            fillQuestions: [
+              {
+                id: "w3q1l16_q1",
+                prompt: "What does np.dot(w, r) return? Type the number.",
+                codeTemplate: "w = np.array([4, 3, 1])\nr = np.array([15, 7, 3])\nresult = np.dot(w, r)\n# result = ___",
+                answer: "84",
+                explanation: "4×15 + 3×7 + 1×3 = 60 + 21 + 3 = 84. The LGN neuron fires at rate 84 (arbitrary units).",
+              },
+              {
+                id: "w3q1l16_q2",
+                prompt: "‖a‖ = 2, ‖b‖ = 3, angle between them = 90°. Using the geometric formula, what is a·b? Type the number.",
+                codeTemplate: "# a·b = ‖a‖ × ‖b‖ × cos(θ)\n# a·b = 2 × 3 × cos(90°)\n# a·b = ___",
+                answer: "0",
+                explanation: "cos(90°) = 0, so 2 × 3 × 0 = 0. Perpendicular vectors always have dot product zero, regardless of their lengths.",
+              },
+            ],
+          },
+
+          // ── L17: Coding Mission ────────────────────────────
+          {
+            id: "w3q1l17",
+            questId: "w3q1",
+            worldId: "world3",
+            title: "Mission: Vectors in NumPy",
+            type: "coding",
+            deviceRequired: "laptop",
+            xpReward: 25,
+            estimatedMinutes: 10,
+            codingMission: {
+              id: "cm-w3q1",
+              title: "Vectors in NumPy",
+              description: "Four tasks using what you just learned. You are modeling a simple visual neuron that receives signals from retinal neurons.\n\nTask 1: Create a firing rate vector for 3 neurons (rates: 10, 50, 2 Hz).\nTask 2: Compute its length using np.linalg.norm.\nTask 3: Normalize it to a unit vector.\nTask 4: Compute the LGN neuron's activity using np.dot with weights [4, 3, 1].",
+              xpReward: 25,
+              starterCode: `import numpy as np
+
+# Task 1: Create the firing rate vector [10, 50, 2]
+firing_rates = ???
+
+# Task 2: Compute its length
+length = ???
+print(f"Vector length: {length:.2f}")
+
+# Task 3: Normalize (create unit vector)
+unit_vector = ???
+print(f"Unit vector: {unit_vector}")
+print(f"Unit vector length: {np.linalg.norm(unit_vector):.2f}")  # should be 1.0
+
+# Task 4: LGN neuron activity (dot product)
+weights = np.array([4, 3, 1])
+lgn_activity = ???
+print(f"LGN neuron activity: {lgn_activity}")  # should be 95`,
+              solution: `import numpy as np
+
+firing_rates = np.array([10, 50, 2])
+length = np.linalg.norm(firing_rates)
+print(f"Vector length: {length:.2f}")
+
+unit_vector = firing_rates / np.linalg.norm(firing_rates)
+print(f"Unit vector: {unit_vector}")
+print(f"Unit vector length: {np.linalg.norm(unit_vector):.2f}")
+
+weights = np.array([4, 3, 1])
+lgn_activity = np.dot(weights, firing_rates)
+print(f"LGN neuron activity: {lgn_activity}")`,
+              testCode: `
+assert firing_rates.tolist() == [10, 50, 2], "firing_rates should be [10, 50, 2]"
+assert abs(length - np.linalg.norm([10, 50, 2])) < 0.01, "length should be ~51.0"
+assert abs(np.linalg.norm(unit_vector) - 1.0) < 0.001, "unit vector length should be 1.0"
+assert lgn_activity == 95, "LGN activity: 4×10 + 3×50 + 1×2 = 95"
+print("✅ All tests passed! +25 XP")
+`,
+              hints: [
+                "Task 1: np.array([10, 50, 2]) creates the vector",
+                "Task 2: np.linalg.norm(firing_rates) computes the length",
+                "Task 3: divide the vector by its length — firing_rates / np.linalg.norm(firing_rates)",
+                "Task 4: np.dot(weights, firing_rates) — multiply pairs and sum",
+              ],
+            },
+          },
+
+        ],
       },
 
       // ── Quest 3.2 — Matrices (W0D3 T2) ────────────────────
