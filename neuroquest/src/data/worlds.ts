@@ -4910,15 +4910,28 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
             type: "concept",
             deviceRequired: "any",
             xpReward: 10,
-            estimatedMinutes: 4,
+            estimatedMinutes: 5,
             concept: [
               {
                 type: "highlight",
-                content: "This is the most important concept in linear algebra for neuroscience. A linear combination = scale some vectors, then add them. That's it. But it shows up everywhere.",
+                content: "This is the most important concept in linear algebra for neuroscience. First: what IS a linear combination? Then: why does it matter everywhere?",
               },
               {
                 type: "text",
-                content: "**WHY 1 — Every neuron computes one.**\n\nThe LGN (Lateral Geniculate Nucleus) is your brain's first visual relay station — it sits between your eyes and visual cortex. One LGN neuron receives signals from 3 retinal neurons with synaptic weights [4, 3, 1]. If those neurons fire at [10, 5, 2] Hz:\n\nLGN output = 4×10 + 3×5 + 1×2 = **57**\n\nThat sum of (weight × signal) across all inputs IS a linear combination.",
+                content: "**WHAT: The NMA definition**\n\nWe call a group of 2 or more vectors a **set of vectors**. A linear combination of a set of vectors is a combination of that set using scalar multiplication and vector addition.\n\nEssentially: multiply each vector in the set by a scalar, then add all the scaled vectors together. The output — another vector — is a linear combination of the set.\n\nFormally: a vector **u** is a linear combination of vectors **v₁, v₂, ..., vₙ** with scalar weights **c₁, c₂, ..., cₙ** if:\n\n**u = c₁v₁ + c₂v₂ + ... + cₙvₙ**",
+              },
+              {
+                type: "formula",
+                content: "Example: x = [3, 1], y = [-1, 2], a = 2, b = 3\n\nz = 2×[3,1] + 3×[-1,2]\n  = [6, 2] + [-3, 6]\n  = [3, 8]\n\nz is a linear combination of x and y.",
+                caption: "Scale each vector by its weight, then add. That's it.",
+              },
+              {
+                type: "text",
+                content: "**Think about this** — with x = [3,1] and y = [-1,2], play with different values of a and b:\n\n1. How does ax compare to x when a is negative?\n2. How does ax compare to x when a is a fraction?\n3. Can you get z to point to **anywhere** in 2D space with combinations of a and b?\n4. Would that be true no matter what x and y are, as long as they're both 2D?\n\n(We answer question 3 in the Span lesson — spoiler: it depends on whether x and y point in different directions.)",
+              },
+              {
+                type: "text",
+                content: "**WHY 1 — Every neuron computes one.**\n\nThe LGN (Lateral Geniculate Nucleus) is your brain's first visual relay station — it sits between your eyes and visual cortex. One LGN neuron receives signals from 3 retinal neurons with synaptic weights [4, 3, 1]. If those neurons fire at [10, 5, 2] Hz:\n\nLGN output = 4×10 + 3×5 + 1×2 = **57**\n\nThat weighted sum across all inputs IS a linear combination.",
               },
               {
                 type: "text",
@@ -4929,14 +4942,9 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
                 content: "**WHY 3 — Every AI does this too.**\n\nWhen GPT processes a word, it turns it into a vector of ~1000 numbers. At each layer, it computes a weighted sum of those 1000 numbers — multiplying each by a learned weight and adding up. The weights are what the network learned during training. This is exactly what a biological neuron does. Linear algebra is the shared language of both brains and AI.",
               },
               {
-                type: "formula",
-                content: "u = c₁v₁ + c₂v₂ + ... + cₙvₙ\n\nScale each vector by its coefficient, then sum everything up.",
-                caption: "c₁, c₂... are the weights/coefficients. v₁, v₂... are the input vectors.",
-              },
-              {
                 type: "code",
-                content: "import numpy as np\n\n# Standard basis vectors (the x and y axes)\nv1 = np.array([1, 0])\nv2 = np.array([0, 1])\n\n# Linear combination: 2 units along x, 3 units along y\nu = 2*v1 + 3*v2\nprint(u)  # [2, 3]\n\n# LGN neuron: weights × retinal firing rates\nweights      = np.array([4, 3, 1])\nfiring_rates = np.array([10, 5, 2])\noutput = np.sum(weights * firing_rates)\nprint(output)  # 57",
-                caption: "The LGN computation is just weights × inputs summed up — a linear combination.",
+                content: "import numpy as np\n\nx = np.array([3, 1])\ny = np.array([-1, 2])\n\n# Linear combination: z = 2x + 3y\nz = 2*x + 3*y\nprint(z)  # [3, 8]\n\n# LGN neuron: weights × retinal firing rates\nweights      = np.array([4, 3, 1])\nfiring_rates = np.array([10, 5, 2])\noutput = np.sum(weights * firing_rates)\nprint(output)  # 57",
+                caption: "Any weighted sum of vectors is a linear combination. The LGN neuron computes one every millisecond.",
               },
             ],
           },
