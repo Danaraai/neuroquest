@@ -4884,7 +4884,14 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
               },
               {
                 type: "text",
-                content: "Geometrically, vector addition is **tip-to-tail**: place the base of the second arrow at the tip of the first. The resulting vector goes from the origin to where you end up.",
+                content: "Geometrically, vector addition is **tip-to-tail**. In essence, you are moving the second vector so its base is at the tip of the first — without changing its direction. The resulting vector goes from the origin to where you end up.",
+              },
+              {
+                type: "image",
+                content: "/images/vector-addition.png",
+                alt: "Diagram showing two vectors added tip-to-tail. The second vector is moved so its base sits at the tip of the first, and the result is the vector from the origin to the final tip.",
+                caption: "Tip-to-tail: slide the second arrow to start where the first one ends. The sum is the shortcut from start to finish.",
+                size: "small",
               },
               {
                 type: "code",
