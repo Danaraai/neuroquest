@@ -4702,9 +4702,13 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
                 caption: "Same Pythagorean theorem, extended to N dimensions.",
               },
               {
+                type: "highlight",
+                content: "To find the length of a vector in Python: **np.linalg.norm(v)**\n\nThat's it. One function. You will use this constantly.",
+              },
+              {
                 type: "code",
-                content: "import numpy as np\n\n# 2 neurons: one fires at 3 Hz, one at 4 Hz\nv = np.array([3, 4])\n\nlength = np.linalg.norm(v)\nprint(length)  # 5.0\n\n# Works for any number of neurons\nfiring_rates = np.array([10, 50, 2])\nprint(np.linalg.norm(firing_rates))  # ≈ 51.0",
-                caption: "np.linalg.norm() computes vector length. 'linalg' = linear algebra, 'norm' = length.",
+                content: "import numpy as np\n\n# 2 neurons: one fires at 3 Hz, one at 4 Hz\nv = np.array([3, 4])\n\n# To find vector length → np.linalg.norm()\nlength = np.linalg.norm(v)\nprint(length)  # 5.0\n\n# Works for any number of neurons\nfiring_rates = np.array([10, 50, 2])\nprint(np.linalg.norm(firing_rates))  # ≈ 51.0",
+                caption: "np.linalg.norm(v) — memorize this. 'linalg' = linear algebra, 'norm' = length.",
               },
             ],
           },
@@ -4727,6 +4731,13 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
               {
                 type: "text",
                 content: "That's normalization: divide every component by the vector's length. The result is a **unit vector** — same direction, length = exactly 1.\n\n**Key insight from NMA:** Normalizing does NOT change direction. The arrow still points the same way — it just gets shrunk to length 1.",
+              },
+              {
+                type: "image",
+                content: "/images/normalized-vector.png",
+                alt: "Two arrows showing the original vector and its normalized unit vector. Both point in the same direction but the unit vector has length 1.",
+                caption: "Before and after normalization: same direction, length becomes 1.",
+                size: "small",
               },
               {
                 type: "formula",
