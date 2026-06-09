@@ -4751,6 +4751,15 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
               },
               {
                 type: "text",
+                content: "**Want to see it?** NMA uses a helper function called `visualize_vectors` to draw both arrows on the same plot. Here's the full definition — copy this whenever you want to visualize vectors:",
+              },
+              {
+                type: "code",
+                content: "import numpy as np\nimport matplotlib.pyplot as plt\n\ndef visualize_vectors(v, v_unit):\n    \"\"\"Plot the original vector and its unit vector as arrows.\"\"\"\n    fig, ax = plt.subplots(figsize=(5, 5))\n\n    # Original vector — blue\n    ax.arrow(0, 0, v[0], v[1],\n             head_width=0.15, head_length=0.15,\n             fc='#1CB0F6', ec='#1CB0F6',\n             length_includes_head=True,\n             label=f'v  (length={np.linalg.norm(v):.2f})')\n\n    # Unit vector — orange\n    ax.arrow(0, 0, v_unit[0], v_unit[1],\n             head_width=0.1, head_length=0.1,\n             fc='#FF9600', ec='#FF9600',\n             length_includes_head=True,\n             label='v_unit  (length=1.0)')\n\n    lim = np.linalg.norm(v) + 0.5\n    ax.set_xlim(-lim, lim)\n    ax.set_ylim(-lim, lim)\n    ax.set_aspect('equal')\n    ax.axhline(0, color='k', linewidth=0.5)\n    ax.axvline(0, color='k', linewidth=0.5)\n    ax.legend()\n    ax.set_title('Original vector vs unit vector')\n    ax.grid(True, alpha=0.3)\n    plt.show()\n\n# --- Try it ---\nv = np.array([3, 4])\nv_unit = v / np.linalg.norm(v)\n\nwith plt.xkcd():       # xkcd = hand-drawn style (NMA's aesthetic)\n    visualize_vectors(v, v_unit)",
+                caption: "plt.xkcd() gives the sketchy hand-drawn look NMA uses. The blue arrow is the original; the orange arrow is the unit vector — same direction, shorter.",
+              },
+              {
+                type: "text",
                 content: "Session A neurons: **[10, 50, 2]** (quiet lab)\nSession B neurons: **[30, 150, 6]** (loud lab — 3× everything)\n\nBoth normalize to the same unit vector → you can now compare the pattern of activity, not the volume.",
               },
             ],
@@ -5286,6 +5295,24 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
               description: "Four tasks using what you just learned. You are modeling a simple visual neuron that receives signals from retinal neurons.\n\nTask 1: Create a firing rate vector for 3 neurons (rates: 10, 50, 2 Hz).\nTask 2: Compute its length using np.linalg.norm.\nTask 3: Normalize it to a unit vector.\nTask 4: Compute the LGN neuron's activity using np.dot with weights [4, 3, 1].",
               xpReward: 25,
               starterCode: `import numpy as np
+import matplotlib.pyplot as plt
+
+# Helper: visualize two vectors as arrows
+def visualize_vectors(v, v_unit):
+    fig, ax = plt.subplots(figsize=(5, 5))
+    ax.arrow(0, 0, v[0], v[1], head_width=0.15, head_length=0.15,
+             fc='#1CB0F6', ec='#1CB0F6', length_includes_head=True,
+             label=f'v  (length={np.linalg.norm(v):.2f})')
+    ax.arrow(0, 0, v_unit[0], v_unit[1], head_width=0.1, head_length=0.1,
+             fc='#FF9600', ec='#FF9600', length_includes_head=True,
+             label='v_unit  (length=1.0)')
+    lim = np.linalg.norm(v) + 0.5
+    ax.set_xlim(-lim, lim); ax.set_ylim(-lim, lim)
+    ax.set_aspect('equal')
+    ax.axhline(0, color='k', lw=0.5); ax.axvline(0, color='k', lw=0.5)
+    ax.legend(); ax.grid(True, alpha=0.3)
+    ax.set_title('Original vector vs unit vector')
+    plt.show()
 
 # Task 1: Create the firing rate vector [10, 50, 2]
 firing_rates = ???
@@ -5304,6 +5331,23 @@ weights = np.array([4, 3, 1])
 lgn_activity = ???
 print(f"LGN neuron activity: {lgn_activity}")  # should be 95`,
               solution: `import numpy as np
+import matplotlib.pyplot as plt
+
+def visualize_vectors(v, v_unit):
+    fig, ax = plt.subplots(figsize=(5, 5))
+    ax.arrow(0, 0, v[0], v[1], head_width=0.15, head_length=0.15,
+             fc='#1CB0F6', ec='#1CB0F6', length_includes_head=True,
+             label=f'v  (length={np.linalg.norm(v):.2f})')
+    ax.arrow(0, 0, v_unit[0], v_unit[1], head_width=0.1, head_length=0.1,
+             fc='#FF9600', ec='#FF9600', length_includes_head=True,
+             label='v_unit  (length=1.0)')
+    lim = np.linalg.norm(v) + 0.5
+    ax.set_xlim(-lim, lim); ax.set_ylim(-lim, lim)
+    ax.set_aspect('equal')
+    ax.axhline(0, color='k', lw=0.5); ax.axvline(0, color='k', lw=0.5)
+    ax.legend(); ax.grid(True, alpha=0.3)
+    ax.set_title('Original vector vs unit vector')
+    plt.show()
 
 firing_rates = np.array([10, 50, 2])
 length = np.linalg.norm(firing_rates)
