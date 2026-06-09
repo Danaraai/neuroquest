@@ -5043,39 +5043,30 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
             type: "concept",
             deviceRequired: "any",
             xpReward: 10,
-            estimatedMinutes: 4,
+            estimatedMinutes: 3,
             concept: [
               {
                 type: "text",
-                content: "Imagine you're standing in the middle of a city. You have two cars:\n\n🚗 Car **x** goes East\n🚗 Car **y** goes North\n\nUsing just these two cars — in any combination, any distance — can you reach every spot in the city? **Yes.** East + North covers the whole map.\n\nThe **span** of x and y = every destination you can reach. In this case: the whole 2D city.",
+                content: "You have two cars: 🚗 **x** goes East, 🚗 **y** goes North. Using both — any combination, any distance — you can reach every spot in the city.\n\n**Span** = all the places you can reach by scaling and combining a set of vectors.",
+              },
+              {
+                type: "image",
+                content: "/images/span-vectors.png",
+                alt: "Diagram showing vectors spanning 2D space vs spanning only a 1D line when they point the same direction",
+                caption: "Two vectors pointing different directions span the whole plane. Two vectors pointing the same direction only span a line.",
+                size: "full",
+              },
+              {
+                type: "text",
+                content: "Now someone hands you a third car **z** that goes Northwest. Can z take you anywhere new? **No** — Northwest is just a mix of West + North, which you already had.\n\nZ is a **hitchhiker** — redundant. That's **linearly dependent**: one vector can be built from the others.\n\n**The one test:** *If I removed this vector, would I lose any destinations?*\n• Remove z? Still reach everywhere → **z is dependent**\n• Remove x? Can't go East → **x is independent**",
               },
               {
                 type: "highlight",
-                content: "Span = all the places you can reach by scaling and combining a set of vectors.",
-              },
-              {
-                type: "text",
-                content: "Now someone hands you a third car **z** that goes... Northwest.\n\nQuestion: does z let you reach anywhere NEW that x and y couldn't already reach?\n\n**No.** Northwest is just a mix of going West (reverse of x) and going North (y). You could already get there.\n\nSo z is **redundant**. It adds no new destinations. The span of {x, y, z} is the same as the span of {x, y}.\n\nThat's what **linearly dependent** means — one of the vectors is a hitchhiker. You can build it from the others.",
-              },
-              {
-                type: "text",
-                content: "**The one question to ask:**\n\n> \"If I removed this vector, could I still reach everywhere I could before?\"\n\n• Remove z? Yes — x and y still cover the whole city ✅ → **z is dependent (redundant)**\n• Remove x? No — y alone can't go East ❌ → **x is independent (needed)**\n• Remove y? No — x alone can't go North ❌ → **y is independent (needed)**\n\n**x and y are linearly independent.** x, y, and z together are **linearly dependent** because z adds nothing.",
+                content: "Independent = every vector adds a genuinely new direction. Dependent = at least one is redundant — you can build it from the others.",
               },
               {
                 type: "highlight",
-                content: "Linearly independent = every vector brings a genuinely new direction. Linearly dependent = at least one vector is a fake — you could build it from the others.",
-              },
-              {
-                type: "text",
-                content: "**Reading the NMA diagram:**\n\nThe slide shows three arrows starting from the center:\n• **x** (blue) → points right\n• **y** (pink) → points left-and-up\n• **z** (black) → points straight up\n\nx and y already cover the whole 2D plane (they point in genuinely different directions). z just points straight up — but you can get there by mixing x and y. So z is the redundant one.\n\nRemove z → the plane is still covered. x and y are still **linearly independent**. That's why the slide says exactly that.",
-              },
-              {
-                type: "text",
-                content: "**Now the neuroscience:**\n\nYou record 50 neurons in a brain. You might expect 50 truly independent signals.\n\nBut neurons are connected — groups fire together. Neuron B might always fire at double the rate of Neuron A:\n\nA = [1, 2, 3] → B = [2, 4, 6] = 2 × A\n\nB is just a scaled copy of A. It's **linearly dependent**. It carries zero new information. Together they only span a 1D line — not 2 independent dimensions.",
-              },
-              {
-                type: "highlight",
-                content: "WHY THIS MATTERS: Record 50 neurons → expect 50 independent signals → but the data actually only lives in ~5 truly independent directions. The other 45 neurons are \"hitchhikers\" — redundant combinations of those 5. This is why PCA works: it finds those few real directions and throws away the redundancy.",
+                content: "WHY: Record 50 neurons → expect 50 independent signals → but neurons fire together, so the data actually lives in only ~5 truly independent directions. The other 45 are hitchhikers. This is exactly why PCA works.",
               },
             ],
           },
