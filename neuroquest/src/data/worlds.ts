@@ -5037,24 +5037,36 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
             estimatedMinutes: 4,
             concept: [
               {
-                type: "highlight",
-                content: "WHY: If you record 50 neurons, you might expect 50-dimensional data. But neurons are correlated — groups fire together. The data actually only lives in a few independent dimensions. Knowing how many truly independent directions exist is the foundation of PCA.",
-              },
-              {
                 type: "text",
-                content: "Think of a 50-piece orchestra. Each musician could theoretically play anything independently. But they follow the same conductor and sheet music — so instead of 50 independent sounds, there are maybe only 4 sections (strings, brass, woodwind, percussion) moving somewhat independently. 50 musicians, but only ~4 independent dimensions of variation.",
-              },
-              {
-                type: "text",
-                content: "Same with neurons. Groups fire together because they receive similar inputs and are connected. The data might have 50 neurons but only move along 3, 5, or 8 truly independent directions.\n\n**Span:** all the points you can reach using linear combinations of a set of vectors.\n\n**Linearly independent:** two vectors are independent if neither is just a scaled copy of the other. They point in genuinely different directions.\n\n**Linearly dependent:** one IS a scaled copy — they carry redundant information.",
-              },
-              {
-                type: "text",
-                content: "Example: two neurons that ALWAYS fire at exactly double each other's rate.\n\nNeuron A = [1, 2, 3], Neuron B = [2, 4, 6] = 2 × Neuron A\n\nThey are **linearly dependent** — they always move together. Together they only span a 1D line, not 2D space. You're not getting independent information from both.",
+                content: "Imagine you're standing in the middle of a city. You have two cars:\n\n🚗 Car **x** goes East\n🚗 Car **y** goes North\n\nUsing just these two cars — in any combination, any distance — can you reach every spot in the city? **Yes.** East + North covers the whole map.\n\nThe **span** of x and y = every destination you can reach. In this case: the whole 2D city.",
               },
               {
                 type: "highlight",
-                content: "Real neural data almost always lives on a low-dimensional subspace — far fewer dimensions than neurons. This is why PCA works. The brain is not using all available dimensions.",
+                content: "Span = all the places you can reach by scaling and combining a set of vectors.",
+              },
+              {
+                type: "text",
+                content: "Now someone hands you a third car **z** that goes... Northwest.\n\nQuestion: does z let you reach anywhere NEW that x and y couldn't already reach?\n\n**No.** Northwest is just a mix of going West (reverse of x) and going North (y). You could already get there.\n\nSo z is **redundant**. It adds no new destinations. The span of {x, y, z} is the same as the span of {x, y}.\n\nThat's what **linearly dependent** means — one of the vectors is a hitchhiker. You can build it from the others.",
+              },
+              {
+                type: "text",
+                content: "**The one question to ask:**\n\n> \"If I removed this vector, could I still reach everywhere I could before?\"\n\n• Remove z? Yes — x and y still cover the whole city ✅ → **z is dependent (redundant)**\n• Remove x? No — y alone can't go East ❌ → **x is independent (needed)**\n• Remove y? No — x alone can't go North ❌ → **y is independent (needed)**\n\n**x and y are linearly independent.** x, y, and z together are **linearly dependent** because z adds nothing.",
+              },
+              {
+                type: "highlight",
+                content: "Linearly independent = every vector brings a genuinely new direction. Linearly dependent = at least one vector is a fake — you could build it from the others.",
+              },
+              {
+                type: "text",
+                content: "**Reading the NMA diagram:**\n\nThe slide shows three arrows starting from the center:\n• **x** (blue) → points right\n• **y** (pink) → points left-and-up\n• **z** (black) → points straight up\n\nx and y already cover the whole 2D plane (they point in genuinely different directions). z just points straight up — but you can get there by mixing x and y. So z is the redundant one.\n\nRemove z → the plane is still covered. x and y are still **linearly independent**. That's why the slide says exactly that.",
+              },
+              {
+                type: "text",
+                content: "**Now the neuroscience:**\n\nYou record 50 neurons in a brain. You might expect 50 truly independent signals.\n\nBut neurons are connected — groups fire together. Neuron B might always fire at double the rate of Neuron A:\n\nA = [1, 2, 3] → B = [2, 4, 6] = 2 × A\n\nB is just a scaled copy of A. It's **linearly dependent**. It carries zero new information. Together they only span a 1D line — not 2 independent dimensions.",
+              },
+              {
+                type: "highlight",
+                content: "WHY THIS MATTERS: Record 50 neurons → expect 50 independent signals → but the data actually only lives in ~5 truly independent directions. The other 45 neurons are \"hitchhikers\" — redundant combinations of those 5. This is why PCA works: it finds those few real directions and throws away the redundancy.",
               },
             ],
           },
