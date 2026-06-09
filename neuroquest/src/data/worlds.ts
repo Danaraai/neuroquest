@@ -5071,43 +5071,9 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
             ],
           },
 
-          // ── L12: Basis Vectors & Vector Spaces ────────────
+          // ── L12: Think! — Span Challenge (image + setup) ──
           {
             id: "w3q1l12",
-            questId: "w3q1",
-            worldId: "world3",
-            title: "Basis Vectors & Vector Spaces",
-            type: "concept",
-            deviceRequired: "any",
-            xpReward: 10,
-            estimatedMinutes: 4,
-            concept: [
-              {
-                type: "highlight",
-                content: "WHY: Normal brain data uses 'neuron space' — each axis is one neuron. PCA finds a BETTER basis where each axis represents a pattern of population activity. Same data, different coordinate system — suddenly the structure becomes visible.",
-              },
-              {
-                type: "text",
-                content: "The **standard basis** in 2D is the axes you already know:\n\n• **e₁ = [1, 0]** — the x-axis\n• **e₂ = [0, 1]** — the y-axis\n\nWhen you say a point is at (4, 2), you mean: 4 units along e₁, 2 units along e₂. You've been using a basis all along.",
-              },
-              {
-                type: "text",
-                content: "A **basis** is any set of vectors that:\n1. Are **linearly independent** (no redundancy)\n2. **Span** the entire space (you can reach any point)\n\nYou need exactly **N basis vectors for N-dimensional space** — no more, no less.",
-              },
-              {
-                type: "text",
-                content: "**Vector space:** a set of vectors closed under linear combinations — adding or scaling any vectors in the set always gives you another vector still in the set. ℝ¹, ℝ², ℝ³ are all vector spaces.\n\n**Subspace:** a smaller space inside a bigger one. Example: a plane through the origin inside 3D space is a valid subspace (linear combinations of vectors on the plane always stay on the plane). A plane NOT through the origin is NOT a subspace.\n\n**Neural meaning:** population activity typically lives on a low-dimensional subspace of the full neuron space. PCA finds the axes of that subspace.",
-              },
-              {
-                type: "highlight",
-                content: "Switching to a better basis = PCA. Same data points, different axes — axes that align with how the population actually varies. A cleaner picture of what the brain is doing.",
-              },
-            ],
-          },
-
-          // ── L13: Think! — Span Challenge (image + setup) ──
-          {
-            id: "w3q1l13",
             questId: "w3q1",
             worldId: "world3",
             title: "Think! Span Challenge",
@@ -5134,9 +5100,9 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
             ],
           },
 
-          // ── L13b: MCQ — Span Challenge Quiz ───────────────
+          // ── L13: MCQ — Span Challenge Quiz ────────────────
           {
-            id: "w3q1l13b",
+            id: "w3q1l13",
             questId: "w3q1",
             worldId: "world3",
             title: "Quiz: Span Challenge",
@@ -5146,7 +5112,7 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
             estimatedMinutes: 5,
             questions: [
               {
-                id: "w3q1l13b_q1",
+                id: "w3q1l13_q1",
                 text: "Are vectors {a, b, c, d} linearly independent or dependent?\n\nHint: try computing a + b = [4+1, 2+0, 0+3]. What familiar vector does that give you?",
                 options: [
                   "Independent — all four point in different directions",
@@ -5159,7 +5125,7 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
                 neuroConnection: "In neural data: if neuron C always fires at the sum of neurons A and B, it carries zero new information. It's linearly dependent — a redundant signal.",
               },
               {
-                id: "w3q1l13b_q2",
+                id: "w3q1l13_q2",
                 text: "What is the span of {a, b, c, d} — all four vectors together?\n\nHint: even though c is dependent, are there still enough truly independent vectors to cover all of 3D space?",
                 options: [
                   "A 4-dimensional space",
@@ -5172,7 +5138,7 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
                 neuroConnection: "50 correlated neurons might only span a 5D subspace — but they still CAN cover all of that 5D space. Redundancy doesn't reduce span, it just wastes recording channels.",
               },
               {
-                id: "w3q1l13b_q3",
+                id: "w3q1l13_q3",
                 text: "What is the span of {a, b, c} — just those three?\n\nHint: c = a + b. So how many truly independent vectors are in this set?",
                 options: [
                   "All of 3D space — R³",
@@ -5185,7 +5151,7 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
                 neuroConnection: "This is why neuroscientists say neural data 'lives on a 2D subspace' — not because there are only 2 neurons, but because only 2 independent directions of variation exist in that data.",
               },
               {
-                id: "w3q1l13b_q4",
+                id: "w3q1l13_q4",
                 text: "What is the span of {a} alone — just the single vector a = [4, 2, 0]?\n\nHint: you can scale a by any number: 2a, 0.5a, −3a... Where do all those vectors live?",
                 options: [
                   "A single point",
@@ -5198,7 +5164,7 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
                 neuroConnection: "One neuron's firing pattern only spans one 'direction' of information. That's why single-neuron recordings are limited — you need a population to capture the full picture.",
               },
               {
-                id: "w3q1l13b_q5",
+                id: "w3q1l13_q5",
                 text: "What is the span of {a, b} — the two vectors a = [4,2,0] and b = [1,0,3]?\n\nHint: check whether b is a scaled copy of a. If not, what do two independent vectors in 3D span?",
                 options: [
                   "All of 3D space — R³",
@@ -5213,9 +5179,43 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
             ],
           },
 
-          // ── L14: The Dot Product ───────────────────────────
+          // ── L14: Basis Vectors & Vector Spaces ────────────
           {
             id: "w3q1l14",
+            questId: "w3q1",
+            worldId: "world3",
+            title: "Basis Vectors & Vector Spaces",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 4,
+            concept: [
+              {
+                type: "highlight",
+                content: "WHY: Normal brain data uses 'neuron space' — each axis is one neuron. PCA finds a BETTER basis where each axis represents a pattern of population activity. Same data, different coordinate system — suddenly the structure becomes visible.",
+              },
+              {
+                type: "text",
+                content: "The **standard basis** in 2D is the axes you already know:\n\n• **e₁ = [1, 0]** — the x-axis\n• **e₂ = [0, 1]** — the y-axis\n\nWhen you say a point is at (4, 2), you mean: 4 units along e₁, 2 units along e₂. You've been using a basis all along.",
+              },
+              {
+                type: "text",
+                content: "A **basis** is any set of vectors that:\n1. Are **linearly independent** (no redundancy)\n2. **Span** the entire space (you can reach any point)\n\nYou need exactly **N basis vectors for N-dimensional space** — no more, no less.",
+              },
+              {
+                type: "text",
+                content: "**Subspace:** a smaller space inside a bigger one. Example: a plane through the origin inside 3D space is a valid subspace. Neural population activity typically lives on a low-dimensional subspace of the full neuron space — PCA finds the axes of that subspace.",
+              },
+              {
+                type: "highlight",
+                content: "Switching to a better basis = PCA. Same data points, different axes — axes aligned with how the population actually varies.",
+              },
+            ],
+          },
+
+          // ── L15: The Dot Product ───────────────────────────
+          {
+            id: "w3q1l15",
             questId: "w3q1",
             worldId: "world3",
             title: "The Dot Product",
@@ -5254,9 +5254,9 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
             ],
           },
 
-          // ── L15: MCQ — Dot Product ─────────────────────────
+          // ── L16: MCQ — Dot Product ─────────────────────────
           {
-            id: "w3q1l15",
+            id: "w3q1l16",
             questId: "w3q1",
             worldId: "world3",
             title: "Quiz: Dot Product",
@@ -5266,7 +5266,7 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
             estimatedMinutes: 3,
             questions: [
               {
-                id: "w3q1l15_q1",
+                id: "w3q1l16_q1",
                 text: "An LGN neuron has weights [1, 2]. Retinal neurons fire at [3, 2]. What is the LGN activity?",
                 options: ["5", "6", "7", "8"],
                 correctIndex: 2,
@@ -5274,7 +5274,7 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
                 neuroConnection: "This is exactly the computation a real LGN neuron performs every millisecond — weighted sum of retinal inputs.",
               },
               {
-                id: "w3q1l15_q2",
+                id: "w3q1l16_q2",
                 text: "A neuron's weight vector and the input firing-rate vector are perpendicular (90° apart). The dot product is:",
                 options: [
                   "Maximum positive",
@@ -5287,7 +5287,7 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
                 neuroConnection: "Neurons are 'tuned' to specific patterns. An input orthogonal to a neuron's preferred direction produces zero firing — the neuron is silent.",
               },
               {
-                id: "w3q1l15_q3",
+                id: "w3q1l16_q3",
                 text: "Which Python code computes the dot product of vectors a and b?",
                 options: ["a * b", "np.dot(a, b)", "a.sum(b)", "np.cross(a, b)"],
                 correctIndex: 1,
@@ -5297,9 +5297,9 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
             ],
           },
 
-          // ── L16: Fillin — Dot Product in Code ─────────────
+          // ── L17: Fillin — Dot Product in Code ─────────────
           {
-            id: "w3q1l16",
+            id: "w3q1l17",
             questId: "w3q1",
             worldId: "world3",
             title: "Code: Dot Product",
@@ -5309,14 +5309,14 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
             estimatedMinutes: 2,
             fillQuestions: [
               {
-                id: "w3q1l16_q1",
+                id: "w3q1l17_q1",
                 prompt: "What does np.dot(w, r) return? Type the number.",
                 codeTemplate: "w = np.array([4, 3, 1])\nr = np.array([15, 7, 3])\nresult = np.dot(w, r)\n# result = ___",
                 answer: "84",
                 explanation: "4×15 + 3×7 + 1×3 = 60 + 21 + 3 = 84. The LGN neuron fires at rate 84 (arbitrary units).",
               },
               {
-                id: "w3q1l16_q2",
+                id: "w3q1l17_q2",
                 prompt: "‖a‖ = 2, ‖b‖ = 3, angle between them = 90°. Using the geometric formula, what is a·b? Type the number.",
                 codeTemplate: "# a·b = ‖a‖ × ‖b‖ × cos(θ)\n# a·b = 2 × 3 × cos(90°)\n# a·b = ___",
                 answer: "0",
@@ -5325,9 +5325,9 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
             ],
           },
 
-          // ── L17: Coding Mission ────────────────────────────
+          // ── L18: Coding Mission ────────────────────────────
           {
-            id: "w3q1l17",
+            id: "w3q1l18",
             questId: "w3q1",
             worldId: "world3",
             title: "Mission: Vectors in NumPy",
