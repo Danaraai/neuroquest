@@ -4944,7 +4944,12 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
               },
               {
                 type: "text",
-                content: "**WHY 2 — PCA uses linear combinations to make neural data visible.**\n\nYou record 100 neurons. You cannot plot 100 dimensions — humans see in 3D. But neurons are correlated: groups fire together. PCA finds 3 'summary directions,' each one a specific weighted mix of all 100 neurons, that captures most of the information. Now you can plot it. Linear combinations are how you compress without losing what matters.",
+                content: "**WHY 2 — PCA uses linear combinations to make neural data visible.**\n\n**PCA = Principal Component Analysis.** It's a mathematical technique — someone already did the hard work and built it into a Python library called `sklearn`. You just call it. But to understand what it's doing and what the output means, you need exactly what you're learning right now.\n\nYou record 100 neurons. You cannot plot 100 dimensions — humans see in 3D. But neurons are correlated: groups fire together. PCA finds 3 'summary directions,' each one a specific **linear combination** of all 100 neurons, that captures most of the information. Now you can plot it.",
+              },
+              {
+                type: "code",
+                content: "from sklearn.decomposition import PCA\nimport numpy as np\n\n# Your neural data: 200 trials × 100 neurons\ndata = np.random.randn(200, 100)\n\n# PCA in 3 lines:\npca = PCA(n_components=3)          # 'find the 3 most important directions'\ndata_3d = pca.fit_transform(data)  # run it\nprint(data_3d.shape)               # (200, 3) — 100 neurons compressed to 3",
+                caption: "That's the whole thing. sklearn handles the math. You need to understand the math to interpret what those 3 dimensions mean.",
               },
               {
                 type: "text",
