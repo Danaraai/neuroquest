@@ -112,4 +112,11 @@ export const FACTS: Fact[] = [
     category: "Neurons",
     color: "#58CC02",
   },
+  {
+    id: "f16",
+    emoji: "🎾",
+    text: "2026 Roland Garros final. Two sets all. Zverev starts cramping — and in the post-match interview, he said the cramping actually helped.\n\nHere's why. Your anterior cingulate cortex (ACC) processes two things simultaneously: physical pain and emotional distress. Same neurons, same real estate. When his muscles started cramping, nociceptive (pain) signals flooded the ACC so intensely that the anxiety signals streaming in from the amygdala got crowded out. The brain has limited processing resources — and screaming leg muscles are a louder signal than abstract fear of losing a Grand Slam final.\n\nHe didn't calm down. His ACC just had a louder input to deal with. The cramps didn't distract him from the pressure. They gave his nervous system a problem it actually knew how to solve.",
+    category: "Neuro in sports",
+    color: "#FF6B35",
+  },
 ];
