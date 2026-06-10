@@ -77,25 +77,10 @@ function FactsContent() {
       </div>
 
       {/* Card stack */}
-      <div className="flex-1 flex flex-col items-center justify-center px-5">
-        <div className="relative w-full max-w-sm" style={{ height: 420 }}>
+      <div className="flex-1 flex flex-col items-center justify-start px-5 pt-2">
+        <div className="relative w-full max-w-sm">
 
-          {/* Background peek card */}
-          {nextFact && (
-            <div
-              className="absolute inset-x-4 rounded-3xl"
-              style={{
-                top: 12,
-                bottom: -12,
-                background: "rgba(255,255,255,0.04)",
-                border: "1px solid rgba(255,255,255,0.06)",
-                transform: "scale(0.95)",
-                zIndex: 0,
-              }}
-            />
-          )}
-
-          {/* Main card */}
+          {/* Main card — auto height so long facts don't overflow */}
           <AnimatePresence mode="wait" custom={direction}>
             <motion.div
               key={fact.id}
@@ -113,12 +98,11 @@ function FactsContent() {
                 if (delta < -80) goNext();
                 else if (delta > 80) goPrev();
               }}
-              className="absolute inset-0 rounded-3xl flex flex-col cursor-grab active:cursor-grabbing"
+              className="relative w-full rounded-3xl flex flex-col cursor-grab active:cursor-grabbing"
               style={{
                 background: "linear-gradient(145deg, #12143A 0%, #0E1028 100%)",
                 border: `1px solid ${fact.color}30`,
                 boxShadow: `0 0 40px ${fact.color}18, 0 20px 60px rgba(0,0,0,0.5)`,
-                zIndex: 1,
                 userSelect: "none",
               }}
             >
@@ -147,12 +131,14 @@ function FactsContent() {
                 </div>
 
                 {/* Fact text */}
-                <p
-                  className="text-white leading-relaxed flex-1"
+                <div
+                  className="text-white leading-relaxed"
                   style={{ fontSize: 16.5, fontWeight: 500, lineHeight: 1.65 }}
                 >
-                  {fact.text}
-                </p>
+                  {fact.text.split("\n\n").map((para, i) => (
+                    <p key={i} className={i > 0 ? "mt-4" : ""} style={{ margin: 0 }}>{para}</p>
+                  ))}
+                </div>
 
                 {/* Swipe hint */}
                 <div className="flex items-center justify-center gap-2 mt-6">
