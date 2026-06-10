@@ -3,11 +3,21 @@
 import Link from "next/link";
 import { useStore, selectDueReviewCount } from "@/lib/store";
 import { WORLDS } from "@/data/worlds";
+import { FACTS } from "@/data/facts";
 import { getGreeting, pluralize } from "@/lib/utils";
 import { Ilya, IlyaBubble } from "@/components/ilya/Ilya";
 import { IlyaIntro } from "@/components/home/IlyaIntro";
 import { XPBar } from "@/components/ui/XPBar";
 import { NeuronCanvas } from "@/components/ui/NeuronCanvas";
+
+function getDailySparkIndex() {
+  const today = new Date();
+  const dayOfYear = Math.floor(
+    (today.getTime() - new Date(today.getFullYear(), 0, 0).getTime()) /
+    (1000 * 60 * 60 * 24)
+  );
+  return dayOfYear % FACTS.length;
+}
 
 const ACCENT = "#7C82F8";
 
@@ -159,6 +169,50 @@ export default function HomePage() {
             </div>
           </Link>
         )}
+
+        {/* ── Spark of the Day ── */}
+        {(() => {
+          const spark = FACTS[getDailySparkIndex()];
+          const preview = spark.text.split("\n")[0].slice(0, 100) + (spark.text.length > 100 ? "…" : "");
+          return (
+            <Link href="/facts" className="block mx-5 mt-[10px] animate-fade-up" style={{ animationDelay: "140ms" }}>
+              <div
+                className="rounded-2xl overflow-hidden cursor-pointer"
+                style={{ border: `1px solid ${spark.color}30` }}
+              >
+                {/* Top accent bar */}
+                <div style={{ height: 3, background: spark.color }} />
+                <div
+                  className="px-4 py-[14px]"
+                  style={{ background: `linear-gradient(135deg, ${spark.color}0F, ${spark.color}06)` }}
+                >
+                  <div className="flex items-start gap-3">
+                    <span className="text-3xl leading-none mt-0.5">{spark.emoji}</span>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-[6px]">
+                        <span
+                          className="text-[10px] font-black uppercase tracking-[0.6px] px-2 py-[3px] rounded-full"
+                          style={{ background: `${spark.color}20`, color: spark.color }}
+                        >
+                          ⚡ Spark of the Day
+                        </span>
+                      </div>
+                      <p className="text-[13px] leading-snug m-0" style={{ color: "#C8CADF" }}>
+                        {preview}
+                      </p>
+                    </div>
+                    <div
+                      className="w-7 h-7 rounded-lg flex items-center justify-center text-[13px] font-black flex-shrink-0 mt-0.5"
+                      style={{ background: `${spark.color}25`, color: spark.color }}
+                    >
+                      ›
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Link>
+          );
+        })()}
 
         {/* ── Your Journey ── */}
         <div className="pt-4 animate-fade-up" style={{ animationDelay: "160ms" }}>
