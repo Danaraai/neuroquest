@@ -16,7 +16,8 @@ function getDailySparkIndex() {
     (today.getTime() - new Date(today.getFullYear(), 0, 0).getTime()) /
     (1000 * 60 * 60 * 24)
   );
-  return dayOfYear % FACTS.length;
+  // Offset 14 so Zverev (index 15) is shown on launch day — Jun 10 2026
+  return (dayOfYear + 14) % FACTS.length;
 }
 
 const ACCENT = "#7C82F8";
@@ -173,7 +174,7 @@ export default function HomePage() {
         {/* ── Spark of the Day ── */}
         {(() => {
           const spark = FACTS[getDailySparkIndex()];
-          const preview = spark.text.split("\n")[0].slice(0, 100) + (spark.text.length > 100 ? "…" : "");
+          const preview = spark.text.replace(/\n+/g, " ").slice(0, 200) + (spark.text.length > 200 ? "…" : "");
           return (
             <Link href="/facts" className="block mx-5 mt-[10px] animate-fade-up" style={{ animationDelay: "140ms" }}>
               <div
