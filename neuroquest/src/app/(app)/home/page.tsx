@@ -11,13 +11,11 @@ import { XPBar } from "@/components/ui/XPBar";
 import { NeuronCanvas } from "@/components/ui/NeuronCanvas";
 
 function getDailySparkIndex() {
-  const today = new Date();
-  const dayOfYear = Math.floor(
-    (today.getTime() - new Date(today.getFullYear(), 0, 0).getTime()) /
-    (1000 * 60 * 60 * 24)
-  );
-  // Offset 14 so Zverev (index 15) is shown on launch day — Jun 10 2026
-  return (dayOfYear + 14) % FACTS.length;
+  // Use epoch days (ms since Jan 1 1970 / ms per day) — more reliable than day-of-year
+  const epochDay = Math.floor(Date.now() / (1000 * 60 * 60 * 24));
+  // Offset so Zverev (index 15) shows on Jun 10 2026 (epochDay 20614)
+  const offset = (15 - (20614 % FACTS.length) + FACTS.length) % FACTS.length;
+  return (epochDay + offset) % FACTS.length;
 }
 
 const ACCENT = "#7C82F8";
@@ -176,7 +174,7 @@ export default function HomePage() {
           const spark = FACTS[getDailySparkIndex()];
           const preview = spark.text.replace(/\n+/g, " ").slice(0, 200) + (spark.text.length > 200 ? "…" : "");
           return (
-            <Link href="/facts" className="block mx-5 mt-[10px] animate-fade-up" style={{ animationDelay: "140ms" }}>
+            <Link href={`/facts?start=${getDailySparkIndex()}`} className="block mx-5 mt-[10px] animate-fade-up" style={{ animationDelay: "140ms" }}>
               <div
                 className="rounded-2xl overflow-hidden cursor-pointer"
                 style={{ border: `1px solid ${spark.color}30` }}

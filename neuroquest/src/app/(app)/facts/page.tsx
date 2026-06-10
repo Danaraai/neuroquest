@@ -1,12 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { FACTS } from "@/data/facts";
 
-export default function FactsPage() {
-  const [index, setIndex] = useState(0);
+function FactsContent() {
+  const searchParams = useSearchParams();
+  const startIndex = Math.min(
+    Math.max(0, parseInt(searchParams.get("start") ?? "0")),
+    FACTS.length - 1
+  );
+  const [index, setIndex] = useState(startIndex);
   const [direction, setDirection] = useState(0);
   const [dragStart, setDragStart] = useState(0);
 
@@ -242,5 +248,13 @@ export default function FactsPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function FactsPage() {
+  return (
+    <Suspense fallback={null}>
+      <FactsContent />
+    </Suspense>
   );
 }
