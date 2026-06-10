@@ -5199,6 +5199,7 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
             deviceRequired: "any",
             xpReward: 10,
             estimatedMinutes: 4,
+            funFact: "Why Zverev's cramps saved him 🎾\n\n2026 Roland Garros final. Two sets all. Zverev starts cramping. In the post-match interview he said something surprising: the cramping actually helped.\n\nHere's why that makes complete neuroscientific sense — and it's exactly what you just learned.\n\nYour anterior cingulate cortex (ACC) receives inputs from two sources simultaneously: fear signals from the amygdala and pain signals from your body. Like any neuron, it computes a weighted sum of everything coming in. When Zverev's muscles started cramping, nociceptive signals (the brain's raw pain signals) flooded the ACC with such intensity that they dominated the sum — crowding out the anxiety signals from the amygdala.\n\nHe didn't calm down. His ACC just had a louder input to deal with.\n\nThe cramps didn't distract him from the pressure. They gave his nervous system a problem it actually knew how to solve.",
             concept: [
               {
                 type: "highlight",
@@ -5221,6 +5222,10 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
               {
                 type: "text",
                 content: "**What the angle tells you:**\n\n• θ = 0° (same direction): cos(0°) = 1 → **maximum** — input pattern matches what the neuron 'prefers'\n• θ = 90° (perpendicular): cos(90°) = 0 → **no response** — the input is completely irrelevant to this neuron\n• θ = 180° (opposite): cos(180°) = −1 → **strongest inhibition**\n\nThe dot product is a **similarity measure** between two vectors.",
+              },
+              {
+                type: "text",
+                content: "This happens everywhere in the brain — including in how competing signals fight for attention. Your **anterior cingulate cortex (ACC)** receives both fear signals from the amygdala and pain signals from your body simultaneously. It computes a weighted sum of both. Whichever input is louder dominates the output. (See the fun fact on the next screen for what this means in real life.)",
               },
               {
                 type: "code",
