@@ -5076,38 +5076,9 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
             ],
           },
 
-          // ── L12: Think! — Span Challenge (image + setup) ──
+          // ── L12: MCQ — Span Challenge ─────────────────────
           {
             id: "w3q1l12",
-            questId: "w3q1",
-            worldId: "world3",
-            title: "Think! Span Challenge",
-            type: "concept",
-            deviceRequired: "any",
-            xpReward: 5,
-            estimatedMinutes: 2,
-            concept: [
-              {
-                type: "highlight",
-                content: "This is the exact exercise from NMA. Before you see the answers — try to reason through each question yourself. You have everything you need.",
-              },
-              {
-                type: "image",
-                content: "/images/span-question.png",
-                alt: "NMA Think! 2.1 — four 3D vectors a, b, c, d with 5 questions about their span and linear dependence",
-                caption: "NMA Think! 2.1 — study these 4 vectors before answering the quiz.",
-                size: "full",
-              },
-              {
-                type: "text",
-                content: "The four vectors are:\n\n• **a = [4, 2, 0]**\n• **b = [1, 0, 3]**\n• **c = [5, 2, 3]**\n• **d = [3, 3, 2]**\n\nTake a moment. Look at a, b, and c. Try adding a + b in your head. What do you notice?\n\nThen hit the quiz →",
-              },
-            ],
-          },
-
-          // ── L13: MCQ — Span Challenge Quiz ────────────────
-          {
-            id: "w3q1l13",
             questId: "w3q1",
             worldId: "world3",
             title: "Quiz: Span Challenge",
@@ -5117,7 +5088,7 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
             estimatedMinutes: 5,
             questions: [
               {
-                id: "w3q1l13_q1",
+                id: "w3q1l12_q1",
                 text: "Are vectors {a, b, c, d} linearly independent or dependent?\n\nHint: try computing a + b = [4+1, 2+0, 0+3]. What familiar vector does that give you?",
                 options: [
                   "Independent — all four point in different directions",
@@ -5130,7 +5101,7 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
                 neuroConnection: "In neural data: if neuron C always fires at the sum of neurons A and B, it carries zero new information. It's linearly dependent — a redundant signal.",
               },
               {
-                id: "w3q1l13_q2",
+                id: "w3q1l12_q2",
                 text: "What is the span of {a, b, c, d} — all four vectors together?\n\nHint: even though c is dependent, are there still enough truly independent vectors to cover all of 3D space?",
                 options: [
                   "A 4-dimensional space",
@@ -5143,7 +5114,7 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
                 neuroConnection: "50 correlated neurons might only span a 5D subspace — but they still CAN cover all of that 5D space. Redundancy doesn't reduce span, it just wastes recording channels.",
               },
               {
-                id: "w3q1l13_q3",
+                id: "w3q1l12_q3",
                 text: "What is the span of {a, b, c} — just those three?\n\nHint: c = a + b. So how many truly independent vectors are in this set?",
                 options: [
                   "All of 3D space — R³",
@@ -5156,7 +5127,7 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
                 neuroConnection: "This is why neuroscientists say neural data 'lives on a 2D subspace' — not because there are only 2 neurons, but because only 2 independent directions of variation exist in that data.",
               },
               {
-                id: "w3q1l13_q4",
+                id: "w3q1l12_q4",
                 text: "What is the span of {a} alone — just the single vector a = [4, 2, 0]?\n\nHint: you can scale a by any number: 2a, 0.5a, −3a... Where do all those vectors live?",
                 options: [
                   "A single point",
@@ -5169,7 +5140,7 @@ print(f"🏆 BOSS DEFEATED! Accuracy: {accuracy*100:.1f}% - Welcome to NMA! +70 
                 neuroConnection: "One neuron's firing pattern only spans one 'direction' of information. That's why single-neuron recordings are limited — you need a population to capture the full picture.",
               },
               {
-                id: "w3q1l13_q5",
+                id: "w3q1l12_q5",
                 text: "What is the span of {a, b} — the two vectors a = [4,2,0] and b = [1,0,3]?\n\nHint: check whether b is a scaled copy of a. If not, what do two independent vectors in 3D span?",
                 options: [
                   "All of 3D space — R³",
