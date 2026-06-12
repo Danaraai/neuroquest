@@ -20,8 +20,8 @@ export interface FlashCard {
 }
 
 export interface ConceptBlock {
-  type: "text" | "code" | "formula" | "highlight" | "image-placeholder" | "executable-code" | "image";
-  content: string;
+  type: "text" | "code" | "formula" | "highlight" | "image-placeholder" | "executable-code" | "image" | "widget";
+  content: string; // For widget: the widget id (e.g. "calculus-explorer")
   caption?: string;
   annotations?: { line: number; text: string }[]; // For executable-code: explanations for specific lines
   alt?: string;  // For image: alt text

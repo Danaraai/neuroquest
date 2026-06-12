@@ -5435,8 +5435,220 @@ print("✅ All tests passed! +25 XP")
         number: 4,
         title: "Differentiation & Integration",
         description: "Rates of change and area under the curve — the core of calculus",
-        totalXP: 100,
-        lessons: [],
+        totalXP: 75,
+        lessons: [
+          // ── L1: What is Differentiation? ──────────────────
+          {
+            id: "w3q4l1",
+            questId: "w3q4",
+            worldId: "world3",
+            title: "What is Differentiation?",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 3,
+            concept: [
+              {
+                type: "highlight",
+                content: "Calculus is the math of **change**. Every neuron model in NMA is about something changing over time — voltage rising, firing rate shifting. Calculus is how you describe that change precisely. There are two halves: **differentiation** and **integration**. Start here.",
+              },
+              {
+                type: "text",
+                content: "**Differentiation answers one question: how fast is the output changing as you nudge the input?**\n\nThe answer it gives you is called the **derivative**.\n\nYou can think about it two ways — and they're the *same thing*:\n• **In words:** the rate of change.\n• **On a graph:** the **slope** of the curve at a point — how steep it is right there.",
+              },
+              {
+                type: "text",
+                content: "**The car example (this is the whole idea):**\n\nAs you drive, the distance you've traveled changes with time. The derivative of distance, with respect to time, is your **velocity** — how fast distance is changing right now.\n\n• Cruising at a **steady speed**? The distance climbs at a constant rate. The derivative is **flat** — same value everywhere.\n• **Speeding up and slowing down**? The rate of change is different at different moments, so the **derivative changes** too.\n\nSlow (small derivative) → distance barely moves in a moment. Fast (big derivative) → distance jumps a lot in that same moment.",
+              },
+              {
+                type: "highlight",
+                content: "**The sign tells you the direction.** Derivative positive → the function is going **up**. Negative → going **down**. And right where it flips — the very top of a hill or bottom of a valley — the slope is **zero**. (You'll use that later to find peaks and best-answers.)",
+              },
+            ],
+          },
+
+          // ── L2: What is Integration? ──────────────────────
+          {
+            id: "w3q4l2",
+            questId: "w3q4",
+            worldId: "world3",
+            title: "What is Integration?",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 3,
+            concept: [
+              {
+                type: "highlight",
+                content: "Integration is differentiation run **backwards**. If differentiation breaks a journey down into speeds, integration **adds the speeds back up** into a journey.",
+              },
+              {
+                type: "text",
+                content: "**Back to the car.**\n\nDifferentiation took *distance* and gave you *velocity*.\n\nIntegration goes the other way: give it the **velocity** at every moment, and it adds it all up to recover the **total distance traveled**.\n\nThat's why we say integration is the *reverse* of differentiation — you're looking for the function that *would have* your current one as its derivative.",
+              },
+              {
+                type: "text",
+                content: "**On a graph, the integral is the area under the curve.**\n\nImagine the velocity curve. The area trapped beneath it — between two points in time — is exactly the distance covered in that stretch. Add up all those thin slivers of area and you get the total.",
+              },
+              {
+                type: "text",
+                content: "**One quirk: the mystery constant (+C).**\n\nGoing backwards has a catch. The derivative of *any* flat constant is zero — a hill 5 units higher has the exact same slopes. So when you integrate, you can't tell how high up you started. That unknown starting height is written as **+ C**.\n\nIf you pin down a start and an end (a **definite** integral between two limits), the mystery cancels out and you get one exact number: the area between those limits.",
+              },
+            ],
+          },
+
+          // ── L3: Interactive Explorer ──────────────────────
+          {
+            id: "w3q4l3",
+            questId: "w3q4",
+            worldId: "world3",
+            title: "Play: Derivative & Integral Explorer",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 15,
+            estimatedMinutes: 5,
+            concept: [
+              {
+                type: "highlight",
+                content: "Time to *see* it. Pick a function, then reveal its derivative (slope) and integral (area). This is the same demo used in the real NMA course.",
+              },
+              {
+                type: "text",
+                content: "**For each function, do this:**\n1. Look at the function alone first.\n2. **Predict** in your head: what will the slope (derivative) look like? Where is it steep, flat, zero?\n3. *Then* toggle it on and check if you were right.\n4. Do the same for the integral (the area building up).",
+              },
+              {
+                type: "widget",
+                content: "calculus-explorer",
+              },
+              {
+                type: "highlight",
+                content: "**Why predict before you peek?** Your brain locks in what it *generates* far better than what it just reads — psychologists call it the **generation effect**. The half-second of guessing wrong is exactly when the learning happens. Don't skip it.",
+              },
+              {
+                type: "text",
+                content: "**Did you spot the weird one?** The **exponential** function's derivative and integral look *identical to the function itself*. It's the rare shape whose rate-of-change equals its own height. That special property is why the exponential shows up everywhere in neuroscience — from a neuron's voltage decaying to populations growing.",
+              },
+            ],
+          },
+
+          // ── L4: Predict Challenge ─────────────────────────
+          {
+            id: "w3q4l4",
+            questId: "w3q4",
+            worldId: "world3",
+            title: "Challenge: Spot the Derivative",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 15,
+            estimatedMinutes: 5,
+            concept: [
+              {
+                type: "highlight",
+                content: "No toggles this time. You see a function — you pick which of three graphs is its **derivative** (its slope at every point). Three rounds, instant feedback.",
+              },
+              {
+                type: "widget",
+                content: "calculus-predict",
+              },
+              {
+                type: "text",
+                content: "**The trap:** two of the three options are the function itself and its *integral*. They're there because mixing up derivative, function, and integral is the single most common beginner slip. Get used to telling them apart by their **slope** and you've basically got calculus intuition.",
+              },
+            ],
+          },
+
+          // ── L5: Peaks & Valleys ───────────────────────────
+          {
+            id: "w3q4l5",
+            questId: "w3q4",
+            worldId: "world3",
+            title: "Peaks, Valleys & Zero Slope",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 3,
+            concept: [
+              {
+                type: "highlight",
+                content: "Here's the single most useful trick in all of calculus: **the derivative is zero at the top of every hill and the bottom of every valley.**",
+              },
+              {
+                type: "text",
+                content: "Walk up a hill: you climb (positive slope), the ground levels off at the very top (zero slope), then you descend (negative slope). The instant the slope is **exactly zero** is the peak.\n\nSame for a valley, upside down: down, flat at the bottom, up.\n\nSo to find a function's **maximum or minimum**, you don't eyeball it — you find where its derivative equals 0.",
+              },
+              {
+                type: "highlight",
+                content: "**Why you'll care soon:** training any AI model, or fitting any neuroscience model, means finding the settings that make the **error as small as possible** — the bottom of a valley. The computer finds it by chasing the slope downhill until the derivative hits zero. That's **gradient descent**, and you just learned its core idea.",
+              },
+            ],
+          },
+
+          // ── L6: Quiz ──────────────────────────────────────
+          {
+            id: "w3q4l6",
+            questId: "w3q4",
+            worldId: "world3",
+            title: "Quiz: Differentiation & Integration",
+            type: "mcq",
+            deviceRequired: "any",
+            xpReward: 15,
+            estimatedMinutes: 3,
+            questions: [
+              {
+                id: "w3q4l6_q1",
+                text: "You're driving at a perfectly constant speed. What does the derivative of your distance-traveled (your velocity) look like over time?",
+                options: [
+                  "A flat horizontal line",
+                  "A straight line sloping upward",
+                  "A curve that keeps rising faster",
+                  "Zero everywhere",
+                ],
+                correctIndex: 0,
+                explanation: "Constant speed = constant rate of change = a flat derivative. The distance still climbs steadily, but its RATE of change never varies, so velocity is a flat horizontal line.",
+                neuroConnection: "A neuron's voltage decaying toward rest changes fast at first, then slows — its derivative is NOT flat. Recognizing flat vs. changing derivatives is how you read these models.",
+              },
+              {
+                id: "w3q4l6_q2",
+                text: "Geometrically, the derivative of a function at a point is its ______, and the integral is its ______.",
+                options: [
+                  "area under the curve; slope",
+                  "slope; area under the curve",
+                  "height; width",
+                  "peak; valley",
+                ],
+                correctIndex: 1,
+                explanation: "Derivative = slope (steepness at a point). Integral = area under the curve (everything accumulated up to that point). These two pictures are the heart of calculus.",
+                neuroConnection: "Integrating a neuron's firing rate over time gives the total spike count — literally the area under the rate curve.",
+              },
+              {
+                id: "w3q4l6_q3",
+                text: "At the very top of a hill (a maximum of a function), the derivative is:",
+                options: [
+                  "At its largest positive value",
+                  "At its largest negative value",
+                  "Exactly zero",
+                  "Undefined",
+                ],
+                correctIndex: 2,
+                explanation: "At a peak the slope flips from positive (going up) to negative (going down), passing through exactly zero at the top. This is how you find maxima and minima — and how gradient descent finds the best model settings.",
+                neuroConnection: "Finding where the derivative = 0 is the basis of optimization — used everywhere from fitting tuning curves to training deep networks.",
+              },
+              {
+                id: "w3q4l6_q4",
+                text: "Why does an indefinite integral come with a mystery '+ C' constant?",
+                options: [
+                  "Because integration is only an approximation",
+                  "Because the derivative of any constant is zero, so the starting height is unknown",
+                  "Because computers can't store exact numbers",
+                  "Because the area under the curve is always infinite",
+                ],
+                correctIndex: 1,
+                explanation: "Shifting a function up or down by a constant doesn't change its slopes at all (the derivative of a constant is 0). So going backwards, you can't recover that starting height — it's the unknown +C. Pinning down two limits (a definite integral) removes it.",
+                neuroConnection: "In neuron simulations you always set an initial condition (e.g. starting voltage) — that's you choosing the +C so the math has one definite answer.",
+              },
+            ],
+          },
+        ],
       },
 
       // ── Quest 3.5 — Differential Equations (W0D4 T2) ──────

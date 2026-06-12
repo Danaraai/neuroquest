@@ -3,6 +3,7 @@
 import React from "react";
 import type { ConceptBlock } from "@/data/types";
 import { ExecutableCodeBlock } from "./ExecutableCodeBlock";
+import { CalculusExplorer, CalculusPredict } from "./CalculusWidget";
 
 interface ConceptCardProps {
   blocks: ConceptBlock[];
@@ -110,6 +111,22 @@ function SingleBlock({ block }: { block: ConceptBlock }) {
         annotations={block.annotations}
         caption={block.caption}
       />
+    );
+  }
+
+  if (block.type === "widget") {
+    let widget: React.ReactNode = null;
+    if (block.content === "calculus-explorer") widget = <CalculusExplorer />;
+    else if (block.content === "calculus-predict") widget = <CalculusPredict />;
+    return (
+      <div>
+        {widget}
+        {block.caption && (
+          <p style={{ margin: "10px 4px 2px", fontSize: 12, color: "#6A6F90", fontStyle: "italic", textAlign: "center" }}>
+            {block.caption}
+          </p>
+        )}
+      </div>
     );
   }
 
