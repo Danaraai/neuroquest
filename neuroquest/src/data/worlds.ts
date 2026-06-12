@@ -5435,7 +5435,7 @@ print("✅ All tests passed! +25 XP")
         number: 4,
         title: "Differentiation & Integration",
         description: "Rates of change and area under the curve — the core of calculus",
-        totalXP: 75,
+        totalXP: 85,
         lessons: [
           // ── L1: What is Differentiation? ──────────────────
           {
@@ -5583,9 +5583,51 @@ print("✅ All tests passed! +25 XP")
             ],
           },
 
-          // ── L6: Quiz ──────────────────────────────────────
+          // ── L6: Differentiation & Gradient Descent ────────
           {
             id: "w3q4l6",
+            questId: "w3q4",
+            worldId: "world3",
+            title: "Differentiation & Gradient Descent",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 4,
+            concept: [
+              {
+                type: "highlight",
+                content: "This is **the** reason we learn derivatives. Almost every model that learns — an AI like GPT, or a model of a real neuron — learns the same way: by following a slope downhill to make its mistakes smaller. It's called **gradient descent**, and it's the staple of all model training.",
+              },
+              {
+                type: "text",
+                content: "**Every model has knobs.**\n\nA model is just a machine with adjustable knobs (called **weights** and **biases**). GPT has *billions* of them. For any setting of the knobs, you can measure how **wrong** the model is — that number is the **error**.\n\nBig error = bad model. Small error = good model. The whole job of training is finding the knob settings that make the error as **small as possible** — the bottom of the valley from the last lesson.",
+              },
+              {
+                type: "text",
+                content: "**The blindfolded hiker.**\n\nYou can't try every combination — with a billion knobs, there are more settings than atoms in the universe. So instead, picture standing blindfolded on a foggy mountain, trying to reach the lowest point.\n\nYou can't see the valley. But you *can* feel the **slope** under your feet. So you feel which way is downhill, take a small step, feel again, step again — until the ground goes **flat** (slope = zero). You've reached the bottom.\n\nThat slope you feel? It's the **derivative**. That's the entire trick.",
+              },
+              {
+                type: "highlight",
+                content: "**Gradient descent = roll downhill until the derivative is zero.** The derivative tells you which way is \"down\" for the error. (\"Gradient\" is just the word for the slope when you have many knobs at once.)",
+              },
+              {
+                type: "text",
+                content: "**How AI actually trains — the cat example.**\n\nShow the model: *\"The cat sat on the ___\"*\n\n1. It guesses **\"dog.\"** Wrong. Measure the **error**.\n2. Compute the **derivative of the error with respect to every knob** — \"if I nudge this weight up, does the error go up or down?\"\n3. Nudge every knob a tiny bit in the **downhill** direction.\n4. Show the next example. Repeat — **millions of times**.\n\nEach step lowers the error a hair. Do it millions of times and the model slides down the valley until its guesses are great. **That's all \"learning\" in machine learning is.**",
+              },
+              {
+                type: "text",
+                content: "**Same idea in neuroscience — fitting a neuron.**\n\nSay you record a real neuron and want a math model that reproduces it. Same recipe — but now the knobs aren't AI weights, they're biological: **synaptic weights** and **time constants**.\n\nMeasure how far your model's output is from the real recording (error), then use gradient descent to tune those knobs until the model matches the neuron. Same blindfolded hiker, different mountain.",
+              },
+              {
+                type: "highlight",
+                content: "**And maybe the brain itself does this.** When you practice piano and hit a wrong note, your brain gets an error signal and adjusts its synapses to do better next time. It's not identical to the AI math — but the principle, *use the error to nudge the knobs in the right direction*, may be how real brains learn too. One simple idea — follow the slope — sits under AI, neuroscience models, **and** possibly your own learning right now.",
+              },
+            ],
+          },
+
+          // ── L7: Quiz ──────────────────────────────────────
+          {
+            id: "w3q4l7",
             questId: "w3q4",
             worldId: "world3",
             title: "Quiz: Differentiation & Integration",
@@ -5595,7 +5637,7 @@ print("✅ All tests passed! +25 XP")
             estimatedMinutes: 3,
             questions: [
               {
-                id: "w3q4l6_q1",
+                id: "w3q4l7_q1",
                 text: "You're driving at a perfectly constant speed. What does the derivative of your distance-traveled (your velocity) look like over time?",
                 options: [
                   "A flat horizontal line",
@@ -5608,7 +5650,7 @@ print("✅ All tests passed! +25 XP")
                 neuroConnection: "A neuron's voltage decaying toward rest changes fast at first, then slows — its derivative is NOT flat. Recognizing flat vs. changing derivatives is how you read these models.",
               },
               {
-                id: "w3q4l6_q2",
+                id: "w3q4l7_q2",
                 text: "Geometrically, the derivative of a function at a point is its ______, and the integral is its ______.",
                 options: [
                   "area under the curve; slope",
@@ -5621,7 +5663,7 @@ print("✅ All tests passed! +25 XP")
                 neuroConnection: "Integrating a neuron's firing rate over time gives the total spike count — literally the area under the rate curve.",
               },
               {
-                id: "w3q4l6_q3",
+                id: "w3q4l7_q3",
                 text: "At the very top of a hill (a maximum of a function), the derivative is:",
                 options: [
                   "At its largest positive value",
@@ -5634,7 +5676,7 @@ print("✅ All tests passed! +25 XP")
                 neuroConnection: "Finding where the derivative = 0 is the basis of optimization — used everywhere from fitting tuning curves to training deep networks.",
               },
               {
-                id: "w3q4l6_q4",
+                id: "w3q4l7_q4",
                 text: "Why does an indefinite integral come with a mystery '+ C' constant?",
                 options: [
                   "Because integration is only an approximation",
