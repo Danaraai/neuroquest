@@ -5464,6 +5464,15 @@ print("✅ All tests passed! +25 XP")
                 type: "highlight",
                 content: "**The sign tells you the direction.** Derivative positive → the function is going **up**. Negative → going **down**. And right where it flips — the very top of a hill or bottom of a valley — the slope is **zero**. (You'll use that later to find peaks and best-answers.)",
               },
+              {
+                type: "highlight",
+                content: "**In Python, you don't compute derivatives by hand.** One function does it: **np.gradient(y, t)** — give it your data `y` and the time points `t`, and it hands back the slope at every point.",
+              },
+              {
+                type: "code",
+                content: "import numpy as np\n\nt = np.linspace(0, 10, 100)   # time points\ny = t**2                      # the function: distance = t²\n\ndydt = np.gradient(y, t)      # the derivative (velocity) at every point\nprint(dydt[:5])               # ≈ [0, 0.2, 0.4, ...] — slope keeps growing",
+                caption: "np.gradient(y, t) — your go-to for a numerical derivative. You'll use it constantly.",
+              },
             ],
           },
 
@@ -5493,6 +5502,15 @@ print("✅ All tests passed! +25 XP")
               {
                 type: "text",
                 content: "**One quirk: the mystery constant (+C).**\n\nGoing backwards has a catch. The derivative of *any* flat constant is zero — a hill 5 units higher has the exact same slopes. So when you integrate, you can't tell how high up you started. That unknown starting height is written as **+ C**.\n\nIf you pin down a start and an end (a **definite** integral between two limits), the mystery cancels out and you get one exact number: the area between those limits.",
+              },
+              {
+                type: "highlight",
+                content: "**In Python, integration is also one function.** For the total area between two limits (a definite integral), use **np.trapz(y, t)** — it adds up all the thin slivers of area under your curve.",
+              },
+              {
+                type: "code",
+                content: "import numpy as np\n\nt = np.linspace(0, 10, 100)   # time points\nvelocity = np.full(100, 3)    # constant speed of 3\n\ndistance = np.trapz(velocity, t)   # area under the curve = total distance\nprint(distance)               # ≈ 30  (speed 3 × time 10)",
+                caption: "np.trapz(y, t) → one number: the area under the curve. (For the running integral at every point, NMA uses scipy's cumulative_trapezoid.)",
               },
             ],
           },
@@ -5687,6 +5705,32 @@ print("✅ All tests passed! +25 XP")
                 correctIndex: 1,
                 explanation: "Shifting a function up or down by a constant doesn't change its slopes at all (the derivative of a constant is 0). So going backwards, you can't recover that starting height — it's the unknown +C. Pinning down two limits (a definite integral) removes it.",
                 neuroConnection: "In neuron simulations you always set an initial condition (e.g. starting voltage) — that's you choosing the +C so the math has one definite answer.",
+              },
+              {
+                id: "w3q4l7_q5",
+                text: "You have data y and time points t in Python. Which line gives you the DERIVATIVE (slope at every point)?",
+                options: [
+                  "np.trapz(y, t)",
+                  "np.gradient(y, t)",
+                  "np.mean(y, t)",
+                  "np.linalg.norm(y)",
+                ],
+                correctIndex: 1,
+                explanation: "np.gradient(y, t) returns the numerical derivative — the slope at every point. np.trapz is for integration, np.mean is the average, np.linalg.norm is vector length.",
+                neuroConnection: "Computing dV/dt from a recorded voltage trace is a one-liner with np.gradient — used constantly in NMA to find rates of change.",
+              },
+              {
+                id: "w3q4l7_q6",
+                text: "Which line computes the INTEGRAL — the total area under a curve y over time points t?",
+                options: [
+                  "np.gradient(y, t)",
+                  "np.diff(y)",
+                  "np.trapz(y, t)",
+                  "np.max(y)",
+                ],
+                correctIndex: 2,
+                explanation: "np.trapz(y, t) adds up the thin slivers of area under the curve and returns one number — the definite integral. np.gradient and np.diff are about differences/slopes, not area.",
+                neuroConnection: "Integrating a firing-rate curve with np.trapz gives the total number of spikes — area under the rate curve.",
               },
             ],
           },

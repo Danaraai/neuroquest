@@ -119,4 +119,18 @@ export const FACTS: Fact[] = [
     category: "Neuro in sports",
     color: "#FF6B35",
   },
+  {
+    id: "f17",
+    emoji: "📉",
+    text: "Why does everyone — whether they're training GPT or modeling a brain — obsess over derivatives? Because the derivative is the heart of gradient descent, the way essentially every model learns.\n\nTake GPT. You train it by shrinking its error — the gap between what it predicts and what's actually true. Show it 'the cat sat on the ___,' it guesses 'dog,' that's wrong, and you get an error.\n\nTo shrink that error, you tweak the model's parameters one by one, little by little — each time nudging them in the direction that lowers the error. That direction is exactly what the derivative tells you. And the smallest error sits where the derivative hits zero, the point where the slope flips its sign. Find that, and the model has learned.",
+    category: "AI & the brain",
+    color: "#7C82F8",
+  },
+  {
+    id: "f18",
+    emoji: "🎹",
+    text: "Here's the wild part: scientists think your brain learns in a strikingly similar way to how AI does.\n\nPractice a tricky piano passage and hit a wrong note. Your brain registers an error signal — that's not what I meant to play — and quietly adjusts the strengths of the synapses involved, so next time you're a little closer.\n\nDo it a hundred times and the passage flows. It's not identical to the math an AI uses, but the principle is the same: use the error to nudge the knobs in the right direction. One idea — follow the slope downhill — may sit underneath AI, neuroscience models, and the way you learn anything at all.",
+    category: "AI & the brain",
+    color: "#1CB0F6",
+  },
 ];
