@@ -42,6 +42,8 @@ export default function MapPage() {
             // Count completed quests in this world
             const totalQuests = world.quests.length;
             const completedQuestsCount = world.quests.filter((q) => {
+              // A quest with no lessons yet can't be complete (empty .every() is true)
+              if (q.lessons.length === 0) return false;
               // A quest is done if questProgress marks it complete OR all its lessons are completed
               if (questProgress[q.id]?.completed) return true;
               return q.lessons.every((l) => !!lessonProgress[l.id]?.completedAt);
@@ -145,7 +147,9 @@ export default function MapPage() {
                   <div className="ml-16 mt-2 space-y-1.5">
                     {world.quests.map((quest, qi) => {
                       const qp = questProgress[quest.id];
-                      const questDone = qp?.completed || quest.lessons.every((l) => !!lessonProgress[l.id]?.completedAt);
+                      // A quest with no lessons yet can't be done (empty .every() is true)
+                      const questDone = quest.lessons.length > 0 &&
+                        (qp?.completed || quest.lessons.every((l) => !!lessonProgress[l.id]?.completedAt));
                       const isBoss = quest.isBoss;
 
                       return (
