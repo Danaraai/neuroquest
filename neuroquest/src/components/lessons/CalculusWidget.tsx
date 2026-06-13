@@ -146,9 +146,13 @@ function Plot({ ts, series, height = 240, showLegend = true }: PlotProps) {
     yMin = -1;
     yMax = 1;
   }
-  if (yMin === yMax) {
-    yMin -= 1;
-    yMax += 1;
+  // Floor the range so a near-constant curve (e.g. derivative of a line = 1)
+  // renders as a flat line instead of amplifying floating-point noise into wiggles.
+  const mid = (yMin + yMax) / 2;
+  const minRange = Math.max(0.5, Math.abs(mid) * 0.2);
+  if (yMax - yMin < minRange) {
+    yMin = mid - minRange / 2;
+    yMax = mid + minRange / 2;
   }
   const pad = (yMax - yMin) * 0.12;
   yMin -= pad;
