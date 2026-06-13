@@ -25,6 +25,58 @@ const FUNCTIONS: FnDef[] = [
   { key: "sigmoid", label: "Sigmoid", expr: "f(t) = 1 / (1 + e^−t)", f: (t) => 1 / (1 + Math.exp(-t)) },
 ];
 
+// ─── Plain-English formula explanations ────────────────────
+interface Explain {
+  formula: string;
+  why: string;
+}
+
+const DERIV_INFO: Record<FnKey, Explain> = {
+  linear: {
+    formula: "d/dt [ t ] = 1",
+    why: "A straight line has the SAME steepness everywhere — so its slope is just a constant. That's why the derivative is a flat line at 1.",
+  },
+  quadratic: {
+    formula: "d/dt [ t² ] = 2t",
+    why: "The curve gets steeper the further right you go, so the slope keeps climbing — a straight diagonal line (2t).",
+  },
+  sine: {
+    formula: "d/dt [ sin(t) ] = cos(t)",
+    why: "A sine wave is steepest where it crosses the middle and flat at its peaks. That pattern of steepness is exactly a cosine wave — so the slope of sine is cosine.",
+  },
+  exponential: {
+    formula: "d/dt [ e^(0.6t) ] = 0.6 · e^(0.6t)",
+    why: "The taller it gets, the faster it climbs — its slope is proportional to its own height. That's why the derivative looks just like the function itself.",
+  },
+  sigmoid: {
+    formula: "d/dt [ σ(t) ] = σ(t)·(1 − σ(t))",
+    why: "The S-curve is flat, then steep, then flat again. So its slope is a little hill — near zero at the edges, biggest in the middle.",
+  },
+};
+
+const INTEG_INFO: Record<FnKey, Explain> = {
+  linear: {
+    formula: "∫ t dt = t² / 2  (+ C)",
+    why: "You're adding up a value that grows steadily, so the total piles up faster and faster — that's a parabola.",
+  },
+  quadratic: {
+    formula: "∫ t² dt = t³ / 3  (+ C)",
+    why: "Area under a rising curve stacks up even quicker, so the running total grows as a cubic.",
+  },
+  sine: {
+    formula: "∫ sin(t) dt = −cos(t)  (+ C)",
+    why: "Adding up the area under a sine wave traces out another wave, shifted over. It works out to be negative cosine.",
+  },
+  exponential: {
+    formula: "∫ e^(0.6t) dt = (1/0.6) · e^(0.6t)  (+ C)",
+    why: "Same magic in reverse: the area under an exponential is just a scaled copy of the exponential itself.",
+  },
+  sigmoid: {
+    formula: "∫ σ(t) dt = ln(1 + e^t)  (+ C)",
+    why: "Adding up an S-curve gives a line that's flat at first, then rises steadily — a gentle ramp (engineers call it 'softplus').",
+  },
+};
+
 // ─── Numerical calculus ────────────────────────────────────
 const T_MIN = -4;
 const T_MAX = 4;
@@ -228,6 +280,10 @@ export function CalculusExplorer() {
         <Toggle on={showI} color={C_INTEG} label="Show integral" onClick={() => setShowI((v) => !v)} />
       </div>
 
+      {/* formula explanations — appear when toggled on */}
+      {showD && <ExplainBox color={C_DERIV} title="Derivative" info={DERIV_INFO[fnKey]} />}
+      {showI && <ExplainBox color={C_INTEG} title="Integral" info={INTEG_INFO[fnKey]} />}
+
       <p style={{ margin: "12px 2px 0", fontSize: 12, color: "#6A6F90", fontStyle: "italic", lineHeight: 1.5 }}>
         Tip: look at the function first. Predict what the derivative (slope) and integral (area) will look like —
         <em> then</em> toggle them on and check.
@@ -276,6 +332,40 @@ function Toggle({ on, color, label, onClick }: { on: boolean; color: string; lab
       </span>
       {label}
     </button>
+  );
+}
+
+function ExplainBox({ color, title, info }: { color: string; title: string; info: Explain }) {
+  return (
+    <div
+      style={{
+        marginTop: 10,
+        padding: "12px 14px",
+        borderRadius: 12,
+        background: `${color}12`,
+        borderLeft: `3px solid ${color}`,
+      }}
+    >
+      <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8, flexWrap: "wrap" }}>
+        <span style={{ fontSize: 11, fontWeight: 800, color, letterSpacing: 0.4, textTransform: "uppercase" }}>
+          {title}
+        </span>
+        <span
+          style={{
+            fontSize: 14,
+            fontWeight: 700,
+            color: "#EEEDF6",
+            fontFamily: "var(--font-code)",
+            background: "rgba(0,0,0,0.25)",
+            padding: "3px 9px",
+            borderRadius: 7,
+          }}
+        >
+          {info.formula}
+        </span>
+      </div>
+      <p style={{ margin: 0, fontSize: 13.5, color: "#C8CADF", lineHeight: 1.6 }}>{info.why}</p>
+    </div>
   );
 }
 
