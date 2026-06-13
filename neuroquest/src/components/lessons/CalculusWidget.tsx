@@ -374,7 +374,11 @@ function ExplainBox({ color, title, info }: { color: string; title: string; info
 }
 
 // ─── Predict mini-game ─────────────────────────────────────
-const PREDICT_ROUNDS: FnKey[] = ["quadratic", "sine", "linear", "exponential"];
+// Exponential is excluded on purpose: its function, derivative, and integral
+// are all the same shape (scaled), so they're visually identical options —
+// an impossible "spot the derivative" question. Its special property is taught
+// in the explorer instead. These four all have distinct-shaped derivatives.
+const PREDICT_ROUNDS: FnKey[] = ["quadratic", "sine", "linear", "sigmoid"];
 
 export function CalculusPredict() {
   const [round, setRound] = useState(0);
