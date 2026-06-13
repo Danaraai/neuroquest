@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 // ─── Colors ────────────────────────────────────────────────
 const C_FUNC = "#FF4B4B"; // function — red
@@ -8,7 +8,7 @@ const C_DERIV = "#1CB0F6"; // derivative — blue
 const C_INTEG = "#58CC02"; // integral — green
 
 // ─── Function library ──────────────────────────────────────
-type FnKey = "linear" | "quadratic" | "sine" | "exponential" | "sigmoid";
+type FnKey = "linear" | "quadratic" | "cubic" | "sine" | "exponential" | "sigmoid";
 
 interface FnDef {
   key: FnKey;
@@ -20,6 +20,7 @@ interface FnDef {
 const FUNCTIONS: FnDef[] = [
   { key: "linear", label: "Linear", expr: "f(t) = t", f: (t) => t },
   { key: "quadratic", label: "Quadratic", expr: "f(t) = t²", f: (t) => t * t },
+  { key: "cubic", label: "Cubic", expr: "f(t) = t³", f: (t) => t * t * t },
   { key: "sine", label: "Sine", expr: "f(t) = sin(t)", f: (t) => Math.sin(t) },
   { key: "exponential", label: "Exponential", expr: "f(t) = e^(0.6t)", f: (t) => Math.exp(0.6 * t) },
   { key: "sigmoid", label: "Sigmoid", expr: "f(t) = 1 / (1 + e^−t)", f: (t) => 1 / (1 + Math.exp(-t)) },
@@ -39,6 +40,10 @@ const DERIV_INFO: Record<FnKey, Explain> = {
   quadratic: {
     formula: "d/dt [ t² ] = 2t",
     why: "The curve gets steeper the further right you go, so the slope keeps climbing — a straight diagonal line (2t).",
+  },
+  cubic: {
+    formula: "d/dt [ t³ ] = 3t²",
+    why: "A cubic is shallow near zero and steep at both edges, so its slope is an upward parabola (3t²) — bigger the further out you go.",
   },
   sine: {
     formula: "d/dt [ sin(t) ] = cos(t)",
@@ -62,6 +67,10 @@ const INTEG_INFO: Record<FnKey, Explain> = {
   quadratic: {
     formula: "∫ t² dt = t³ / 3  (+ C)",
     why: "Area under a rising curve stacks up even quicker, so the running total grows as a cubic.",
+  },
+  cubic: {
+    formula: "∫ t³ dt = t⁴ / 4  (+ C)",
+    why: "Stacking up the area under a cubic grows faster still — a steep U-shaped quartic.",
   },
   sine: {
     formula: "∫ sin(t) dt = −cos(t)  (+ C)",
@@ -377,19 +386,57 @@ function ExplainBox({ color, title, info }: { color: string; title: string; info
 // Exponential is excluded on purpose: its function, derivative, and integral
 // are all the same shape (scaled), so they're visually identical options —
 // an impossible "spot the derivative" question. Its special property is taught
-// in the explorer instead. These four all have distinct-shaped derivatives.
-const PREDICT_ROUNDS: FnKey[] = ["quadratic", "sine", "linear", "sigmoid"];
+// in the explorer instead. These all have distinct-shaped derivatives.
+const PREDICT_POOL: FnKey[] = ["linear", "quadratic", "cubic", "sine", "sigmoid"];
+const ROUNDS_PER_GAME = 4;
+
+function shuffle<T>(arr: T[]): T[] {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+interface GameRound {
+  fnKey: FnKey;
+  order: number[]; // shuffle of [0,1,2] = which raw option goes in each slot
+}
+
+function buildGame(): GameRound[] {
+  // a fresh random subset of functions, each with its options shuffled
+  return shuffle(PREDICT_POOL)
+    .slice(0, ROUNDS_PER_GAME)
+    .map((fnKey) => ({ fnKey, order: shuffle([0, 1, 2]) }));
+}
+
+// Deterministic starting game so server and client render identically
+// (avoids a hydration mismatch from Math.random). We shuffle on the client
+// after mount via useEffect.
+const DEFAULT_GAME: GameRound[] = PREDICT_POOL.slice(0, ROUNDS_PER_GAME).map((fnKey) => ({
+  fnKey,
+  order: [0, 1, 2],
+}));
 
 export function CalculusPredict() {
-  const [round, setRound] = useState(0);
+  const [game, setGame] = useState<GameRound[]>(DEFAULT_GAME);
+  const [idx, setIdx] = useState(0);
   const [picked, setPicked] = useState<number | null>(null);
+  const [correctCount, setCorrectCount] = useState(0);
+  const [done, setDone] = useState(false);
 
-  const fnKey = PREDICT_ROUNDS[round % PREDICT_ROUNDS.length];
-  const fn = FUNCTIONS.find((f) => f.key === fnKey)!;
+  // Shuffle once on the client, after hydration, so the first paint matches SSR.
+  useEffect(() => {
+    setGame(buildGame());
+  }, []);
+
   const ts = useMemo(() => sampleT(), []);
+  const roundDef = game[idx];
+  const fn = FUNCTIONS.find((f) => f.key === roundDef.fnKey)!;
   const ys = useMemo(() => sampleF(fn.f, ts), [fn, ts]);
 
-  // option curves: correct = derivative; distractors = the function itself + the integral
+  // option curves: correct = derivative; distractors = function itself + integral
   const options = useMemo(() => {
     const dys = derivative(fn.f, ts);
     const iys = integral(ys, ts);
@@ -398,13 +445,67 @@ export function CalculusPredict() {
       { ys, kind: "function" as const, label: "The function itself" },
       { ys: iys, kind: "integral" as const, label: "The running area (integral)" },
     ];
-    // deterministic shuffle per round
-    const order = [[0, 1, 2], [2, 0, 1], [1, 2, 0], [0, 2, 1]][round % 4];
-    return order.map((idx) => raw[idx]);
-  }, [fn, ts, ys, round]);
+    return roundDef.order.map((i) => raw[i]);
+  }, [fn, ts, ys, roundDef]);
 
   const correctIdx = options.findIndex((o) => o.kind === "derivative");
   const answered = picked !== null;
+  const isLastRound = idx === game.length - 1;
+
+  function pick(i: number) {
+    if (answered) return;
+    setPicked(i);
+    if (i === correctIdx) setCorrectCount((c) => c + 1);
+  }
+
+  function playAgain() {
+    setGame(buildGame());
+    setIdx(0);
+    setPicked(null);
+    setCorrectCount(0);
+    setDone(false);
+  }
+
+  // ── completion screen ──
+  if (done) {
+    const perfect = correctCount === game.length;
+    return (
+      <div
+        style={{
+          background: "#15183A",
+          border: "1px solid rgba(124,130,248,0.18)",
+          borderRadius: 16,
+          padding: 24,
+          textAlign: "center",
+        }}
+      >
+        <div style={{ fontSize: 40, marginBottom: 8 }}>{perfect ? "🏆" : "🎉"}</div>
+        <p style={{ margin: 0, fontSize: 18, fontWeight: 800, color: "#EEEDF6" }}>
+          {correctCount} / {game.length} correct
+        </p>
+        <p style={{ margin: "6px 0 16px", fontSize: 13.5, color: "#9EA3BD", lineHeight: 1.6 }}>
+          {perfect
+            ? "Perfect — you can spot a derivative on sight. That's real calculus intuition."
+            : "Nice work. Play again for a fresh set of functions in a new order."}
+        </p>
+        <button
+          onClick={playAgain}
+          style={{
+            padding: "11px 24px",
+            borderRadius: 10,
+            border: "none",
+            background: "#7C82F8",
+            color: "#0E1124",
+            fontWeight: 800,
+            fontSize: 14,
+            cursor: "pointer",
+          }}
+        >
+          🔄 Play again
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div
@@ -417,7 +518,7 @@ export function CalculusPredict() {
     >
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
         <span style={{ fontSize: 12, fontWeight: 800, color: "#7C82F8", letterSpacing: 0.4 }}>
-          🎯 ROUND {round + 1}
+          🎯 ROUND {idx + 1} / {game.length}
         </span>
         <span style={{ fontSize: 12, color: "#6A6F90" }}>Which graph is the derivative?</span>
       </div>
@@ -451,7 +552,7 @@ export function CalculusPredict() {
           return (
             <button
               key={i}
-              onClick={() => !answered && setPicked(i)}
+              onClick={() => pick(i)}
               disabled={answered}
               style={{
                 padding: 6,
@@ -484,12 +585,16 @@ export function CalculusPredict() {
           <p style={{ margin: 0, fontSize: 13.5, color: "#C8CADF", lineHeight: 1.6 }}>
             {picked === correctIdx ? "✅ Correct! " : "❌ Not quite. "}
             The derivative is <strong style={{ color: C_DERIV }}>{options[correctIdx].label}</strong>.{" "}
-            {explainDerivative(fnKey)}
+            {explainDerivative(roundDef.fnKey)}
           </p>
           <button
             onClick={() => {
-              setPicked(null);
-              setRound((r) => r + 1);
+              if (isLastRound) {
+                setDone(true);
+              } else {
+                setPicked(null);
+                setIdx((n) => n + 1);
+              }
             }}
             style={{
               marginTop: 10,
@@ -504,7 +609,7 @@ export function CalculusPredict() {
               cursor: "pointer",
             }}
           >
-            Next function →
+            {isLastRound ? "See results →" : "Next function →"}
           </button>
         </div>
       )}
@@ -518,6 +623,8 @@ function explainDerivative(key: FnKey): string {
       return "A straight line has the SAME slope everywhere, so its derivative is a flat horizontal line.";
     case "quadratic":
       return "t² gets steeper as you move right, so its slope keeps increasing — a straight diagonal line (2t).";
+    case "cubic":
+      return "t³ is shallow near zero and steep at both edges, so its slope is an upward parabola (3t²).";
     case "sine":
       return "A sine wave's slope is steepest at the zero-crossings and flat at the peaks — that traces out a cosine wave.";
     case "exponential":

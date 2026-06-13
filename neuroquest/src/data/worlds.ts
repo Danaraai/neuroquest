@@ -5562,7 +5562,7 @@ print("✅ All tests passed! +25 XP")
             concept: [
               {
                 type: "highlight",
-                content: "No toggles this time. You see a function — you pick which of three graphs is its **derivative** (its slope at every point). Three rounds, instant feedback.",
+                content: "No toggles this time. You see a function — you pick which of three graphs is its **derivative** (its slope at every point). Four rounds, instant feedback, then a score. Each playthrough shuffles the functions and their order, so hit Play Again for a fresh set.",
               },
               {
                 type: "widget",
