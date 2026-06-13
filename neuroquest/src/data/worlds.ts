@@ -5466,12 +5466,12 @@ print("✅ All tests passed! +25 XP")
               },
               {
                 type: "highlight",
-                content: "**In Python, you don't compute derivatives by hand.** One function does it: **np.gradient(y, t)** — give it your data `y` and the time points `t`, and it hands back the slope at every point.",
+                content: "**In Python, you don't compute derivatives by hand.** One function does it: **np.gradient(y, t)** — give it your data `y` and the time points `t`, and it hands back the slope at every point. Hit **Run** below to see it. ↓",
               },
               {
-                type: "code",
-                content: "import numpy as np\n\nt = np.linspace(0, 10, 100)   # time points\ny = t**2                      # the function: distance = t²\n\ndydt = np.gradient(y, t)      # the derivative (velocity) at every point\nprint(dydt[:5])               # ≈ [0, 0.2, 0.4, ...] — slope keeps growing",
-                caption: "np.gradient(y, t) — your go-to for a numerical derivative. You'll use it constantly.",
+                type: "executable-code",
+                content: "import numpy as np\nimport matplotlib.pyplot as plt\n\nt = np.linspace(0, 10, 100)   # time points\ny = t**2                      # the function: distance = t²\n\ndydt = np.gradient(y, t)      # the derivative (velocity) at every point\n\nplt.figure(figsize=(6, 4))\nplt.plot(t, y, label=\"function  y = t²\")\nplt.plot(t, dydt, label=\"derivative  dy/dt = 2t\")\nplt.xlabel(\"t\")\nplt.legend()\nplt.title(\"A function and its derivative\")\nplt.show()",
+                caption: "Press Run — the parabola is the function, the straight line is its derivative (2t). Try changing y = t**2 to y = np.sin(t) and run again!",
               },
             ],
           },
@@ -5505,12 +5505,12 @@ print("✅ All tests passed! +25 XP")
               },
               {
                 type: "highlight",
-                content: "**In Python, integration is also one function.** For the total area between two limits (a definite integral), use **np.trapz(y, t)** — it adds up all the thin slivers of area under your curve.",
+                content: "**In Python, integration is also one function.** For the total area under a curve (a definite integral), use **np.trapz(y, t)** — it adds up all the thin slivers of area. Hit **Run** to see the area it measures. ↓",
               },
               {
-                type: "code",
-                content: "import numpy as np\n\nt = np.linspace(0, 10, 100)   # time points\nvelocity = np.full(100, 3)    # constant speed of 3\n\ndistance = np.trapz(velocity, t)   # area under the curve = total distance\nprint(distance)               # ≈ 30  (speed 3 × time 10)",
-                caption: "np.trapz(y, t) → one number: the area under the curve. (For the running integral at every point, NMA uses scipy's cumulative_trapezoid.)",
+                type: "executable-code",
+                content: "import numpy as np\nimport matplotlib.pyplot as plt\n\nt = np.linspace(0, 10, 100)   # time points\nvelocity = t                  # speeding up over time\n\ndistance = np.trapz(velocity, t)   # area under the curve = total distance\nprint(\"total distance =\", round(distance, 1))   # ≈ 50\n\nplt.figure(figsize=(6, 4))\nplt.plot(t, velocity, label=\"velocity\")\nplt.fill_between(t, velocity, alpha=0.3)   # the shaded area IS the integral\nplt.xlabel(\"t\")\nplt.ylabel(\"velocity\")\nplt.title(\"Integral = the shaded area under the curve\")\nplt.legend()\nplt.show()",
+                caption: "Press Run — the shaded region is the integral (total distance). np.trapz measures that area. (For the running integral at every point, NMA uses scipy's cumulative_trapezoid.)",
               },
             ],
           },
