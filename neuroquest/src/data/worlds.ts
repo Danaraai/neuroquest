@@ -5902,27 +5902,35 @@ print("✅ All tests passed! +25 XP")
             concept: [
               {
                 type: "highlight",
-                content: "Here's where calculus meets a real neuron. Inject current **I** into a neuron and it fires at some **rate**. The curve relating input → output is the **transfer function**, and its *slope* has a special name: the **gain**.",
+                content: "A neuron is like a **dimmer switch**. Push too softly → nothing happens. Push past its wake-up point → it kicks on. Push hard → it maxes out. That's the whole lesson. Let's make it concrete.",
               },
               {
                 type: "text",
-                content: "**The transfer function** (the S-shaped curve): \"if I push this much current in, how fast does the neuron fire?\" For most neurons it's a **sigmoid** — flat at low current, a steep rise in the middle, flattening again as it saturates.\n\nTwo knobs shape it:\n• **θ (threshold)** — the input level where the neuron \"wakes up\" and responds strongly.\n• **a (gain parameter)** — how *sharp* the rise is around θ.",
+                content: "**Poke a neuron with different strengths and watch what it does:**\n\n• **Weak push** → almost no firing (basically asleep 😴)\n• **Medium push** → about half speed (just waking up)\n• **Strong push** → nearly maxed out (firing hard ⚡)\n\nThat's it. A neuron ignores weak input, switches on over a middle range, and tops out when you push hard.",
+              },
+              {
+                type: "text",
+                content: "**Now plot those three points.** Put *how hard you push* along the bottom, and *how fast it fires* up the side. Connect them and you get a stretched-out **S-shape** — flat, then rising, then flat again. That S-curve is called the neuron's **transfer function** (input → output).",
               },
               {
                 type: "highlight",
-                content: "**Gain = the slope of the transfer function = its derivative.** Think of a volume knob: turn the input a little and the firing rate jumps a lot → **high gain**. Turn it and barely anything changes → **low gain**. The gain tells you *where* the neuron is most sensitive to its input.",
+                content: "⚠️ **One thing that trips everyone up:** the bottom axis here is *how hard you push the neuron* — **NOT time**. Earlier lessons put time on the bottom; this one does not. Every point just says \"this much push → this much firing.\"",
               },
               {
                 type: "text",
-                content: "**Play with it below.** Drag **θ** and **a** and watch both plots. The top plot is the transfer function (rate vs current); the bottom plot is its gain (the slope). Notice the gain is a *bump* — the neuron is most sensitive right around its threshold θ, and barely sensitive when it's saturated.",
+                content: "**The wake-up point has a name: θ (theta).** It's the push strength where the neuron is *halfway on* — right in the steep middle of the S. Below θ it's mostly asleep; above θ it's mostly maxed out.\n\n**The other knob is a** — *how sudden* the wake-up is. Big **a** = a crisp on-switch (asleep → firing over a tiny range). Small **a** = a slow, gradual fade-in.",
+              },
+              {
+                type: "text",
+                content: "**Play with it below.** Slide **θ** (the wake-up point) and **a** (how sudden) and watch the S-curve change. Try to predict before you drag!",
               },
               {
                 type: "widget",
                 content: "transfer-function",
               },
               {
-                type: "text",
-                content: "**What you should have noticed:**\n• Increase **θ** → the whole S-curve slides **right** (needs more current to wake up), and the gain bump slides right with it.\n• Increase **a** → the S-curve gets **steeper**, and the gain bump grows **taller and narrower** (more sensitive, over a narrower range).\n\nThis is exactly how neuroscientists describe a neuron's input-output behavior — and the gain is computed as a derivative.",
+                type: "highlight",
+                content: "**Last idea — \"gain.\"** Gain just means: *how much extra firing do you get for one more unit of push?* It's biggest right at the wake-up point θ (the steep part), and tiny when the neuron is asleep or maxed out (the flat parts). That's the **bump** in the bottom graph. And gain is simply the **slope** of the S-curve — so it's a derivative. 🎉",
               },
             ],
           },

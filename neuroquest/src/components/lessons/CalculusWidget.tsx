@@ -644,26 +644,28 @@ function sigmoidRate(I: number, a: number, theta: number): number {
   return 1 / (1 + Math.exp(-a * (I - theta)));
 }
 
-// small self-contained plotter for the 0–10 input-current domain
+// small self-contained plotter — x-axis is "how hard you push", in plain words
 function TFPlot({
   xs,
   ys,
   color,
   theta,
   title,
+  yLabel,
 }: {
   xs: number[];
   ys: number[];
   color: string;
   theta: number;
   title: string;
+  yLabel: string;
 }) {
   const W = 340;
-  const H = 150;
-  const padL = 14;
+  const H = 168;
+  const padL = 16;
   const padR = 14;
   const padT = 10;
-  const padB = 22;
+  const padB = 40; // room for "weak push → strong push" labels
 
   let yMax = -Infinity;
   for (const v of ys) if (Number.isFinite(v) && v > yMax) yMax = v;
@@ -673,22 +675,25 @@ function TFPlot({
   const xOf = (x: number) => padL + ((x - TF_IMIN) / (TF_IMAX - TF_IMIN)) * (W - padL - padR);
   const yOf = (y: number) => padT + (1 - y / yMax) * (H - padT - padB);
   const path = ys.map((y, i) => `${i === 0 ? "M" : "L"}${xOf(xs[i]).toFixed(1)},${yOf(y).toFixed(1)}`).join(" ");
+  const baseY = H - padB;
 
   return (
-    <div style={{ marginTop: 10 }}>
-      <div style={{ fontSize: 11.5, color: "#9EA3BD", fontWeight: 600, marginBottom: 2, marginLeft: 2 }}>{title}</div>
+    <div style={{ marginTop: 12 }}>
+      <div style={{ fontSize: 12, color: "#C8CADF", fontWeight: 700, marginBottom: 3, marginLeft: 2 }}>{title}</div>
       <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", display: "block" }}>
-        <rect x={padL} y={padT} width={W - padL - padR} height={H - padT - padB} fill="#0E1124" rx={6} />
+        <rect x={padL} y={padT} width={W - padL - padR} height={baseY - padT} fill="#0E1124" rx={6} />
+        {/* y-axis label (what "up" means) */}
+        <text x={padL + 3} y={padT + 11} fill="#7A80A0" fontSize={9}>↑ {yLabel}</text>
         {/* baseline */}
         <line x1={padL} x2={W - padR} y1={yOf(0)} y2={yOf(0)} stroke="rgba(255,255,255,0.18)" strokeWidth={1} />
         {/* threshold marker */}
-        <line x1={xOf(theta)} x2={xOf(theta)} y1={padT} y2={H - padB} stroke="#FF9600" strokeWidth={1.3} strokeDasharray="4 3" opacity={0.7} />
-        <text x={xOf(theta) + 3} y={padT + 10} fill="#FF9600" fontSize={9}>θ</text>
-        {/* x ticks */}
-        {[0, 2, 4, 6, 8, 10].map((t) => (
-          <text key={t} x={xOf(t)} y={H - padB + 14} fill="#5A5F80" fontSize={9} textAnchor="middle">{t}</text>
-        ))}
-        <path d={path} fill="none" stroke={color} strokeWidth={2.6} strokeLinejoin="round" />
+        <line x1={xOf(theta)} x2={xOf(theta)} y1={padT} y2={baseY} stroke="#FF9600" strokeWidth={1.3} strokeDasharray="4 3" opacity={0.75} />
+        <text x={xOf(theta)} y={padT + 11} fill="#FF9600" fontSize={10} textAnchor="middle" fontWeight="bold">θ wake-up</text>
+        <path d={path} fill="none" stroke={color} strokeWidth={2.8} strokeLinejoin="round" />
+        {/* x-axis: weak → strong anchors + plain title */}
+        <text x={padL} y={baseY + 14} fill="#8B8FB0" fontSize={10} textAnchor="start">weak push</text>
+        <text x={W - padR} y={baseY + 14} fill="#8B8FB0" fontSize={10} textAnchor="end">strong push →</text>
+        <text x={W / 2} y={baseY + 30} fill="#5A5F80" fontSize={9.5} textAnchor="middle" fontStyle="italic">how hard you push the neuron (not time!)</text>
       </svg>
     </div>
   );
@@ -756,33 +761,33 @@ export function TransferFunctionWidget() {
   return (
     <div style={{ background: "#15183A", border: "1px solid rgba(124,130,248,0.18)", borderRadius: 16, padding: 16 }}>
       <SliderRow
-        label="a — gain (how steep the curve is)"
-        value={a}
-        min={0.3}
-        max={3}
-        step={0.1}
-        onChange={setA}
-        color="#1CB0F6"
-        display={`a = ${a.toFixed(1)}`}
-      />
-      <SliderRow
-        label="θ — threshold (the wake-up point)"
+        label="θ — the wake-up point (slide it left/right)"
         value={theta}
         min={2}
         max={8}
         step={0.5}
         onChange={setTheta}
         color="#FF9600"
-        display={`θ = ${theta.toFixed(1)}`}
+        display={theta < 4 ? "easy to wake" : theta > 6 ? "hard to wake" : "medium"}
+      />
+      <SliderRow
+        label="a — how sudden the wake-up is"
+        value={a}
+        min={0.3}
+        max={3}
+        step={0.1}
+        onChange={setA}
+        color="#1CB0F6"
+        display={a < 1 ? "gradual" : a > 2 ? "sharp flip" : "medium"}
       />
 
-      <TFPlot xs={Is} ys={rates} color={C_FUNC} theta={theta} title="Transfer function — firing rate vs injected current (I)" />
-      <TFPlot xs={Is} ys={gains} color={C_INTEG} theta={theta} title="Gain — how sensitive the rate is (slope of the curve above)" />
+      <TFPlot xs={Is} ys={rates} color={C_FUNC} theta={theta} yLabel="how fast it fires" title="How fast the neuron fires" />
+      <TFPlot xs={Is} ys={gains} color={C_INTEG} theta={theta} yLabel="sensitivity" title="Extra firing per extra push (its sensitivity)" />
 
-      <p style={{ margin: "12px 2px 0", fontSize: 12.5, color: "#9EA3BD", lineHeight: 1.55 }}>
-        Drag the sliders. <strong style={{ color: "#FF9600" }}>θ</strong> slides the whole S-curve left/right — the gain
-        bump moves with it (the neuron is most sensitive right at its wake-up point).{" "}
-        <strong style={{ color: "#1CB0F6" }}>a</strong> makes the S-curve steeper — the gain bump grows taller and narrower.
+      <p style={{ margin: "14px 2px 0", fontSize: 12.5, color: "#9EA3BD", lineHeight: 1.6 }}>
+        Drag <strong style={{ color: "#FF9600" }}>θ</strong> → the whole S-curve slides to a different push strength (the
+        bottom bump slides with it — the neuron is most sensitive right at its wake-up point).<br />
+        Drag <strong style={{ color: "#1CB0F6" }}>a</strong> → the S-curve flips on more sharply, and the bump grows taller and narrower.
       </p>
     </div>
   );
