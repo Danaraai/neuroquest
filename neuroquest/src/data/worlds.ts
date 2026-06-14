@@ -5791,7 +5791,11 @@ print("✅ All tests passed! +25 XP")
               },
               {
                 type: "text",
-                content: "This is a product, so we use the product rule with u = t and v = e^(−t/τ):\n\n• du/dt = **1**  (the derivative of t)\n• dv/dt = **−(1/τ)·e^(−t/τ)**\n\nPlug into the rule:\n\ndf/dt = e^(−t/τ)·(1) + t·(−(1/τ)·e^(−t/τ))",
+                content: "**Wait — what actually IS this, and why do we need it?**\n\nWhen one neuron fires, it sends a signal across the synapse to the next neuron. The receiving neuron's voltage doesn't snap up and stay there — it **rises quickly, peaks, then fades back down to rest**. That little bump of voltage is a *postsynaptic potential* (PSP).\n\nThe alpha function is just the simplest formula that recreates that bump shape — and look *why* it's a product:\n• the **t** part pulls the voltage **up** from zero,\n• the **e^(−t/τ)** part drags it back **down** toward rest (τ sets how fast it fades).\n\nA rising piece × a falling piece = a rise-and-fall bump. We need it to realistically simulate how signals actually arrive at neurons. And because it's a *product*, finding its slope (how fast the voltage is changing) needs the **product rule**.",
+              },
+              {
+                type: "text",
+                content: "So we apply the product rule with u = t and v = e^(−t/τ):\n\n• du/dt = **1**  (the derivative of t)\n• dv/dt = **−(1/τ)·e^(−t/τ)**\n\nPlug into the rule:\n\ndf/dt = e^(−t/τ)·(1) + t·(−(1/τ)·e^(−t/τ))",
               },
               {
                 type: "highlight",
@@ -5800,6 +5804,13 @@ print("✅ All tests passed! +25 XP")
               {
                 type: "text",
                 content: "**Reading the alpha-function plot:** the top curve (the PSP itself) rises then falls — a bump. The bottom curve (its derivative) starts **positive** while the bump is climbing, crosses **zero exactly at the peak**, then goes **negative** as the bump falls back down. That sign flip *is* the derivative telling you \"now going up... now at the top... now going down.\"",
+              },
+              {
+                type: "image",
+                content: "/images/alpha-function.png",
+                alt: "Top: the alpha function (postsynaptic potential) rising fast to a peak near t=0.5 then decaying back to zero. Bottom: its derivative, starting positive, crossing zero at the peak, dipping slightly negative, then returning to zero.",
+                caption: "Top (red): the PSP voltage bump. Bottom (blue): its derivative — positive while the bump rises, zero right at the peak, negative while it falls.",
+                size: "full",
               },
             ],
           },
