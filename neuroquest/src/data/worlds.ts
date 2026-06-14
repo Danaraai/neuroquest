@@ -5465,6 +5465,14 @@ print("✅ All tests passed! +25 XP")
                 content: "**The sign tells you the direction.** Derivative positive → the function is going **up**. Negative → going **down**. And right where it flips — the very top of a hill or bottom of a valley — the slope is **zero**. (You'll use that later to find peaks and best-answers.)",
               },
               {
+                type: "text",
+                content: "**Which derivatives are actually worth remembering?**\n\nYou took these in school — here's the honest short list that matters for neuroscience. You really only need to *recognize* these:\n\n• **Constant** → 0  (a flat line doesn't change)\n• **Power rule:** tⁿ → n·tⁿ⁻¹  (so t → 1, t² → 2t, t³ → 3t²)\n• **Exponential:** eᵗ → eᵗ  (the special one — itself!)\n• **Natural log:** ln(t) → 1/t\n• **sin(t) → cos(t)** and **cos(t) → −sin(t)**\n\nThat's it. The power rule and eᵗ are the two you'll see constantly.",
+              },
+              {
+                type: "highlight",
+                content: "Don't stress about memorizing the rest. In real work you almost never differentiate by hand — **np.gradient(y, t)** does it for you (below). What matters is the *intuition*: derivative = slope, sign = direction, zero = peak/valley. The rules above are just for recognizing what's going on.",
+              },
+              {
                 type: "highlight",
                 content: "**In Python, you don't compute derivatives by hand.** One function does it: **np.gradient(y, t)** — give it your data `y` and the time points `t`, and it hands back the slope at every point. Hit **Run** below to see it. ↓",
               },
@@ -5545,6 +5553,19 @@ print("✅ All tests passed! +25 XP")
               {
                 type: "text",
                 content: "**Did you spot the weird one?** The **exponential** function's derivative and integral look *identical to the function itself*. It's the rare shape whose rate-of-change equals its own height. That special property is why the exponential shows up everywhere in neuroscience — from a neuron's voltage decaying to populations growing.",
+              },
+              {
+                type: "text",
+                content: "**That property has a name: the exponential is an _eigenfunction_.**\n\nDifferentiate some functions and you get back the *same function times a number*. The exponential is the famous case — the shape never changes, it just gets scaled:",
+              },
+              {
+                type: "formula",
+                content: "d/dt [ e^(a·t) ] = a · e^(a·t)",
+                caption: "Differentiating e^(a·t) gives back e^(a·t) scaled by a. A function that survives an operation unchanged-except-for-scaling is an eigenfunction of that operation. (The same holds when you integrate it.)",
+              },
+              {
+                type: "highlight",
+                content: "This is the exact same idea as **eigenvectors** in linear algebra: a vector that a matrix only *stretches* (without rotating) is an eigenvector. Here, a *function* that differentiation only *scales* is an **eigenfunction** — same concept, one level up. Eigenfunctions are what make the hard math of neuron models solvable by hand.",
               },
             ],
           },

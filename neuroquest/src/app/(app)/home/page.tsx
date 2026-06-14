@@ -21,7 +21,7 @@ function getDailySparkIndex() {
 const ACCENT = "#7C82F8";
 
 export default function HomePage() {
-  const { stats, worldProgress, questProgress, currentWorldId, currentQuestId } = useStore();
+  const { stats, worldProgress, questProgress, lessonProgress, currentWorldId, currentQuestId } = useStore();
   const dueCount = useStore(selectDueReviewCount);
 
   const currentWorld = WORLDS.find((w) => w.id === currentWorldId);
@@ -29,6 +29,17 @@ export default function HomePage() {
 
   const greeting = getGreeting();
   const completedQuests = Object.values(questProgress).filter((q) => q.completed).length;
+
+  // ── NMA prerequisite progress (Worlds 0–4; World 5 is beyond prereqs) ──
+  const prereqQuests = WORLDS.filter((w) => w.number <= 4).flatMap((w) => w.quests);
+  const prereqTotal = prereqQuests.length;
+  const prereqDone = prereqQuests.filter(
+    (q) =>
+      q.lessons.length > 0 &&
+      (questProgress[q.id]?.completed ||
+        q.lessons.every((l) => !!lessonProgress[l.id]?.completedAt))
+  ).length;
+  const prereqPct = prereqTotal > 0 ? Math.round((prereqDone / prereqTotal) * 100) : 0;
 
   const ilyaMessage =
     stats.currentStreak >= 7
@@ -264,20 +275,31 @@ export default function HomePage() {
           <StatBadge icon="🏆" value={stats.longestStreak} label="Best streak" />
         </div>
 
-        {/* ── NMA Prep banner ── */}
+        {/* ── NMA Prerequisites progress ── */}
         <div className="mx-5 mt-[14px] animate-fade-up" style={{ animationDelay: "240ms" }}>
           <div
-            className="flex items-center gap-[10px] px-[14px] py-3 rounded-2xl"
-            style={{ background: "rgba(124,130,248,0.07)", border: "1px solid rgba(124,130,248,0.18)" }}
+            className="px-[16px] py-[15px] rounded-2xl"
+            style={{ background: "rgba(124,130,248,0.08)", border: "1px solid rgba(124,130,248,0.22)" }}
           >
-            <span className="text-[22px]">🧠</span>
-            <div>
-              <div className="text-xs font-black" style={{ color: "#A5A9FA", fontFamily: "var(--font-display)" }}>
-                NMA Prep — 4 Weeks
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center gap-2">
+                <span className="text-[20px]">🧠</span>
+                <span className="text-[13px] font-black" style={{ color: "#A5A9FA", fontFamily: "var(--font-display)" }}>
+                  NMA Prerequisites
+                </span>
               </div>
-              <div className="text-[11px]" style={{ color: "#6A70A0" }}>
-                Complete all worlds to be NMA-ready
-              </div>
+              <span className="text-[20px] font-black" style={{ color: "#A5A9FA", fontFamily: "var(--font-display)" }}>
+                {prereqPct}%
+              </span>
+            </div>
+            <div className="h-[7px] rounded-full overflow-hidden" style={{ background: "rgba(255,255,255,0.07)" }}>
+              <div
+                className="h-full rounded-full"
+                style={{ width: `${prereqPct}%`, background: "linear-gradient(90deg, #7C82F8, #A5A9FA)", transition: "width 0.5s ease" }}
+              />
+            </div>
+            <div className="text-[11px] mt-[7px]" style={{ color: "#6A70A0" }}>
+              {prereqDone} of {prereqTotal} topics complete · finish them all to be NMA-ready
             </div>
           </div>
         </div>
