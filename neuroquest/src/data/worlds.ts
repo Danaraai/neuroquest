@@ -5630,6 +5630,10 @@ print("✅ All tests passed! +25 XP")
               },
               {
                 type: "text",
+                content: "**Why the derivative — why not just look at the error itself?**\n\nThe error value alone only tells you *how wrong* you are right now. It's like an altimeter in the fog: it reads your height, but it doesn't tell you which way to step.\n\nThe **derivative** does. For each knob it gives you two things at once:\n• Its **sign** → which way to turn that knob to make the error go *down*.\n• Its **size** → how strongly the error reacts to that knob, so you know whether to nudge it a little or a lot.\n\nThat's the whole reason we measure the error *through* its derivative: the error says \"you're lost,\" but the derivative says \"...and here's exactly which way home, for every knob.\" Without it you'd be blindly trying random settings — hopeless with millions of knobs.",
+              },
+              {
+                type: "text",
                 content: "**How AI actually trains — the cat example.**\n\nShow the model: *\"The cat sat on the ___\"*\n\n1. It guesses **\"dog.\"** Wrong. Measure the **error**.\n2. Compute the **derivative of the error with respect to every knob** — \"if I nudge this weight up, does the error go up or down?\"\n3. Nudge every knob a tiny bit in the **downhill** direction.\n4. Show the next example. Repeat — **millions of times**.\n\nEach step lowers the error a hair. Do it millions of times and the model slides down the valley until its guesses are great. **That's all \"learning\" in machine learning is.**",
               },
               {
