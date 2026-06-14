@@ -5435,7 +5435,7 @@ print("✅ All tests passed! +25 XP")
         number: 4,
         title: "Differentiation & Integration",
         description: "Rates of change and area under the curve — the core of calculus",
-        totalXP: 85,
+        totalXP: 145,
         lessons: [
           // ── L1: What is Differentiation? ──────────────────
           {
@@ -5756,6 +5756,254 @@ print("✅ All tests passed! +25 XP")
                 correctIndex: 2,
                 explanation: "np.trapz(y, t) adds up the thin slivers of area under the curve and returns one number — the definite integral. np.gradient and np.diff are about differences/slopes, not area.",
                 neuroConnection: "Integrating a firing-rate curve with np.trapz gives the total number of spikes — area under the rate curve.",
+              },
+            ],
+          },
+
+          // ── L8: The Product Rule ──────────────────────────
+          {
+            id: "w3q4l8",
+            questId: "w3q4",
+            worldId: "world3",
+            title: "The Product Rule",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 4,
+            concept: [
+              {
+                type: "highlight",
+                content: "So far the functions were simple. But often a function is **two functions multiplied together** — and you can't just differentiate each piece separately. That's what the **product rule** is for.",
+              },
+              {
+                type: "formula",
+                content: "If  f(t) = u(t) · v(t)\n\nthen  d f/dt = v · (du/dt) + u · (dv/dt)",
+                caption: "Derivative of a product = (first × derivative of second) + (second × derivative of first). Not just du/dt × dv/dt!",
+              },
+              {
+                type: "text",
+                content: "**Where this shows up in neuroscience:** the shape of a **postsynaptic potential** — the little bump of voltage after a neuron receives a spike — is described by the *alpha function*:",
+              },
+              {
+                type: "formula",
+                content: "f(t) = t · e^(−t/τ)",
+                caption: "A product of u(t) = t and v(t) = e^(−t/τ). τ (tau) is the synaptic time constant.",
+              },
+              {
+                type: "text",
+                content: "This is a product, so we use the product rule with u = t and v = e^(−t/τ):\n\n• du/dt = **1**  (the derivative of t)\n• dv/dt = **−(1/τ)·e^(−t/τ)**\n\nPlug into the rule:\n\ndf/dt = e^(−t/τ)·(1) + t·(−(1/τ)·e^(−t/τ))",
+              },
+              {
+                type: "highlight",
+                content: "**Why can't I just use np.gradient for du/dt here?** Great question — because the product rule needs the **exact** derivative of each piece. The derivative of u = t is *exactly* 1, by the power rule. **np.gradient** only gives an *approximation* from data points — close, but not exact. When you're building a formula by hand (analytically), you use the exact rules; np.gradient is for when you only have data, not a formula.",
+              },
+              {
+                type: "text",
+                content: "**Reading the alpha-function plot:** the top curve (the PSP itself) rises then falls — a bump. The bottom curve (its derivative) starts **positive** while the bump is climbing, crosses **zero exactly at the peak**, then goes **negative** as the bump falls back down. That sign flip *is* the derivative telling you \"now going up... now at the top... now going down.\"",
+              },
+            ],
+          },
+
+          // ── L9: The Chain Rule ────────────────────────────
+          {
+            id: "w3q4l9",
+            questId: "w3q4",
+            worldId: "world3",
+            title: "The Chain Rule",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 4,
+            concept: [
+              {
+                type: "highlight",
+                content: "Sometimes you want how one thing changes with another, but they're only connected *through time*. Example: a neuron's gain **a** drifts over time, and its firing rate **r** depends on **a**. How does r change as a changes? The **chain rule**.",
+              },
+              {
+                type: "formula",
+                content: "dr/da = (dr/dt) · (dt/da) = (dr/dt) ÷ (da/dt)",
+                caption: "Slope of r with respect to a = (how fast r changes in time) divided by (how fast a changes in time).",
+              },
+              {
+                type: "text",
+                content: "**In plain words:** you can't measure r-vs-a directly, but you *can* watch both r and a change over time. The chain rule says: divide how fast r is moving by how fast a is moving, and you get how much r moves *per unit of a*.\n\nIt's like working out your speed-per-step from your speed-per-second and your steps-per-second.",
+              },
+              {
+                type: "highlight",
+                content: "**A subtle trap (and a great gotcha):** what if, at some moment, **a isn't changing at all** (its line is flat, da/dt = 0) — but r *is* changing?\n\nThen dr/da = (something) ÷ 0 → **undefined.** If a is frozen, you simply can't talk about \"how r changes as a changes\" at that instant — a isn't changing! You can still talk about dr/dt, just not dr/da.",
+              },
+              {
+                type: "text",
+                content: "**The chain rule also cracks hard derivatives.** Take r(a) = e^(a⁴ + 1). There's no table entry for that. But set the inside (a⁴ + 1) as one chunk: the derivative of e^(stuff) is e^(stuff) times the derivative of stuff. Derivative of a⁴+1 is 4a³, so:\n\ndr/da = e^(a⁴+1) · 4a³\n\nThat's the chain rule: *outer derivative × inner derivative.*",
+              },
+            ],
+          },
+
+          // ── L10: Analytical vs Numerical Derivatives ──────
+          {
+            id: "w3q4l10",
+            questId: "w3q4",
+            worldId: "world3",
+            title: "Analytical vs Numerical Derivatives",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 4,
+            concept: [
+              {
+                type: "highlight",
+                content: "There are **two ways** to get a derivative, and knowing which to use is half the battle.",
+              },
+              {
+                type: "text",
+                content: "**1. Analytical (exact).** You have a *formula*, like f(t) = t². You apply the rules (power, product, chain) to get an exact new formula: f′(t) = 2t. No error. You can evaluate it anywhere.\n\nPython can do this symbolically with **SymPy** — `sp.diff(f)` hands you the exact formula. (That's what powered the explorer earlier, under the hood.)",
+              },
+              {
+                type: "text",
+                content: "**2. Numerical (approximate).** You only have *data points* — measurements, a recorded signal — not a formula. You estimate the slope with the **finite difference**:",
+              },
+              {
+                type: "formula",
+                content: "FD = ( f(a + h) − f(a) ) / h",
+                caption: "The rise over the run between two nearby points, a small step h apart. As h → 0, this approaches the true derivative.",
+              },
+              {
+                type: "text",
+                content: "**The catch with h:** smaller h = more accurate, but more computation. Too large and you miss the curve's detail. There's always a tradeoff.\n\nAlso: a numerical derivative is **one point shorter** than the original — with N points you can only form N−1 differences (each one needs a *pair* of neighbors).",
+              },
+              {
+                type: "highlight",
+                content: "**Rule of thumb:** have a formula? Differentiate it **analytically** (exact). Only have recorded data? Go **numerical** with `np.gradient`. Same idea — the difference is exact formula vs approximation from data.",
+              },
+            ],
+          },
+
+          // ── L11: Transfer Function & Gain (widget) ────────
+          {
+            id: "w3q4l11",
+            questId: "w3q4",
+            worldId: "world3",
+            title: "The Neuron Transfer Function & Gain",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 15,
+            estimatedMinutes: 6,
+            concept: [
+              {
+                type: "highlight",
+                content: "Here's where calculus meets a real neuron. Inject current **I** into a neuron and it fires at some **rate**. The curve relating input → output is the **transfer function**, and its *slope* has a special name: the **gain**.",
+              },
+              {
+                type: "text",
+                content: "**The transfer function** (the S-shaped curve): \"if I push this much current in, how fast does the neuron fire?\" For most neurons it's a **sigmoid** — flat at low current, a steep rise in the middle, flattening again as it saturates.\n\nTwo knobs shape it:\n• **θ (threshold)** — the input level where the neuron \"wakes up\" and responds strongly.\n• **a (gain parameter)** — how *sharp* the rise is around θ.",
+              },
+              {
+                type: "highlight",
+                content: "**Gain = the slope of the transfer function = its derivative.** Think of a volume knob: turn the input a little and the firing rate jumps a lot → **high gain**. Turn it and barely anything changes → **low gain**. The gain tells you *where* the neuron is most sensitive to its input.",
+              },
+              {
+                type: "text",
+                content: "**Play with it below.** Drag **θ** and **a** and watch both plots. The top plot is the transfer function (rate vs current); the bottom plot is its gain (the slope). Notice the gain is a *bump* — the neuron is most sensitive right around its threshold θ, and barely sensitive when it's saturated.",
+              },
+              {
+                type: "widget",
+                content: "transfer-function",
+              },
+              {
+                type: "text",
+                content: "**What you should have noticed:**\n• Increase **θ** → the whole S-curve slides **right** (needs more current to wake up), and the gain bump slides right with it.\n• Increase **a** → the S-curve gets **steeper**, and the gain bump grows **taller and narrower** (more sensitive, over a narrower range).\n\nThis is exactly how neuroscientists describe a neuron's input-output behavior — and the gain is computed as a derivative.",
+              },
+            ],
+          },
+
+          // ── L12: Quiz — Rules, Numerical, Transfer Fn ─────
+          {
+            id: "w3q4l12",
+            questId: "w3q4",
+            worldId: "world3",
+            title: "Quiz: Rules, Gain & Numerical Methods",
+            type: "mcq",
+            deviceRequired: "any",
+            xpReward: 15,
+            estimatedMinutes: 4,
+            questions: [
+              {
+                id: "w3q4l12_q1",
+                text: "For f(t) = u(t)·v(t), the product rule says df/dt equals:",
+                options: [
+                  "(du/dt) · (dv/dt)",
+                  "v·(du/dt) + u·(dv/dt)",
+                  "u·v·(du/dt)",
+                  "(du/dt) + (dv/dt)",
+                ],
+                correctIndex: 1,
+                explanation: "The product rule is v·(du/dt) + u·(dv/dt) — NOT simply the two derivatives multiplied. Each term keeps one function whole and differentiates the other.",
+                neuroConnection: "The postsynaptic potential (alpha function) t·e^(−t/τ) is a product — you need the product rule to find its slope.",
+              },
+              {
+                id: "w3q4l12_q2",
+                text: "When applying the product rule by hand to u(t) = t, why use du/dt = 1 instead of np.gradient?",
+                options: [
+                  "np.gradient is too slow",
+                  "The rule needs the EXACT derivative; np.gradient only approximates from data",
+                  "np.gradient doesn't work on straight lines",
+                  "They give different units",
+                ],
+                correctIndex: 1,
+                explanation: "Analytical rules need exact derivatives. The derivative of t is exactly 1 (power rule). np.gradient gives a close approximation from data points — fine when you only have data, but not exact.",
+                neuroConnection: "When you have a formula, differentiate it analytically for an exact result; save np.gradient for recorded signals where no formula exists.",
+              },
+              {
+                id: "w3q4l12_q3",
+                text: "Using the chain rule, dr/da = (dr/dt) ÷ (da/dt). At a moment when a is NOT changing (da/dt = 0) but r is, what is dr/da?",
+                options: [
+                  "Zero",
+                  "Very large but defined",
+                  "Undefined (you can't divide by zero)",
+                  "Equal to dr/dt",
+                ],
+                correctIndex: 2,
+                explanation: "Dividing by da/dt = 0 is undefined. If a is frozen, asking 'how does r change as a changes?' makes no sense — a isn't changing at all. You can still talk about dr/dt, just not dr/da.",
+                neuroConnection: "The chain rule links how a neuron's rate changes with a parameter to how both change over time — but only where that parameter is actually moving.",
+              },
+              {
+                id: "w3q4l12_q4",
+                text: "You only have a recorded voltage signal (data points, no formula). Which derivative method fits?",
+                options: [
+                  "Analytical with SymPy",
+                  "Numerical with finite differences (np.gradient)",
+                  "Neither — you can't differentiate data",
+                  "The product rule",
+                ],
+                correctIndex: 1,
+                explanation: "No formula means no analytical rules to apply. You estimate the slope numerically with finite differences — exactly what np.gradient does.",
+                neuroConnection: "Real recordings are data, not formulas, so numerical differentiation is the everyday tool in the lab.",
+              },
+              {
+                id: "w3q4l12_q5",
+                text: "In a neuron's transfer function, the GAIN is:",
+                options: [
+                  "The maximum firing rate",
+                  "The slope of the rate-vs-current curve (its derivative)",
+                  "The threshold current θ",
+                  "The total area under the curve",
+                ],
+                correctIndex: 1,
+                explanation: "Gain = slope of the transfer function = its derivative. It measures sensitivity: how much the firing rate changes for a small change in input current. It's biggest near the threshold θ.",
+                neuroConnection: "Like a volume knob's responsiveness — high gain means a small change in input causes a big change in firing rate.",
+              },
+              {
+                id: "w3q4l12_q6",
+                text: "You increase the parameter a (gain) in the sigmoid transfer function. What happens to the gain 'bump'?",
+                options: [
+                  "It slides left",
+                  "It gets taller and narrower",
+                  "It disappears",
+                  "It gets shorter and wider",
+                ],
+                correctIndex: 1,
+                explanation: "Bigger a makes the S-curve steeper around θ, so the slope (gain) is higher but over a narrower input range — a taller, narrower bump. (θ moves the bump left/right; a changes its height/width.)",
+                neuroConnection: "A high-gain neuron switches sharply from quiet to firing over a tiny input range — useful for crisp decisions.",
               },
             ],
           },

@@ -633,3 +633,157 @@ function explainDerivative(key: FnKey): string {
       return "The sigmoid is flat-steep-flat, so its slope is a bump: near-zero at the ends, biggest in the middle.";
   }
 }
+
+// ─── Neuron transfer function & gain playground ────────────
+const TF_IMIN = 0;
+const TF_IMAX = 10;
+const TF_N = 200;
+
+function sigmoidRate(I: number, a: number, theta: number): number {
+  // firing rate as a function of injected current (NMA sigmoid transfer function)
+  return 1 / (1 + Math.exp(-a * (I - theta)));
+}
+
+// small self-contained plotter for the 0–10 input-current domain
+function TFPlot({
+  xs,
+  ys,
+  color,
+  theta,
+  title,
+}: {
+  xs: number[];
+  ys: number[];
+  color: string;
+  theta: number;
+  title: string;
+}) {
+  const W = 340;
+  const H = 150;
+  const padL = 14;
+  const padR = 14;
+  const padT = 10;
+  const padB = 22;
+
+  let yMax = -Infinity;
+  for (const v of ys) if (Number.isFinite(v) && v > yMax) yMax = v;
+  if (!Number.isFinite(yMax) || yMax <= 0) yMax = 1;
+  yMax *= 1.12;
+
+  const xOf = (x: number) => padL + ((x - TF_IMIN) / (TF_IMAX - TF_IMIN)) * (W - padL - padR);
+  const yOf = (y: number) => padT + (1 - y / yMax) * (H - padT - padB);
+  const path = ys.map((y, i) => `${i === 0 ? "M" : "L"}${xOf(xs[i]).toFixed(1)},${yOf(y).toFixed(1)}`).join(" ");
+
+  return (
+    <div style={{ marginTop: 10 }}>
+      <div style={{ fontSize: 11.5, color: "#9EA3BD", fontWeight: 600, marginBottom: 2, marginLeft: 2 }}>{title}</div>
+      <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", display: "block" }}>
+        <rect x={padL} y={padT} width={W - padL - padR} height={H - padT - padB} fill="#0E1124" rx={6} />
+        {/* baseline */}
+        <line x1={padL} x2={W - padR} y1={yOf(0)} y2={yOf(0)} stroke="rgba(255,255,255,0.18)" strokeWidth={1} />
+        {/* threshold marker */}
+        <line x1={xOf(theta)} x2={xOf(theta)} y1={padT} y2={H - padB} stroke="#FF9600" strokeWidth={1.3} strokeDasharray="4 3" opacity={0.7} />
+        <text x={xOf(theta) + 3} y={padT + 10} fill="#FF9600" fontSize={9}>θ</text>
+        {/* x ticks */}
+        {[0, 2, 4, 6, 8, 10].map((t) => (
+          <text key={t} x={xOf(t)} y={H - padB + 14} fill="#5A5F80" fontSize={9} textAnchor="middle">{t}</text>
+        ))}
+        <path d={path} fill="none" stroke={color} strokeWidth={2.6} strokeLinejoin="round" />
+      </svg>
+    </div>
+  );
+}
+
+function SliderRow({
+  label,
+  value,
+  min,
+  max,
+  step,
+  onChange,
+  color,
+  display,
+}: {
+  label: string;
+  value: number;
+  min: number;
+  max: number;
+  step: number;
+  onChange: (v: number) => void;
+  color: string;
+  display: string;
+}) {
+  return (
+    <div style={{ marginBottom: 10 }}>
+      <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
+        <span style={{ fontSize: 12.5, color: "#C8CADF", fontWeight: 600 }}>{label}</span>
+        <span style={{ fontSize: 12.5, color, fontWeight: 800, fontFamily: "var(--font-code)" }}>{display}</span>
+      </div>
+      <input
+        type="range"
+        min={min}
+        max={max}
+        step={step}
+        value={value}
+        onChange={(e) => onChange(parseFloat(e.target.value))}
+        style={{ width: "100%", accentColor: color, cursor: "pointer" }}
+      />
+    </div>
+  );
+}
+
+export function TransferFunctionWidget() {
+  const [a, setA] = useState(1.2);
+  const [theta, setTheta] = useState(5);
+
+  const { Is, rates, gains } = useMemo(() => {
+    const Is: number[] = [];
+    const rates: number[] = [];
+    const step = (TF_IMAX - TF_IMIN) / (TF_N - 1);
+    for (let i = 0; i < TF_N; i++) {
+      const I = TF_IMIN + i * step;
+      Is.push(I);
+      rates.push(sigmoidRate(I, a, theta));
+    }
+    const gains = rates.map((_, i) => {
+      if (i === 0) return (rates[1] - rates[0]) / step;
+      if (i === rates.length - 1) return (rates[i] - rates[i - 1]) / step;
+      return (rates[i + 1] - rates[i - 1]) / (2 * step);
+    });
+    return { Is, rates, gains };
+  }, [a, theta]);
+
+  return (
+    <div style={{ background: "#15183A", border: "1px solid rgba(124,130,248,0.18)", borderRadius: 16, padding: 16 }}>
+      <SliderRow
+        label="a — gain (how steep the curve is)"
+        value={a}
+        min={0.3}
+        max={3}
+        step={0.1}
+        onChange={setA}
+        color="#1CB0F6"
+        display={`a = ${a.toFixed(1)}`}
+      />
+      <SliderRow
+        label="θ — threshold (the wake-up point)"
+        value={theta}
+        min={2}
+        max={8}
+        step={0.5}
+        onChange={setTheta}
+        color="#FF9600"
+        display={`θ = ${theta.toFixed(1)}`}
+      />
+
+      <TFPlot xs={Is} ys={rates} color={C_FUNC} theta={theta} title="Transfer function — firing rate vs injected current (I)" />
+      <TFPlot xs={Is} ys={gains} color={C_INTEG} theta={theta} title="Gain — how sensitive the rate is (slope of the curve above)" />
+
+      <p style={{ margin: "12px 2px 0", fontSize: 12.5, color: "#9EA3BD", lineHeight: 1.55 }}>
+        Drag the sliders. <strong style={{ color: "#FF9600" }}>θ</strong> slides the whole S-curve left/right — the gain
+        bump moves with it (the neuron is most sensitive right at its wake-up point).{" "}
+        <strong style={{ color: "#1CB0F6" }}>a</strong> makes the S-curve steeper — the gain bump grows taller and narrower.
+      </p>
+    </div>
+  );
+}
