@@ -974,7 +974,8 @@ function partialY(f: (x: number, y: number) => number, x: number, y: number): nu
   return (f(x, y + h) - f(x, y - h)) / (2 * h);
 }
 
-// 3-D surface plot via isometric projection + painter's algorithm (like NMA's plot3d)
+// 3-D surface plot via isometric projection + painter's algorithm, with a
+// matplotlib-style axis box (floor + back walls, gridlines, x/y/z tick numbers).
 function Surface3D({
   values,
   title,
@@ -986,8 +987,8 @@ function Surface3D({
   formula: string;
   formulaColor: string;
 }) {
-  const W = 320;
-  const H = 240;
+  const W = 330;
+  const H = 300;
   const n = values.length;
 
   let vMin = Infinity;
@@ -999,53 +1000,97 @@ function Surface3D({
     }
   const range = vMax - vMin || 1;
 
-  // isometric projection of a normalized cube
   const cos30 = Math.cos(Math.PI / 6);
   const sin30 = Math.sin(Math.PI / 6);
-  const scale = 95;
-  const zScale = 78;
+  const scale = 70;
+  const zScale = 92;
   const ox = W / 2;
-  const oy = H * 0.60;
+  const oy = 192;
 
-  const project = (xi: number, yi: number, v: number) => {
-    const nx = (xi / (n - 1) - 0.5) * 2; // [-1, 1]
-    const ny = (yi / (n - 1) - 0.5) * 2;
-    const nz = (v - vMin) / range; // [0, 1]
-    const sx = ox + (nx - ny) * cos30 * scale;
-    const sy = oy + (nx + ny) * sin30 * scale - nz * zScale;
-    return { sx, sy, base: nx + ny, nz };
-  };
+  // project normalized cube: a ∈ [-1,1] (x), b ∈ [-1,1] (y), c ∈ [0,1] (z)
+  const P = (a: number, b: number, c: number) => ({
+    x: ox + (a - b) * cos30 * scale,
+    y: oy + (a + b) * sin30 * scale - c * zScale,
+  });
+  const dN = (d: number) => d / 5; // data coord in [-5,5] → [-1,1]
+  const cOf = (v: number) => (v - vMin) / range;
+  const xy = [-4, -2, 0, 2, 4]; // x & y tick values (range is -5..5)
+  const zTicks = [0, 1, 2, 3, 4].map((i) => vMin + (range * i) / 4);
 
   const quads: { d: string; depth: number; color: string }[] = [];
   for (let yi = 0; yi < n - 1; yi++) {
     for (let xi = 0; xi < n - 1; xi++) {
-      const p00 = project(xi, yi, values[yi][xi]);
-      const p10 = project(xi + 1, yi, values[yi][xi + 1]);
-      const p11 = project(xi + 1, yi + 1, values[yi + 1][xi + 1]);
-      const p01 = project(xi, yi + 1, values[yi + 1][xi]);
-      const avgZ = (p00.nz + p10.nz + p11.nz + p01.nz) / 4;
+      const na = (xi / (n - 1) - 0.5) * 2;
+      const na1 = ((xi + 1) / (n - 1) - 0.5) * 2;
+      const nb = (yi / (n - 1) - 0.5) * 2;
+      const nb1 = ((yi + 1) / (n - 1) - 0.5) * 2;
+      const c00 = cOf(values[yi][xi]), c10 = cOf(values[yi][xi + 1]);
+      const c11 = cOf(values[yi + 1][xi + 1]), c01 = cOf(values[yi + 1][xi]);
+      const p00 = P(na, nb, c00), p10 = P(na1, nb, c10), p11 = P(na1, nb1, c11), p01 = P(na, nb1, c01);
       quads.push({
-        d: `M${p00.sx.toFixed(1)},${p00.sy.toFixed(1)} L${p10.sx.toFixed(1)},${p10.sy.toFixed(1)} L${p11.sx.toFixed(1)},${p11.sy.toFixed(1)} L${p01.sx.toFixed(1)},${p01.sy.toFixed(1)} Z`,
-        depth: p00.base + p10.base + p11.base + p01.base, // back (small) → front (large)
-        color: viridis(avgZ),
+        d: `M${p00.x.toFixed(1)},${p00.y.toFixed(1)} L${p10.x.toFixed(1)},${p10.y.toFixed(1)} L${p11.x.toFixed(1)},${p11.y.toFixed(1)} L${p01.x.toFixed(1)},${p01.y.toFixed(1)} Z`,
+        depth: na + na1 + nb + nb1,
+        color: viridis((c00 + c10 + c11 + c01) / 4),
       });
     }
   }
-  quads.sort((a, b) => a.depth - b.depth); // painter's algorithm: back to front
+  quads.sort((a, b) => a.depth - b.depth);
 
-  // base-corner axis labels for orientation
-  const xEnd = project(n - 1, 0, vMin); // +x corner
-  const yEnd = project(0, n - 1, vMin); // +y corner
+  const grid = "rgba(255,255,255,0.10)";
+  const pane = "rgba(255,255,255,0.04)";
+  const axc = "#8B8FB0";
+  const line = (p1: { x: number; y: number }, p2: { x: number; y: number }, stroke: string, sw: number, key: string) => (
+    <line key={key} x1={p1.x} y1={p1.y} x2={p2.x} y2={p2.y} stroke={stroke} strokeWidth={sw} />
+  );
 
   return (
     <div style={{ marginBottom: 6 }}>
       <div style={{ fontSize: 12, color: "#C8CADF", fontWeight: 700, marginBottom: 2, textAlign: "center" }}>{title}</div>
       <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", display: "block" }}>
+        {/* floor pane (z = 0) */}
+        <polygon points={[P(-1, -1, 0), P(1, -1, 0), P(1, 1, 0), P(-1, 1, 0)].map((p) => `${p.x},${p.y}`).join(" ")} fill={pane} />
+        {xy.map((t) => line(P(dN(t), -1, 0), P(dN(t), 1, 0), grid, 0.5, "flx" + t))}
+        {xy.map((t) => line(P(-1, dN(t), 0), P(1, dN(t), 0), grid, 0.5, "fly" + t))}
+        {/* back-left wall (x = -5) */}
+        <polygon points={[P(-1, -1, 0), P(-1, 1, 0), P(-1, 1, 1), P(-1, -1, 1)].map((p) => `${p.x},${p.y}`).join(" ")} fill={pane} />
+        {zTicks.map((v, i) => line(P(-1, -1, cOf(v)), P(-1, 1, cOf(v)), grid, 0.5, "wlz" + i))}
+        {xy.map((t) => line(P(-1, dN(t), 0), P(-1, dN(t), 1), grid, 0.5, "wly" + t))}
+        {/* back-right wall (y = -5) */}
+        <polygon points={[P(-1, -1, 0), P(1, -1, 0), P(1, -1, 1), P(-1, -1, 1)].map((p) => `${p.x},${p.y}`).join(" ")} fill={pane} />
+        {zTicks.map((v, i) => line(P(-1, -1, cOf(v)), P(1, -1, cOf(v)), grid, 0.5, "wrz" + i))}
+        {xy.map((t) => line(P(dN(t), -1, 0), P(dN(t), -1, 1), grid, 0.5, "wrx" + t))}
+
+        {/* the surface */}
         {quads.map((q, i) => (
           <path key={i} d={q.d} fill={q.color} stroke={q.color} strokeWidth={0.4} strokeLinejoin="round" />
         ))}
-        <text x={xEnd.sx + 6} y={xEnd.sy + 10} fill="#8B8FB0" fontSize={11} fontWeight="bold">x</text>
-        <text x={yEnd.sx - 12} y={yEnd.sy + 10} fill="#8B8FB0" fontSize={11} fontWeight="bold">y</text>
+
+        {/* x-axis (front-left edge, y = +5) */}
+        {line(P(-1, 1, 0), P(1, 1, 0), axc, 1, "xaxis")}
+        {xy.map((t) => {
+          const p = P(dN(t), 1, 0);
+          return (
+            <text key={"xt" + t} x={p.x - 2} y={p.y + 11} fill={axc} fontSize={8} textAnchor="middle">{t}</text>
+          );
+        })}
+        <text x={P(0, 1, 0).x - 6} y={P(0, 1, 0).y + 24} fill="#C8CADF" fontSize={12} fontWeight="bold" textAnchor="middle">x</text>
+        {/* y-axis (front-right edge, x = +5) */}
+        {line(P(1, -1, 0), P(1, 1, 0), axc, 1, "yaxis")}
+        {xy.map((t) => {
+          const p = P(1, dN(t), 0);
+          return (
+            <text key={"yt" + t} x={p.x + 8} y={p.y + 4} fill={axc} fontSize={8} textAnchor="start">{t}</text>
+          );
+        })}
+        <text x={P(1, 1, 0).x + 18} y={P(1, 1, 0).y + 8} fill="#C8CADF" fontSize={12} fontWeight="bold">y</text>
+        {/* z-axis (right vertical edge) */}
+        {line(P(1, -1, 0), P(1, -1, 1), axc, 1, "zaxis")}
+        {zTicks.map((v, i) => {
+          const p = P(1, -1, cOf(v));
+          return (
+            <text key={"zt" + i} x={p.x + 6} y={p.y + 3} fill={axc} fontSize={8} textAnchor="start">{Math.round(v)}</text>
+          );
+        })}
       </svg>
       <div
         style={{
