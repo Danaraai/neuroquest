@@ -6080,6 +6080,19 @@ print("✅ All tests passed! +25 XP")
               },
               {
                 type: "text",
+                content: "**In Python you don't do this by hand — SymPy does the algebra for you.** SymPy works with *symbols* (real math variables, not numbers), so it returns an exact formula, just like you'd get with pen and paper:",
+              },
+              {
+                type: "code",
+                content: "import sympy as sp                 # ← skip this and you get: NameError: name 'sp' is not defined\n\nx, y = sp.symbols('x, y')          # make symbolic variables\nf = x**2 + 2*x*y + y**2            # the function\n\ndf_dx = sp.diff(f, x)              # partial w.r.t. x\ndf_dy = sp.diff(f, y)              # partial w.r.t. y\n\nprint(df_dx)                       # 2*x + 2*y\nprint(df_dy)                       # 2*x + 2*y",
+                caption: "sp.diff(f, x) takes the partial derivative with respect to x. The whole job is one function call per variable.",
+              },
+              {
+                type: "highlight",
+                content: "**That error you may have hit — `NameError: name 'sp' is not defined`** — is not a real bug. `sp` is just the nickname for SymPy, and it has to be imported first. NMA does it in a hidden setup cell, so if you run a demo cell on its own it errors. The fix is always the same: start with **`import sympy as sp`**.",
+              },
+              {
+                type: "text",
                 content: "**Why neuroscience cares:** a neuron driven by excitation *and* inhibition is a function of two inputs. The partial derivative w.r.t. excitation tells you how sensitive it is to a nudge of excitation; the partial w.r.t. inhibition tells you the same for inhibition. Stack those slopes together and you get the **gradient** — the single most important object in model training (it's the multi-knob version of the slope from the gradient-descent lesson).",
               },
               {
