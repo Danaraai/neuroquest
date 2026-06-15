@@ -5435,7 +5435,7 @@ print("✅ All tests passed! +25 XP")
         number: 4,
         title: "Differentiation & Integration",
         description: "Rates of change and area under the curve — the core of calculus",
-        totalXP: 145,
+        totalXP: 250,
         lessons: [
           // ── L1: What is Differentiation? ──────────────────
           {
@@ -5883,6 +5883,14 @@ print("✅ All tests passed! +25 XP")
                 content: "**The catch with h:** smaller h = more accurate, but more computation. Too large and you miss the curve's detail. There's always a tradeoff.\n\nAlso: a numerical derivative is **one point shorter** than the original — with N points you can only form N−1 differences (each one needs a *pair* of neighbors).",
               },
               {
+                type: "text",
+                content: "**See the tradeoff for yourself.** The exact derivative of sin(t) is cos(t). Below, the finite difference estimates that derivative using a step size **h**. Drag h and watch how close the numerical estimate (green) stays to the exact answer (orange).",
+              },
+              {
+                type: "widget",
+                content: "numerical-derivative",
+              },
+              {
                 type: "highlight",
                 content: "**Rule of thumb:** have a formula? Differentiate it **analytically** (exact). Only have recorded data? Go **numerical** with `np.gradient`. Same idea — the difference is exact formula vs approximation from data.",
               },
@@ -5902,35 +5910,40 @@ print("✅ All tests passed! +25 XP")
             concept: [
               {
                 type: "highlight",
-                content: "A neuron is like a **dimmer switch**. Push too softly → nothing happens. Push past its wake-up point → it kicks on. Push hard → it maxes out. That's the whole lesson. Let's make it concrete.",
+                content: "Inject a steady current into a neuron and it fires at some rate. The function mapping **input current → output firing rate** is the neuron's **input-output transfer function** (or I/O curve). It behaves like a dimmer switch — and now we'll make it precise.",
               },
               {
                 type: "text",
-                content: "**Poke a neuron with different strengths and watch what it does:**\n\n• **Weak push** → almost no firing (basically asleep 😴)\n• **Medium push** → about half speed (just waking up)\n• **Strong push** → nearly maxed out (firing hard ⚡)\n\nThat's it. A neuron ignores weak input, switches on over a middle range, and tops out when you push hard.",
+                content: "**The input** is the injected current, **I**, measured in arbitrary units (au) — a stand-in for stimulus strength, from weak to strong.\n\n**The output** is the **firing rate, r** — spikes per second, here normalized from 0 (silent) to 1 (maximum).\n\nFor most neurons the curve is a **sigmoid**: near-silent at low current, a steep rise through a middle band, then **saturating** (flattening) at high current. So the neuron ignores weak input, responds sharply over a middle range, and tops out when driven hard.",
+              },
+              {
+                type: "formula",
+                content: "r(I) = 1 / ( 1 + e^(−a·(I − θ)) )",
+                caption: "The sigmoid transfer function. (NMA's full version subtracts a small constant so r(0)≈0 and adds a noise term η — but a and θ set the shape.)",
               },
               {
                 type: "text",
-                content: "**Now plot those three points.** Put *how hard you push* along the bottom, and *how fast it fires* up the side. Connect them and you get a stretched-out **S-shape** — flat, then rising, then flat again. That S-curve is called the neuron's **transfer function** (input → output).",
+                content: "**The curve has tunable parameters, and each reshapes it predictably:**\n\n• **θ (theta) — the threshold.** The current at which the neuron is *half-activated* — the midpoint of the rise. It lives on the **x-axis** (it's a current value, in au). **Raise θ → the whole curve shifts right** (the neuron needs more current before it responds).\n\n• **a — the gain parameter.** How *steep* the rise is. **Raise a → a sharper, more switch-like transition**; lower a → a gradual, gentle rise.",
               },
               {
                 type: "highlight",
-                content: "⚠️ **One thing that trips everyone up:** the bottom axis here is *how hard you push the neuron* — **NOT time**. Earlier lessons put time on the bottom; this one does not. Every point just says \"this much push → this much firing.\"",
+                content: "**So what is \"gain,\" exactly?** Gain is the **slope of the transfer function** — the derivative **d(r)/dI**. It answers one question: *if I nudge the input current up by a tiny bit, how much does the firing rate change?*\n\n• **High gain** → a small change in current produces a **large** change in firing rate → the neuron is very **sensitive** to input there.\n• **Low gain** → changing the current barely moves the firing rate → **insensitive** (when silent or saturated).\n\n\"Gain\" and \"sensitivity\" are the same thing: how strongly the output reacts to the input.",
               },
               {
                 type: "text",
-                content: "**The wake-up point has a name: θ (theta).** It's the push strength where the neuron is *halfway on* — right in the steep middle of the S. Below θ it's mostly asleep; above θ it's mostly maxed out.\n\n**The other knob is a** — *how sudden* the wake-up is. Big **a** = a crisp on-switch (asleep → firing over a tiny range). Small **a** = a slow, gradual fade-in.",
+                content: "Because the sigmoid is **steepest at the threshold θ** and flat at both ends, the gain is a **bump centered on θ** — peak sensitivity right at the wake-up point, near-zero when the neuron is silent or saturated. The widget shows both at once: the transfer function on top, its slope (the gain) below.",
               },
               {
                 type: "text",
-                content: "**Play with it below.** Slide **θ** (the wake-up point) and **a** (how sudden) and watch the S-curve change. Try to predict before you drag!",
+                content: "**Tune it.** Slide **θ** (threshold) and **a** (gain parameter) and watch the transfer function *and* its gain respond. Predict first: at which current will the neuron be most sensitive?",
               },
               {
                 type: "widget",
                 content: "transfer-function",
               },
               {
-                type: "highlight",
-                content: "**Last idea — \"gain.\"** Gain just means: *how much extra firing do you get for one more unit of push?* It's biggest right at the wake-up point θ (the steep part), and tiny when the neuron is asleep or maxed out (the flat parts). That's the **bump** in the bottom graph. And gain is simply the **slope** of the S-curve — so it's a derivative. 🎉",
+                type: "text",
+                content: "**What to take away:**\n• Raise **θ** → transfer curve and gain bump both shift to **higher current** (more drive needed).\n• Raise **a** → transfer curve **steepens**; the gain bump grows **taller and narrower** (higher peak sensitivity, over a narrower current range).\n\nThis input-output view — and the gain as its *derivative* — is exactly how computational neuroscientists characterize a single neuron. You'll meet this same equation again in Week 3.",
               },
             ],
           },
@@ -6023,6 +6036,386 @@ print("✅ All tests passed! +25 XP")
                 correctIndex: 1,
                 explanation: "Bigger a makes the S-curve steeper around θ, so the slope (gain) is higher but over a narrower input range — a taller, narrower bump. (θ moves the bump left/right; a changes its height/width.)",
                 neuroConnection: "A high-gain neuron switches sharply from quiet to firing over a tiny input range — useful for crisp decisions.",
+              },
+            ],
+          },
+
+          // ════════ SECTION 3: Functions of Multiple Variables ════════
+
+          // ── L13: Partial Derivatives ──────────────────────
+          {
+            id: "w3q4l13",
+            questId: "w3q4",
+            worldId: "world3",
+            title: "Functions of Many Variables",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 4,
+            concept: [
+              {
+                type: "highlight",
+                content: "So far every function had **one** input (usually time t). But real things depend on **several** inputs at once. A neuron's firing rate depends on **both** its excitatory input *and* its inhibitory input. How do you take a derivative when there's more than one knob?",
+              },
+              {
+                type: "text",
+                content: "**The trick is wonderfully lazy: change one knob, freeze the rest.**\n\nA derivative that wiggles just *one* input while holding the others still is called a **partial derivative**. The only new symbol is a curly **∂** instead of the straight `d` — it's a little flag that says \"there are other variables, but I'm ignoring them for now.\"",
+              },
+              {
+                type: "text",
+                content: "**Worked example.** Take a function of two variables:",
+              },
+              {
+                type: "formula",
+                content: "f(x, y) = x² + 2xy + y²",
+                caption: "A surface — its height depends on both x and y.",
+              },
+              {
+                type: "text",
+                content: "**Partial with respect to x** (treat y as a frozen constant):\n• x² → 2x\n• 2xy → 2y  (y is just a number tagging along)\n• y² → 0  (a constant doesn't change as x moves)\n\nSo **∂f/∂x = 2x + 2y**.\n\n**Partial with respect to y** (now freeze x):\n• x² → 0\n• 2xy → 2x\n• y² → 2y\n\nSo **∂f/∂y = 2x + 2y**.",
+              },
+              {
+                type: "highlight",
+                content: "**Read the surprise in those answers.** Both partials contain a `2x + 2y` — they depend on **both** variables. That's entirely because of the **cross term** `2xy` that mixes x and y. Kill the cross term (use just x² + y²) and the partials become a clean `2x` and `2y` — each one minds only its own variable. You'll *see* this in the next lesson's playground.",
+              },
+              {
+                type: "text",
+                content: "**Why neuroscience cares:** a neuron driven by excitation *and* inhibition is a function of two inputs. The partial derivative w.r.t. excitation tells you how sensitive it is to a nudge of excitation; the partial w.r.t. inhibition tells you the same for inhibition. Stack those slopes together and you get the **gradient** — the single most important object in model training (it's the multi-knob version of the slope from the gradient-descent lesson).",
+              },
+              {
+                type: "highlight",
+                content: "🦌 **Ilya says:** you'll meet partial derivatives again as the **Jacobian** — a whole grid of them — when we study whether a circuit of neurons settles down or blows up. Same idea, just bookkeeping for many variables at once.",
+              },
+            ],
+          },
+
+          // ── L14: Partial Derivative Explorer (widget) ─────
+          {
+            id: "w3q4l14",
+            questId: "w3q4",
+            worldId: "world3",
+            title: "Play: Partial Derivative Explorer",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 15,
+            estimatedMinutes: 5,
+            concept: [
+              {
+                type: "highlight",
+                content: "A function of two variables is a **landscape** — a height for every (x, y). Hard to draw on a phone as a 3-D hill, so we do what NMA does: paint the height as **color**. Blue = low, yellow = high.",
+              },
+              {
+                type: "text",
+                content: "**Three maps below, for whichever function you pick:**\n1. **The function** itself (its height as color).\n2. **∂f/∂x** — the slope if you walk in the x-direction.\n3. **∂f/∂y** — the slope if you walk in the y-direction.\n\nSwitch functions and watch how the two slope-maps change.",
+              },
+              {
+                type: "widget",
+                content: "partial-derivatives",
+              },
+              {
+                type: "text",
+                content: "**The thing to notice:** for **x · y** and **x² + 2xy + y²** — the ones where x and y are *multiplied together* — the slope-map for x still has y in it (its color changes as you move up/down too). For **x² + y²** — no mixing — the x-slope map only changes left-to-right, and the y-slope map only changes top-to-bottom. That's the cross term at work, exactly as predicted.",
+              },
+              {
+                type: "highlight",
+                content: "**Connect it back:** remember the neuron's 1-D gain bump from the transfer-function lesson? A 2-D neuron (excitation + inhibition) has a gain *surface* for each input — these partial-derivative maps are exactly that, one level up.",
+              },
+            ],
+          },
+
+          // ════════ SECTION 4: Numerical Integration ════════
+
+          // ── L15: The Riemann Sum ──────────────────────────
+          {
+            id: "w3q4l15",
+            questId: "w3q4",
+            worldId: "world3",
+            title: "Numerical Integration: The Riemann Sum",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 4,
+            concept: [
+              {
+                type: "highlight",
+                content: "You know the integral is the **area under a curve**. But how does a *computer* measure that area when there's no neat formula? It cheats — by chopping the area into **rectangles** it can easily add up.",
+              },
+              {
+                type: "text",
+                content: "**The Riemann sum — the oldest trick in calculus:**\n1. Slice the region under the curve into thin vertical strips, each **dt** wide.\n2. Turn each strip into a **rectangle**: width = dt, height = the function's value there.\n3. **Add up all the rectangle areas.** That sum approximates the true area.\n\nThat's it. Area of one rectangle = height × width = f(t) · dt. Sum them and you've integrated.",
+              },
+              {
+                type: "formula",
+                content: "∫ f(t) dt  ≈  Σ  f(tᵢ) · dt",
+                caption: "The integral (smooth area) is approximated by a sum of rectangle areas. As dt → 0, the approximation becomes exact.",
+              },
+              {
+                type: "text",
+                content: "**The tradeoff is the same one as derivatives.** Thinner rectangles (small **dt**) hug the curve better → more accurate. But more rectangles = more computation. Too-fat rectangles = fast but crude.",
+              },
+              {
+                type: "highlight",
+                content: "**A subtle bias.** If we build each rectangle using its **left edge** for the height while the curve is **rising**, every rectangle sits a little *below* the curve — so we **underestimate** the area. (Use the right edge on a rising curve and you'd overestimate.) Keep that in mind when you play with the explorer next.",
+              },
+              {
+                type: "highlight",
+                content: "🦌 **Ilya says:** the Riemann sum isn't just a toy. It's the seed of **Euler's method** — the way we'll actually simulate a neuron's voltage over time in the next quest. Add up tiny changes step by step → you've integrated the neuron's equation.",
+              },
+            ],
+          },
+
+          // ── L16: Riemann Sum Explorer (widget) ────────────
+          {
+            id: "w3q4l16",
+            questId: "w3q4",
+            worldId: "world3",
+            title: "Play: Riemann Sum Explorer",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 15,
+            estimatedMinutes: 5,
+            concept: [
+              {
+                type: "highlight",
+                content: "Drag the **dt** slider and watch the rectangles fill in the area. The top plot shows the rectangles under the curve; the bottom plot compares the running **Riemann estimate** (green) against the **exact** integral (orange).",
+              },
+              {
+                type: "widget",
+                content: "riemann-sum",
+              },
+              {
+                type: "text",
+                content: "**Try this:**\n1. Start with a **big dt** — see the green estimate fall short of the orange exact line, and the \"off by\" percentage climb. (That's the left-edge underestimate from the last lesson.)\n2. Shrink **dt** — watch the green line snap onto the orange one and the error shrink toward zero.\n3. Ask yourself the NMA question: *if smaller dt is always more accurate, why not just use the tiniest dt possible?* (Answer: each step costs computation — with a real simulation running millions of steps, tiny dt gets slow. Always a tradeoff.)",
+              },
+            ],
+          },
+
+          // ── L17: Charge Transfer (coding exercise) ────────
+          {
+            id: "w3q4l17",
+            questId: "w3q4",
+            worldId: "world3",
+            title: "Integration in Action: Synaptic Charge",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 15,
+            estimatedMinutes: 6,
+            concept: [
+              {
+                type: "highlight",
+                content: "Time to use integration for a real neuroscience question: **how much electric charge does one incoming spike dump onto a neuron?** The answer is literally the *area under the voltage bump* — an integral. We'll compute it with a Riemann sum, in code you can run.",
+              },
+              {
+                type: "text",
+                content: "**The setup.** When a spike arrives, it creates a little voltage bump — a *postsynaptic potential* (PSP). Its shape is the alpha function you met in the product-rule lesson:",
+              },
+              {
+                type: "formula",
+                content: "PSP(t) = J · t · exp( −(t − t_sp) / τ_s )",
+                caption: "J = synaptic strength, t_sp = spike time, τ_s = how fast the bump fades.",
+              },
+              {
+                type: "text",
+                content: "**The total charge transferred = the area under that bump = its integral.** And we compute the area the way we just learned: every value of PSP is a rectangle height, multiply by the step width `dt` to get areas, then add them all up with a running (cumulative) sum.\n\nHit **Run** — the left plot is the voltage bump, the right plot is the charge piling up as we integrate.",
+              },
+              {
+                type: "executable-code",
+                content: "import numpy as np\nimport matplotlib.pyplot as plt\n\n# Parameters of one excitatory spike\nJ = 1.0        # synaptic amplitude\ntau_s = 1.0    # synaptic time constant (how fast it fades)\nt_sp = 1.0     # the spike happens at t = 1 ms\ndt = 0.1       # step size (rectangle width)\nt = np.arange(0, 10, dt)\n\n# The PSP voltage bump (alpha function). Only defined after the spike.\nPSP = J * t * np.exp(-(t - t_sp) / tau_s)\n\n# --- Numerical integration (Riemann sum) ---\n# 1) each PSP value is a rectangle height; width is dt -> area of each strip\nrectangle_areas = PSP * dt\n# 2) add them up cumulatively to get charge transferred over time\nnumerical_integral = np.cumsum(rectangle_areas)\n\nprint('Total charge transferred =', round(numerical_integral[-1], 2))  # ~2.5\n\nfig, (ax1, ax2) = plt.subplots(1, 2, figsize=(9, 3.5))\nax1.plot(t, PSP, color='crimson')\nax1.set_title('PSP voltage bump'); ax1.set_xlabel('time (ms)')\nax2.plot(t, numerical_integral, color='green')\nax2.set_title('Charge transferred (integral)'); ax2.set_xlabel('time (ms)')\nplt.tight_layout(); plt.show()",
+                caption: "Press Run. The key two lines are the integration: multiply by dt to get rectangle areas, then np.cumsum to add them up. Total charge ends up a little over 2.5. Try changing J or tau_s and re-run — bigger, slower bumps transfer more charge.",
+              },
+              {
+                type: "highlight",
+                content: "**The takeaway:** `area = np.cumsum(values * dt)` *is* numerical integration — a Riemann sum in one line. You just measured a real biophysical quantity (charge) as the area under a curve. That's integration earning its keep.",
+              },
+            ],
+          },
+
+          // ════════ SECTION 5: Differentiation & Integration as Filters ════════
+
+          // ── L18: Filtering (widget) ───────────────────────
+          {
+            id: "w3q4l18",
+            questId: "w3q4",
+            worldId: "world3",
+            title: "Derivatives & Integrals as Filters",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 15,
+            estimatedMinutes: 5,
+            concept: [
+              {
+                type: "highlight",
+                content: "Here's a second way to *see* differentiation and integration — not as slope and area, but as **filters** that clean up (or mess up) a signal. This is how engineers actually think about them.",
+              },
+              {
+                type: "text",
+                content: "**The logic in one breath:**\n• **Differentiation subtracts neighboring values.** Things that barely change between neighbors cancel out; only the **fast** wiggles survive. So differentiation **keeps fast changes** and throws away slow ones — a **high-pass filter**.\n• **Integration adds neighboring values** (like averaging them). Fast up-down jitter cancels in the averaging; the **slow** trend survives. So integration **smooths** — a **low-pass filter**.",
+              },
+              {
+                type: "highlight",
+                content: "Real-world picture: the **shock absorbers** on a bike are integrators — they smooth out the fast bumps in the road (low-pass) so you feel only the slow hills. Differentiation is the opposite: it would amplify every pebble.",
+              },
+              {
+                type: "text",
+                content: "**See it for yourself.** Below is a smooth wave with noisy jitter added. Differentiating it makes the noise **explode**; integrating (averaging) it **washes the noise away**. Crank the noise slider and roll fresh noise with the 🎲 button.",
+              },
+              {
+                type: "widget",
+                content: "signal-filtering",
+              },
+              {
+                type: "highlight",
+                content: "**Why this matters in the lab:** real neural recordings are noisy. If you want the slow trend, you *smooth* (integrate-like). If you want to catch sharp spike onsets, you *differentiate* — but you'll amplify noise too, so you trade one problem for another. These add-and-subtract operations are literally the basis of every **digital filter**.",
+              },
+            ],
+          },
+
+          // ════════ Quiz + Recap ════════
+
+          // ── L19: Quiz — Sections 3–5 ──────────────────────
+          {
+            id: "w3q4l19",
+            questId: "w3q4",
+            worldId: "world3",
+            title: "Quiz: Partials, Integration & Filters",
+            type: "mcq",
+            deviceRequired: "any",
+            xpReward: 15,
+            estimatedMinutes: 4,
+            questions: [
+              {
+                id: "w3q4l19_q1",
+                text: "What is a partial derivative ∂f/∂x of a function f(x, y)?",
+                options: [
+                  "The slope as you change BOTH x and y together",
+                  "The slope as you change x while holding y frozen as a constant",
+                  "The total area under the surface",
+                  "The average of the x and y slopes",
+                ],
+                correctIndex: 1,
+                explanation: "A partial derivative wiggles ONE variable and freezes all the others. ∂f/∂x measures how f changes as x moves, treating y as a constant. The curly ∂ flags that other variables exist but are held still.",
+                neuroConnection: "A neuron's rate depends on excitation AND inhibition; the partial w.r.t. excitation tells you its sensitivity to excitation alone.",
+              },
+              {
+                id: "w3q4l19_q2",
+                text: "For f(x, y) = x² + 2xy + y², what is ∂f/∂x?",
+                options: [
+                  "2x",
+                  "2x + 2y",
+                  "2y",
+                  "x² + 2y",
+                ],
+                correctIndex: 1,
+                explanation: "Holding y constant: x² → 2x, 2xy → 2y (y is a constant multiplier), y² → 0. So ∂f/∂x = 2x + 2y. The 2y appears because of the cross term 2xy that mixes x and y.",
+                neuroConnection: "Cross terms model interaction — like how excitation and inhibition don't just add independently but shape each other's effect.",
+              },
+              {
+                id: "w3q4l19_q3",
+                text: "In a Riemann sum, you approximate the area under a curve by:",
+                options: [
+                  "Measuring the slope at each point",
+                  "Slicing the area into thin rectangles and adding their areas",
+                  "Finding where the derivative equals zero",
+                  "Averaging the curve's highest and lowest points",
+                ],
+                correctIndex: 1,
+                explanation: "A Riemann sum chops the region under the curve into vertical rectangles (width dt, height = f at that point) and sums their areas: Σ f(tᵢ)·dt. As dt → 0 it converges to the exact integral.",
+                neuroConnection: "This is the seed of Euler's method, used to simulate a neuron's voltage step by step.",
+              },
+              {
+                id: "w3q4l19_q4",
+                text: "You make the step size dt SMALLER in a Riemann sum. What happens?",
+                options: [
+                  "The estimate gets more accurate, but needs more computation",
+                  "The estimate gets less accurate",
+                  "Nothing changes",
+                  "The area becomes negative",
+                ],
+                correctIndex: 0,
+                explanation: "Thinner rectangles hug the curve more closely → more accurate. But more rectangles means more calculations. It's the same accuracy-vs-cost tradeoff as choosing h for a numerical derivative.",
+                neuroConnection: "In a long neural simulation, too-small a step makes the run slow — you balance accuracy against speed.",
+              },
+              {
+                id: "w3q4l19_q5",
+                text: "To integrate a signal numerically in Python — turn values and a step dt into a running area — which line works?",
+                options: [
+                  "np.gradient(PSP, dt)",
+                  "np.cumsum(PSP * dt)",
+                  "np.diff(PSP) / dt",
+                  "np.max(PSP) * dt",
+                ],
+                correctIndex: 1,
+                explanation: "Each value times dt is a rectangle's area; np.cumsum adds them up cumulatively into the running integral — a Riemann sum in one line. np.gradient and np.diff compute differences (derivatives), not areas.",
+                neuroConnection: "This exact line computed the synaptic charge transferred by a spike — the area under the PSP bump.",
+              },
+              {
+                id: "w3q4l19_q6",
+                text: "Thinking of them as filters: differentiation acts as a ____ filter and integration acts as a ____ filter.",
+                options: [
+                  "low-pass; high-pass",
+                  "high-pass; low-pass",
+                  "band-pass; high-pass",
+                  "they don't filter anything",
+                ],
+                correctIndex: 1,
+                explanation: "Differentiation subtracts neighbors, keeping only fast changes → high-pass (and it amplifies noise). Integration averages neighbors, keeping only slow changes → low-pass (it smooths noise away).",
+                neuroConnection: "Smoothing a noisy recording is integration-like; sharpening to catch fast spike onsets is differentiation-like — but it amplifies noise too.",
+              },
+              {
+                id: "w3q4l19_q7",
+                text: "You add fast random noise to a smooth signal, then differentiate it. What do you see?",
+                options: [
+                  "The noise is smoothed away",
+                  "The noise is amplified and dominates the result",
+                  "The signal is unchanged",
+                  "The signal flips upside down",
+                ],
+                correctIndex: 1,
+                explanation: "Differentiation is a high-pass filter — it emphasizes fast changes. Noise IS fast change, so differentiating amplifies it. (Integrating/averaging would do the opposite and smooth it out.)",
+                neuroConnection: "This is why raw differentiation of noisy neural data is risky — labs often smooth first, then differentiate.",
+              },
+            ],
+          },
+
+          // ── L20: Section Recap ────────────────────────────
+          {
+            id: "w3q4l20",
+            questId: "w3q4",
+            worldId: "world3",
+            title: "Recap: The Whole Calculus Toolkit",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 3,
+            funFact: "Every neuron simulation you'll run at NMA is just integration (adding up tiny changes) and differentiation (finding rates of change) repeated millions of times. You now know the whole engine.",
+            concept: [
+              {
+                type: "highlight",
+                content: "🏔️ You've climbed the whole Differentiation & Integration mountain. Here's everything in one view.",
+              },
+              {
+                type: "text",
+                content: "**The two halves of calculus:**\n• **Differentiation** = slope = rate of change. Sign tells direction; zero marks peaks and valleys.\n• **Integration** = area under the curve = adding things up. The reverse of differentiation.",
+              },
+              {
+                type: "text",
+                content: "**The rules for slopes:**\n• **Power / exp / sin** — the short list worth recognizing.\n• **Product rule** for two functions multiplied (the PSP alpha function).\n• **Chain rule** for functions nested inside functions (and for how one variable changes with another through time).",
+              },
+              {
+                type: "text",
+                content: "**When there's no clean formula — go numerical:**\n• **Derivative** ≈ finite difference, `np.gradient`.\n• **Integral** ≈ Riemann sum, `np.cumsum(y * dt)`.\n• Smaller step = more accurate but more computation. Always a tradeoff.",
+              },
+              {
+                type: "text",
+                content: "**Two variables or more:**\n• **Partial derivatives** (∂) — wiggle one input, freeze the rest. Stack them into the **gradient**, the heart of model training.",
+              },
+              {
+                type: "text",
+                content: "**Two ways to picture each operation:**\n• Geometry: derivative = slope, integral = area.\n• Filtering: differentiation = high-pass (keeps fast changes, amplifies noise), integration = low-pass (smooths).",
+              },
+              {
+                type: "highlight",
+                content: "**Where it all goes:** finding where a derivative = 0 → **optimization & gradient descent** (training every AI and fitting every neuron model). Adding up tiny changes → **simulating neurons over time** (the next quest: Differential Equations). One toolkit, the entire course. 🚀",
               },
             ],
           },

@@ -644,7 +644,7 @@ function sigmoidRate(I: number, a: number, theta: number): number {
   return 1 / (1 + Math.exp(-a * (I - theta)));
 }
 
-// small self-contained plotter — x-axis is "how hard you push", in plain words
+// self-contained plotter for the transfer function / gain (x = injected current I)
 function TFPlot({
   xs,
   ys,
@@ -661,11 +661,11 @@ function TFPlot({
   yLabel: string;
 }) {
   const W = 340;
-  const H = 168;
+  const H = 170;
   const padL = 16;
   const padR = 14;
   const padT = 10;
-  const padB = 40; // room for "weak push → strong push" labels
+  const padB = 42; // room for axis labels
 
   let yMax = -Infinity;
   for (const v of ys) if (Number.isFinite(v) && v > yMax) yMax = v;
@@ -679,22 +679,113 @@ function TFPlot({
 
   return (
     <div style={{ marginTop: 12 }}>
-      <div style={{ fontSize: 12, color: "#C8CADF", fontWeight: 700, marginBottom: 3, marginLeft: 2 }}>{title}</div>
+      <div style={{ fontSize: 12.5, color: "#C8CADF", fontWeight: 700, marginBottom: 3, marginLeft: 2 }}>{title}</div>
       <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", display: "block" }}>
         <rect x={padL} y={padT} width={W - padL - padR} height={baseY - padT} fill="#0E1124" rx={6} />
-        {/* y-axis label (what "up" means) */}
-        <text x={padL + 3} y={padT + 11} fill="#7A80A0" fontSize={9}>↑ {yLabel}</text>
+        {/* y-axis label */}
+        <text x={padL + 3} y={padT + 11} fill="#9EA3BD" fontSize={9.5}>↑ {yLabel}</text>
         {/* baseline */}
         <line x1={padL} x2={W - padR} y1={yOf(0)} y2={yOf(0)} stroke="rgba(255,255,255,0.18)" strokeWidth={1} />
+        {/* x ticks at integer current values */}
+        {[0, 2, 4, 6, 8, 10].map((t) => (
+          <text key={t} x={xOf(t)} y={baseY + 12} fill="#5A5F80" fontSize={9} textAnchor="middle">{t}</text>
+        ))}
         {/* threshold marker */}
         <line x1={xOf(theta)} x2={xOf(theta)} y1={padT} y2={baseY} stroke="#FF9600" strokeWidth={1.3} strokeDasharray="4 3" opacity={0.75} />
-        <text x={xOf(theta)} y={padT + 11} fill="#FF9600" fontSize={10} textAnchor="middle" fontWeight="bold">θ wake-up</text>
+        <text x={xOf(theta)} y={padT + 11} fill="#FF9600" fontSize={10} textAnchor="middle" fontWeight="bold">θ</text>
         <path d={path} fill="none" stroke={color} strokeWidth={2.8} strokeLinejoin="round" />
-        {/* x-axis: weak → strong anchors + plain title */}
-        <text x={padL} y={baseY + 14} fill="#8B8FB0" fontSize={10} textAnchor="start">weak push</text>
-        <text x={W - padR} y={baseY + 14} fill="#8B8FB0" fontSize={10} textAnchor="end">strong push →</text>
-        <text x={W / 2} y={baseY + 30} fill="#5A5F80" fontSize={9.5} textAnchor="middle" fontStyle="italic">how hard you push the neuron (not time!)</text>
+        {/* x-axis title with units + weak→strong hint */}
+        <text x={W / 2} y={baseY + 28} fill="#9EA3BD" fontSize={10} textAnchor="middle">Injected current, I (au) — weak → strong</text>
       </svg>
+    </div>
+  );
+}
+
+// ─── Numerical differentiation of sine (NMA Demo 2.2) ──────
+const ND_TMIN = -10;
+const ND_TMAX = 10;
+
+export function NumericalDerivativeWidget() {
+  const [h, setH] = useState(0.5);
+
+  // fine grids for the exact curves
+  const fine = useMemo(() => {
+    const ts: number[] = [];
+    const sin: number[] = [];
+    const cos: number[] = [];
+    for (let t = ND_TMIN; t <= ND_TMAX; t += 0.05) {
+      ts.push(t);
+      sin.push(Math.sin(t));
+      cos.push(Math.cos(t));
+    }
+    return { ts, sin, cos };
+  }, []);
+
+  // numerical derivative on a coarse grid of step h (forward difference)
+  const numer = useMemo(() => {
+    const tc: number[] = [];
+    for (let t = ND_TMIN; t <= ND_TMAX; t += h) tc.push(t);
+    const ts: number[] = [];
+    const dy: number[] = [];
+    for (let i = 0; i < tc.length - 1; i++) {
+      ts.push(tc[i]);
+      dy.push((Math.sin(tc[i + 1]) - Math.sin(tc[i])) / h);
+    }
+    return { ts, dy };
+  }, [h]);
+
+  const W = 340;
+  const H = 210;
+  const padL = 16;
+  const padR = 12;
+  const padT = 12;
+  const padB = 26;
+  const yMin = -1.45;
+  const yMax = 1.45;
+  const xOf = (t: number) => padL + ((t - ND_TMIN) / (ND_TMAX - ND_TMIN)) * (W - padL - padR);
+  const yOf = (y: number) => padT + (1 - (y - yMin) / (yMax - yMin)) * (H - padT - padB);
+  const toPath = (ts: number[], ys: number[]) =>
+    ys.map((y, i) => `${i === 0 ? "M" : "L"}${xOf(ts[i]).toFixed(1)},${yOf(y).toFixed(1)}`).join(" ");
+
+  const SINE = "#1CB0F6", EXACT = "#FF9600", NUM = "#58CC02";
+
+  return (
+    <div style={{ background: "#15183A", border: "1px solid rgba(124,130,248,0.18)", borderRadius: 16, padding: 16 }}>
+      <SliderRow
+        label="h — the step size (gap between sample points)"
+        value={h}
+        min={0.05}
+        max={2}
+        step={0.05}
+        onChange={setH}
+        color="#58CC02"
+        display={`h = ${h.toFixed(2)}`}
+      />
+      <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", display: "block", marginTop: 6 }}>
+        <rect x={padL} y={padT} width={W - padL - padR} height={H - padT - padB} fill="#0E1124" rx={6} />
+        <line x1={padL} x2={W - padR} y1={yOf(0)} y2={yOf(0)} stroke="rgba(255,255,255,0.16)" strokeWidth={1} />
+        {[-10, -5, 0, 5, 10].map((t) => (
+          <text key={t} x={xOf(t)} y={H - padB + 13} fill="#5A5F80" fontSize={9} textAnchor="middle">{t}</text>
+        ))}
+        <path d={toPath(fine.ts, fine.sin)} fill="none" stroke={SINE} strokeWidth={2} opacity={0.9} />
+        <path d={toPath(fine.ts, fine.cos)} fill="none" stroke={EXACT} strokeWidth={2.4} />
+        <path d={toPath(numer.ts, numer.dy)} fill="none" stroke={NUM} strokeWidth={2.4} strokeDasharray="1 0" />
+        <text x={W / 2} y={H - 4} fill="#9EA3BD" fontSize={10} textAnchor="middle">Time, t (au)</text>
+      </svg>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 12, justifyContent: "center", marginTop: 8 }}>
+        {[["sin(t)", SINE], ["exact derivative: cos(t)", EXACT], ["numerical derivative", NUM]].map(([l, c]) => (
+          <div key={l} style={{ display: "flex", alignItems: "center", gap: 5 }}>
+            <span style={{ width: 14, height: 3, background: c, borderRadius: 2 }} />
+            <span style={{ fontSize: 11, color: "#9EA3BD", fontWeight: 600 }}>{l}</span>
+          </div>
+        ))}
+      </div>
+      <p style={{ margin: "12px 2px 0", fontSize: 12.5, color: "#9EA3BD", lineHeight: 1.6 }}>
+        The exact derivative of sin(t) is cos(t) (orange). The <strong style={{ color: NUM }}>green</strong> curve is the
+        finite-difference estimate using step <strong style={{ color: "#58CC02" }}>h</strong>. Shrink h → green hugs
+        orange (accurate). Grow h → green lags and distorts. Smaller h is more accurate, but needs more points — the
+        accuracy-vs-cost tradeoff.
+      </p>
     </div>
   );
 }
@@ -761,33 +852,567 @@ export function TransferFunctionWidget() {
   return (
     <div style={{ background: "#15183A", border: "1px solid rgba(124,130,248,0.18)", borderRadius: 16, padding: 16 }}>
       <SliderRow
-        label="θ — the wake-up point (slide it left/right)"
+        label="θ — threshold (current at half-activation)"
         value={theta}
         min={2}
         max={8}
         step={0.5}
         onChange={setTheta}
         color="#FF9600"
-        display={theta < 4 ? "easy to wake" : theta > 6 ? "hard to wake" : "medium"}
+        display={`θ = ${theta.toFixed(1)}`}
       />
       <SliderRow
-        label="a — how sudden the wake-up is"
+        label="a — gain parameter (steepness of the rise)"
         value={a}
         min={0.3}
         max={3}
         step={0.1}
         onChange={setA}
         color="#1CB0F6"
-        display={a < 1 ? "gradual" : a > 2 ? "sharp flip" : "medium"}
+        display={`a = ${a.toFixed(1)}`}
       />
 
-      <TFPlot xs={Is} ys={rates} color={C_FUNC} theta={theta} yLabel="how fast it fires" title="How fast the neuron fires" />
-      <TFPlot xs={Is} ys={gains} color={C_INTEG} theta={theta} yLabel="sensitivity" title="Extra firing per extra push (its sensitivity)" />
+      <TFPlot xs={Is} ys={rates} color={C_FUNC} theta={theta} yLabel="firing rate, r (normalized)" title="Transfer function" />
+      <TFPlot xs={Is} ys={gains} color={C_INTEG} theta={theta} yLabel="gain = d(r)/dI (sensitivity)" title="Gain — the slope of the curve above" />
 
       <p style={{ margin: "14px 2px 0", fontSize: 12.5, color: "#9EA3BD", lineHeight: 1.6 }}>
-        Drag <strong style={{ color: "#FF9600" }}>θ</strong> → the whole S-curve slides to a different push strength (the
-        bottom bump slides with it — the neuron is most sensitive right at its wake-up point).<br />
-        Drag <strong style={{ color: "#1CB0F6" }}>a</strong> → the S-curve flips on more sharply, and the bump grows taller and narrower.
+        Raise <strong style={{ color: "#FF9600" }}>θ</strong> → the transfer curve and the gain bump both shift to a
+        higher current (the neuron needs more drive to respond).<br />
+        Raise <strong style={{ color: "#1CB0F6" }}>a</strong> → the transfer curve steepens, and the gain bump grows
+        taller and narrower (higher peak sensitivity over a narrower range of currents).
+      </p>
+    </div>
+  );
+}
+
+// ─── Viridis-style colormap (blue → green → yellow) ────────
+const VIRIDIS_STOPS: [number, [number, number, number]][] = [
+  [0.0, [68, 1, 84]],
+  [0.25, [59, 82, 139]],
+  [0.5, [33, 144, 141]],
+  [0.75, [93, 201, 99]],
+  [1.0, [253, 231, 37]],
+];
+
+function viridis(t: number): string {
+  const x = Math.max(0, Math.min(1, t));
+  for (let i = 0; i < VIRIDIS_STOPS.length - 1; i++) {
+    const [t0, c0] = VIRIDIS_STOPS[i];
+    const [t1, c1] = VIRIDIS_STOPS[i + 1];
+    if (x >= t0 && x <= t1) {
+      const f = (x - t0) / (t1 - t0);
+      const r = Math.round(c0[0] + (c1[0] - c0[0]) * f);
+      const g = Math.round(c0[1] + (c1[1] - c0[1]) * f);
+      const b = Math.round(c0[2] + (c1[2] - c0[2]) * f);
+      return `rgb(${r},${g},${b})`;
+    }
+  }
+  return "rgb(253,231,37)";
+}
+
+// ─── Partial Derivative Explorer (NMA Section 3) ───────────
+// Renders f(x,y) and its two partial derivatives as color heatmaps —
+// the "render the value as color" idea from the NMA tutorial, which is far
+// clearer on a phone than a rotating 3-D surface.
+type PdKey = "cross" | "bowl" | "saddle" | "product";
+
+interface PdDef {
+  key: PdKey;
+  label: string;
+  expr: string;
+  f: (x: number, y: number) => number;
+  dxExpr: string;
+  dyExpr: string;
+}
+
+const PD_FUNCTIONS: PdDef[] = [
+  {
+    key: "cross",
+    label: "x² + 2xy + y²",
+    expr: "f(x,y) = x² + 2xy + y²",
+    f: (x, y) => x * x + 2 * x * y + y * y,
+    dxExpr: "∂f/∂x = 2x + 2y",
+    dyExpr: "∂f/∂y = 2x + 2y",
+  },
+  {
+    key: "bowl",
+    label: "x² + y²",
+    expr: "f(x,y) = x² + y²",
+    f: (x, y) => x * x + y * y,
+    dxExpr: "∂f/∂x = 2x",
+    dyExpr: "∂f/∂y = 2y",
+  },
+  {
+    key: "saddle",
+    label: "x² − y²",
+    expr: "f(x,y) = x² − y²",
+    f: (x, y) => x * x - y * y,
+    dxExpr: "∂f/∂x = 2x",
+    dyExpr: "∂f/∂y = −2y",
+  },
+  {
+    key: "product",
+    label: "x · y",
+    expr: "f(x,y) = x · y",
+    f: (x, y) => x * y,
+    dxExpr: "∂f/∂x = y",
+    dyExpr: "∂f/∂y = x",
+  },
+];
+
+const PD_MIN = -5;
+const PD_MAX = 5;
+const PD_GRID = 22; // cells per axis
+
+// numerical partial derivatives (central difference)
+function partialX(f: (x: number, y: number) => number, x: number, y: number): number {
+  const h = 1e-3;
+  return (f(x + h, y) - f(x - h, y)) / (2 * h);
+}
+function partialY(f: (x: number, y: number) => number, x: number, y: number): number {
+  const h = 1e-3;
+  return (f(x, y + h) - f(x, y - h)) / (2 * h);
+}
+
+function Heatmap({
+  values,
+  title,
+  formula,
+  formulaColor,
+}: {
+  values: number[][]; // [row=y][col=x]
+  title: string;
+  formula: string;
+  formulaColor: string;
+}) {
+  const W = 150;
+  const cell = W / PD_GRID;
+  let vMin = Infinity;
+  let vMax = -Infinity;
+  for (const row of values)
+    for (const v of row) {
+      if (v < vMin) vMin = v;
+      if (v > vMax) vMax = v;
+    }
+  const range = vMax - vMin || 1;
+
+  return (
+    <div style={{ flex: 1, minWidth: 0 }}>
+      <div style={{ fontSize: 11, color: "#C8CADF", fontWeight: 700, marginBottom: 4, textAlign: "center" }}>{title}</div>
+      <svg viewBox={`0 0 ${W} ${W}`} style={{ width: "100%", display: "block", borderRadius: 6, overflow: "hidden" }}>
+        {values.map((row, yi) =>
+          row.map((v, xi) => (
+            <rect
+              key={`${xi}-${yi}`}
+              x={xi * cell}
+              // flip y so +y is up
+              y={(PD_GRID - 1 - yi) * cell}
+              width={cell + 0.5}
+              height={cell + 0.5}
+              fill={viridis((v - vMin) / range)}
+            />
+          ))
+        )}
+      </svg>
+      <div
+        style={{
+          fontSize: 10.5,
+          color: formulaColor,
+          fontWeight: 700,
+          fontFamily: "var(--font-code)",
+          textAlign: "center",
+          marginTop: 4,
+        }}
+      >
+        {formula}
+      </div>
+    </div>
+  );
+}
+
+export function PartialDerivativeWidget() {
+  const [key, setKey] = useState<PdKey>("cross");
+  const def = PD_FUNCTIONS.find((d) => d.key === key)!;
+
+  const { fGrid, dxGrid, dyGrid } = useMemo(() => {
+    const xs: number[] = [];
+    for (let i = 0; i < PD_GRID; i++) xs.push(PD_MIN + ((PD_MAX - PD_MIN) * i) / (PD_GRID - 1));
+    const fGrid: number[][] = [];
+    const dxGrid: number[][] = [];
+    const dyGrid: number[][] = [];
+    for (let yi = 0; yi < PD_GRID; yi++) {
+      const fRow: number[] = [];
+      const dxRow: number[] = [];
+      const dyRow: number[] = [];
+      for (let xi = 0; xi < PD_GRID; xi++) {
+        const x = xs[xi];
+        const y = xs[yi];
+        fRow.push(def.f(x, y));
+        dxRow.push(partialX(def.f, x, y));
+        dyRow.push(partialY(def.f, x, y));
+      }
+      fGrid.push(fRow);
+      dxGrid.push(dxRow);
+      dyGrid.push(dyRow);
+    }
+    return { fGrid, dxGrid, dyGrid };
+  }, [def]);
+
+  return (
+    <div style={{ background: "#15183A", border: "1px solid rgba(124,130,248,0.18)", borderRadius: 16, padding: 16 }}>
+      {/* function selector */}
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 12 }}>
+        {PD_FUNCTIONS.map((d) => (
+          <button
+            key={d.key}
+            onClick={() => setKey(d.key)}
+            style={{
+              padding: "6px 12px",
+              borderRadius: 999,
+              fontSize: 12.5,
+              fontWeight: 700,
+              cursor: "pointer",
+              fontFamily: "var(--font-code)",
+              border: key === d.key ? "1px solid #7C82F8" : "1px solid rgba(255,255,255,0.1)",
+              background: key === d.key ? "rgba(124,130,248,0.22)" : "rgba(255,255,255,0.04)",
+              color: key === d.key ? "#C7CAFF" : "#9EA3BD",
+            }}
+          >
+            {d.label}
+          </button>
+        ))}
+      </div>
+
+      <div style={{ textAlign: "center", marginBottom: 10 }}>
+        <span style={{ fontSize: 14, fontWeight: 700, color: C_FUNC, fontFamily: "var(--font-code)" }}>{def.expr}</span>
+      </div>
+
+      <div style={{ display: "flex", gap: 8, alignItems: "flex-start" }}>
+        <Heatmap values={fGrid} title="The function" formula="f(x,y)" formulaColor={C_FUNC} />
+        <Heatmap values={dxGrid} title="Slope along x" formula={def.dxExpr} formulaColor={C_DERIV} />
+        <Heatmap values={dyGrid} title="Slope along y" formula={def.dyExpr} formulaColor={C_INTEG} />
+      </div>
+
+      {/* colorbar */}
+      <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 12, justifyContent: "center" }}>
+        <span style={{ fontSize: 10.5, color: "#9EA3BD" }}>low</span>
+        <div
+          style={{
+            width: 120,
+            height: 10,
+            borderRadius: 5,
+            background: "linear-gradient(90deg, rgb(68,1,84), rgb(59,82,139), rgb(33,144,141), rgb(93,201,99), rgb(253,231,37))",
+          }}
+        />
+        <span style={{ fontSize: 10.5, color: "#9EA3BD" }}>high</span>
+      </div>
+
+      <p style={{ margin: "12px 2px 0", fontSize: 12.5, color: "#9EA3BD", lineHeight: 1.6 }}>
+        Each square shows the function&apos;s value as a <strong>color</strong> (blue = low, yellow = high) for that
+        (x, y). The <strong style={{ color: C_DERIV }}>middle</strong> map is the slope as you step along x; the{" "}
+        <strong style={{ color: C_INTEG }}>right</strong> map is the slope as you step along y. Notice: with the cross
+        term <em>2xy</em>, both partials depend on x <em>and</em> y. Drop the cross term (x² + y²) and each partial
+        depends on only its own variable.
+      </p>
+    </div>
+  );
+}
+
+// ─── Riemann Sum Explorer (NMA Section 4) ──────────────────
+// f(t) = t² − t + 1 on [0, 10];  exact integral F(t) = t³/3 − t²/2 + t
+const RS_MIN = 0;
+const RS_MAX = 10;
+function rsF(t: number): number {
+  return t * t - t + 1;
+}
+function rsIntExact(t: number): number {
+  return (t * t * t) / 3 - (t * t) / 2 + t;
+}
+
+export function RiemannSumWidget() {
+  const [dt, setDt] = useState(1.0);
+
+  // left-endpoint rectangles
+  const rects = useMemo(() => {
+    const out: { a: number; h: number }[] = [];
+    const n = Math.floor((RS_MAX - RS_MIN) / dt);
+    for (let i = 0; i < n; i++) {
+      const a = RS_MIN + i * dt;
+      out.push({ a, h: rsF(a) });
+    }
+    return out;
+  }, [dt]);
+
+  // running Riemann sum (cumulative)
+  const riemannPts = useMemo(() => {
+    const out: { t: number; v: number }[] = [];
+    let acc = 0;
+    for (const r of rects) {
+      acc += r.h * dt;
+      out.push({ t: r.a + dt, v: acc });
+    }
+    return out;
+  }, [rects, dt]);
+
+  // smooth curves
+  const fine = useMemo(() => {
+    const ts: number[] = [];
+    const fy: number[] = [];
+    const iy: number[] = [];
+    for (let t = RS_MIN; t <= RS_MAX + 1e-9; t += 0.1) {
+      ts.push(t);
+      fy.push(rsF(t));
+      iy.push(rsIntExact(t));
+    }
+    return { ts, fy, iy };
+  }, []);
+
+  const exactTotal = rsIntExact(RS_MAX);
+  const riemannTotal = riemannPts.length ? riemannPts[riemannPts.length - 1].v : 0;
+  const errPct = Math.abs((riemannTotal - exactTotal) / exactTotal) * 100;
+
+  // left plot geometry
+  const W = 340;
+  const H = 180;
+  const padL = 30;
+  const padR = 12;
+  const padT = 12;
+  const padB = 24;
+  const fMax = rsF(RS_MAX) * 1.08;
+  const xOf = (t: number) => padL + ((t - RS_MIN) / (RS_MAX - RS_MIN)) * (W - padL - padR);
+  const yOf = (y: number) => padT + (1 - y / fMax) * (H - padT - padB);
+  const fPath = fine.fy.map((y, i) => `${i === 0 ? "M" : "L"}${xOf(fine.ts[i]).toFixed(1)},${yOf(y).toFixed(1)}`).join(" ");
+  const baseY = yOf(0);
+
+  // right plot geometry
+  const iMax = exactTotal * 1.1;
+  const yOfI = (y: number) => padT + (1 - y / iMax) * (H - padT - padB);
+  const iPath = fine.iy.map((y, i) => `${i === 0 ? "M" : "L"}${xOf(fine.ts[i]).toFixed(1)},${yOfI(y).toFixed(1)}`).join(" ");
+  const rPath = riemannPts.map((p, i) => `${i === 0 ? "M" : "L"}${xOf(p.t).toFixed(1)},${yOfI(p.v).toFixed(1)}`).join(" ");
+
+  return (
+    <div style={{ background: "#15183A", border: "1px solid rgba(124,130,248,0.18)", borderRadius: 16, padding: 16 }}>
+      <SliderRow
+        label="dt — width of each rectangle (step size)"
+        value={dt}
+        min={0.25}
+        max={2.5}
+        step={0.25}
+        onChange={setDt}
+        color="#FF4B4B"
+        display={`dt = ${dt.toFixed(2)}`}
+      />
+
+      {/* left: rectangles under the curve */}
+      <div style={{ fontSize: 12, color: "#C8CADF", fontWeight: 700, margin: "8px 0 2px 2px" }}>
+        f(t) = t² − t + 1, with {rects.length} rectangles
+      </div>
+      <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", display: "block" }}>
+        <rect x={padL} y={padT} width={W - padL - padR} height={H - padT - padB} fill="#0E1124" rx={6} />
+        {rects.map((r, i) => (
+          <rect
+            key={i}
+            x={xOf(r.a)}
+            y={yOf(r.h)}
+            width={Math.max(0.5, xOf(r.a + dt) - xOf(r.a) - 0.8)}
+            height={baseY - yOf(r.h)}
+            fill="rgba(255,75,75,0.22)"
+            stroke="#FF4B4B"
+            strokeWidth={0.8}
+          />
+        ))}
+        <path d={fPath} fill="none" stroke="#1CB0F6" strokeWidth={2.4} />
+        {[0, 2, 4, 6, 8, 10].map((t) => (
+          <text key={t} x={xOf(t)} y={H - padB + 13} fill="#5A5F80" fontSize={9} textAnchor="middle">{t}</text>
+        ))}
+      </svg>
+
+      {/* right: estimate vs exact */}
+      <div style={{ fontSize: 12, color: "#C8CADF", fontWeight: 700, margin: "12px 0 2px 2px" }}>
+        Integral (area so far): Riemann sum vs exact
+      </div>
+      <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", display: "block" }}>
+        <rect x={padL} y={padT} width={W - padL - padR} height={H - padT - padB} fill="#0E1124" rx={6} />
+        <path d={iPath} fill="none" stroke="#FF9600" strokeWidth={2.6} />
+        <path d={rPath} fill="none" stroke="#58CC02" strokeWidth={2.2} strokeDasharray="4 3" />
+        {riemannPts.map((p, i) => (
+          <circle key={i} cx={xOf(p.t)} cy={yOfI(p.v)} r={2} fill="#58CC02" />
+        ))}
+        {[0, 2, 4, 6, 8, 10].map((t) => (
+          <text key={t} x={xOf(t)} y={H - padB + 13} fill="#5A5F80" fontSize={9} textAnchor="middle">{t}</text>
+        ))}
+      </svg>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 12, justifyContent: "center", marginTop: 8 }}>
+        {[["exact integral", "#FF9600"], ["Riemann sum", "#58CC02"]].map(([l, c]) => (
+          <div key={l} style={{ display: "flex", alignItems: "center", gap: 5 }}>
+            <span style={{ width: 14, height: 3, background: c, borderRadius: 2 }} />
+            <span style={{ fontSize: 11, color: "#9EA3BD", fontWeight: 600 }}>{l}</span>
+          </div>
+        ))}
+      </div>
+
+      <div
+        style={{
+          marginTop: 12,
+          padding: "10px 14px",
+          borderRadius: 10,
+          background: "rgba(0,0,0,0.25)",
+          display: "flex",
+          justifyContent: "space-between",
+          flexWrap: "wrap",
+          gap: 8,
+        }}
+      >
+        <span style={{ fontSize: 12.5, color: "#9EA3BD" }}>
+          Exact total area: <strong style={{ color: "#FF9600" }}>{exactTotal.toFixed(1)}</strong>
+        </span>
+        <span style={{ fontSize: 12.5, color: "#9EA3BD" }}>
+          Riemann estimate: <strong style={{ color: "#58CC02" }}>{riemannTotal.toFixed(1)}</strong>
+        </span>
+        <span style={{ fontSize: 12.5, color: "#9EA3BD" }}>
+          Off by <strong style={{ color: errPct > 8 ? "#FF4B4B" : "#58CC02" }}>{errPct.toFixed(1)}%</strong>
+        </span>
+      </div>
+
+      <p style={{ margin: "12px 2px 0", fontSize: 12.5, color: "#9EA3BD", lineHeight: 1.6 }}>
+        Shrink <strong style={{ color: "#FF4B4B" }}>dt</strong> → more, skinnier rectangles hug the curve and the green
+        estimate snaps onto the orange exact line. The catch: more rectangles = more computation. And because each
+        rectangle uses its <em>left</em> edge while the curve is rising, every rectangle sits slightly under the
+        curve — so a big dt <strong>underestimates</strong> the area.
+      </p>
+    </div>
+  );
+}
+
+// ─── Seeded RNG for reproducible noise (SSR-safe) ──────────
+function mulberry32(seed: number) {
+  let a = seed;
+  return function () {
+    a |= 0;
+    a = (a + 0x6d2b79f5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+// ─── Differentiation/Integration as Filtering (NMA Section 5) ──
+const SF_MIN = 0;
+const SF_MAX = 2;
+const SF_H = 0.01;
+
+export function SignalFilteringWidget() {
+  const [noise, setNoise] = useState(0.5);
+  const [seed, setSeed] = useState(1);
+
+  const { tx, signal, diff, integ } = useMemo(() => {
+    const rand = mulberry32(seed);
+    const tx: number[] = [];
+    const clean: number[] = [];
+    const signal: number[] = [];
+    for (let t = SF_MIN; t < SF_MAX; t += SF_H) {
+      tx.push(t);
+      const base = Math.sin(0.5 * Math.PI * t * 2); // a smooth ~1 Hz wave
+      clean.push(base);
+      signal.push(base + rand() * noise);
+    }
+    // derivative-equivalent: difference of adjacent samples (amplifies noise)
+    const diff: number[] = [];
+    for (let i = 1; i < signal.length; i++) diff.push((signal[i] - signal[i - 1]) / SF_H);
+    // integration-equivalent: average adjacent samples (smooths noise)
+    const integ: number[] = [];
+    for (let i = 1; i < signal.length; i++) integ.push((signal[i] + signal[i - 1]) / 2);
+    return { tx, signal, diff, integ };
+  }, [noise, seed]);
+
+  function MiniPlot({
+    ts,
+    ys,
+    color,
+    title,
+    overlay,
+    overlayColor,
+  }: {
+    ts: number[];
+    ys: number[];
+    color: string;
+    title: string;
+    overlay?: number[];
+    overlayColor?: string;
+  }) {
+    const W = 340;
+    const H = 110;
+    const padL = 12;
+    const padR = 10;
+    const padT = 10;
+    const padB = 16;
+    let yMin = Infinity;
+    let yMax = -Infinity;
+    for (const v of ys) {
+      if (v < yMin) yMin = v;
+      if (v > yMax) yMax = v;
+    }
+    if (overlay) for (const v of overlay) { if (v < yMin) yMin = v; if (v > yMax) yMax = v; }
+    const pad = (yMax - yMin) * 0.1 || 1;
+    yMin -= pad;
+    yMax += pad;
+    const xOf = (t: number) => padL + ((t - SF_MIN) / (SF_MAX - SF_MIN)) * (W - padL - padR);
+    const yOf = (y: number) => padT + (1 - (y - yMin) / (yMax - yMin)) * (H - padT - padB);
+    const toPath = (arr: number[], times: number[]) =>
+      arr.map((y, i) => `${i === 0 ? "M" : "L"}${xOf(times[i]).toFixed(1)},${yOf(y).toFixed(1)}`).join(" ");
+    return (
+      <div style={{ marginTop: 8 }}>
+        <div style={{ fontSize: 11.5, color, fontWeight: 700, marginBottom: 2, marginLeft: 2 }}>{title}</div>
+        <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", display: "block" }}>
+          <rect x={padL} y={padT} width={W - padL - padR} height={H - padT - padB} fill="#0E1124" rx={6} />
+          {overlay && overlayColor && (
+            <path d={toPath(overlay, ts.slice(0, overlay.length))} fill="none" stroke={overlayColor} strokeWidth={1.4} opacity={0.5} />
+          )}
+          <path d={toPath(ys, ts.slice(0, ys.length))} fill="none" stroke={color} strokeWidth={1.6} />
+        </svg>
+      </div>
+    );
+  }
+
+  return (
+    <div style={{ background: "#15183A", border: "1px solid rgba(124,130,248,0.18)", borderRadius: 16, padding: 16 }}>
+      <SliderRow
+        label="noise — how much fast jitter is added to the wave"
+        value={noise}
+        min={0}
+        max={1.2}
+        step={0.05}
+        onChange={setNoise}
+        color="#7C82F8"
+        display={`${noise.toFixed(2)}`}
+      />
+      <button
+        onClick={() => setSeed((s) => s + 1)}
+        style={{
+          padding: "7px 14px",
+          borderRadius: 8,
+          border: "1px solid rgba(255,255,255,0.12)",
+          background: "rgba(255,255,255,0.04)",
+          color: "#C8CADF",
+          fontSize: 12,
+          fontWeight: 700,
+          cursor: "pointer",
+          marginBottom: 4,
+        }}
+      >
+        🎲 New noise
+      </button>
+
+      <MiniPlot ts={tx} ys={signal} color="#1CB0F6" title="① Original signal (smooth wave + noisy jitter)" />
+      <MiniPlot ts={tx} ys={diff} color="#FF4B4B" title="② Differentiated → noise EXPLODES (high-pass)" />
+      <MiniPlot ts={tx} ys={integ} color="#58CC02" title="③ Integrated/averaged → noise SMOOTHED away (low-pass)" />
+
+      <p style={{ margin: "12px 2px 0", fontSize: 12.5, color: "#9EA3BD", lineHeight: 1.6 }}>
+        Same signal, two operations. <strong style={{ color: "#FF4B4B" }}>Differentiating</strong> (subtracting
+        neighbors) keeps only what <em>changes fast</em> — so it amplifies the jittery noise: a{" "}
+        <strong>high-pass filter</strong>. <strong style={{ color: "#58CC02" }}>Integrating</strong> (adding neighbors)
+        keeps only what changes <em>slowly</em> — it washes the noise out and leaves the smooth wave: a{" "}
+        <strong>low-pass filter</strong>. Crank the noise up and watch the red plot go wild while the green stays calm.
       </p>
     </div>
   );

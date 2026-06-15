@@ -3,7 +3,15 @@
 import React from "react";
 import type { ConceptBlock } from "@/data/types";
 import { ExecutableCodeBlock } from "./ExecutableCodeBlock";
-import { CalculusExplorer, CalculusPredict, TransferFunctionWidget } from "./CalculusWidget";
+import {
+  CalculusExplorer,
+  CalculusPredict,
+  TransferFunctionWidget,
+  NumericalDerivativeWidget,
+  PartialDerivativeWidget,
+  RiemannSumWidget,
+  SignalFilteringWidget,
+} from "./CalculusWidget";
 
 interface ConceptCardProps {
   blocks: ConceptBlock[];
@@ -119,6 +127,10 @@ function SingleBlock({ block }: { block: ConceptBlock }) {
     if (block.content === "calculus-explorer") widget = <CalculusExplorer />;
     else if (block.content === "calculus-predict") widget = <CalculusPredict />;
     else if (block.content === "transfer-function") widget = <TransferFunctionWidget />;
+    else if (block.content === "numerical-derivative") widget = <NumericalDerivativeWidget />;
+    else if (block.content === "partial-derivatives") widget = <PartialDerivativeWidget />;
+    else if (block.content === "riemann-sum") widget = <RiemannSumWidget />;
+    else if (block.content === "signal-filtering") widget = <SignalFilteringWidget />;
     return (
       <div>
         {widget}
