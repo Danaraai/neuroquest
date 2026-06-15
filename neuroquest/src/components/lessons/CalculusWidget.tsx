@@ -1000,18 +1000,26 @@ function Surface3D({
     }
   const range = vMax - vMin || 1;
 
-  const cos30 = Math.cos(Math.PI / 6);
-  const sin30 = Math.sin(Math.PI / 6);
-  const scale = 70;
-  const zScale = 92;
+  // azimuth/elevation camera (like matplotlib view_init) so tilted surfaces
+  // clearly show their rise toward the z-axis, instead of looking flat.
+  const az = (-58 * Math.PI) / 180;
+  const el = (24 * Math.PI) / 180;
+  const cosA = Math.cos(az), sinA = Math.sin(az);
+  const cosE = Math.cos(el), sinE = Math.sin(el);
+  const S = 96; // x/y extent
+  const Hz = 118; // z (height) extent
   const ox = W / 2;
-  const oy = 192;
+  const oy = 156;
 
   // project normalized cube: a ∈ [-1,1] (x), b ∈ [-1,1] (y), c ∈ [0,1] (z)
-  const P = (a: number, b: number, c: number) => ({
-    x: ox + (a - b) * cos30 * scale,
-    y: oy + (a + b) * sin30 * scale - c * zScale,
-  });
+  const proj = (a: number, b: number, c: number) => {
+    const wx = a * S, wy = b * S, wz = (c - 0.5) * Hz;
+    const x1 = wx * cosA - wy * sinA;
+    const y1 = wx * sinA + wy * cosA;
+    const up = -y1 * sinE + wz * cosE;
+    return { x: ox + x1, y: oy - up, depth: y1 * cosE + wz * sinE };
+  };
+  const P = (a: number, b: number, c: number) => proj(a, b, c);
   const dN = (d: number) => d / 5; // data coord in [-5,5] → [-1,1]
   const cOf = (v: number) => (v - vMin) / range;
   const xy = [-4, -2, 0, 2, 4]; // x & y tick values (range is -5..5)
@@ -1026,15 +1034,15 @@ function Surface3D({
       const nb1 = ((yi + 1) / (n - 1) - 0.5) * 2;
       const c00 = cOf(values[yi][xi]), c10 = cOf(values[yi][xi + 1]);
       const c11 = cOf(values[yi + 1][xi + 1]), c01 = cOf(values[yi + 1][xi]);
-      const p00 = P(na, nb, c00), p10 = P(na1, nb, c10), p11 = P(na1, nb1, c11), p01 = P(na, nb1, c01);
+      const p00 = proj(na, nb, c00), p10 = proj(na1, nb, c10), p11 = proj(na1, nb1, c11), p01 = proj(na, nb1, c01);
       quads.push({
         d: `M${p00.x.toFixed(1)},${p00.y.toFixed(1)} L${p10.x.toFixed(1)},${p10.y.toFixed(1)} L${p11.x.toFixed(1)},${p11.y.toFixed(1)} L${p01.x.toFixed(1)},${p01.y.toFixed(1)} Z`,
-        depth: na + na1 + nb + nb1,
+        depth: p00.depth + p10.depth + p11.depth + p01.depth,
         color: viridis((c00 + c10 + c11 + c01) / 4),
       });
     }
   }
-  quads.sort((a, b) => a.depth - b.depth);
+  quads.sort((a, b) => b.depth - a.depth); // far first, near last
 
   const grid = "rgba(255,255,255,0.10)";
   const pane = "rgba(255,255,255,0.04)";
@@ -1074,19 +1082,19 @@ function Surface3D({
           );
         })}
         <text x={P(0, 1, 0).x - 6} y={P(0, 1, 0).y + 24} fill="#C8CADF" fontSize={12} fontWeight="bold" textAnchor="middle">x</text>
-        {/* y-axis (front-right edge, x = +5) */}
-        {line(P(1, -1, 0), P(1, 1, 0), axc, 1, "yaxis")}
+        {/* y-axis (front-left bottom edge, x = -5) */}
+        {line(P(-1, 1, 0), P(-1, -1, 0), axc, 1, "yaxis")}
         {xy.map((t) => {
-          const p = P(1, dN(t), 0);
+          const p = P(-1, dN(t), 0);
           return (
-            <text key={"yt" + t} x={p.x + 8} y={p.y + 4} fill={axc} fontSize={8} textAnchor="start">{t}</text>
+            <text key={"yt" + t} x={p.x - 7} y={p.y + 5} fill={axc} fontSize={8} textAnchor="end">{t}</text>
           );
         })}
-        <text x={P(1, 1, 0).x + 18} y={P(1, 1, 0).y + 8} fill="#C8CADF" fontSize={12} fontWeight="bold">y</text>
-        {/* z-axis (right vertical edge) */}
-        {line(P(1, -1, 0), P(1, -1, 1), axc, 1, "zaxis")}
+        <text x={P(-1, -1, 0).x - 8} y={P(-1, -1, 0).y + 16} fill="#C8CADF" fontSize={12} fontWeight="bold" textAnchor="middle">y</text>
+        {/* z-axis (front-right vertical edge) with tick labels outside on the right */}
+        {line(P(1, 1, 0), P(1, 1, 1), axc, 1, "zaxis")}
         {zTicks.map((v, i) => {
-          const p = P(1, -1, cOf(v));
+          const p = P(1, 1, cOf(v));
           return (
             <text key={"zt" + i} x={p.x + 6} y={p.y + 3} fill={axc} fontSize={8} textAnchor="start">{Math.round(v)}</text>
           );
