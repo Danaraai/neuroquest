@@ -6115,11 +6115,11 @@ print("✅ All tests passed! +25 XP")
             concept: [
               {
                 type: "highlight",
-                content: "A function of two variables is a **landscape** — a height for every (x, y). Hard to draw on a phone as a 3-D hill, so we do what NMA does: paint the height as **color**. Blue = low, yellow = high.",
+                content: "A function of two variables is a **landscape** — a height for every (x, y). We draw it as a **3-D surface**, exactly like NMA: the height *is* the value (and it's shaded by color too — blue = low, yellow = high).",
               },
               {
                 type: "text",
-                content: "**Three maps below, for whichever function you pick:**\n1. **The function** itself (its height as color).\n2. **∂f/∂x** — the slope if you walk in the x-direction.\n3. **∂f/∂y** — the slope if you walk in the y-direction.\n\nSwitch functions and watch how the two slope-maps change.",
+                content: "**Three surfaces below, for whichever function you pick:**\n1. **The function** itself.\n2. **∂f/∂x** — the slope if you walk in the x-direction.\n3. **∂f/∂y** — the slope if you walk in the y-direction.\n\nSwitch functions and watch how the two slope-surfaces change shape.",
               },
               {
                 type: "widget",

@@ -974,7 +974,8 @@ function partialY(f: (x: number, y: number) => number, x: number, y: number): nu
   return (f(x, y + h) - f(x, y - h)) / (2 * h);
 }
 
-function Heatmap({
+// 3-D surface plot via isometric projection + painter's algorithm (like NMA's plot3d)
+function Surface3D({
   values,
   title,
   formula,
@@ -985,8 +986,10 @@ function Heatmap({
   formula: string;
   formulaColor: string;
 }) {
-  const W = 150;
-  const cell = W / PD_GRID;
+  const W = 320;
+  const H = 240;
+  const n = values.length;
+
   let vMin = Infinity;
   let vMax = -Infinity;
   for (const row of values)
@@ -996,32 +999,62 @@ function Heatmap({
     }
   const range = vMax - vMin || 1;
 
+  // isometric projection of a normalized cube
+  const cos30 = Math.cos(Math.PI / 6);
+  const sin30 = Math.sin(Math.PI / 6);
+  const scale = 95;
+  const zScale = 78;
+  const ox = W / 2;
+  const oy = H * 0.60;
+
+  const project = (xi: number, yi: number, v: number) => {
+    const nx = (xi / (n - 1) - 0.5) * 2; // [-1, 1]
+    const ny = (yi / (n - 1) - 0.5) * 2;
+    const nz = (v - vMin) / range; // [0, 1]
+    const sx = ox + (nx - ny) * cos30 * scale;
+    const sy = oy + (nx + ny) * sin30 * scale - nz * zScale;
+    return { sx, sy, base: nx + ny, nz };
+  };
+
+  const quads: { d: string; depth: number; color: string }[] = [];
+  for (let yi = 0; yi < n - 1; yi++) {
+    for (let xi = 0; xi < n - 1; xi++) {
+      const p00 = project(xi, yi, values[yi][xi]);
+      const p10 = project(xi + 1, yi, values[yi][xi + 1]);
+      const p11 = project(xi + 1, yi + 1, values[yi + 1][xi + 1]);
+      const p01 = project(xi, yi + 1, values[yi + 1][xi]);
+      const avgZ = (p00.nz + p10.nz + p11.nz + p01.nz) / 4;
+      quads.push({
+        d: `M${p00.sx.toFixed(1)},${p00.sy.toFixed(1)} L${p10.sx.toFixed(1)},${p10.sy.toFixed(1)} L${p11.sx.toFixed(1)},${p11.sy.toFixed(1)} L${p01.sx.toFixed(1)},${p01.sy.toFixed(1)} Z`,
+        depth: p00.base + p10.base + p11.base + p01.base, // back (small) → front (large)
+        color: viridis(avgZ),
+      });
+    }
+  }
+  quads.sort((a, b) => a.depth - b.depth); // painter's algorithm: back to front
+
+  // base-corner axis labels for orientation
+  const xEnd = project(n - 1, 0, vMin); // +x corner
+  const yEnd = project(0, n - 1, vMin); // +y corner
+
   return (
-    <div style={{ flex: 1, minWidth: 0 }}>
-      <div style={{ fontSize: 11, color: "#C8CADF", fontWeight: 700, marginBottom: 4, textAlign: "center" }}>{title}</div>
-      <svg viewBox={`0 0 ${W} ${W}`} style={{ width: "100%", display: "block", borderRadius: 6, overflow: "hidden" }}>
-        {values.map((row, yi) =>
-          row.map((v, xi) => (
-            <rect
-              key={`${xi}-${yi}`}
-              x={xi * cell}
-              // flip y so +y is up
-              y={(PD_GRID - 1 - yi) * cell}
-              width={cell + 0.5}
-              height={cell + 0.5}
-              fill={viridis((v - vMin) / range)}
-            />
-          ))
-        )}
+    <div style={{ marginBottom: 6 }}>
+      <div style={{ fontSize: 12, color: "#C8CADF", fontWeight: 700, marginBottom: 2, textAlign: "center" }}>{title}</div>
+      <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", display: "block" }}>
+        {quads.map((q, i) => (
+          <path key={i} d={q.d} fill={q.color} stroke={q.color} strokeWidth={0.4} strokeLinejoin="round" />
+        ))}
+        <text x={xEnd.sx + 6} y={xEnd.sy + 10} fill="#8B8FB0" fontSize={11} fontWeight="bold">x</text>
+        <text x={yEnd.sx - 12} y={yEnd.sy + 10} fill="#8B8FB0" fontSize={11} fontWeight="bold">y</text>
       </svg>
       <div
         style={{
-          fontSize: 10.5,
+          fontSize: 11,
           color: formulaColor,
           fontWeight: 700,
           fontFamily: "var(--font-code)",
           textAlign: "center",
-          marginTop: 4,
+          marginTop: 2,
         }}
       >
         {formula}
@@ -1087,14 +1120,12 @@ export function PartialDerivativeWidget() {
         <span style={{ fontSize: 14, fontWeight: 700, color: C_FUNC, fontFamily: "var(--font-code)" }}>{def.expr}</span>
       </div>
 
-      <div style={{ display: "flex", gap: 8, alignItems: "flex-start" }}>
-        <Heatmap values={fGrid} title="The function" formula="f(x,y)" formulaColor={C_FUNC} />
-        <Heatmap values={dxGrid} title="Slope along x" formula={def.dxExpr} formulaColor={C_DERIV} />
-        <Heatmap values={dyGrid} title="Slope along y" formula={def.dyExpr} formulaColor={C_INTEG} />
-      </div>
+      <Surface3D values={fGrid} title="The function" formula="f(x, y)" formulaColor={C_FUNC} />
+      <Surface3D values={dxGrid} title="Partial derivative w.r.t. x" formula={def.dxExpr} formulaColor={C_DERIV} />
+      <Surface3D values={dyGrid} title="Partial derivative w.r.t. y" formula={def.dyExpr} formulaColor={C_INTEG} />
 
       {/* colorbar */}
-      <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 12, justifyContent: "center" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 4, justifyContent: "center" }}>
         <span style={{ fontSize: 10.5, color: "#9EA3BD" }}>low</span>
         <div
           style={{
@@ -1108,11 +1139,11 @@ export function PartialDerivativeWidget() {
       </div>
 
       <p style={{ margin: "12px 2px 0", fontSize: 12.5, color: "#9EA3BD", lineHeight: 1.6 }}>
-        Each square shows the function&apos;s value as a <strong>color</strong> (blue = low, yellow = high) for that
-        (x, y). The <strong style={{ color: C_DERIV }}>middle</strong> map is the slope as you step along x; the{" "}
-        <strong style={{ color: C_INTEG }}>right</strong> map is the slope as you step along y. Notice: with the cross
-        term <em>2xy</em>, both partials depend on x <em>and</em> y. Drop the cross term (x² + y²) and each partial
-        depends on only its own variable.
+        Each surface is a 3-D plot — <strong>height</strong> (and color) is the value at each (x, y), just like NMA&apos;s
+        <code> plot3d</code>. The <strong style={{ color: C_DERIV }}>second</strong> surface is the slope along x (∂f/∂x);
+        the <strong style={{ color: C_INTEG }}>third</strong> is the slope along y (∂f/∂y). Notice: with the cross term{" "}
+        <em>2xy</em>, both partial-derivative surfaces tilt along x <em>and</em> y. Drop the cross term (x² + y²) and each
+        partial becomes a flat ramp that only tilts along its own variable.
       </p>
     </div>
   );
