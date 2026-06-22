@@ -133,4 +133,11 @@ export const FACTS: Fact[] = [
     category: "AI & the brain",
     color: "#1CB0F6",
   },
+  {
+    id: "f19",
+    emoji: "🦑",
+    text: "To crack how a neuron fires, Hodgkin and Huxley needed a nerve big enough to experiment on — so they turned to a squid. Its 'giant axon,' the nerve behind the squid's panic jet-escape, is about 1 mm thick — roughly 100× fatter than a human nerve fiber — big enough to thread a wire right inside.\n\nUsing a trick called a voltage clamp (hold the voltage fixed, measure the current that flows), they discovered what a spike actually is: sodium ions rush IN and the voltage shoots up, then potassium ions rush OUT and it drops back down — all through tiny gates, in about a millisecond.\n\nThe stunning part: they captured it all in a set of differential equations that reproduced a spike's exact shape and speed — years before anyone could see those gates under a microscope. The math predicted the biology. It won them the 1963 Nobel Prize.",
+    category: "History",
+    color: "#1CB0F6",
+  },
 ];

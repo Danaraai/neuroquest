@@ -6442,8 +6442,715 @@ print("✅ All tests passed! +25 XP")
         number: 5,
         title: "Differential Equations",
         description: "Equations that describe how things change — like a neuron's voltage",
-        totalXP: 100,
-        lessons: [],
+        totalXP: 150,
+        lessons: [
+          // ════════ SECTION A: What is a Differential Equation? ════════
+
+          // ── L1: A Rule for Change ─────────────────────────
+          {
+            id: "w3q5l1",
+            questId: "w3q5",
+            worldId: "world3",
+            title: "A Rule for Change",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 4,
+            concept: [
+              {
+                type: "highlight",
+                content: "A huge slice of neuroscience — ion channels, single neurons, whole networks, even decision-making — is written in one language: **differential equations**. They sound scary. They're not. A differential equation is just **a rule for how something changes**.",
+              },
+              {
+                type: "text",
+                content: "**The key mental flip.** Most equations you've seen give you a *value*: \"y = 3x + 2\" tells you where you are. A differential equation instead tells you **how fast you're changing** — and from that, you rebuild the whole story.",
+              },
+              {
+                type: "text",
+                content: "**Think of a GPS / speedometer.** Your car's speedometer never says \"you'll be in Boston.\" It says \"you're going 60 mph, heading north — *right now*.\" But if you know your speed at every instant, you can reconstruct the entire trip. A differential equation is the speedometer; solving it rebuilds the journey.",
+              },
+              {
+                type: "text",
+                content: "**The general form** of a first-order differential equation:",
+              },
+              {
+                type: "formula",
+                content: "dy/dt = f(y, t)",
+                caption: "Read it as: 'the rate of change of y over time is some function of y itself and of time t.'",
+              },
+              {
+                type: "highlight",
+                content: "**Spot the weird part:** the change in `y` depends on `y` itself. The thing describes itself. The source compares it to **M.C. Escher's drawing of two hands sketching each other** — each one drawing the other into being. That self-reference is exactly why differential equations are powerful (and sometimes hard to solve).",
+              },
+              {
+                type: "text",
+                content: "**You already know one in real life: compound interest.** How fast your savings grow depends on how much you *already have*. More money → more interest → even more money. That self-feeding loop is a differential equation, and we'll meet its twin in the very next lesson.",
+              },
+              {
+                type: "text",
+                content: "**Two ways to actually solve one:**\n• **Analytically** — find an exact formula (possible for simple ones, using integration tricks).\n• **Numerically** — when no exact formula exists (which is *most* of the time), approximate it step by step on a computer. That's the next quest (Euler's method), and it's built on the Riemann sum you already learned.",
+              },
+            ],
+          },
+
+          // ── L2: Why Neuroscience Runs on These ────────────
+          {
+            id: "w3q5l2",
+            questId: "w3q5",
+            worldId: "world3",
+            title: "Why the Brain Runs on These",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 5,
+            concept: [
+              {
+                type: "highlight",
+                content: "Differential equations are the **common language** of neuroscience. The same kind of equation describes a tiny ion channel, a single neuron, a whole cortical population, *and* the choice you make at a coffee shop. Learn the language once, read all of it.",
+              },
+              {
+                type: "text",
+                content: "Below are the famous ones. **Don't memorize the names** — just notice they line up by *how zoomed-in* they are: one cell → millions of cells → the whole person. Here's what each actually measures, in plain words.",
+              },
+              {
+                type: "text",
+                content: "**🔬 Single-neuron models — zoomed all the way in to ONE cell.**\n\nThey track the **voltage inside a single neuron** (the tiny electrical charge across its membrane) as it rises and falls, and the instant it **fires a spike**.\n\n• **Hodgkin–Huxley** — the most detailed: it follows the actual microscopic *gates* (sodium and potassium 'doors' that pop open and shut) that physically build a spike. Most realistic, heaviest to compute.\n• **FitzHugh–Nagumo / Izhikevich** — simpler cousins that drop most of the gate detail but still reproduce the spike's shape. Less realistic, fast to run.\n• **Leaky Integrate-and-Fire (LIF)** — the simplest: it ignores the gates and just lets the voltage **fill up like a bucket and reset every time the neuron fires**. Easiest to learn, so it's the one we'll build in detail.",
+              },
+              {
+                type: "text",
+                content: "**🧠 Population & whole-brain models — zoomed out to MILLIONS of neurons at once.**\n\nTracking every neuron is hopeless, so these follow an **average** instead.\n\n• **Rate models / Wilson–Cowan / neural mass models** — measure *how busy a brain region is*: what **fraction of its neurons are active** right now. Wilson–Cowan tracks two tugging crowds — the **excitatory** (gas pedal) and **inhibitory** (brake) groups — pushing and pulling on each other.\n• **Balloon model** — measures **blood flow and oxygen**, not spikes. Why? An **fMRI scanner** can't see spikes; it only sees blood rushing to busy areas. This model turns 'neurons got active' into 'blood flowed in' — the colored blobs in brain-scan images.",
+              },
+              {
+                type: "text",
+                content: "**🙋 Behavior & cognition models — zoomed all the way out to the whole PERSON.**\n\nNo neurons here, just what someone *does*.\n\n• **Drift-Diffusion Model** — pictures a decision as **evidence piling up** like sand on a scale until it tips past a finish line. It predicts both **which choice** you make and **how long it takes** (reaction time).\n• **Leaky Integrator of forgetting** — pictures a memory as water in a **leaky cup**: it slowly **drains away** unless you keep topping it up. It predicts how fast you forget — like a phone number slipping away seconds after you hear it.",
+              },
+              {
+                type: "highlight",
+                content: "🤯 **The fact worth remembering:** that **leaky cup of forgetting** and the **leaky bucket neuron (LIF)** run on almost the *same equation*. One bit of math describes both a neuron's voltage leaking back down *and* a memory fading away. Nature reuses good math — which is exactly why learning this one tool unlocks so much.",
+              },
+              {
+                type: "text",
+                content: "**🦑 Fun history — how the spike was actually cracked.**\n\nIn the late 1940s, Alan Hodgkin and Andrew Huxley needed a nerve fiber big enough to experiment on. They found a monster in the **squid**: its *giant axon* — the nerve that triggers the squid's panic jet-escape — is about **1 mm thick, roughly 100× fatter than a human nerve fiber**. Big enough to thread a thin wire right inside it.",
+              },
+              {
+                type: "text",
+                content: "Using a clever trick called a **voltage clamp** (hold the membrane voltage fixed, then measure the electric current that flows), they watched charged ions cross the membrane and worked out what a spike really *is*: first **sodium ions rush IN** and the voltage shoots up, then **potassium ions rush OUT** and it drops back down — through tiny gates that open and close in sequence. That in-then-out surge, in about a millisecond, *is* the spike.",
+              },
+              {
+                type: "highlight",
+                content: "The stunning part: they captured all of it in a set of **differential equations** that reproduced a spike's exact shape and speed — *years before* anyone could see those gates under a microscope. The math predicted the biology. It won them the **1963 Nobel Prize**, and it's why differential equations sit at the foundation of neuroscience.",
+              },
+              {
+                type: "highlight",
+                content: "**The one-sentence takeaway:** a differential equation is *a rule that tells you how a system changes over time*. Instead of stating the future directly, it states the **rate of change** — and from that, the whole future unfolds.",
+              },
+            ],
+          },
+
+          // ════════ SECTION B: The Population Equation (warm-up) ════════
+
+          // ── L3: The Bank-Account Equation ─────────────────
+          {
+            id: "w3q5l3",
+            questId: "w3q5",
+            worldId: "world3",
+            title: "Warm-up: The Population Equation",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 4,
+            concept: [
+              {
+                type: "highlight",
+                content: "Before neurons, let's warm up with something familiar: a growing **population** (people, not neurons). It's the simplest differential equation, and it builds every intuition we'll need for the neuron.",
+              },
+              {
+                type: "text",
+                content: "**The idea in words:** how fast a population grows depends on how many people are already there. More people → more babies → faster growth. Written as a differential equation:",
+              },
+              {
+                type: "formula",
+                content: "d p(t)/dt = α · p(t)",
+                caption: "p(t) = the population at time t.  α (alpha) = the birth rate.",
+              },
+              {
+                type: "text",
+                content: "**In plain English, that equation reads:**\n\n\"Change in population\" = \"birth rate α\" × \"current population.\"\n\nThis is *exactly* the **compound-interest / bank-account** equation. Swap \"population\" for \"money\" and \"birth rate\" for \"interest rate\" and it's the same self-feeding loop: the more you have, the faster you gain.",
+              },
+              {
+                type: "highlight",
+                content: "**Why it's called a _linear_ differential equation.** Look at the relationship between the change `dp/dt` and the population `p`: it's `α · p` — a straight line through the origin with slope α. When the rate-of-change graph is a **line**, we call the equation *linear*. (You'll see that line in the explorer two lessons from now.)",
+              },
+              {
+                type: "text",
+                content: "**Reading the line (with α = 0.3):** a population of 20 changes at a rate of 0.3 × 20 = **6**. A population of 100 changes at 0.3 × 100 = **30**. Bigger population → bigger change. The rate scales with the size — that's the whole personality of this equation.",
+              },
+              {
+                type: "text",
+                content: "**See it yourself.** Press Run to plot the differential equation — the change `dp/dt` against the population `p`:",
+              },
+              {
+                type: "executable-code",
+                content: "import numpy as np\nimport matplotlib.pyplot as plt\n\nalpha = 0.3                 # birth rate\np = np.arange(0, 100, 1)    # possible population sizes\ndpdt = alpha * p            # the differential equation: dp/dt = alpha * p\n\nplt.figure(figsize=(6, 4))\nplt.plot(p, dpdt)\nplt.xlabel('population, p')\nplt.ylabel('change in population, dp/dt')\nplt.title('dp/dt = 0.3 * p  (a straight line!)')\nplt.grid(True)\nplt.show()",
+                caption: "It's a straight line through the origin — that's exactly why we call it a LINEAR differential equation. Read off p=20 → 6 and p=100 → 30, just like above.",
+              },
+            ],
+          },
+
+          // ── L4: Exponential Solution + Population Explorer (merged) ──
+          {
+            id: "w3q5l4",
+            questId: "w3q5",
+            worldId: "world3",
+            title: "The Exponential Solution & What α Does",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 15,
+            estimatedMinutes: 8,
+            concept: [
+              {
+                type: "highlight",
+                content: "We have the *rule* (dp/dt = αp). Now we want the **solution** — an actual formula for the population at any time t. To solve a differential equation analytically, we **integrate both sides**.",
+              },
+              {
+                type: "text",
+                content: "**First, the initial condition.** A differential equation tells you how things *change*, but not where they *started*. So we must pin down a starting value. Here, the population at time 0:",
+              },
+              {
+                type: "formula",
+                content: "p(0) = P₀",
+                caption: "Different starting values P₀ give different solutions — but they don't change the underlying equation. That reusability is a key strength of differential equations.",
+              },
+              {
+                type: "text",
+                content: "**Now solve it.** We want a function whose derivative equals α times itself. Rearrange and integrate both sides:",
+              },
+              {
+                type: "formula",
+                content: "∫ (1/p) dp  =  ∫ α dt   →   ln(p) = α·t + C   →   p(t) = P₀ · e^(α·t)",
+                caption: "Integrating 1/p gives the natural log; then we exponentiate both sides to free p. Steps explained just below.",
+              },
+              {
+                type: "text",
+                content: "**Wait — where did that `ln` suddenly come from?** You don't *calculate* it, you **recognize** it. Integration is just differentiation run **backwards**, so `∫ (1/p) dp` is really asking: *\"what function has `1/p` as its derivative?\"* From the last tutorial, the derivative of `ln(p)` is `1/p` — so its integral must be `ln(p)`. You're reading a derivative you already know, in reverse.",
+              },
+              {
+                type: "text",
+                content: "**Why is `1/p` the weird one that needs a log?** The power rule says `∫ pⁿ dp = pⁿ⁺¹ / (n+1)`. Try it on `1/p` (which is `p⁻¹`, so n = −1): you'd get `p⁰ / 0` — **divide by zero, it breaks!** There's a hole in the power rule exactly at n = −1, and the function that plugs that hole is the natural log. That's the *one* place `ln` shows up — remember it as: **the `1/x` exception → `ln`.**",
+              },
+              {
+                type: "text",
+                content: "**The last step: undo the log by raising `e` to _both sides_.** `e` and `ln` are opposites — they cancel, like × and ÷ (`e^(ln p) = p`). So starting from `ln(p) = α·t + C`:\n\n• raise e to both sides → `p = e^(α·t + C)`\n• split the exponent → `p = e^C · e^(α·t)`\n• rename the leftover constant `e^C` as the starting population `P₀`\n\n…and you land on the clean solution:",
+              },
+              {
+                type: "formula",
+                content: "p(t) = P₀ · e^(α·t)",
+                caption: "'Population grows (or shrinks) exponentially as a function of time and birth rate.'",
+              },
+              {
+                type: "highlight",
+                content: "📓 **The only integrals worth memorizing** (they're just the differentiation rules from last tutorial, read backwards):\n• `∫ xⁿ dx = xⁿ⁺¹/(n+1)` — the power rule\n• `∫ (1/x) dx = ln|x|` — **the special exception** (n = −1)\n• `∫ eˣ dx = eˣ` — itself!\n• `∫ sin x dx = −cos x`  and  `∫ cos x dx = sin x`\n\nUnlike derivatives (always mechanical — product/chain rule), integrals have **no guaranteed recipe**: you pattern-match these few, then for anything harder you look it up (Wikipedia's *\"Lists of integrals\"*) or let **SymPy** do it exactly — `sp.integrate(1/p, p)` returns `log(p)`.",
+              },
+              {
+                type: "highlight",
+                content: "**Why an _exponential_? This is the beautiful payoff from the last tutorial.** Remember eigenfunctions — the exponential is the one function whose **derivative equals itself** (times a constant). The equation *demanded* a function proportional to its own rate of change, and the exponential is the only thing that fits. The eigenfunction lesson wasn't a detour — it was setup for this exact moment.",
+              },
+              {
+                type: "text",
+                content: "**Reality check:** most differential equations do *not* have a clean solution like this. The population equation is a lucky, friendly case. When there's no exact formula, we go numerical (next quest). A small historical aside the source loves: a lot of these integration \"tricks\" were invented by mathematicians writing each other **taunting letters** bragging they could solve something the others couldn't. So don't stress about memorizing tricks.",
+              },
+              {
+                type: "highlight",
+                content: "Enough algebra — now **watch it move**. Below are the *same two graphs* from this section, but live and side by side: the **`dp/dt` line** (the equation) on the left and the **`p(t)` curve** (the solution) on the right. One slider controls everything: **α**, the birth rate. Drag it and watch both respond together.",
+              },
+              {
+                type: "widget",
+                content: "population-explorer",
+              },
+              {
+                type: "text",
+                content: "**Drag α and you'll find three regimes** — this is the real reason to play with it:\n1. **α > 0** → the line slopes up, the solution **explodes** exponentially toward infinity (runaway growth).\n2. **α < 0** → the line slopes down, the solution **decays** to zero — a stable end state.\n3. **α = 0** → the line is flat at zero (dp/dt = 0). Nothing changes, ever. This special spot is the **equilibrium point** (also called a *stable point* or *fixed point*).",
+              },
+              {
+                type: "highlight",
+                content: "**Lock in 'equilibrium point.'** It's any state where the rate of change is **zero**, so the system sits still. Picture a ball at the bottom of a bowl — no push, no motion. We're about to meet the exact same idea in a neuron, where the equilibrium is its **resting voltage**.",
+              },
+              {
+                type: "text",
+                content: "**Where the model breaks (and secretly wins):** real populations can't grow forever — food and space run out, so growth eventually levels off; and this model ignores weather, predators, disease. *But* its cousin, the **Drift-Diffusion Model**, uses nearly the same equation to model how your brain **accumulates evidence to make a decision**. Same math, wildly different use — that's the power of differential equations.",
+              },
+            ],
+          },
+
+          // ════════ SECTION C: The Leaky Integrate-and-Fire Neuron ════════
+
+          // ── L6: Meet the Leaky Bucket ─────────────────────
+          {
+            id: "w3q5l6",
+            questId: "w3q5",
+            worldId: "world3",
+            title: "Meet the Neuron: a Leaky Bucket",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 5,
+            concept: [
+              {
+                type: "highlight",
+                content: "Now the main event: a model of a **single real neuron** — the **Leaky Integrate-and-Fire (LIF)** model. The best way to picture it: a **leaky bucket** you pour electricity into.",
+              },
+              {
+                type: "text",
+                content: "**The leaky-bucket picture (hold onto this — it carries the whole section):**\n• The neuron's voltage is the **water level** in a bucket.\n• You pour in current (input) — the water rises. (*Integrate.*)\n• The bucket **leaks** — water always drains back toward a resting level. (*Leaky.*)\n• If the water reaches the **rim**, it spills over — the neuron **fires a spike** — then the bucket empties and refills. (*Fire.*)\n\nThat's literally Leaky-Integrate-and-Fire, in order.",
+              },
+              {
+                type: "text",
+                content: "**The full equation.** It looks like the population equation's more serious sibling:",
+              },
+              {
+                type: "formula",
+                content: "τ_m · dV/dt = −(V − E_L) + R_m · I",
+                caption: "How the membrane voltage V changes over time.",
+              },
+              {
+                type: "text",
+                content: "**In one sentence, here's the whole equation as a story:** you inject current **I** into the neuron, and it gets scaled by the membrane resistance **R_m** to push the voltage **V** up — but some of that push is constantly canceled by the leak term **−(V − E_L)**, which pulls **V** back toward the resting voltage **E_L**. Meanwhile the time constant **τ_m** sets how quickly **V** changes in response.",
+              },
+              {
+                type: "text",
+                content: "**Every symbol in plain English:**\n• **V** = membrane voltage (the water level).\n• **E_L** = resting potential — the level the bucket leaks back to (≈ −75 mV).\n• **τ_m** (tau) = the time constant — how *sluggish* the bucket is (big τ = slow to fill/leak, small τ = snappy).\n• **R_m** = membrane resistance (how strongly input current pushes the voltage).\n• **I** = the input current you inject (the tap).\n\nThe `−(V − E_L)` term is the **leak** (always pulling back to rest); the `R_m · I` term is the **input** (pushing up).",
+              },
+              {
+                type: "highlight",
+                content: "🏛️ **Fun fact:** this model is from **Louis Lapicque, 1907** — over a century old, and *decades before* anyone knew how spikes physically work (Hodgkin–Huxley was 1952). A 115-year-old equation that's still in working neuroscience papers today. Simple ideas age well.",
+              },
+            ],
+          },
+
+          // ── L7: No Input — Draining to Rest + Pull-to-Rest widget (merged) ──
+          {
+            id: "w3q5l7",
+            questId: "w3q5",
+            worldId: "world3",
+            title: "No Input: Draining Back to Rest",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 15,
+            estimatedMinutes: 7,
+            concept: [
+              {
+                type: "highlight",
+                content: "Let's strip the equation down. Turn **off** the input (I = 0) and just watch the leaky bucket drain. This is where the neuron's resting behavior lives.",
+              },
+              {
+                type: "text",
+                content: "With I = 0, divide through by τ_m and the equation becomes:",
+              },
+              {
+                type: "formula",
+                content: "dV/dt = −(V − E_L) / τ_m",
+                caption: "Notice the shape: it's just like the population equation dp/dt = αp, but pulling toward E_L instead of zero.",
+              },
+              {
+                type: "text",
+                content: "**Read the sign of the change — this is the whole intuition.** Look at where the voltage V is relative to rest E_L (= −75 mV):\n• **V above E_L** → `−(V − E_L)` is **negative** → dV/dt < 0 → voltage **leaks down** toward rest.\n• **V below E_L** → `−(V − E_L)` is **positive** → dV/dt > 0 → voltage **climbs up** toward rest.\n• **V exactly at E_L** → dV/dt = **0** → the voltage **sits still**.",
+              },
+              {
+                type: "highlight",
+                content: "**That third case is our friend the equilibrium point again.** Just like the population at α = 0, the neuron has a resting voltage E_L where nothing changes. A leaky neuron with no input *always* drifts back to rest — like a ball rolling to the bottom of a bowl. The bucket always drains to its resting level.",
+              },
+              {
+                type: "text",
+                content: "**The exact solution** (same integration trick as the population equation — needs an initial voltage V_reset at t = 0):",
+              },
+              {
+                type: "formula",
+                content: "V(t) = E_L + (V_reset − E_L) · e^(−t / τ_m)",
+                caption: "'Current voltage = resting potential + (how far you started from rest) × an exponential decay.' The exponential shrinks over time, so the gap to rest melts away.",
+              },
+              {
+                type: "highlight",
+                content: "**See it for yourself.** Drag **V_reset** — the voltage where the neuron *starts* — and watch it always relax back to rest. Left: dV/dt vs V (the pull). Right: V(t) over time (the relaxation). The green dot is your starting point.",
+              },
+              {
+                type: "widget",
+                content: "lif-pull-to-rest",
+              },
+              {
+                type: "text",
+                content: "**The green dot just acts out the three sign-cases above:** start it **above** −75 mV and dV/dt is negative, so the curve slides **down** to rest; start it **below** and it climbs **up**; park it **exactly at** −75 mV (where the line crosses zero) and it sits **flat** — that crossing is the equilibrium.",
+              },
+              {
+                type: "highlight",
+                content: "**The speed of the return is set by τ_m.** A bigger time constant means a lazier, slower drift back to rest; a smaller one snaps back fast. This 'leak back to baseline' is why it's called *leaky* — and it's the same math as a capacitor discharging, or a hot coffee cooling to room temperature.",
+              },
+            ],
+          },
+
+          // ── L9: Turn On the Tap ───────────────────────────
+          {
+            id: "w3q5l9",
+            questId: "w3q5",
+            worldId: "world3",
+            title: "Turning On the Input",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 4,
+            concept: [
+              {
+                type: "highlight",
+                content: "A resting neuron is boring. Let's open the tap — inject input current **I** — and watch the bucket fill. This input is what *real* neurons get from other neurons or from the senses.",
+              },
+              {
+                type: "text",
+                content: "Putting the input back gives the full subthreshold equation:",
+              },
+              {
+                type: "formula",
+                content: "τ_m · dV/dt = −(V − E_L) + R_m · I",
+                caption: "The leak pulls down toward E_L; the input R_m·I pushes up. They fight.",
+              },
+              {
+                type: "text",
+                content: "**Where do they balance?** The voltage stops changing when push equals pull — when dV/dt = 0. Setting the equation to zero gives a new resting level:",
+              },
+              {
+                type: "formula",
+                content: "V_∞ = E_L + R_m · I",
+                caption: "The new equilibrium ('target') voltage. With input on, the bucket fills toward this higher level instead of bare rest E_L.",
+              },
+              {
+                type: "text",
+                content: "**The exact solution with constant input** — same exponential shape, just aiming at the new target:",
+              },
+              {
+                type: "formula",
+                content: "V(t) = E_L + R_m·I + (V_reset − E_L − R_m·I) · e^(−t / τ_m)",
+                caption: "Starts at V_reset, exponentially approaches V_∞ = E_L + R_m·I.",
+              },
+              {
+                type: "highlight",
+                content: "**But here's the problem the math doesn't care about:** crank I up and the voltage just rises and **plateaus at some high value** forever. Real neurons *never* do that — they **spike** and snap back. The pure equation is mathematically perfect but biologically wrong. Fixing that is the next lesson — and it's what the 'Fire' in Integrate-and-Fire means.",
+              },
+            ],
+          },
+
+          // ── L10: Adding the Spike (widget) ────────────────
+          {
+            id: "w3q5l10",
+            questId: "w3q5",
+            worldId: "world3",
+            title: "Adding the Spike",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 15,
+            estimatedMinutes: 6,
+            concept: [
+              {
+                type: "highlight",
+                content: "Real neurons don't plateau — they **fire**. We bolt spiking onto the model by hand with one simple rule: when the water hits the rim, it spills and the bucket empties.",
+              },
+              {
+                type: "text",
+                content: "**The spike-and-reset rule:**\n1. Pick a **threshold** voltage `V_th`.\n2. Let the voltage charge up normally (the exact solution from the last lesson).\n3. The instant `V(t) > V_th` → record a **spike**, count it, and **reset** the voltage to `V_reset`.\n4. Start charging again. Repeat.",
+              },
+              {
+                type: "formula",
+                content: "if  V(t) > V_th:   spike! → set V = V_reset, count += 1",
+                caption: "A hard threshold and an instant reset. Simple, effective, slightly inelegant.",
+              },
+              {
+                type: "text",
+                content: "**Play with it.** Below is the real three-panel picture electrophysiologists use: ① the input you inject, ② the voltage sawtooth (charge up → spike → reset), and ③ the **raster plot** — one tick per spike. Slide the input current **I**:",
+              },
+              {
+                type: "widget",
+                content: "lif-spiking",
+              },
+              {
+                type: "text",
+                content: "**What you should see:** more input **I** → the bucket fills faster → it hits threshold sooner → **spikes come more often**. Below about I = 2.5 the target voltage never even reaches threshold, so the neuron stays **silent**. This is the model finally behaving like a real, spiking neuron.",
+              },
+              {
+                type: "highlight",
+                content: "**The honest catch:** that instant vertical reset is a **discontinuity** — the voltage teleports. Mathematically it's a bit ugly (the elegant exact solution gets interrupted by a hand-coded rule), but it works and it gets results, so neuroscientists happily live with it.",
+              },
+            ],
+          },
+
+          // ── L11: The F–I Curve (widget) ───────────────────
+          {
+            id: "w3q5l11",
+            questId: "w3q5",
+            worldId: "world3",
+            title: "The F–I Curve & Strengths/Weaknesses",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 15,
+            estimatedMinutes: 6,
+            concept: [
+              {
+                type: "highlight",
+                content: "We just saw more input → faster firing. Plot that relationship — **firing rate vs input current** — and you get the **F–I curve** (frequency–current curve). It's one of the most important summaries of a neuron's behavior.",
+              },
+              {
+                type: "text",
+                content: "**Slide the current and trace out the curve.** For each input I, we run the spiking simulation and count spikes per second (Hz):",
+              },
+              {
+                type: "widget",
+                content: "fi-curve",
+              },
+              {
+                type: "highlight",
+                content: "🎯 **The big reveal:** this F–I curve **IS the transfer function** from the previous tutorial — the S-shaped 'input → firing rate' curve. Back then we just *assumed* that S-shape. Now you've **derived it from an actual neuron model** (the LIF). And its slope is the neuron's **gain**. Two tutorials, one idea, finally connected.",
+              },
+              {
+                type: "text",
+                content: "**Why the LIF model is a great starting point — strengths:**\n• It has an **exact solution** (rare and lovely).\n• It's **easy to interpret** (leaky bucket).\n• It's a fantastic **building block** for networks of thousands of neurons.",
+              },
+              {
+                type: "text",
+                content: "**And where it falls short — weaknesses:**\n• The spike is an artificial **discontinuity** (bolted on, not emergent).\n• It's an **abstraction** — a real neuron is far messier.\n• It can only produce **one** firing pattern (steady spiking) — real neurons burst, adapt, and do much more.\n\nThose limits are exactly why richer models (Hodgkin–Huxley, Izhikevich) exist.",
+              },
+            ],
+          },
+
+          // ════════ SECTION D: Lock it in ════════
+
+          // ── L12: Quiz — DEs & Population ──────────────────
+          {
+            id: "w3q5l12",
+            questId: "w3q5",
+            worldId: "world3",
+            title: "Quiz: Differential Equations & Population",
+            type: "mcq",
+            deviceRequired: "any",
+            xpReward: 15,
+            estimatedMinutes: 4,
+            questions: [
+              {
+                id: "w3q5l12_q1",
+                text: "What does a differential equation primarily tell you?",
+                options: [
+                  "The exact value of something at every time",
+                  "The rate at which something changes",
+                  "The average of a signal",
+                  "The area under a curve",
+                ],
+                correctIndex: 1,
+                explanation: "A differential equation specifies the RATE of change (like a speedometer), not the value itself. From the rate plus a starting point, you reconstruct the whole trajectory.",
+                neuroConnection: "A neuron model gives dV/dt — how fast voltage changes — and you integrate it to get the voltage over time.",
+              },
+              {
+                id: "w3q5l12_q2",
+                text: "In dy/dt = f(y, t), the change in y depends on y itself. What real-world example shares this self-referential structure?",
+                options: [
+                  "Reading a fixed temperature off a thermometer",
+                  "Compound interest — how fast money grows depends on how much you have",
+                  "Looking up a word in a dictionary",
+                  "Measuring the length of a table",
+                ],
+                correctIndex: 1,
+                explanation: "Compound interest is self-feeding: more money → more interest → even more money. That's the same self-reference (the 'Escher hands' idea) at the heart of differential equations.",
+                neuroConnection: "A neuron's voltage change depends on its own current voltage — the same loop, which is why the LIF resembles the population equation.",
+              },
+              {
+                id: "w3q5l12_q3",
+                text: "Why is the population equation dp/dt = αp called a LINEAR differential equation?",
+                options: [
+                  "Because the population grows in a straight line",
+                  "Because the plot of dp/dt versus p is a straight line",
+                  "Because it has only one solution",
+                  "Because time moves linearly",
+                ],
+                correctIndex: 1,
+                explanation: "It's 'linear' because the rate of change dp/dt is a straight-line function of p (slope α through the origin). The SOLUTION p(t) is actually an exponential curve, not a line.",
+                neuroConnection: "The LIF neuron is also linear in this sense — dV/dt is a straight-line function of V.",
+              },
+              {
+                id: "w3q5l12_q4",
+                text: "In the population equation, what happens when the birth rate α = 0?",
+                options: [
+                  "The population grows exponentially",
+                  "The population decays to zero",
+                  "Nothing changes — it's an equilibrium (stable) point",
+                  "The population oscillates",
+                ],
+                correctIndex: 2,
+                explanation: "When α = 0, dp/dt = 0 everywhere: the rate of change is zero, so the population sits still forever. That's an equilibrium point — like a ball resting at the bottom of a bowl.",
+                neuroConnection: "A neuron's resting potential E_L is exactly this kind of equilibrium — with no input, the voltage settles there and stays.",
+              },
+              {
+                id: "w3q5l12_q5",
+                text: "The exact solution of dp/dt = αp is p(t) = P₀·e^(αt). Why an exponential specifically?",
+                options: [
+                  "Because exponentials are easy to compute",
+                  "Because the exponential is the function whose derivative equals itself (times a constant) — an eigenfunction",
+                  "Because all differential equations have exponential solutions",
+                  "Because P₀ is always 1",
+                ],
+                correctIndex: 1,
+                explanation: "The equation demands a function proportional to its own rate of change. The exponential is the unique function with that property (its derivative is a scaled copy of itself) — the 'eigenfunction' idea from the differentiation tutorial.",
+                neuroConnection: "The same exponential shows up in the LIF solution, for the same reason — it's baked into how leaky systems relax.",
+              },
+              {
+                id: "w3q5l12_q6",
+                text: "Why does solving a differential equation require an 'initial condition' like p(0) = P₀?",
+                options: [
+                  "To make the math harder",
+                  "Because the equation describes change, not the starting value — you must specify where it begins",
+                  "Because computers need it",
+                  "Because α is unknown",
+                ],
+                correctIndex: 1,
+                explanation: "A differential equation tells you the rate of change but not the starting point. Different starting values give different solutions (without changing the equation), so you must pin down where the system begins.",
+                neuroConnection: "For a neuron, the initial condition is the starting voltage V_reset — you need it to know which voltage trajectory plays out.",
+              },
+            ],
+          },
+
+          // ── L13: Quiz — The LIF Neuron ────────────────────
+          {
+            id: "w3q5l13",
+            questId: "w3q5",
+            worldId: "world3",
+            title: "Quiz: The Leaky Integrate-and-Fire Neuron",
+            type: "mcq",
+            deviceRequired: "any",
+            xpReward: 15,
+            estimatedMinutes: 4,
+            questions: [
+              {
+                id: "w3q5l13_q1",
+                text: "What do the three words in 'Leaky Integrate-and-Fire' describe?",
+                options: [
+                  "Three different neurons",
+                  "Leak back to rest, sum up input, and spike when it hits threshold",
+                  "Three brain regions",
+                  "Three types of ion channels",
+                ],
+                correctIndex: 1,
+                explanation: "Leaky = voltage drains back toward rest; Integrate = it sums (integrates) incoming current, raising the voltage; Fire = when voltage crosses threshold it spikes and resets. The leaky-bucket picture in order.",
+                neuroConnection: "These three behaviors capture the essence of how a real neuron turns input current into output spikes.",
+              },
+              {
+                id: "w3q5l13_q2",
+                text: "In a resting LIF neuron (no input), if the voltage V is ABOVE the resting potential E_L, what does dV/dt do?",
+                options: [
+                  "It's positive — voltage rises further",
+                  "It's negative — voltage leaks back down to rest",
+                  "It's zero — voltage stays put",
+                  "It's undefined",
+                ],
+                correctIndex: 1,
+                explanation: "With dV/dt = −(V − E_L)/τ, being above E_L makes −(V − E_L) negative, so the voltage leaks DOWN toward rest. The leaky neuron always drifts back to E_L.",
+                neuroConnection: "This 'pull back to baseline' is the leak — the same math as a capacitor discharging or coffee cooling to room temperature.",
+              },
+              {
+                id: "w3q5l13_q3",
+                text: "What does the time constant τ_m control?",
+                options: [
+                  "The threshold voltage",
+                  "How fast the neuron charges and leaks (its sluggishness)",
+                  "The number of spikes",
+                  "The resting potential",
+                ],
+                correctIndex: 1,
+                explanation: "τ_m sets the speed of the exponential approach to rest (or to the input target). Big τ_m = slow, sluggish response; small τ_m = fast, snappy response.",
+                neuroConnection: "A neuron's membrane time constant determines how quickly it forgets recent input — fast neurons track rapid signals, slow ones smooth them.",
+              },
+              {
+                id: "w3q5l13_q4",
+                text: "What exactly makes the LIF neuron fire a spike?",
+                options: [
+                  "The voltage crosses a threshold V_th, then resets",
+                  "The input current becomes negative",
+                  "The time constant reaches zero",
+                  "The voltage equals the resting potential",
+                ],
+                correctIndex: 0,
+                explanation: "Spiking is added by hand: when V crosses the threshold V_th, we record a spike and instantly reset V to V_reset. Then it charges up again. That's the 'Fire' part.",
+                neuroConnection: "Real neurons fire when their membrane voltage crosses a threshold — the LIF captures this with a simple rule.",
+              },
+              {
+                id: "w3q5l13_q5",
+                text: "You increase the injected input current I. What happens to the firing rate?",
+                options: [
+                  "It decreases",
+                  "It stays the same",
+                  "It increases — the neuron fires more often",
+                  "The neuron stops firing",
+                ],
+                correctIndex: 2,
+                explanation: "More input fills the bucket faster, so it reaches threshold sooner and spikes more frequently → higher firing rate. Below a minimum current the target never reaches threshold and the neuron is silent.",
+                neuroConnection: "This input-to-rate relationship is summarized by the F–I curve, the neuron's input-output transfer function.",
+              },
+              {
+                id: "w3q5l13_q6",
+                text: "Why isn't the pure (no-spike) LIF solution biologically valid when you inject strong input?",
+                options: [
+                  "It oscillates forever",
+                  "It plateaus at a high voltage instead of spiking and resetting",
+                  "It always goes to zero",
+                  "It has no solution",
+                ],
+                correctIndex: 1,
+                explanation: "Without the spike rule, the voltage just rises and flattens out at a high plateau — real neurons never do that; they spike and reset. That's why we bolt on the threshold-and-reset mechanism.",
+                neuroConnection: "Capturing the spike is essential — spikes are how neurons actually communicate.",
+              },
+              {
+                id: "w3q5l13_q7",
+                text: "The F–I curve (firing rate vs input current) is the same thing as which concept from the previous tutorial?",
+                options: [
+                  "The Riemann sum",
+                  "The product rule",
+                  "The neuron's transfer function (and its slope is the gain)",
+                  "The partial derivative",
+                ],
+                correctIndex: 2,
+                explanation: "The F–I curve IS the input-output transfer function — earlier we assumed its S-shape; here we derived it from the LIF model. Its slope is the neuron's gain (sensitivity to input).",
+                neuroConnection: "This links the abstract sigmoid transfer function to a concrete, mechanistic neuron model.",
+              },
+            ],
+          },
+
+          // ── L14: Recap ────────────────────────────────────
+          {
+            id: "w3q5l14",
+            questId: "w3q5",
+            worldId: "world3",
+            title: "Recap: The Equations of Change",
+            type: "concept",
+            deviceRequired: "any",
+            xpReward: 10,
+            estimatedMinutes: 3,
+            funFact: "The Leaky Integrate-and-Fire model is from 1907 — older than the discovery of how spikes actually work — yet it still appears in cutting-edge neuroscience papers today. You now understand a 115-year-old idea that helps explain the brain.",
+            concept: [
+              {
+                type: "highlight",
+                content: "🏔️ That's the Differential Equations summit. Two analogies carried the whole climb — let's tie them together.",
+              },
+              {
+                type: "text",
+                content: "**What a differential equation is:**\n• A **rule for change** — it gives the rate (dy/dt), not the value. Like a speedometer; solving it rebuilds the trip.\n• It's **self-referential** (change depends on the current state) — the Escher hands, the compound-interest loop.\n• Solve it **analytically** (exact formula, rare) or **numerically** (step-by-step, usually — next quest).",
+              },
+              {
+                type: "text",
+                content: "**The bank-account warm-up (population):**\n• dp/dt = αp → solution p(t) = P₀·e^(αt) (exponential, because it's an eigenfunction).\n• α > 0 explodes, α < 0 decays, **α = 0 is the equilibrium** where nothing changes.",
+              },
+              {
+                type: "text",
+                content: "**The leaky bucket (the LIF neuron):**\n• τ·dV/dt = −(V − E_L) + R_m·I — leak pulls to rest E_L, input I pushes up.\n• No input → always drifts back to the resting equilibrium.\n• Add a **threshold + reset** → it spikes. More input → faster firing.\n• The **F–I curve** = the transfer function, now derived from a real model. Its slope is gain.",
+              },
+              {
+                type: "highlight",
+                content: "**Where it goes next:** the population and LIF equations were the lucky ones — they had exact solutions. *Most* differential equations don't. The next quest, **Numerical Methods**, shows how a computer solves *any* of them step by step using **Euler's method** — which is just the Riemann sum you already know, wearing a new hat. 🚀",
+              },
+            ],
+          },
+        ],
       },
 
       // ── Quest 3.6 — Numerical Methods (W0D4 T3) ───────────

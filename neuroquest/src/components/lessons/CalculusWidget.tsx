@@ -1501,3 +1501,473 @@ export function SignalFilteringWidget() {
     </div>
   );
 }
+
+// ═══════════════════════════════════════════════════════════
+//  Differential Equations (NMA Calculus Tutorial 2)
+// ═══════════════════════════════════════════════════════════
+
+// ─── Shared flexible chart ─────────────────────────────────
+type XY = [number, number];
+
+function Chart({
+  W = 340,
+  H = 170,
+  xMin,
+  xMax,
+  yMin,
+  yMax,
+  xLabel,
+  yLabel,
+  xTicks = [],
+  yTicks = [],
+  lines = [],
+  dots = [],
+  hlines = [],
+  vlines = [],
+}: {
+  W?: number;
+  H?: number;
+  xMin: number;
+  xMax: number;
+  yMin: number;
+  yMax: number;
+  xLabel?: string;
+  yLabel?: string;
+  xTicks?: number[];
+  yTicks?: number[];
+  lines?: { pts: XY[]; color: string; width?: number; dash?: string }[];
+  dots?: { x: number; y: number; color: string; r?: number }[];
+  hlines?: { y: number; color?: string; label?: string }[];
+  vlines?: { x: number; color?: string; label?: string }[];
+}) {
+  const padL = 40;
+  const padR = 14;
+  const padT = 12;
+  const padB = 28;
+  const xOf = (x: number) => padL + ((x - xMin) / (xMax - xMin)) * (W - padL - padR);
+  const yOf = (y: number) => padT + (1 - (y - yMin) / (yMax - yMin)) * (H - padT - padB);
+  const toPath = (pts: XY[]) =>
+    pts.map(([x, y], i) => `${i ? "L" : "M"}${xOf(x).toFixed(1)},${yOf(y).toFixed(1)}`).join(" ");
+  return (
+    <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", display: "block" }}>
+      <rect x={padL} y={padT} width={W - padL - padR} height={H - padT - padB} fill="#0E1124" rx={6} />
+      {hlines.map((h, i) => (
+        <g key={`h${i}`}>
+          <line x1={padL} x2={W - padR} y1={yOf(h.y)} y2={yOf(h.y)} stroke={h.color || "rgba(255,255,255,0.25)"} strokeWidth={1} strokeDasharray="4 3" />
+          {h.label && (
+            <text x={W - padR - 2} y={yOf(h.y) - 3} fill={h.color || "#9EA3BD"} fontSize={9} textAnchor="end">{h.label}</text>
+          )}
+        </g>
+      ))}
+      {vlines.map((v, i) => (
+        <g key={`v${i}`}>
+          <line x1={xOf(v.x)} x2={xOf(v.x)} y1={padT} y2={H - padB} stroke={v.color || "rgba(255,255,255,0.25)"} strokeWidth={1} strokeDasharray="4 3" />
+          {v.label && (
+            <text x={xOf(v.x)} y={padT + 9} fill={v.color || "#9EA3BD"} fontSize={9} textAnchor="middle">{v.label}</text>
+          )}
+        </g>
+      ))}
+      {xTicks.map((t) => (
+        <text key={`xt${t}`} x={xOf(t)} y={H - padB + 13} fill="#5A5F80" fontSize={9} textAnchor="middle">{t}</text>
+      ))}
+      {yTicks.map((t) => (
+        <text key={`yt${t}`} x={padL - 4} y={yOf(t) + 3} fill="#5A5F80" fontSize={9} textAnchor="end">{t}</text>
+      ))}
+      {lines.map((l, i) => (
+        <path key={`l${i}`} d={toPath(l.pts)} fill="none" stroke={l.color} strokeWidth={l.width || 2.2} strokeDasharray={l.dash || "none"} strokeLinejoin="round" />
+      ))}
+      {dots.map((d, i) => (
+        <circle key={`d${i}`} cx={xOf(d.x)} cy={yOf(d.y)} r={d.r || 4} fill={d.color} stroke="#0E1124" strokeWidth={1} />
+      ))}
+      {xLabel && (
+        <text x={(padL + W - padR) / 2} y={H - 3} fill="#9EA3BD" fontSize={9.5} textAnchor="middle">{xLabel}</text>
+      )}
+      {yLabel && (
+        <text x={11} y={(padT + H - padB) / 2} fill="#9EA3BD" fontSize={9.5} textAnchor="middle" transform={`rotate(-90 11 ${(padT + H - padB) / 2})`}>{yLabel}</text>
+      )}
+    </svg>
+  );
+}
+
+// ─── Population Explorer (NMA Demo 1.2) ────────────────────
+export function PopulationExplorer() {
+  const [alpha, setAlpha] = useState(0.3);
+  const P0 = 1;
+
+  const dpdt = useMemo(() => {
+    const pts: XY[] = [];
+    for (let p = 0; p <= 100; p += 2) pts.push([p, alpha * p]);
+    return pts;
+  }, [alpha]);
+
+  const pOfT = useMemo(() => {
+    const pts: XY[] = [];
+    for (let t = 0; t <= 10; t += 0.1) pts.push([t, P0 * Math.exp(alpha * t)]);
+    return pts;
+  }, [alpha]);
+
+  // left plot y-range (dp/dt at p=100 is alpha*100)
+  const dEnd = alpha * 100;
+  const dLo = Math.min(0, dEnd);
+  const dHi = Math.max(0, dEnd);
+  const dSpan = Math.max(6, dHi - dLo);
+  const lyMin = dLo - dSpan * 0.12;
+  const lyMax = dHi + dSpan * 0.12;
+
+  // right plot y-range
+  const pHi = Math.max(...pOfT.map((p) => p[1]));
+  const ryMax = Math.max(1.3, pHi * 1.12);
+
+  const sign = alpha > 0.001 ? "pos" : alpha < -0.001 ? "neg" : "zero";
+
+  return (
+    <div style={{ background: "#15183A", border: "1px solid rgba(124,130,248,0.18)", borderRadius: 16, padding: 16 }}>
+      <SliderRow
+        label="α — birth rate (the single parameter)"
+        value={alpha}
+        min={-1}
+        max={1}
+        step={0.1}
+        onChange={setAlpha}
+        color="#7C82F8"
+        display={`α = ${alpha.toFixed(1)}`}
+      />
+
+      <div style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ fontSize: 11.5, color: "#C8CADF", fontWeight: 700, margin: "8px 0 2px 2px" }}>
+            Left: dp/dt vs p
+          </div>
+          <Chart
+            xMin={0}
+            xMax={100}
+            yMin={lyMin}
+            yMax={lyMax}
+            xLabel="population, p"
+            yLabel="dp/dt"
+            xTicks={[0, 50, 100]}
+            hlines={[{ y: 0, color: "rgba(255,255,255,0.3)" }]}
+            lines={[{ pts: dpdt, color: C_DERIV, width: 2.6 }]}
+          />
+        </div>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ fontSize: 11.5, color: "#C8CADF", fontWeight: 700, margin: "8px 0 2px 2px" }}>
+            Right: p(t) over time
+          </div>
+          <Chart
+            xMin={0}
+            xMax={10}
+            yMin={0}
+            yMax={ryMax}
+            xLabel="time, t (years)"
+            yLabel="population"
+            xTicks={[0, 5, 10]}
+            hlines={[{ y: P0, color: "rgba(255,150,0,0.4)", label: "p₀ = 1" }]}
+            lines={[{ pts: pOfT, color: C_FUNC, width: 2.6 }]}
+            dots={[{ x: 0, y: P0, color: C_INTEG }]}
+          />
+        </div>
+      </div>
+
+      <div
+        style={{
+          marginTop: 12,
+          padding: "10px 14px",
+          borderRadius: 10,
+          background:
+            sign === "pos" ? "rgba(255,75,75,0.1)" : sign === "neg" ? "rgba(88,204,2,0.1)" : "rgba(255,150,0,0.12)",
+          border: `1px solid ${sign === "pos" ? "rgba(255,75,75,0.3)" : sign === "neg" ? "rgba(88,204,2,0.3)" : "rgba(255,150,0,0.35)"}`,
+        }}
+      >
+        <p style={{ margin: 0, fontSize: 13, color: "#C8CADF", lineHeight: 1.55 }}>
+          {sign === "pos" && (
+            <><strong style={{ color: C_FUNC }}>α &gt; 0 → explosion.</strong> The line slopes up, so more population makes even more population. The solution blows up exponentially toward infinity.</>
+          )}
+          {sign === "neg" && (
+            <><strong style={{ color: C_INTEG }}>α &lt; 0 → decay.</strong> The line slopes down: population shrinks itself away. The solution decays exponentially to 0 — a stable end state.</>
+          )}
+          {sign === "zero" && (
+            <><strong style={{ color: "#FF9600" }}>α = 0 → frozen (equilibrium).</strong> dp/dt = 0 everywhere: nothing changes. The population sits still forever — the equilibrium / stable point.</>
+          )}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+// ─── LIF parameters (shared) ───────────────────────────────
+const LIF_EL = -75; // resting potential (mV)
+const LIF_TAU = 10; // time constant (ms)
+const LIF_RM = 10; // membrane resistance
+const LIF_VTH = -50; // spike threshold (mV)
+const LIF_VRESET = -75; // reset potential (mV)
+
+// ─── LIF Pull-to-Rest (NMA Demo 2.1.1) ─────────────────────
+export function LIFPullToRest() {
+  const [vReset, setVReset] = useState(-65);
+
+  const dVdt = useMemo(() => {
+    const pts: XY[] = [];
+    for (let V = -90; V <= -50; V += 1) pts.push([V, -(V - LIF_EL) / LIF_TAU]);
+    return pts;
+  }, []);
+
+  const vOfT = useMemo(() => {
+    const pts: XY[] = [];
+    for (let t = 0; t <= 80; t += 0.5) pts.push([t, LIF_EL + (vReset - LIF_EL) * Math.exp(-t / LIF_TAU)]);
+    return pts;
+  }, [vReset]);
+
+  const dAtReset = -(vReset - LIF_EL) / LIF_TAU;
+
+  return (
+    <div style={{ background: "#15183A", border: "1px solid rgba(124,130,248,0.18)", borderRadius: 16, padding: 16 }}>
+      <SliderRow
+        label="V_reset — the starting voltage (initial condition)"
+        value={vReset}
+        min={-90}
+        max={-50}
+        step={1}
+        onChange={setVReset}
+        color="#58CC02"
+        display={`${vReset} mV`}
+      />
+
+      <div style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ fontSize: 11.5, color: "#C8CADF", fontWeight: 700, margin: "8px 0 2px 2px" }}>
+            Left: dV/dt vs V
+          </div>
+          <Chart
+            xMin={-90}
+            xMax={-50}
+            yMin={-3}
+            yMax={2}
+            xLabel="V (mV)"
+            yLabel="dV/dt"
+            xTicks={[-90, -70, -50]}
+            hlines={[{ y: 0, color: "rgba(255,255,255,0.3)" }]}
+            vlines={[{ x: LIF_EL, color: "#FF9600", label: "E_L" }]}
+            lines={[{ pts: dVdt, color: C_DERIV, width: 2.6 }]}
+            dots={[{ x: vReset, y: dAtReset, color: C_INTEG }]}
+          />
+        </div>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ fontSize: 11.5, color: "#C8CADF", fontWeight: 700, margin: "8px 0 2px 2px" }}>
+            Right: V(t) over time
+          </div>
+          <Chart
+            xMin={0}
+            xMax={80}
+            yMin={-92}
+            yMax={-48}
+            xLabel="time, t (ms)"
+            yLabel="V (mV)"
+            xTicks={[0, 40, 80]}
+            hlines={[{ y: LIF_EL, color: "#FF9600", label: "E_L" }]}
+            lines={[{ pts: vOfT, color: C_FUNC, width: 2.6 }]}
+            dots={[{ x: 0, y: vReset, color: C_INTEG }]}
+          />
+        </div>
+      </div>
+
+      <p style={{ margin: "12px 2px 0", fontSize: 12.5, color: "#9EA3BD", lineHeight: 1.6 }}>
+        The green dot is where you start.{" "}
+        {vReset > LIF_EL ? (
+          <>You started <strong style={{ color: C_FUNC }}>above</strong> rest, so dV/dt is <strong>negative</strong> — the voltage leaks <strong>down</strong> to E_L.</>
+        ) : vReset < LIF_EL ? (
+          <>You started <strong style={{ color: C_FUNC }}>below</strong> rest, so dV/dt is <strong>positive</strong> — the voltage climbs <strong>up</strong> to E_L.</>
+        ) : (
+          <>You started <strong style={{ color: "#FF9600" }}>exactly at rest</strong> (E_L), so dV/dt = 0 — the voltage never moves. This is the equilibrium point.</>
+        )}{" "}
+        Either way, the leaky neuron always returns to E_L = −75 mV.
+      </p>
+    </div>
+  );
+}
+
+// ─── LIF simulation (exact integrate-and-fire) ─────────────
+function simulateLIF(I: number, T: number, dt: number) {
+  const Vinf = LIF_EL + LIF_RM * I; // steady-state target
+  const trace: XY[] = [];
+  const spikes: number[] = [];
+  let tLast = 0;
+  const steps = Math.round(T / dt);
+  for (let i = 0; i <= steps; i++) {
+    const t = i * dt;
+    const V = Vinf + (LIF_VRESET - Vinf) * Math.exp(-(t - tLast) / LIF_TAU);
+    if (V >= LIF_VTH) {
+      trace.push([t, 0]); // draw the spike up to 0 mV
+      spikes.push(t);
+      tLast = t;
+    } else {
+      trace.push([t, V]);
+    }
+  }
+  const rate = spikes.length / (T / 1000); // Hz
+  return { trace, spikes, rate, Vinf };
+}
+
+// ─── LIF Spiking Simulator (NMA Demo 2.3.1) ────────────────
+export function LIFSpikingSimulator() {
+  const [I, setI] = useState(3);
+  const T = 500;
+  const { trace, spikes, rate, Vinf } = useMemo(() => simulateLIF(I, T, 0.5), [I]);
+
+  const inputLine: XY[] = [
+    [0, I],
+    [T, I],
+  ];
+
+  return (
+    <div style={{ background: "#15183A", border: "1px solid rgba(124,130,248,0.18)", borderRadius: 16, padding: 16 }}>
+      <SliderRow
+        label="I — injected input current (nA)"
+        value={I}
+        min={2}
+        max={4}
+        step={0.1}
+        onChange={setI}
+        color="#FF9600"
+        display={`I = ${I.toFixed(1)}`}
+      />
+
+      <div style={{ fontSize: 11.5, color: "#FF9600", fontWeight: 700, margin: "8px 0 2px 2px" }}>① Input current</div>
+      <Chart
+        W={340}
+        H={64}
+        xMin={0}
+        xMax={T}
+        yMin={0}
+        yMax={5}
+        yTicks={[]}
+        lines={[{ pts: inputLine, color: "#FF9600", width: 2.4 }]}
+      />
+
+      <div style={{ fontSize: 11.5, color: C_FUNC, fontWeight: 700, margin: "10px 0 2px 2px" }}>② Membrane voltage V(t)</div>
+      <Chart
+        W={340}
+        H={150}
+        xMin={0}
+        xMax={T}
+        yMin={-82}
+        yMax={6}
+        yLabel="V (mV)"
+        hlines={[{ y: LIF_VTH, color: "#FF4B4B", label: "V_th = −50" }]}
+        lines={[{ pts: trace, color: C_FUNC, width: 1.6 }]}
+      />
+
+      <div style={{ fontSize: 11.5, color: C_DERIV, fontWeight: 700, margin: "10px 0 2px 2px" }}>③ Spike raster</div>
+      <Chart
+        W={340}
+        H={42}
+        xMin={0}
+        xMax={T}
+        yMin={0}
+        yMax={1}
+        xLabel="time, t (ms)"
+        lines={spikes.map((t) => ({ pts: [[t, 0.1], [t, 0.9]] as XY[], color: C_DERIV, width: 1.4 }))}
+      />
+
+      <div
+        style={{
+          marginTop: 12,
+          padding: "10px 14px",
+          borderRadius: 10,
+          background: "rgba(0,0,0,0.25)",
+          display: "flex",
+          justifyContent: "space-between",
+          flexWrap: "wrap",
+          gap: 8,
+        }}
+      >
+        <span style={{ fontSize: 12.5, color: "#9EA3BD" }}>
+          Target voltage: <strong style={{ color: "#FF9600" }}>{Vinf.toFixed(0)} mV</strong>
+        </span>
+        <span style={{ fontSize: 12.5, color: "#9EA3BD" }}>
+          Spikes: <strong style={{ color: C_DERIV }}>{spikes.length}</strong>
+        </span>
+        <span style={{ fontSize: 12.5, color: "#9EA3BD" }}>
+          Firing rate: <strong style={{ color: C_INTEG }}>{rate.toFixed(0)} Hz</strong>
+        </span>
+      </div>
+
+      <p style={{ margin: "12px 2px 0", fontSize: 12.5, color: "#9EA3BD", lineHeight: 1.6 }}>
+        Turn up <strong style={{ color: "#FF9600" }}>I</strong> → the bucket fills toward a higher target, crosses the
+        threshold <strong style={{ color: "#FF4B4B" }}>V_th</strong> sooner, and the neuron <strong>fires faster</strong>.
+        Below about I = 2.5 the target never reaches threshold, so the neuron stays silent. Each spike instantly resets
+        the voltage to −75 mV — that vertical drop is the artificial &quot;discontinuity&quot; of the LIF model.
+      </p>
+    </div>
+  );
+}
+
+// ─── F–I Curve (NMA Section 2.4) ───────────────────────────
+export function FICurve() {
+  const [I, setI] = useState(3);
+
+  const curve = useMemo(() => {
+    const pts: XY[] = [];
+    for (let i = 2; i <= 4.0001; i += 0.05) {
+      const { rate } = simulateLIF(i, 1000, 0.5);
+      pts.push([i, rate]);
+    }
+    return pts;
+  }, []);
+
+  const rateNow = useMemo(() => simulateLIF(I, 1000, 0.5).rate, [I]);
+  const yMax = Math.max(10, ...curve.map((p) => p[1])) * 1.1;
+
+  return (
+    <div style={{ background: "#15183A", border: "1px solid rgba(124,130,248,0.18)", borderRadius: 16, padding: 16 }}>
+      <SliderRow
+        label="I — injected current (nA)"
+        value={I}
+        min={2}
+        max={4}
+        step={0.1}
+        onChange={setI}
+        color="#FF9600"
+        display={`I = ${I.toFixed(1)}`}
+      />
+
+      <div style={{ fontSize: 12, color: "#C8CADF", fontWeight: 700, margin: "8px 0 2px 2px" }}>
+        F–I curve: firing rate as a function of input
+      </div>
+      <Chart
+        xMin={2}
+        xMax={4}
+        yMin={0}
+        yMax={yMax}
+        xLabel="input current, I (nA)"
+        yLabel="rate (Hz)"
+        xTicks={[2, 2.5, 3, 3.5, 4]}
+        lines={[{ pts: curve, color: C_INTEG, width: 2.6 }]}
+        dots={[{ x: I, y: rateNow, color: "#FF9600", r: 5 }]}
+        vlines={[{ x: I, color: "rgba(255,150,0,0.4)" }]}
+      />
+
+      <div
+        style={{
+          marginTop: 12,
+          padding: "10px 14px",
+          borderRadius: 10,
+          background: "rgba(0,0,0,0.25)",
+          textAlign: "center",
+        }}
+      >
+        <span style={{ fontSize: 13, color: "#9EA3BD" }}>
+          At I = <strong style={{ color: "#FF9600" }}>{I.toFixed(1)} nA</strong>, this neuron fires at{" "}
+          <strong style={{ color: C_INTEG }}>{rateNow.toFixed(0)} Hz</strong>
+        </span>
+      </div>
+
+      <p style={{ margin: "12px 2px 0", fontSize: 12.5, color: "#9EA3BD", lineHeight: 1.6 }}>
+        Below the &quot;rheobase&quot; current (~2.5 nA) the neuron is silent — 0 Hz. Past it, firing rate climbs with
+        input. This <strong>F–I curve is exactly the transfer function</strong> you met in the last tutorial — except now
+        we <em>derived</em> it from a real neuron model instead of just assuming an S-shape. Its slope is the neuron&apos;s{" "}
+        <strong>gain</strong>.
+      </p>
+    </div>
+  );
+}

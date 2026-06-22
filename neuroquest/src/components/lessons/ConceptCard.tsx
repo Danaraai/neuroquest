@@ -11,6 +11,10 @@ import {
   PartialDerivativeWidget,
   RiemannSumWidget,
   SignalFilteringWidget,
+  PopulationExplorer,
+  LIFPullToRest,
+  LIFSpikingSimulator,
+  FICurve,
 } from "./CalculusWidget";
 
 interface ConceptCardProps {
@@ -131,6 +135,10 @@ function SingleBlock({ block }: { block: ConceptBlock }) {
     else if (block.content === "partial-derivatives") widget = <PartialDerivativeWidget />;
     else if (block.content === "riemann-sum") widget = <RiemannSumWidget />;
     else if (block.content === "signal-filtering") widget = <SignalFilteringWidget />;
+    else if (block.content === "population-explorer") widget = <PopulationExplorer />;
+    else if (block.content === "lif-pull-to-rest") widget = <LIFPullToRest />;
+    else if (block.content === "lif-spiking") widget = <LIFSpikingSimulator />;
+    else if (block.content === "fi-curve") widget = <FICurve />;
     return (
       <div>
         {widget}
