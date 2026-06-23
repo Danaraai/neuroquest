@@ -6822,12 +6822,34 @@ print("✅ All tests passed! +25 XP")
               },
               {
                 type: "text",
-                content: "**The exact solution with constant input** — same exponential shape, just aiming at the new target:",
+                content: "**So where does the exact solution come from?** It isn't pulled from thin air — it drops out of the equation in three short steps. (No heavy calculus, promise.)",
+              },
+              {
+                type: "text",
+                content: "**① Measure everything from the target.** Call the *gap* to the target **g = V − V∞**. Since V∞ is just a constant, V and g change at the exact same rate. Rewriting the equation around the gap, the whole thing collapses to:",
+              },
+              {
+                type: "formula",
+                content: "τ_m · dg/dt = −g",
+                caption: "The gap shrinks at a rate proportional to how big it still is.",
+              },
+              {
+                type: "text",
+                content: "**② A rate proportional to itself is *always* an exponential.** That's the defining trait of **e** — the one function that is its own derivative (the eigenfunction from the calculus lessons). So the gap can only fade one way:",
+              },
+              {
+                type: "formula",
+                content: "g(t) = g(0) · e^(−t / τ_m)",
+                caption: "The gap at time t = the starting gap, shrunk by an exponential with time constant τ_m.",
+              },
+              {
+                type: "text",
+                content: "**③ Fill in the start.** At t = 0 the neuron sits at V_reset, so the starting gap is **g(0) = V_reset − V∞**. Translate back to voltage (V = V∞ + g) and you land *exactly* on the boxed formula — no magic, just \"the gap to the target decays exponentially.\"",
               },
               {
                 type: "formula",
                 content: "V(t) = E_L + R_m·I + (V_reset − E_L − R_m·I) · e^(−t / τ_m)",
-                caption: "Starts at V_reset, exponentially approaches V_∞ = E_L + R_m·I.",
+                caption: "Starts at V_reset, exponentially approaches V_∞ = E_L + R_m·I. (V∞ = E_L + R_m·I substituted back in.)",
               },
               {
                 type: "text",
