@@ -6812,48 +6812,16 @@ print("✅ All tests passed! +25 XP")
                 caption: "The leak pulls down toward E_L; the input R_m·I pushes up. They fight.",
               },
               {
-                type: "text",
-                content: "**Where do they balance?** The voltage stops changing when push equals pull — when dV/dt = 0. Setting the equation to zero gives a new resting level:",
+                type: "highlight",
+                content: "**This next part is the genuinely tricky bit — so we won't just hand you the answer. Let's derive it together, one move at a time.** Tap the correct next step; if you miss, just try again. By the end you'll have built the exact solution yourself, line by line. 👇",
               },
               {
-                type: "formula",
-                content: "V_∞ = E_L + R_m · I",
-                caption: "The new equilibrium ('target') voltage. With input on, the bucket fills toward this higher level instead of bare rest E_L.",
-              },
-              {
-                type: "text",
-                content: "**So where does the exact solution come from?** It isn't pulled from thin air — it drops out of the equation in three short steps. (No heavy calculus, promise.)",
+                type: "widget",
+                content: "lif-derivation",
               },
               {
                 type: "text",
-                content: "**① Measure everything from the target.** Call the *gap* to the target **g = V − V∞**. Since V∞ is just a constant, V and g change at the exact same rate. Rewriting the equation around the gap, the whole thing collapses to:",
-              },
-              {
-                type: "formula",
-                content: "τ_m · dg/dt = −g",
-                caption: "The gap shrinks at a rate proportional to how big it still is.",
-              },
-              {
-                type: "text",
-                content: "**② A rate proportional to itself is *always* an exponential.** That's the defining trait of **e** — the one function that is its own derivative (the eigenfunction from the calculus lessons). So the gap can only fade one way:",
-              },
-              {
-                type: "formula",
-                content: "g(t) = g(0) · e^(−t / τ_m)",
-                caption: "The gap at time t = the starting gap, shrunk by an exponential with time constant τ_m.",
-              },
-              {
-                type: "text",
-                content: "**③ Fill in the start.** At t = 0 the neuron sits at V_reset, so the starting gap is **g(0) = V_reset − V∞**. Translate back to voltage (V = V∞ + g) and you land *exactly* on the boxed formula — no magic, just \"the gap to the target decays exponentially.\"",
-              },
-              {
-                type: "formula",
-                content: "V(t) = E_L + R_m·I + (V_reset − E_L − R_m·I) · e^(−t / τ_m)",
-                caption: "Starts at V_reset, exponentially approaches V_∞ = E_L + R_m·I. (V∞ = E_L + R_m·I substituted back in.)",
-              },
-              {
-                type: "text",
-                content: "**Reading that in plain words:**\n\n**current voltage V(t)**  =  **the target it's heading for (V∞ = E_L + R_m·I)**  +  **(how far the start was from the target) × (an exponential that fades away with rate 1/τ_m)**\n\nSo V begins at V_reset, and the *gap* between where it is and where it's headed shrinks exponentially. It moves fast at first, slows as it nears the target, and after a few τ_m it has basically arrived.",
+                content: "**In plain words, the formula you just built says:**\n\n**current voltage V(t)**  =  **the target it's heading for (V∞ = E_L + R_m·I)**  +  **(how far the start was from the target) × (an exponential that fades with rate 1/τ_m)**\n\nV begins at V_reset, and the *gap* to where it's headed shrinks exponentially — fast at first, slowing as it nears the target, basically arrived after a few τ_m.",
               },
               {
                 type: "text",

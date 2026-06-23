@@ -15,6 +15,7 @@ import {
   LIFPullToRest,
   LIFSpikingSimulator,
   FICurve,
+  LIFDerivationWidget,
 } from "./CalculusWidget";
 
 interface ConceptCardProps {
@@ -139,6 +140,7 @@ function SingleBlock({ block }: { block: ConceptBlock }) {
     else if (block.content === "lif-pull-to-rest") widget = <LIFPullToRest />;
     else if (block.content === "lif-spiking") widget = <LIFSpikingSimulator />;
     else if (block.content === "fi-curve") widget = <FICurve />;
+    else if (block.content === "lif-derivation") widget = <LIFDerivationWidget />;
     return (
       <div>
         {widget}

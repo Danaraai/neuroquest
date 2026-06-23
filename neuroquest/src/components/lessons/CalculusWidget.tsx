@@ -1971,3 +1971,191 @@ export function FICurve() {
     </div>
   );
 }
+
+// ─── Guided LIF derivation (interactive, step-by-step) ─────
+interface DerivStep {
+  instruction: string;
+  question: string;
+  options: string[];
+  correct: number;
+  explanation: string;
+  line: string; // formula line added to the running derivation once solved
+}
+
+const LIF_DERIV_STEPS: DerivStep[] = [
+  {
+    instruction:
+      "We start from the subthreshold equation: τ_m·dV/dt = −(V − E_L) + R_m·I. First, find the target the voltage drifts toward. It stops changing when dV/dt = 0, so set the right-hand side to zero and solve for V.",
+    question: "What is the target voltage V∞?",
+    options: ["V∞ = E_L + R_m·I", "V∞ = E_L − R_m·I", "V∞ = R_m·I (the input alone)"],
+    correct: 0,
+    explanation:
+      "0 = −(V − E_L) + R_m·I  →  V − E_L = R_m·I  →  V = E_L + R_m·I. Turning on the input lifts the target up from bare rest E_L by R_m·I.",
+    line: "V∞ = E_L + R_m·I",
+  },
+  {
+    instruction:
+      "Now measure everything from that target. Call the gap g = V − V∞. Since V∞ is constant, V and g change at the same rate (dV/dt = dg/dt). Rewrite τ_m·dV/dt = −(V − V∞) using g.",
+    question: "What does the equation become?",
+    options: ["τ_m·dg/dt = −g", "τ_m·dg/dt = +g", "τ_m·dg/dt = −g + R_m·I"],
+    correct: 0,
+    explanation:
+      "−(V − V∞) is exactly −g. So τ_m·dg/dt = −g — the gap shrinks at a rate proportional to how big it still is.",
+    line: "τ_m·dg/dt = −g",
+  },
+  {
+    instruction:
+      "Here's the key move. A quantity whose rate of change is proportional to itself can only be ONE shape — the one you met as an eigenfunction: the function that is its own derivative.",
+    question: "How does the gap g change over time?",
+    options: [
+      "g(t) = g(0)·e^(−t/τ_m)   (exponential decay)",
+      "g(t) = g(0)·t   (a straight line)",
+      "g(t) = g(0)·sin(t/τ_m)   (a wave)",
+    ],
+    correct: 0,
+    explanation:
+      "Rate proportional to itself = the exponential. The minus sign makes it shrink, so g(t) = g(0)·e^(−t/τ_m): the gap fades away with time constant τ_m.",
+    line: "g(t) = g(0)·e^(−t/τ_m)",
+  },
+  {
+    instruction:
+      "Last step. At t = 0 the neuron sits at V_reset, so the starting gap is g(0) = V_reset − V∞. Translate back to voltage with V = V∞ + g.",
+    question: "What is the full V(t)?",
+    options: [
+      "V(t) = V∞ + (V_reset − V∞)·e^(−t/τ_m)",
+      "V(t) = V_reset + V∞·e^(−t/τ_m)",
+      "V(t) = V∞·e^(−t/τ_m)",
+    ],
+    correct: 0,
+    explanation:
+      "V = V∞ + g = V∞ + (V_reset − V∞)·e^(−t/τ_m). Substitute V∞ = E_L + R_m·I and you have the exact solution — derived, not memorized!",
+    line: "V(t) = V∞ + (V_reset − V∞)·e^(−t/τ_m)",
+  },
+];
+
+export function LIFDerivationWidget() {
+  const [stepIdx, setStepIdx] = useState(0);
+  const [picked, setPicked] = useState<number | null>(null);
+  const [solved, setSolved] = useState(false);
+  const [done, setDone] = useState(false);
+
+  const step = LIF_DERIV_STEPS[stepIdx];
+  const confirmed = LIF_DERIV_STEPS.slice(0, stepIdx).map((s) => s.line);
+  if (solved) confirmed.push(step.line);
+
+  function pick(i: number) {
+    if (solved) return;
+    setPicked(i);
+    if (i === step.correct) setSolved(true);
+  }
+  function next() {
+    if (stepIdx < LIF_DERIV_STEPS.length - 1) {
+      setStepIdx((n) => n + 1);
+      setPicked(null);
+      setSolved(false);
+    } else {
+      setDone(true);
+    }
+  }
+  function restart() {
+    setStepIdx(0);
+    setPicked(null);
+    setSolved(false);
+    setDone(false);
+  }
+
+  const wrongPick = picked !== null && picked !== step.correct && !solved;
+
+  return (
+    <div style={{ background: "#15183A", border: "1px solid rgba(124,130,248,0.18)", borderRadius: 16, padding: 16 }}>
+      {/* running derivation */}
+      {confirmed.length > 0 && (
+        <div style={{ background: "rgba(88,204,2,0.07)", border: "1px solid rgba(88,204,2,0.22)", borderRadius: 12, padding: "10px 14px", marginBottom: 14 }}>
+          <div style={{ fontSize: 10.5, fontWeight: 800, color: "#58CC02", letterSpacing: 0.4, marginBottom: 6 }}>
+            ✓ YOUR DERIVATION SO FAR
+          </div>
+          {confirmed.map((l, i) => (
+            <div key={i} style={{ fontSize: 13.5, color: "#C8CADF", fontFamily: "var(--font-code)", lineHeight: 1.8 }}>{l}</div>
+          ))}
+        </div>
+      )}
+
+      {done ? (
+        <div style={{ textAlign: "center", padding: "8px 0" }}>
+          <div style={{ fontSize: 34, marginBottom: 6 }}>🎉</div>
+          <p style={{ margin: 0, fontSize: 15, fontWeight: 800, color: "#EEEDF6" }}>You derived the LIF exact solution!</p>
+          <div style={{ background: "#1C1F42", border: "1px solid rgba(124,130,248,0.25)", borderRadius: 12, padding: "16px 18px", margin: "14px 0" }}>
+            <div style={{ fontSize: 14.5, fontWeight: 700, color: "#A5A9FA", fontFamily: "var(--font-code)", lineHeight: 1.5 }}>
+              V(t) = E_L + R_m·I + (V_reset − E_L − R_m·I)·e^(−t/τ_m)
+            </div>
+          </div>
+          <p style={{ margin: "0 0 12px", fontSize: 13, color: "#9EA3BD", lineHeight: 1.6 }}>
+            Not magic — just &quot;the gap to the target decays exponentially.&quot; You built every line yourself.
+          </p>
+          <button onClick={restart} style={{ padding: "9px 20px", borderRadius: 10, border: "none", background: "rgba(124,130,248,0.2)", color: "#C7CAFF", fontWeight: 700, fontSize: 13, cursor: "pointer" }}>
+            ↻ Do it again
+          </button>
+        </div>
+      ) : (
+        <>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
+            <span style={{ fontSize: 11.5, fontWeight: 800, color: "#7C82F8", letterSpacing: 0.4 }}>
+              STEP {stepIdx + 1} / {LIF_DERIV_STEPS.length}
+            </span>
+          </div>
+          <p style={{ margin: "0 0 12px", fontSize: 13.5, color: "#C8CADF", lineHeight: 1.65 }}>{step.instruction}</p>
+          <p style={{ margin: "0 0 10px", fontSize: 14, fontWeight: 700, color: "#EEEDF6" }}>{step.question}</p>
+
+          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            {step.options.map((opt, i) => {
+              const isCorrect = i === step.correct;
+              const isPicked = i === picked;
+              let border = "1px solid rgba(255,255,255,0.1)";
+              let bg = "rgba(255,255,255,0.03)";
+              if (solved && isCorrect) { border = "2px solid #58CC02"; bg = "rgba(88,204,2,0.12)"; }
+              else if (isPicked && !isCorrect) { border = "2px solid #FF4B4B"; bg = "rgba(255,75,75,0.08)"; }
+              return (
+                <button
+                  key={i}
+                  onClick={() => pick(i)}
+                  disabled={solved}
+                  style={{
+                    textAlign: "left",
+                    padding: "11px 14px",
+                    borderRadius: 11,
+                    border,
+                    background: bg,
+                    color: "#D6D8EA",
+                    fontSize: 13.5,
+                    fontFamily: "var(--font-code)",
+                    cursor: solved ? "default" : "pointer",
+                    lineHeight: 1.4,
+                  }}
+                >
+                  {solved && isCorrect ? "✅ " : isPicked && !isCorrect ? "❌ " : ""}
+                  {opt}
+                </button>
+              );
+            })}
+          </div>
+
+          {wrongPick && (
+            <p style={{ margin: "10px 2px 0", fontSize: 13, color: "#FF8A8A" }}>Not quite — take another look and try again. 💪</p>
+          )}
+
+          {solved && (
+            <div style={{ marginTop: 12, padding: "12px 14px", borderRadius: 12, background: "rgba(88,204,2,0.1)", border: "1px solid rgba(88,204,2,0.3)" }}>
+              <p style={{ margin: 0, fontSize: 13.5, color: "#C8CADF", lineHeight: 1.6 }}>✅ {step.explanation}</p>
+              <button
+                onClick={next}
+                style={{ marginTop: 10, width: "100%", padding: "10px", borderRadius: 10, border: "none", background: "#7C82F8", color: "#0E1124", fontWeight: 800, fontSize: 13.5, cursor: "pointer" }}
+              >
+                {stepIdx < LIF_DERIV_STEPS.length - 1 ? "Next step →" : "See the result →"}
+              </button>
+            </div>
+          )}
+        </>
+      )}
+    </div>
+  );
+}
