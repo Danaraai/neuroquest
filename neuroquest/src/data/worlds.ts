@@ -6830,8 +6830,21 @@ print("✅ All tests passed! +25 XP")
                 caption: "Starts at V_reset, exponentially approaches V_∞ = E_L + R_m·I.",
               },
               {
+                type: "text",
+                content: "**Reading that in plain words:**\n\n**current voltage V(t)**  =  **the target it's heading for (V∞ = E_L + R_m·I)**  +  **(how far the start was from the target) × (an exponential that fades away with rate 1/τ_m)**\n\nSo V begins at V_reset, and the *gap* between where it is and where it's headed shrinks exponentially. It moves fast at first, slows as it nears the target, and after a few τ_m it has basically arrived.",
+              },
+              {
+                type: "text",
+                content: "**Let's plug in real numbers and watch it.** (These are NMA's values.)\n\n• V_reset = −75 mV  (starting voltage)\n• E_L = −75 mV  (resting level)\n• τ_m = 10 ms  (time constant)\n• R_m = 10 MΩ,  I = 10 nA  →  R_m·I = 100\n\nSo the target is **V∞ = E_L + R_m·I = −75 + 100 = +25 mV**. Hit **Run** to see the curve rise and flatten out. ↓",
+              },
+              {
+                type: "executable-code",
+                content: "import numpy as np\nimport matplotlib.pyplot as plt\n\n# Parameters (NMA's values)\nV_reset = -75   # mV  — voltage at the start\nE_L     = -75   # mV  — resting potential\ntau_m   = 10    # ms  — membrane time constant\nR_m     = 10    # MΩ  — membrane resistance\nI       = 10    # nA  — injected current\n\nt = np.linspace(0, 50, 500)        # time (ms)\nV_inf = E_L + R_m * I              # the target / plateau\nV = V_inf + (V_reset - V_inf) * np.exp(-t / tau_m)   # exact solution\n\nplt.figure(figsize=(6, 4))\nplt.plot(t, V, linewidth=2, label=\"V(t)\")\nplt.axhline(V_inf, color=\"red\", linestyle=\"--\", label=f\"plateau V∞ = {V_inf} mV\")\nplt.xlabel(\"time (ms)\")\nplt.ylabel(\"membrane potential V (mV)\")\nplt.title(\"LIF exact solution: rises, then plateaus\")\nplt.legend()\nplt.show()",
+                caption: "Press Run — V climbs from −75 mV and flattens out at the red target (+25 mV). Try changing I to a bigger number and run again: the plateau goes even higher.",
+              },
+              {
                 type: "highlight",
-                content: "**But here's the problem the math doesn't care about:** crank I up and the voltage just rises and **plateaus at some high value** forever. Real neurons *never* do that — they **spike** and snap back. The pure equation is mathematically perfect but biologically wrong. Fixing that is the next lesson — and it's what the 'Fire' in Integrate-and-Fire means.",
+                content: "**Does this make biological sense?** Look at the plot: crank I up and the voltage just rises and **plateaus at some high value** forever. Real neurons *never* do that — they **spike** and snap back. The pure equation is mathematically perfect but biologically wrong. Fixing that is the next lesson — and it's what the 'Fire' in Integrate-and-Fire means.",
               },
             ],
           },
